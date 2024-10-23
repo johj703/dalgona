@@ -1,5 +1,5 @@
-const page = () => {
+const signInPage = () => {
   return <div>page</div>;
 };
 
-export default page;
+export default signInPage;
