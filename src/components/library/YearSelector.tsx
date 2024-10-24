@@ -17,10 +17,6 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, onYearChange }
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
-    // 드롭다운을 열 때 selectedYear를 currentYear로 설정
-    if (!isOpen) {
-      setSelectedYear(selectedYear);
-    }
   };
 
   // 여백 클릭 시 드롭다운 닫기
@@ -38,18 +34,29 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, onYearChange }
   }, []);
 
   return (
-    <div ref={dropdownRef}>
-      <div className="flex items-center space-x-2">
-        <span>{selectedYear}년</span>
-        <button onClick={toggleDropdown} aria-expanded={isOpen} aria-controls="year-list">
+    <div ref={dropdownRef} className="relative">
+      <div className="flex items-center pt-4 pl-4">
+        <span className="text-lg font-normal">{selectedYear}년</span>
+        <button
+          onClick={toggleDropdown}
+          className="ml-1 py-1 text-sm rounded focus:outline-none"
+          aria-expanded={isOpen}
+          aria-controls="year-list"
+        >
           ▼
         </button>
       </div>
 
       {isOpen && (
-        <ul id="year-list" role="listbox">
+        <ul id="year-list" role="listbox" className="absolute z-10 rounded border ml-4">
           {years.map((year) => (
-            <li key={year} onClick={() => handleYearChange(year)} role="option" aria-selected={year === selectedYear}>
+            <li
+              key={year}
+              onClick={() => handleYearChange(year)}
+              role="option"
+              aria-selected={year === selectedYear}
+              className="cursor-pointer px-4 py-2 text-sm bg-white text-black hover:bg-gray-200"
+            >
               {year}
             </li>
           ))}
