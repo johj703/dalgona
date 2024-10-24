@@ -56,14 +56,14 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId }) => {
     }
   };
 
-  // 날짜 형식을 "yyyy년 mm월 dd일"에서 Date 객체로 변환하는 함수
+  // 날짜 형식을 yyyy년 mm월 dd일에서 Date 객체로 변환하는 함수
   const parseDate = (dateStr: string): Date | null => {
     const regex = /(\d{4})년 (\d{1,2})월 (\d{1,2})일/;
     const match = dateStr.match(regex);
 
     if (match) {
       const year = parseInt(match[1], 10);
-      const month = parseInt(match[2], 10) - 1; // JavaScript에서는 월이 0부터 시작
+      const month = parseInt(match[2], 10) - 1; // JS에서는 월이 0부터 시작
       const day = parseInt(match[3], 10);
       return new Date(year, month, day);
     }
