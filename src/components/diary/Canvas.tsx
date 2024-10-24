@@ -1,15 +1,23 @@
 "use client";
 
+import GetRatio from "@/lib/GetRatio";
+import { LineCustom } from "@/types/LineCustom";
 import { RefObject, useEffect, useRef, useState } from "react";
 
 type CanvasProps = {
   canvasWidth: number;
   canvasHeight: number;
+  lineCustom: LineCustom;
+  isEraser: boolean;
+  getImage: HTMLInputElement;
+  setGetImage: React.Dispatch<React.SetStateAction<HTMLInputElement | undefined>>;
 };
-const Canvas = ({ canvasWidth, canvasHeight }: CanvasProps) => {
+
+const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage, setGetImage }: CanvasProps) => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [painting, setPainting] = useState(false);
+  const [pathHistory, setPathHistory] = useState<string[]>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -28,14 +36,39 @@ const Canvas = ({ canvasWidth, canvasHeight }: CanvasProps) => {
         canvasContext.scale(devicePixelRatio, devicePixelRatio);
 
         canvasContext.lineJoin = "round";
-        canvasContext.lineWidth = 2.5;
-        canvasContext.strokeStyle = "#ffffff";
+        canvasContext.lineCap = "round";
+
         setCtx(canvasContext);
       }
     };
 
     setCanvas();
+
+    if (pathHistory.length !== 0 && canvas) {
+      const canvasPic = new Image();
+      canvasPic.src = pathHistory[pathHistory.length - 1];
+
+      const ratio: number = GetRatio(canvas, canvasPic) as number;
+
+      canvasPic.onload = () =>
+        canvasContext?.drawImage(canvasPic, 0, 0, canvasPic.width * ratio, canvasPic.height * ratio);
+    }
   }, [canvasWidth, canvasHeight]);
+
+  if (ctx) {
+    ctx.lineWidth = Number(lineCustom.lineWidth);
+    ctx.strokeStyle = isEraser ? "#ffffff" : lineCustom.lineColor;
+  }
+  useEffect(() => {
+    if (getImage?.files) {
+      const file = getImage.files[0];
+      const url = URL.createObjectURL(file);
+      const image = new Image();
+      image.src = url;
+      image.onload = () => ctx?.drawImage(image, 0, 0);
+    }
+    setGetImage(undefined);
+  }, [getImage]);
 
   const drawFn = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
     // mouse position
@@ -51,13 +84,23 @@ const Canvas = ({ canvasWidth, canvasHeight }: CanvasProps) => {
     }
   };
 
+  const saveHistory = () => {
+    setPathHistory([...pathHistory, canvasRef.current?.toDataURL() as string]);
+  };
+
   return (
     <canvas
       ref={canvasRef}
-      onMouseDown={() => setPainting(true)}
-      onMouseUp={() => setPainting(false)}
-      onMouseMove={(e) => drawFn(e)}
-      onMouseLeave={() => setPainting(false)}
+      onPointerDown={() => setPainting(true)}
+      onPointerUp={() => {
+        setPainting(false);
+        saveHistory();
+      }}
+      onPointerMove={(e) => drawFn(e)}
+      onPointerLeave={() => {
+        setPainting(false);
+      }}
+      className="bg-white"
     />
   );
 };
