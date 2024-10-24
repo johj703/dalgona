@@ -71,6 +71,20 @@ export default function SignUpPage() {
           />
         </div>
 
+        {/* 별명 입력 */}
+        <div>
+          <label htmlFor="nickname">별명</label>
+          <input
+            type="text"
+            id="nickname"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)} // 입력시 상태 업데이트
+            required
+            className="border border-black"
+            placeholder="2글자 이상의 별명을 입력해주세요."
+          />
+        </div>
+
         {/* "다음으로" 버튼 */}
         <div>
           <button type="submit" className="border border-black">
