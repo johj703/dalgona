@@ -10,10 +10,9 @@ type CanvasProps = {
   lineCustom: LineCustom;
   isEraser: boolean;
   getImage: HTMLInputElement;
-  setGetImage: React.Dispatch<React.SetStateAction<HTMLInputElement | undefined>>;
 };
 
-const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage, setGetImage }: CanvasProps) => {
+const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage }: CanvasProps) => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [painting, setPainting] = useState(false);
@@ -65,9 +64,11 @@ const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage, set
       const url = URL.createObjectURL(file);
       const image = new Image();
       image.src = url;
-      image.onload = () => ctx?.drawImage(image, 0, 0);
+      image.onload = () => {
+        ctx?.drawImage(image, 0, 0);
+        saveHistory();
+      };
     }
-    setGetImage(undefined);
   }, [getImage]);
 
   const drawFn = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {

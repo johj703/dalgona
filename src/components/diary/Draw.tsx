@@ -26,53 +26,59 @@ const Draw = () => {
   };
 
   return (
-    <div ref={wrapRef} className="w-full h-dvh">
-      <Canvas
-        canvasWidth={canvasWidth}
-        canvasHeight={canvasHeight}
-        lineCustom={lineCustom}
-        isEraser={isEraser}
-        getImage={getImage as HTMLInputElement}
-        setGetImage={setGetImage}
-      />
-      <input
-        type="range"
-        name="lineWidth"
-        id="lineWidth"
-        min={1}
-        max={20}
-        value={lineCustom.lineWidth}
-        step={1}
-        onChange={(e) => handleChangeCustom(e)}
-      />
+    <>
       <div>
-        <div className="" onClick={() => setIsEraser(true)}>
-          지우개
-        </div>
-        <div className="w-5 h-5 bg-red-600" onClick={() => setLineCustom({ ...lineCustom, lineColor: "#dc2626" })}>
-          red
+        <button>undo</button>
+      </div>
+      <div ref={wrapRef} className="w-full h-dvh">
+        <Canvas
+          canvasWidth={canvasWidth}
+          canvasHeight={canvasHeight}
+          lineCustom={lineCustom}
+          isEraser={isEraser}
+          getImage={getImage as HTMLInputElement}
+        />
+      </div>
+      <div>
+        <input
+          type="range"
+          name="lineWidth"
+          id="lineWidth"
+          min={1}
+          max={20}
+          value={lineCustom.lineWidth}
+          step={1}
+          onChange={(e) => handleChangeCustom(e)}
+        />
+        <div>
+          <div className="" onClick={() => setIsEraser(true)}>
+            지우개
+          </div>
+          <div className="w-5 h-5 bg-red-600" onClick={() => setLineCustom({ ...lineCustom, lineColor: "#dc2626" })}>
+            red
+          </div>
+          <input
+            type="color"
+            name="lineColor"
+            id="lineColor"
+            value={lineCustom.lineColor}
+            onChange={(e) => {
+              handleChangeCustom(e);
+              setIsEraser(false);
+            }}
+          />
         </div>
         <input
-          type="color"
-          name="lineColor"
-          id="lineColor"
-          value={lineCustom.lineColor}
+          type="file"
+          name="uploadImage"
+          id="uploadImage"
+          accept="image/*"
           onChange={(e) => {
-            handleChangeCustom(e);
-            setIsEraser(false);
+            setGetImage(e.target);
           }}
         />
       </div>
-      <input
-        type="file"
-        name="uploadImage"
-        id="uploadImage"
-        accept="image/*"
-        onChange={(e) => {
-          setGetImage(e.target);
-        }}
-      />
-    </div>
+    </>
   );
 };
 export default Draw;
