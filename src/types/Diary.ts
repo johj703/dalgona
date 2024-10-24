@@ -6,6 +6,7 @@ export interface Diary {
   title: string;
   contents: string;
   created_at: string;
+  date: string;
 }
 
 export interface DiaryReminderProps {
