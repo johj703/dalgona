@@ -33,14 +33,30 @@ export default function signInPage() {
 
   return (
     <div>
-      <div className="space-y-2">
+      <form onSubmit={handleSignIn} className="space-y-2">
         <div>
-          <input className="border border-black" placeholder="이메일" />
+          <label>이메일:</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEamil(e.target.value)}
+            className="border border-black"
+            placeholder="이메일"
+          />
         </div>
         <div>
-          <input className="border border-black" placeholder="비밀번호" />
+          <label>비밀번호:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="border border-black"
+            placeholder="비밀번호"
+          />
         </div>
-      </div>
+      </form>
       <div className="flex">
         <Checkbox />
         <p>자동 로그인</p>
