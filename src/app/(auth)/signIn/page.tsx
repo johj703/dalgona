@@ -6,11 +6,13 @@ import Checkbox from "../../../components/signIn/CheckBox";
 export default function signInPage() {
   return (
     <div>
-      <div>
-        <input className="border border-black" placeholder="이메일" />
-      </div>
-      <div>
-        <input className="border border-black" placeholder="비밀번호" />
+      <div className="space-y-2">
+        <div>
+          <input className="border border-black" placeholder="이메일" />
+        </div>
+        <div>
+          <input className="border border-black" placeholder="비밀번호" />
+        </div>
       </div>
       <div className="flex">
         <Checkbox />
