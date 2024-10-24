@@ -8,20 +8,24 @@ export default function SignUpPage() {
   const [nickname, setNickname] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  // 회원가입 버튼을 클릭했을 때 호출되는 함수
   const handleSignUp = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // 모든 입력칸이 채워졌는지 확인
     if (email === "" || password === "" || nickname === "") {
       setErrorMessage("모든 항목을 입력해 주세요.");
       return;
     }
 
+    // 비밀번호 유효성 검사(8자 이상, 영문과 숫자 포함)
     const passwordValid = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/.test(password);
     if (!passwordValid) {
       setErrorMessage("비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다.");
       return;
     }
 
+    // 별명 유효성 검사(별명은 2자 이상이어야 함)
     if (nickname.length < 2) {
       setErrorMessage("별명은 2글자 이상이어야 합니다.");
       return;
@@ -46,11 +50,32 @@ export default function SignUpPage() {
             type="email"
             id="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)} // 입력시 상태 업데이트
             required
-            className=""
+            className="border border-black"
             placeholder="사용하실 이메일 주소를 입력하세요."
           />
+        </div>
+
+        {/* 비밀번호 입력 */}
+        <div>
+          <label htmlFor="password">비밀번호</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)} // 입력시 상태 업데이트
+            required
+            className="border border-black"
+            placeholder="안전한 비밀번호를 입력해 주세요.(8자 이상, 영뭉, 숫자 포함)"
+          />
+        </div>
+
+        {/* "다음으로" 버튼 */}
+        <div>
+          <button type="submit" className="border border-black">
+            다음으로
+          </button>
         </div>
       </form>
     </div>
