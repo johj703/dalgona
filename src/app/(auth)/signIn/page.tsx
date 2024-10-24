@@ -5,7 +5,7 @@ import Checkbox from "../../../components/signIn/CheckBox";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function signInPage() {
+export default function SignInPage() {
   const [email, setEamil] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
