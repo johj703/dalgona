@@ -8,6 +8,28 @@ export default function SignUpPage() {
   const [nickname, setNickname] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const handleSignUp = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (email === "" || password === "" || nickname === "") {
+      setErrorMessage("모든 항목을 입력해 주세요.");
+      return;
+    }
+
+    const passwordValid = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/.test(password);
+    if (!passwordValid) {
+      setErrorMessage("비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다.");
+      return;
+    }
+
+    if (nickname.length < 2) {
+      setErrorMessage("별명은 2글자 이상이어야 합니다.");
+      return;
+    }
+
+    console.log("회원가입 성공:", { email, password, nickname });
+  };
+
   return (
     <div>
       <h1>회원가입</h1>
