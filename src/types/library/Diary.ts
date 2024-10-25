@@ -1,7 +1,7 @@
 // Diary DiaryReminder, DiaryModal 타입
 
 export interface Diary {
-  diary_id: string;
+  id: string;
   user_id: string;
   title: string;
   contents: string;
@@ -11,9 +11,11 @@ export interface Diary {
 
 export interface DiaryReminderProps {
   userId: string;
+  selectedYear: number;
 }
 
 export interface DiaryModalProps {
   onClose: () => void;
   userId: string;
+  selectedYear: number;
 }

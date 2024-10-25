@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import DiaryModal from "./DiaryModal";
-import { DiaryReminderProps } from "@/types/Diary";
+import { DiaryReminderProps } from "@/types/library/Diary";
 
-const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId }) => {
+const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -23,7 +23,7 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId }) => {
         >
           등록하기
         </button>
-        {isModalOpen && <DiaryModal onClose={handleCloseModal} userId={userId} />}
+        {isModalOpen && <DiaryModal onClose={handleCloseModal} userId={userId} selectedYear={selectedYear} />}
       </div>
     </div>
   );

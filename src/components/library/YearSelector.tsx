@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { YearSelectorProps } from "@/types/YearSelector";
+import { YearSelectorProps } from "@/types/library/YearSelector";
 
 const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, onYearChange }) => {
   const [isOpen, setIsOpen] = useState(false);

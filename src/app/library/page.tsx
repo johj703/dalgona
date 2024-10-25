@@ -15,6 +15,7 @@ const LibraryPage: React.FC = () => {
   const [userId, setUserId] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedYear, setSelectedYear] = useState<number>(currentYear);
 
   const fetchUserId = async () => {
     setLoading(true);
@@ -38,6 +39,7 @@ const LibraryPage: React.FC = () => {
   }, []);
 
   const handleYearChange = (year: number) => {
+    setSelectedYear(year);
     console.log(year);
   };
 
@@ -52,7 +54,7 @@ const LibraryPage: React.FC = () => {
   return (
     <div>
       <YearSelector currentYear={currentYear} onYearChange={handleYearChange} />
-      {userId ? <DiaryReminder userId={userId} /> : <p>유저 정보를 불러오지 못했습니다.</p>}
+      {userId ? <DiaryReminder userId={userId} selectedYear={selectedYear} /> : <p>유저 정보를 불러오지 못했습니다.</p>}
     </div>
   );
 };

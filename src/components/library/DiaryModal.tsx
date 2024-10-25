@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { Diary, DiaryModalProps } from "@/types/Diary";
+import { Diary, DiaryModalProps } from "@/types/library/Diary";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId }) => {
+const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear }) => {
   const [diaries, setDiaries] = useState<Diary[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,6 +14,12 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId }) => {
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [day, setDay] = useState(new Date().getDate());
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  // 커스텀 드롭다운 상태
+  const [isMonthOpen, setIsMonthOpen] = useState(false);
+  const [isDayOpen, setIsDayOpen] = useState(false);
+  const months = Array.from({ length: 12 }, (_, i) => i + 1);
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
   useEffect(() => {
     if (debounceTimeout.current) {
@@ -37,7 +43,6 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId }) => {
     }
   }, [userId]);
 
-  // 일기 데이터를 가져오는 함수
   const fetchUserDiaries = async (userId: string) => {
     setLoading(true);
     try {
@@ -56,32 +61,61 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId }) => {
     }
   };
 
-  // 날짜 형식을 yyyy년 mm월 dd일에서 Date 객체로 변환하는 함수
   const parseDate = (dateStr: string): Date | null => {
     const regex = /(\d{4})년 (\d{1,2})월 (\d{1,2})일/;
     const match = dateStr.match(regex);
 
     if (match) {
       const year = parseInt(match[1], 10);
-      const month = parseInt(match[2], 10) - 1; // JS에서는 월이 0부터 시작
+      const month = parseInt(match[2], 10) - 1;
       const day = parseInt(match[3], 10);
       return new Date(year, month, day);
     }
     return null;
   };
 
-  // 선택한 월과 일에 맞는 일기를 필터링
   const filteredDiaries = diaries.filter((diary) => {
-    const diaryDate = parseDate(diary.date); // date 필드 파싱
-    if (!diaryDate) return false; // 날짜 형식이 올바르지 않으면 제외
+    const diaryDate = parseDate(diary.date);
+    if (!diaryDate) return false;
 
+    const diaryYear = diaryDate.getFullYear();
     const diaryMonth = diaryDate.getMonth() + 1;
     const diaryDay = diaryDate.getDate();
 
     return (
-      diaryMonth === month && diaryDay === day && diary.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+      diaryYear === selectedYear &&
+      diaryMonth === month &&
+      diaryDay === day &&
+      diary.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
     );
   });
+
+  // 드롭다운 핸들러
+  const toggleMonthDropdown = () => {
+    setIsMonthOpen(!isMonthOpen);
+    if (isDayOpen) {
+      setIsDayOpen(false); // 일 드롭다운 닫기
+    }
+  };
+
+  const toggleDayDropdown = () => {
+    setIsDayOpen(!isDayOpen);
+    if (isMonthOpen) {
+      setIsMonthOpen(false); // 월 드롭다운 닫기
+    }
+  };
+
+  const handleMonthChange = (selectedMonth: number) => {
+    setMonth(selectedMonth);
+    setIsMonthOpen(false);
+    setIsDayOpen(false); // 선택 후 일 드롭다운 닫기
+  };
+
+  const handleDayChange = (selectedDay: number) => {
+    setDay(selectedDay);
+    setIsDayOpen(false);
+    setIsMonthOpen(false); // 선택 후 월 드롭다운 닫기
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -90,7 +124,6 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId }) => {
           X
         </button>
 
-        {/* 검색 바 */}
         <input
           type="text"
           placeholder="검색..."
@@ -99,22 +132,59 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId }) => {
           className="border rounded p-2 mb-4 w-full"
         />
 
-        {/* 월, 일 선택 */}
+        {/* 월, 일 선택 커스텀 드롭다운 */}
         <div className="flex mb-4">
-          <select value={month} onChange={(e) => setMonth(Number(e.target.value))} className="border rounded p-2 ml-2">
-            {[...Array(12)].map((_, i) => (
-              <option key={i} value={i + 1}>
-                {i + 1}월
-              </option>
-            ))}
-          </select>
-          <select value={day} onChange={(e) => setDay(Number(e.target.value))} className="border rounded p-2 ml-2">
-            {[...Array(31)].map((_, i) => (
-              <option key={i} value={i + 1}>
-                {i + 1}일
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <div className="flex items-center pt-4 pl-4">
+              <span className="text-lg font-normal">{month}월</span>
+              <button
+                onClick={toggleMonthDropdown}
+                className="ml-1 py-1 text-sm rounded focus:outline-none"
+                aria-expanded={isMonthOpen}
+              >
+                ▼
+              </button>
+            </div>
+            {isMonthOpen && (
+              <ul className="absolute z-10 rounded border ml-4 bg-white max-h-40 overflow-y-auto">
+                {months.map((m) => (
+                  <li
+                    key={m}
+                    onClick={() => handleMonthChange(m)}
+                    className="cursor-pointer px-4 py-2 text-sm hover:bg-gray-200"
+                  >
+                    {m}월
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div className="relative ml-2">
+            <div className="flex items-center pt-4 pl-4">
+              <span className="text-lg font-normal">{day}일</span>
+              <button
+                onClick={toggleDayDropdown}
+                className="ml-1 py-1 text-sm rounded focus:outline-none"
+                aria-expanded={isDayOpen}
+              >
+                ▼
+              </button>
+            </div>
+            {isDayOpen && (
+              <ul className="absolute z-10 rounded border ml-4 bg-white max-h-40 overflow-y-auto">
+                {days.map((d) => (
+                  <li
+                    key={d}
+                    onClick={() => handleDayChange(d)}
+                    className="cursor-pointer px-4 py-2 text-sm hover:bg-gray-200"
+                  >
+                    {d}일
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
 
         {/* 일기 목록 */}
@@ -123,7 +193,7 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId }) => {
             <p>Loading...</p>
           ) : filteredDiaries.length > 0 ? (
             filteredDiaries.map((diary) => (
-              <div key={diary.diary_id} className="border-b py-2 flex items-center">
+              <div key={`${diary.id}-${userId}`} className="border-b py-2 flex items-center">
                 <input type="checkbox" className="mr-2" />
                 <div>
                   <h3 className="text-xl font-bold">{diary.title}</h3>
