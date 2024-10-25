@@ -15,6 +15,7 @@ const Draw = () => {
   const [lineCustom, setLineCustom] = useState<LineCustom>(initialCustom);
   const [getImage, setGetImage] = useState<HTMLInputElement>();
   const [isEraser, setIsEraser] = useState<boolean>(false);
+  const [pathMode, setPathMode] = useState<string>("");
 
   const clientRect = useClientSize(wrapRef);
   const canvasWidth = clientRect.width;
@@ -25,10 +26,18 @@ const Draw = () => {
     setLineCustom({ ...lineCustom, [id]: value });
   };
 
+  const handleClickUndo = () => {
+    setPathMode("undo");
+  };
+  const handleClickRedo = () => {
+    setPathMode("redo");
+  };
+
   return (
     <>
       <div>
-        <button>undo</button>
+        <button onClick={() => handleClickUndo()}>undo</button>
+        <button onClick={() => handleClickRedo()}>redo</button>
       </div>
       <div ref={wrapRef} className="w-full h-dvh">
         <Canvas
@@ -37,6 +46,8 @@ const Draw = () => {
           lineCustom={lineCustom}
           isEraser={isEraser}
           getImage={getImage as HTMLInputElement}
+          pathMode={pathMode}
+          setPathMode={setPathMode}
         />
       </div>
       <div>

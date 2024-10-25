@@ -10,13 +10,16 @@ type CanvasProps = {
   lineCustom: LineCustom;
   isEraser: boolean;
   getImage: HTMLInputElement;
+  pathMode: string;
+  setPathMode: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage }: CanvasProps) => {
+const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage, pathMode, setPathMode }: CanvasProps) => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [painting, setPainting] = useState(false);
   const [pathHistory, setPathHistory] = useState<string[]>([]);
+  const [pathStep, setPathStep] = useState<number>(-1);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -36,6 +39,7 @@ const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage }: C
 
         canvasContext.lineJoin = "round";
         canvasContext.lineCap = "round";
+        canvasContext.globalCompositeOperation = "source-over";
 
         setCtx(canvasContext);
       }
@@ -58,6 +62,7 @@ const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage }: C
     ctx.lineWidth = Number(lineCustom.lineWidth);
     ctx.strokeStyle = isEraser ? "#ffffff" : lineCustom.lineColor;
   }
+
   useEffect(() => {
     if (getImage?.files) {
       const file = getImage.files[0];
@@ -86,8 +91,43 @@ const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage }: C
   };
 
   const saveHistory = () => {
-    setPathHistory([...pathHistory, canvasRef.current?.toDataURL() as string]);
+    if (pathHistory.length > pathStep + 1) {
+      setPathHistory([...pathHistory.slice(0, pathStep + 1), canvasRef.current?.toDataURL() as string]);
+    } else {
+      setPathHistory([...pathHistory, canvasRef.current?.toDataURL() as string]);
+    }
+    setPathMode("");
+    setPathStep(pathStep + 1);
   };
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+
+    if (canvas) {
+      const pathPic = new Image();
+      if (pathMode === "undo" && pathStep !== -1) {
+        if (pathStep === 0) {
+          ctx?.clearRect(0, 0, canvas.width, canvas.height);
+        } else {
+          pathPic.src = pathHistory[pathStep - 1];
+          pathPic.onload = () => {
+            ctx?.clearRect(0, 0, canvas.width, canvas.height);
+            ctx?.drawImage(pathPic, 0, 0, canvas.width, canvas.height);
+          };
+        }
+        setPathMode("");
+        setPathStep(pathStep - 1);
+      } else if (pathMode === "redo" && pathHistory[pathStep + 1]) {
+        pathPic.src = pathHistory[pathStep + 1];
+        pathPic.onload = () => {
+          ctx?.clearRect(0, 0, canvas.width, canvas.height);
+          ctx?.drawImage(pathPic, 0, 0, canvas.width, canvas.height);
+          setPathMode("");
+          setPathStep(pathStep + 1);
+        };
+      }
+    }
+  }, [pathMode]);
 
   return (
     <canvas
