@@ -29,6 +29,12 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      embla-carousel:
+        specifier: ^8.3.0
+        version: 8.3.0
+      embla-carousel-react:
+        specifier: ^8.3.0
+        version: 8.3.0(react@19.0.0-rc-65a56d0e-20241020)
       garlic-toast:
         specifier: ^0.0.6
         version: 0.0.6
@@ -900,6 +906,19 @@ packages:
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
+
+  embla-carousel-react@8.3.0:
+    resolution: {integrity: sha512-P1FlinFDcIvggcErRjNuVqnUR8anyo8vLMIH8Rthgofw7Nj8qTguCa2QjFAbzxAUTQTPNNjNL7yt0BGGinVdFw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.1 || ^18.0.0
+
+  embla-carousel-reactive-utils@8.3.0:
+    resolution: {integrity: sha512-EYdhhJ302SC4Lmkx8GRsp0sjUhEN4WyFXPOk0kGu9OXZSRMmcBlRgTvHcq8eKJE1bXWBsOi1T83B+BSSVZSmwQ==}
+    peerDependencies:
+      embla-carousel: 8.3.0
+
+  embla-carousel@8.3.0:
+    resolution: {integrity: sha512-Ve8dhI4w28qBqR8J+aMtv7rLK89r1ZA5HocwFz6uMB/i5EiC7bGI7y+AM80yAVUJw3qqaZYK7clmZMUR8kM3UA==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -2827,6 +2846,18 @@ snapshots:
       esutils: 2.0.3
 
   eastasianwidth@0.2.0: {}
+
+  embla-carousel-react@8.3.0(react@19.0.0-rc-65a56d0e-20241020):
+    dependencies:
+      embla-carousel: 8.3.0
+      embla-carousel-reactive-utils: 8.3.0(embla-carousel@8.3.0)
+      react: 19.0.0-rc-65a56d0e-20241020
+
+  embla-carousel-reactive-utils@8.3.0(embla-carousel@8.3.0):
+    dependencies:
+      embla-carousel: 8.3.0
+
+  embla-carousel@8.3.0: {}
 
   emoji-regex@8.0.0: {}
 

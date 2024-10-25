@@ -2,6 +2,12 @@
 import { Tab } from "@headlessui/react";
 import React from "react";
 import Calendar from "./Calendar";
+import EmblaCarousel from "./EmblaCarousel";
+import { EmblaOptionsType } from "embla-carousel";
+
+const OPTIONS: EmblaOptionsType = {};
+const SLIDE_COUNT = 3;
+const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 
 const SelectFeedCalendar = () => {
   return (
@@ -12,7 +18,9 @@ const SelectFeedCalendar = () => {
           <Tab>달력보기</Tab>
         </Tab.List>
         <Tab.Panels>
-          <Tab.Panel>자동으로 넘어가는 배너있어야함</Tab.Panel>
+          <Tab.Panel>
+            <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+          </Tab.Panel>
           <Tab.Panel>
             <Calendar />
           </Tab.Panel>

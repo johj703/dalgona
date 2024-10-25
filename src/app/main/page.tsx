@@ -2,6 +2,7 @@ import SelectFeedCalendar from "@/components/main/SelectFeedCalendar";
 import DiaryList from "@/components/main/DiaryList";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { getInitialDiaries } from "@/queries/fetchDiaries";
+
 // import { getMonth, getYear } from "date-fns";
 
 const MainPage = async () => {
