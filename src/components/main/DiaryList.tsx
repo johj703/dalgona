@@ -52,8 +52,10 @@ const DiaryList = () => {
         else if (selectedBox.id === 2) {
           return +dateA - +dateB;
         }
+        // **REVIEW - 기본값: 정렬 기준이 없으면 0을 반환 (변경하지 않음)
+        return 0;
       });
-      setSortedDiaries(sorted); // 정렬된 데이터 설정
+      setSortedDiaries(sorted);
     }
   }, [selectedBox, diaries]); // selectedBox나 diaries가 변경될 때마다 실행
 
