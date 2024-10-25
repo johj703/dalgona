@@ -2,6 +2,7 @@
 import { useFetchDiaries } from "@/queries/fetchDiaries";
 import { Listbox, Tab } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
+import TopButton from "./TopButton";
 
 const sorts = [
   { id: 1, name: "최신순", unavailable: false },
@@ -116,8 +117,7 @@ const DiaryList = () => {
           </Tab.Group>
         </div>
       </div>
-      <div></div>
-      <div></div>
+      <TopButton />
     </div>
   );
 };
