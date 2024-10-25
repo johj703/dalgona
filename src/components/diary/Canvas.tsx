@@ -1,18 +1,12 @@
 "use client";
 
-import GetRatio from "@/lib/GetRatio";
-import { LineCustom } from "@/types/LineCustom";
+import DrawImage from "@/lib/DrawImage";
+import Redo from "@/lib/Redo";
+import ReDraw from "@/lib/ReDraw";
+import SetCanvasContext from "@/lib/SetCanvasContext";
+import Undo from "@/lib/Undo";
+import { CanvasProps } from "@/types/Canvas";
 import { RefObject, useEffect, useRef, useState } from "react";
-
-type CanvasProps = {
-  canvasWidth: number;
-  canvasHeight: number;
-  lineCustom: LineCustom;
-  isEraser: boolean;
-  getImage: HTMLInputElement;
-  pathMode: string;
-  setPathMode: React.Dispatch<React.SetStateAction<string>>;
-};
 
 const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage, pathMode, setPathMode }: CanvasProps) => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
@@ -21,61 +15,53 @@ const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage, pat
   const [pathHistory, setPathHistory] = useState<string[]>([]);
   const [pathStep, setPathStep] = useState<number>(-1);
 
+  // 캔버스 세팅
   useEffect(() => {
     const canvas = canvasRef.current;
     const canvasContext = canvas?.getContext("2d");
 
     const setCanvas = () => {
-      const devicePixelRatio = window.devicePixelRatio ?? 1;
-
       if (canvas && canvasContext) {
-        canvas.style.width = canvasWidth + "px";
-        canvas.style.height = canvasHeight + "px";
-
-        canvas.width = canvasWidth * devicePixelRatio;
-        canvas.height = canvasHeight * devicePixelRatio;
-
-        canvasContext.scale(devicePixelRatio, devicePixelRatio);
-
-        canvasContext.lineJoin = "round";
-        canvasContext.lineCap = "round";
-        canvasContext.globalCompositeOperation = "source-over";
-
-        setCtx(canvasContext);
+        const canvasCtx = SetCanvasContext({ canvas, canvasContext, canvasWidth, canvasHeight });
+        setCtx(canvasCtx);
       }
     };
 
     setCanvas();
 
-    if (pathHistory.length !== 0 && canvas) {
-      const canvasPic = new Image();
-      canvasPic.src = pathHistory[pathHistory.length - 1];
-
-      const ratio: number = GetRatio(canvas, canvasPic) as number;
-
-      canvasPic.onload = () =>
-        canvasContext?.drawImage(canvasPic, 0, 0, canvasPic.width * ratio, canvasPic.height * ratio);
+    if (pathHistory.length !== 0 && canvas && canvasContext) {
+      ReDraw({ pathHistory, canvas, canvasContext });
     }
   }, [canvasWidth, canvasHeight]);
 
+  // 펜 커스텀
   if (ctx) {
     ctx.lineWidth = Number(lineCustom.lineWidth);
     ctx.strokeStyle = isEraser ? "#ffffff" : lineCustom.lineColor;
   }
 
+  // 이미지 업로드
   useEffect(() => {
-    if (getImage?.files) {
-      const file = getImage.files[0];
-      const url = URL.createObjectURL(file);
-      const image = new Image();
-      image.src = url;
-      image.onload = () => {
-        ctx?.drawImage(image, 0, 0);
-        saveHistory();
-      };
+    if (ctx) {
+      DrawImage({ getImage, ctx, saveHistory });
     }
   }, [getImage]);
 
+  // undo redo
+  useEffect(() => {
+    const canvas = canvasRef.current;
+
+    if (canvas && ctx) {
+      const pathPic = new Image();
+      if (pathMode === "undo" && pathStep !== -1) {
+        Undo({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory });
+      } else if (pathMode === "redo" && pathHistory[pathStep + 1]) {
+        Redo({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory });
+      }
+    }
+  }, [pathMode]);
+
+  // 그리기
   const drawFn = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
     // mouse position
     const mouseX = e.nativeEvent.offsetX;
@@ -90,6 +76,7 @@ const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage, pat
     }
   };
 
+  // 히스토리 저장
   const saveHistory = () => {
     if (pathHistory.length > pathStep + 1) {
       setPathHistory([...pathHistory.slice(0, pathStep + 1), canvasRef.current?.toDataURL() as string]);
@@ -99,35 +86,6 @@ const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage, pat
     setPathMode("");
     setPathStep(pathStep + 1);
   };
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-
-    if (canvas) {
-      const pathPic = new Image();
-      if (pathMode === "undo" && pathStep !== -1) {
-        if (pathStep === 0) {
-          ctx?.clearRect(0, 0, canvas.width, canvas.height);
-        } else {
-          pathPic.src = pathHistory[pathStep - 1];
-          pathPic.onload = () => {
-            ctx?.clearRect(0, 0, canvas.width, canvas.height);
-            ctx?.drawImage(pathPic, 0, 0, canvas.width, canvas.height);
-          };
-        }
-        setPathMode("");
-        setPathStep(pathStep - 1);
-      } else if (pathMode === "redo" && pathHistory[pathStep + 1]) {
-        pathPic.src = pathHistory[pathStep + 1];
-        pathPic.onload = () => {
-          ctx?.clearRect(0, 0, canvas.width, canvas.height);
-          ctx?.drawImage(pathPic, 0, 0, canvas.width, canvas.height);
-          setPathMode("");
-          setPathStep(pathStep + 1);
-        };
-      }
-    }
-  }, [pathMode]);
 
   return (
     <canvas
