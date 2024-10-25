@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -22,6 +23,12 @@ export default function SignUpPage() {
     const passwordValid = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/.test(password);
     if (!passwordValid) {
       setErrorMessage("비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다.");
+      return;
+    }
+
+    // 비밀번호 확인 일치 여부 검사
+    if (password !== confirmPassword) {
+      setErrorMessage("비밀번호가 일치하지 않습니다.");
       return;
     }
 
@@ -68,6 +75,20 @@ export default function SignUpPage() {
             required
             className="border border-black"
             placeholder="안전한 비밀번호를 입력해 주세요.(8자 이상, 영뭉, 숫자 포함)"
+          />
+        </div>
+
+        {/* 비밀번호 확인 입력 */}
+        <div>
+          <label htmlFor="password">비밀번호 확인</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)} // 입력시 상태 업데이트
+            required
+            className="border border-black"
+            placeholder="비밀번호를 다시 입력해 주세요."
           />
         </div>
 
