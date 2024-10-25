@@ -4,6 +4,7 @@ import { format, addMonths, subMonths } from "date-fns";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
 import { isSameMonth, isSameDay, addDays, parse } from "date-fns";
 import { Icon } from "@iconify/react";
+import { useFetchDiaries } from "@/queries/fetchDiaries";
 
 const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
   return (
@@ -31,10 +32,10 @@ const RenderDays = () => {
   );
 };
 
-const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
+const RenderCells = ({ currentMonth, selectedDate, onDateClick, diaries }) => {
   //현재 달의 시작일
   const firstDayOfMonth = startOfMonth(currentMonth);
-  // 현재 달의 마지막 날
+  //현재 달의 마지막 날
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
   //firstDayOfMonth가 속한 주의 시작일
   const startDate = startOfWeek(firstDayOfMonth);
@@ -49,6 +50,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, "d");
+
       const cloneDay = day;
       days.push(
         <div
@@ -64,7 +66,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
           key={day}
           onClick={() => onDateClick(parse(cloneDay))}
         >
-          <span className={format(currentMonth, "M") !== format(day, "M") ? "text not-valid" : ""}>
+          <span className={format(currentMonth, "M") !== format(day, "M") ? "text not-valid text-slate-300" : ""}>
             {formattedDate}
           </span>
         </div>
@@ -87,6 +89,12 @@ export default function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+  //일기 전체 데이터 가져오기
+  const { data: diaries, error, isLoading } = useFetchDiaries();
+  if (error) return console.error("일기를 불러오는데 오류가 발생하였습니다." + error);
+  if (isLoading) return console.error("로딩중입니다.");
+  console.log("diaries=====>", diaries);
+
   // 이전 월로 이동하는 함수
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
@@ -106,7 +114,12 @@ export default function Calendar() {
       <div>
         <RenderHeader currentMonth={currentMonth} prevMonth={prevMonth} nextMonth={nextMonth} />
         <RenderDays />
-        <RenderCells currentMonth={currentMonth} selectedDate={selectedDate} onDateClick={onDateClick} />
+        <RenderCells
+          currentMonth={currentMonth}
+          selectedDate={selectedDate}
+          onDateClick={onDateClick}
+          diaries={diaries}
+        />
       </div>
     </div>
   );
