@@ -4,7 +4,6 @@ type canvasWidth = number;
 type canvasHeight = number;
 type canvas = HTMLCanvasElement;
 type ctx = CanvasRenderingContext2D;
-type input = HTMLInputElement;
 type stringState = React.Dispatch<React.SetStateAction<string>>;
 type numberState = React.Dispatch<React.SetStateAction<number>>;
 
@@ -13,15 +12,18 @@ export type CanvasProps = {
   canvasHeight: canvasHeight;
   lineCustom: LineCustom;
   isEraser: boolean;
-  getImage: input;
+  getImage: FileList | null;
   pathMode: string;
   setPathMode: stringState;
+  tool: string;
+  fileRef: HTMLInputElement | null;
 };
 
 export type DrawImageProps = {
-  getImage: input;
+  getImage: FileList | null;
   ctx: ctx;
   saveHistory: () => void;
+  fileRef: HTMLInputElement | null;
 };
 
 export type Context = {
@@ -45,4 +47,5 @@ export type ChangedoProps = {
   setPathMode: stringState;
   setPathStep: numberState;
   pathHistory: string[];
+  saveHistory: () => void;
 };

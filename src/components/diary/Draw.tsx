@@ -13,9 +13,11 @@ const initialCustom = {
 const Draw = () => {
   const wrapRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const [lineCustom, setLineCustom] = useState<LineCustom>(initialCustom);
-  const [getImage, setGetImage] = useState<HTMLInputElement>();
+  const [getImage, setGetImage] = useState<FileList | null>(null);
   const [isEraser, setIsEraser] = useState<boolean>(false);
   const [pathMode, setPathMode] = useState<string>("");
+  const [tool, setTool] = useState<string>("pen");
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const clientRect = useClientSize(wrapRef);
   const canvasWidth = clientRect.width;
@@ -45,26 +47,26 @@ const Draw = () => {
           canvasHeight={canvasHeight}
           lineCustom={lineCustom}
           isEraser={isEraser}
-          getImage={getImage as HTMLInputElement}
+          getImage={getImage}
           pathMode={pathMode}
           setPathMode={setPathMode}
+          tool={tool}
+          fileRef={fileRef.current}
         />
       </div>
       <div>
-        <input
-          type="range"
-          name="lineWidth"
-          id="lineWidth"
-          min={1}
-          max={20}
-          value={lineCustom.lineWidth}
-          step={1}
-          onChange={(e) => handleChangeCustom(e)}
-        />
         <div>
-          <div className="" onClick={() => setIsEraser(true)}>
-            지우개
-          </div>
+          <button onClick={() => setTool("pen")}>펜</button>
+          <input
+            type="range"
+            name="lineWidth"
+            id="lineWidth"
+            min={1}
+            max={20}
+            value={lineCustom.lineWidth}
+            step={1}
+            onChange={(e) => handleChangeCustom(e)}
+          />{" "}
           <div className="w-5 h-5 bg-red-600" onClick={() => setLineCustom({ ...lineCustom, lineColor: "#dc2626" })}>
             red
           </div>
@@ -79,13 +81,31 @@ const Draw = () => {
             }}
           />
         </div>
+
+        {/* 네모 그리기 보류 */}
+        {/* <div>
+          <div onClick={() => setTool("square")}>네모</div>
+        </div> */}
+
+        <div
+          className=""
+          onClick={() => {
+            setIsEraser(true);
+            setTool("pen");
+          }}
+        >
+          지우개
+        </div>
+
         <input
           type="file"
           name="uploadImage"
           id="uploadImage"
           accept="image/*"
+          ref={fileRef}
           onChange={(e) => {
-            setGetImage(e.target);
+            console.log(e.target.files);
+            setGetImage(e.target.files);
           }}
         />
       </div>

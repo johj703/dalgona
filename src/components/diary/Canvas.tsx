@@ -8,12 +8,23 @@ import Undo from "@/lib/Undo";
 import { CanvasProps } from "@/types/Canvas";
 import { RefObject, useEffect, useRef, useState } from "react";
 
-const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage, pathMode, setPathMode }: CanvasProps) => {
+const Canvas = ({
+  canvasWidth,
+  canvasHeight,
+  lineCustom,
+  isEraser,
+  getImage,
+  pathMode,
+  setPathMode,
+  tool,
+  fileRef
+}: CanvasProps) => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [painting, setPainting] = useState(false);
   const [pathHistory, setPathHistory] = useState<string[]>([]);
   const [pathStep, setPathStep] = useState<number>(-1);
+  const [pos, setPos] = useState<number[]>([]);
 
   // 캔버스 세팅
   useEffect(() => {
@@ -43,7 +54,7 @@ const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage, pat
   // 이미지 업로드
   useEffect(() => {
     if (ctx) {
-      DrawImage({ getImage, ctx, saveHistory });
+      DrawImage({ getImage, ctx, saveHistory, fileRef });
     }
   }, [getImage]);
 
@@ -54,25 +65,43 @@ const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage, pat
     if (canvas && ctx) {
       const pathPic = new Image();
       if (pathMode === "undo" && pathStep !== -1) {
-        Undo({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory });
+        Undo({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory, saveHistory });
       } else if (pathMode === "redo" && pathHistory[pathStep + 1]) {
-        Redo({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory });
+        Redo({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory, saveHistory });
       }
     }
   }, [pathMode]);
 
   // 그리기
-  const drawFn = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+  const drawFn = (e: React.PointerEvent<HTMLCanvasElement>) => {
     // mouse position
     const mouseX = e.nativeEvent.offsetX;
     const mouseY = e.nativeEvent.offsetY;
     // drawing
-    if (!painting) {
-      ctx?.beginPath();
-      ctx?.moveTo(mouseX, mouseY);
-    } else {
-      ctx?.lineTo(mouseX, mouseY);
-      ctx?.stroke();
+    if (tool === "pen") {
+      if (!painting) {
+        ctx?.beginPath();
+        ctx?.moveTo(mouseX, mouseY);
+      } else {
+        ctx?.lineTo(mouseX, mouseY);
+        ctx?.stroke();
+      }
+    }
+  };
+
+  // 사각형 그리기 (보류)
+  const drawSquare = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    const canvasContext = canvas?.getContext("2d");
+
+    if (canvas && ctx && canvasContext && tool === "square") {
+      const mouseX = e.nativeEvent.offsetX;
+      const mouseY = e.nativeEvent.offsetY;
+
+      if (!painting) return;
+      ReDraw({ pathHistory, canvas, canvasContext });
+      ctx.beginPath();
+      ctx.strokeRect(pos[0], pos[1], mouseX - pos[0], mouseY - pos[1]);
     }
   };
 
@@ -90,12 +119,18 @@ const Canvas = ({ canvasWidth, canvasHeight, lineCustom, isEraser, getImage, pat
   return (
     <canvas
       ref={canvasRef}
-      onPointerDown={() => setPainting(true)}
+      onPointerDown={(e) => {
+        setPainting(true);
+        setPos([e.nativeEvent.offsetX, e.nativeEvent.offsetY]);
+      }}
       onPointerUp={() => {
         setPainting(false);
         saveHistory();
       }}
-      onPointerMove={(e) => drawFn(e)}
+      onPointerMove={(e) => {
+        drawFn(e);
+        drawSquare(e);
+      }}
       onPointerLeave={() => {
         setPainting(false);
       }}
