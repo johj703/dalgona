@@ -14,8 +14,7 @@ export const useFetchDiaries = () => {
     queryKey: ["diaries"],
     queryFn: async () => {
       return await getInitialDiaries();
-    },
-    staleTime: 1000 * 60 * 5
+    }
   });
   return { data, error, isLoading };
 };

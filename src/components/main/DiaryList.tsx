@@ -36,8 +36,6 @@ const DiaryList = () => {
 
   //prefetchQuery를 통해 캐시에 미리 저장된 데이터가 있으니, 새롭게 데이터를 가져오지 않고 캐시에 저장된 데이터를 반환
   const { data: diaries, error, isLoading } = useFetchDiaries();
-  if (error) return console.error("일기를 불러오는데 오류가 발생하였습니다." + error);
-  if (isLoading) return console.error("로딩중입니다.");
 
   // 선택한 정렬 기준에 따라 일기를 정렬
   useEffect(() => {
@@ -58,6 +56,9 @@ const DiaryList = () => {
       setSortedDiaries(sorted); // 정렬된 데이터 설정
     }
   }, [selectedBox, diaries]); // selectedBox나 diaries가 변경될 때마다 실행
+
+  if (error) return console.error("일기를 불러오는데 오류가 발생하였습니다." + error);
+  if (isLoading) return console.error("로딩중입니다.");
 
   return (
     <div>
