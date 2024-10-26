@@ -100,7 +100,7 @@ const Canvas = ({
       const mouseY = e.nativeEvent.offsetY;
 
       if (!painting) return;
-      ReDraw({ pathHistory, canvas, canvasContext });
+      ReDraw({ pathHistory, canvas, canvasContext, pathStep });
       ctx.beginPath();
       ctx.strokeRect(pos[0], pos[1], mouseX - pos[0], mouseY - pos[1]);
     }
@@ -120,8 +120,8 @@ const Canvas = ({
   const floodFill = (x: number, y: number, fillColor: Uint8ClampedArray) => {
     const imageData = ctx?.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
     if (imageData) {
-      const visited = new Uint8Array(imageData.width * imageData.height);
-      const targetColor = getPixelColor(imageData, x, y);
+      const visited = new Uint8Array([imageData.width, imageData.height]);
+      const targetColor = getPixelColor(imageData, x, y) as Uint8ClampedArray;
 
       if (!isSameColor(targetColor, fillColor)) {
         const stack = [{ x, y }];
@@ -129,7 +129,10 @@ const Canvas = ({
           const child = stack.pop();
           if (!child) return;
           const currentColor = getPixelColor(imageData, child.x, child.y);
-          if (!visited[child.y * imageData.width + child.x] && isSameColor(currentColor, targetColor)) {
+          if (
+            !visited[child.y * imageData.width + child.x] &&
+            isSameColor(currentColor as Uint8ClampedArray, targetColor)
+          ) {
             setPixel(imageData, child.x, child.y, fillColor);
             visited[child.y * imageData.width + child.x] = 1;
             stack.push({ x: child.x + 1, y: child.y });
