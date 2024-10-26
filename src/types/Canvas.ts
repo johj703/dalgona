@@ -37,6 +37,7 @@ export type ReDrawProps = {
   pathHistory: string[];
   canvas: canvas;
   canvasContext: ctx;
+  pathStep: number;
 };
 
 export type ChangedoProps = {

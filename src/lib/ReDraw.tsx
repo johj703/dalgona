@@ -1,9 +1,9 @@
 import { ReDrawProps } from "@/types/Canvas";
 import GetRatio from "./GetRatio";
 
-const ReDraw = ({ pathHistory, canvas, canvasContext }: ReDrawProps) => {
+const ReDraw = ({ pathHistory, canvas, canvasContext, pathStep }: ReDrawProps) => {
   const canvasPic = new Image();
-  canvasPic.src = pathHistory[pathHistory.length - 1];
+  canvasPic.src = pathHistory[pathStep];
 
   const ratio: number = GetRatio(canvas, canvasPic) as number;
 

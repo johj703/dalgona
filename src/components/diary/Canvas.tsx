@@ -1,6 +1,7 @@
 "use client";
 
 import DrawImage from "@/lib/DrawImage";
+import { convertHexToRgba, getPixelColor, isSameColor, setPixel } from "@/lib/Paint";
 import Redo from "@/lib/Redo";
 import ReDraw from "@/lib/ReDraw";
 import SetCanvasContext from "@/lib/SetCanvasContext";
@@ -41,7 +42,7 @@ const Canvas = ({
     setCanvas();
 
     if (pathHistory.length !== 0 && canvas && canvasContext) {
-      ReDraw({ pathHistory, canvas, canvasContext });
+      ReDraw({ pathHistory, canvas, canvasContext, pathStep });
     }
   }, [canvasWidth, canvasHeight]);
 
@@ -116,6 +117,39 @@ const Canvas = ({
     setPathStep(pathStep + 1);
   };
 
+  const floodFill = (x: number, y: number, fillColor: Uint8ClampedArray) => {
+    const imageData = ctx?.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+    if (imageData) {
+      const visited = new Uint8Array(imageData.width * imageData.height);
+      const targetColor = getPixelColor(imageData, x, y);
+
+      if (!isSameColor(targetColor, fillColor)) {
+        const stack = [{ x, y }];
+        while (stack.length > 0) {
+          const child = stack.pop();
+          if (!child) return;
+          const currentColor = getPixelColor(imageData, child.x, child.y);
+          if (!visited[child.y * imageData.width + child.x] && isSameColor(currentColor, targetColor)) {
+            setPixel(imageData, child.x, child.y, fillColor);
+            visited[child.y * imageData.width + child.x] = 1;
+            stack.push({ x: child.x + 1, y: child.y });
+            stack.push({ x: child.x - 1, y: child.y });
+            stack.push({ x: child.x, y: child.y + 1 });
+            stack.push({ x: child.x, y: child.y - 1 });
+          }
+        }
+        ctx?.putImageData(imageData, 0, 0);
+      }
+    }
+  };
+
+  const paintCanvas = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const curPos = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
+    if (!curPos) return;
+    const currentColor = convertHexToRgba(lineCustom.lineColor);
+    floodFill(curPos.x, curPos.y, currentColor);
+  };
+
   return (
     <canvas
       ref={canvasRef}
@@ -133,6 +167,11 @@ const Canvas = ({
       }}
       onPointerLeave={() => {
         setPainting(false);
+      }}
+      onClick={(e) => {
+        if (tool === "paint") {
+          paintCanvas(e);
+        }
       }}
       className="bg-white"
     />

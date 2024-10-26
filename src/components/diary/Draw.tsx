@@ -82,6 +82,8 @@ const Draw = () => {
           />
         </div>
 
+        <button onClick={() => setTool("paint")}>페인트</button>
+
         {/* 네모 그리기 보류 */}
         {/* <div>
           <div onClick={() => setTool("square")}>네모</div>

@@ -9,8 +9,8 @@ const GetRatio = (canvas: HTMLCanvasElement, canvasPic: HTMLImageElement) => {
     return calRatio;
   };
 
-  const canvasWidth = canvas.width;
-  const canvasHeight = canvas.height;
+  const canvasWidth = canvas.clientWidth;
+  const canvasHeight = canvas.clientHeight;
   const picWidth = canvasPic.width;
   const picHeight = canvasPic.height;
 
