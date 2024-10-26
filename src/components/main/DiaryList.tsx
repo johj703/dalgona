@@ -3,24 +3,14 @@ import { useFetchDiaries } from "@/queries/fetchDiaries";
 import { Listbox, Tab } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
 import TopButton from "./TopButton";
+import { formatDate } from "@/utils/calendar/dateFormat";
 
 const sorts = [
   { id: 1, name: "최신순", unavailable: false },
   { id: 2, name: "오래된순", unavailable: false }
 ];
 
-// yyyy년 mm월 dd일 -> yyyy-mm-dd로 변환 & Date 객체로 변환
-const formatDate = (date: string) => {
-  const [year, month, day] = date
-    .replace("년", "")
-    .replace("월", "")
-    .replace("일", "")
-    .split(" ")
-    .map((str) => parseInt(str.trim(), 10));
-  return new Date(year, month - 1, day);
-};
-
-type SortedDiaries = {
+export type SortedDiaries = {
   id: string;
   created_at: string;
   title: string;
@@ -53,8 +43,8 @@ const DiaryList = () => {
         else if (selectedBox.id === 2) {
           return +dateA - +dateB;
         }
-        // **REVIEW - 기본값: 정렬 기준이 없으면 0을 반환 (변경하지 않음)
-        return 0;
+
+        return 0; // **REVIEW - 기본값: 정렬 기준이 없으면 0을 반환 (변경하지 않음)
       });
       setSortedDiaries(sorted);
     }
