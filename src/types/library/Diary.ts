@@ -1,4 +1,4 @@
-// Diary DiaryReminder, DiaryModal 타입
+// Diary DiaryReminder, DiaryModal, SearchBar, DateDropdown, DiaryList 타입
 
 export interface Diary {
   id: string;
@@ -18,4 +18,22 @@ export interface DiaryModalProps {
   onClose: () => void;
   userId: string;
   selectedYear: number;
+}
+
+export interface SearchBarProps {
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+}
+
+export interface DateDropdownProps {
+  month: number;
+  day: number;
+  setMonth: (month: number) => void;
+  setDay: (day: number) => void;
+}
+
+export interface DiaryListProps {
+  diaries: Diary[];
+  loading: boolean;
+  userId: string;
 }
