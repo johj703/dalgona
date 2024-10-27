@@ -19,6 +19,29 @@ export const useFetchDiaries = () => {
   return { data, error, isLoading };
 };
 
+//NOTE - 조회한 날짜 일기 데이터 가져오기
+export const getSelectedDiaries = async (startDate: string, endDate: string) => {
+  const supabase = createClient();
+  const { data: selectedDiaries } = await supabase
+    .from("diary")
+    .select()
+    .gte("date", startDate)
+    .lte("date", endDate)
+    .order("date", { ascending: false });
+  return selectedDiaries;
+};
+
+//NOTE -
+// export const useFetchSearchDiaries = (startDate, endDate) => {
+//   const { data, error, isLoading } = useQuery({
+//     queryKey: ["diaries"],
+//     queryFn: async () => {
+//       return await getSelectedDiaries(startDate, endDate);
+//     }
+//   });
+//   return { data, error, isLoading };
+// };
+
 // export const getInitialDiaries = async (firstDayOfMonth: string, lastDayOfMonth: string) => {
 //   const supabase = createClient();
 //   const { data: initialDiaries } = await supabase

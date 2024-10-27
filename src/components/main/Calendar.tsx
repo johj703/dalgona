@@ -1,12 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { format, addMonths, subMonths } from "date-fns";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
-import { isSameMonth, isSameDay, addDays, parse } from "date-fns";
+import { isSameMonth, isSameDay, addDays } from "date-fns";
 import { Icon } from "@iconify/react";
-import { useFetchDiaries } from "@/queries/fetchDiaries";
+import { getSelectedDiaries, useFetchDiaries } from "@/queries/fetchDiaries";
 import { SortedDiaries } from "./DiaryList";
 import Link from "next/link";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 type HeaderProps = {
   currentMonth: Date;
@@ -43,18 +45,18 @@ const RenderDays = () => {
 // type CellsProps = {
 //   currentMonth: Date;
 //   selectedDate: Date;
-//   onDateClick: (day: Date) => void;
+//   onDateClick: (arg0: Date) => void;
 //   filterDiaries: SortedDiaries[];
 // };
-const RenderCells = ({ currentMonth, selectedDate, onDateClick, filterDiaries }) => {
-  // firstDayOfMonth : 현재 달의 시작일
-  // lastDayOfMonth : 현재 달의 마지막 날
-  // startDate : firstDayOfMonth가 속한 주의 시작일
-  // endDate : lastDayOfMonth가 속한 주의 마지막일
-  // rows : [일월화수목금토] 한 주 * 4 또는 5주
-  // days : [일월화수목금토] 한 주
-  // cloneDay 형식 //Tue Oct 08 2024 00:00:00 GMT+0900 (한국 표준시)
 
+// firstDayOfMonth : 현재 달의 시작일
+// lastDayOfMonth : 현재 달의 마지막 날
+// startDate : firstDayOfMonth가 속한 주의 시작일
+// endDate : lastDayOfMonth가 속한 주의 마지막일
+// rows : [일월화수목금토] 한 주 * 4 또는 5주
+// days : [일월화수목금토] 한 주
+// cloneDay 형식 //Tue Oct 08 2024 00:00:00 GMT+0900 (한국 표준시)
+const RenderCells = ({ currentMonth, selectedDate, onDateClick, filterDiaries }) => {
   const firstDayOfMonth = startOfMonth(currentMonth);
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
   const startDate = startOfWeek(firstDayOfMonth);
@@ -108,35 +110,33 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, filterDiaries })
   return <div className="body">{rows}</div>;
 };
 
-// type Dates = {
-//   selectedDate: Date;
-//   currentMonth: Date;
-//   diaries: SortedDiaries;
-// };
+type Dates = {
+  rangeList: SortedDiaries[];
+};
 
-const DiarySelectedList = ({ selectedDate, currentMonth, diaries }) => {
-  const formatDate = format(currentMonth, "yyyy년 MM월 dd일");
-  const todayDiary = diaries.find((diary: SortedDiaries) => diary.date === formatDate);
-  console.log(selectedDate);
-
+const DiarySelectedList = ({ rangeList }: Dates) => {
   return (
     <>
-      {todayDiary ? (
-        <div>
-          <div key={todayDiary.id} className="p-4 mb-2 border-2">
-            <div className="">
-              <div className="border-2 h-[200px]">
-                이미지
-                <span>{todayDiary.date}</span>
+      {rangeList && rangeList.length > 0 ? (
+        rangeList.map((list) => (
+          // 범위가 설정되었을 때 rangeList 표시
+          <div key={list.id}>
+            <div className="p-4 mb-2 border-2">
+              <div>
+                <div className="border-2 h-[200px]">
+                  이미지
+                  <span>{list.date}</span>
+                </div>
+                <p className="border-2 my-2">{list.contents}</p>
               </div>
-              <p className="border-2 my-2">{todayDiary.contents}</p>
             </div>
           </div>
-        </div>
+        ))
       ) : (
+        // 범위도 없고, 해당 날짜의 다이어리가 없는 경우
         <div className="flex justify-center items-center m-2 p-12 border-2">
           <div>
-            <p>오늘 작성된 일기가 없어요🥹</p>
+            <p>작성된 일기가 없어요🥹</p>
             <p>이야기를 기록해보세요</p>
             <Link href={"/"}>
               <div>일기 쓰러가기</div>
@@ -152,6 +152,16 @@ const DiarySelectedList = ({ selectedDate, currentMonth, diaries }) => {
 export default function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date()); // 현재 선택된 달 저장하는 상태, 초기 값은 오늘 날짜의 달
   const [selectedDate, setSelectedDate] = useState(new Date()); // 사용자가 선택한 날짜를 저장하는 상태, 초기 값은 오늘 날짜
+
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [rangeList, setRangeList] = useState<SortedDiaries[]>([]);
+
+  useEffect(() => {
+    const formatTodayDate = format(startDate, "yyyy년 MM월 dd일");
+    const searchDiaries = [diaries?.find((diary: SortedDiaries) => diary.date === formatTodayDate)];
+    setRangeList(searchDiaries);
+  }, []);
 
   //일기 전체 데이터 가져오기
   const { data: diaries, error, isLoading } = useFetchDiaries();
@@ -175,15 +185,42 @@ export default function Calendar() {
     setCurrentMonth(addMonths(currentMonth, 1)); //addMonths : 현재달에서 한달 더하기
   };
 
-  //특정 날짜 클릭했을때 해당 날짜를 selectedDate로 설정
-  const onDateClick = (day: Date) => {
-    setSelectedDate(day);
+  //달력 셀 클릭
+  const onDateClick = async (day: Date) => {
+    const formatStartDate = format(day, "yyyy년 MM월 dd일");
+    const formatEndDate = format(day, "yyyy년 MM월 dd일");
+    const searchList = await getSelectedDiaries(formatStartDate, formatEndDate);
+    setRangeList(searchList);
+  };
+
+  //조회기간 설정 버튼 클릭
+  const handleSearchDiaries = async (startDate: Date, endDate: Date) => {
+    const formatStartDate = format(startDate, "yyyy년 MM월 dd일");
+    const formatEndDate = format(endDate, "yyyy년 MM월 dd일");
+    const searchList = await getSelectedDiaries(formatStartDate, formatEndDate);
+    setRangeList(searchList);
   };
 
   return (
     <>
-      <div className="pt-2 border-2 ">
-        <div>
+      <div>
+        <div className="flex">
+          <button onClick={() => handleSearchDiaries(startDate, endDate)}>조회기간 설정</button>
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            dateFormat="yyyy-MM-dd"
+            className="w-[70px]"
+          />
+          <DatePicker
+            selected={endDate}
+            onChange={(date) => setEndDate(date)}
+            dateFormat="yyyy-MM-dd"
+            className="w-[70px]"
+          />
+          <p>전체기간</p>
+        </div>
+        <div className="pt-2 border-2 ">
           <RenderHeader currentMonth={currentMonth} prevMonth={prevMonth} nextMonth={nextMonth} />
           <RenderDays />
           <RenderCells
@@ -194,7 +231,7 @@ export default function Calendar() {
           />
         </div>
       </div>
-      <DiarySelectedList selectedDate={selectedDate} currentMonth={currentMonth} diaries={diaries} />
+      <DiarySelectedList rangeList={rangeList} />
     </>
   );
 }
