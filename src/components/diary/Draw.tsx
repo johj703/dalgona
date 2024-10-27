@@ -6,7 +6,7 @@ import useClientSize from "@/hooks/useClientSize";
 import { LineCustom } from "@/types/LineCustom";
 
 const initialCustom = {
-  lineWidth: "2",
+  lineWidth: "4",
   lineColor: "#212121"
 };
 
@@ -66,7 +66,7 @@ const Draw = () => {
             value={lineCustom.lineWidth}
             step={1}
             onChange={(e) => handleChangeCustom(e)}
-          />{" "}
+          />
           <div className="w-5 h-5 bg-red-600" onClick={() => setLineCustom({ ...lineCustom, lineColor: "#dc2626" })}>
             red
           </div>
