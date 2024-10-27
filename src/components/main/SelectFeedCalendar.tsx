@@ -4,6 +4,7 @@ import React from "react";
 import Calendar from "./Calendar";
 import EmblaCarousel from "./EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
+import DiaryList from "./DiaryList";
 
 const OPTIONS: EmblaOptionsType = {};
 const SLIDE_COUNT = 3;
@@ -20,6 +21,7 @@ const SelectFeedCalendar = () => {
         <Tab.Panels>
           <Tab.Panel>
             <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+            <DiaryList />
           </Tab.Panel>
           <Tab.Panel>
             <Calendar />

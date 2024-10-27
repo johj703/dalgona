@@ -1,25 +1,12 @@
 import SelectFeedCalendar from "@/components/main/SelectFeedCalendar";
-import DiaryList from "@/components/main/DiaryList";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { getInitialDiaries } from "@/queries/fetchDiaries";
 
-// import { getMonth, getYear } from "date-fns";
-
 const MainPage = async () => {
-  // const currentMonth = new Date();
-  // const year = getYear(currentMonth);
-  // const month = getMonth(currentMonth) + 1;
-  //현재 달의 시작일 2024-10-01
-  // const firstDayOfMonth = startOfMonth(currentMonth).toLocaleDateString().replace(/\./g, "").replace(/\s/g, "-");
-  //현재 달의 마지막 날 2024-10-31
-  // const lastDayOfMonth = endOfMonth(firstDayOfMonth).toLocaleDateString().replace(/\./g, "").replace(/\s/g, "-");
-  // //현재 달의 날의 수 구하기
-  // const daysInMonth = getDaysInMonth(currentMonth);
-
-  //일기정보 가져오기
+  //NOTE - 일기정보 가져오기
   const queryClient = new QueryClient();
-  //prefetchQuery로 클라이언트 캐시에 데이터를 추가
   await queryClient.prefetchQuery({
+    //prefetchQuery로 클라이언트 캐시에 데이터를 추가
     queryKey: ["diaries"], // 전체 데이터를 캐싱
     queryFn: () => getInitialDiaries()
   });
@@ -34,9 +21,6 @@ const MainPage = async () => {
       <HydrationBoundary state={dehydratedState}>
         <div className="p-2 m-2 border-2">
           <SelectFeedCalendar />
-        </div>
-        <div className="p-2 m-2 border-2">
-          <DiaryList />
         </div>
       </HydrationBoundary>
     </>
