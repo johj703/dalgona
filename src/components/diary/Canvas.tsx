@@ -157,8 +157,12 @@ const Canvas = ({
     <canvas
       ref={canvasRef}
       onPointerDown={(e) => {
-        setPainting(true);
-        setPos([e.nativeEvent.offsetX, e.nativeEvent.offsetY]);
+        if (tool === "paint") {
+          paintCanvas(e);
+        } else {
+          setPainting(true);
+          setPos([e.nativeEvent.offsetX, e.nativeEvent.offsetY]);
+        }
       }}
       onPointerUp={() => {
         setPainting(false);
@@ -170,11 +174,6 @@ const Canvas = ({
       }}
       onPointerLeave={() => {
         setPainting(false);
-      }}
-      onClick={(e) => {
-        if (tool === "paint") {
-          paintCanvas(e);
-        }
       }}
       className="bg-white"
     />
