@@ -56,7 +56,14 @@ const Draw = () => {
       </div>
       <div>
         <div>
-          <button onClick={() => setTool("pen")}>펜</button>
+          <button
+            onClick={() => {
+              setTool("pen");
+              setIsEraser(false);
+            }}
+          >
+            펜
+          </button>
           <input
             type="range"
             name="lineWidth"
