@@ -38,4 +38,5 @@ export interface DiaryListProps {
   diaries: Diary[];
   loading: boolean;
   userId: string;
+  sort: "newest" | "oldest";
 }
