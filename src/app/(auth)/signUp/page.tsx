@@ -1,5 +1,6 @@
 "use client";
 
+import browserClient from "@/utils/supabase/client";
 import { useState } from "react";
 
 export default function SignUpPage() {
@@ -10,7 +11,7 @@ export default function SignUpPage() {
   const [errorMessage, setErrorMessage] = useState("");
 
   // 회원가입 버튼을 클릭했을 때 호출되는 함수
-  const handleSignUp = (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // 모든 입력칸이 채워졌는지 확인
@@ -37,6 +38,11 @@ export default function SignUpPage() {
       setErrorMessage("별명은 2글자 이상이어야 합니다.");
       return;
     }
+
+    let { data, error } = await browserClient.auth.signInWithPassword({
+      email: "someone@email.com",
+      password: "xbAwBoJzrabCsDxRJtQo"
+    });
 
     console.log("회원가입 성공:", { email, password, nickname });
   };
