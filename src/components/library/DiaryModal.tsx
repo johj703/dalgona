@@ -7,8 +7,8 @@ import SearchBar from "@/components/library/SearchBar";
 import DateDropdown from "@/components/library/DateDropdown";
 import DiaryList from "@/components//library/DiaryList";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear }) => {

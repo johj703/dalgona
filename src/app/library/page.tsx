@@ -6,8 +6,8 @@ import DiaryReminder from "@/components/library/DiaryReminder";
 import { createClient } from "@supabase/supabase-js";
 
 // Supabase 설정
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const LibraryPage: React.FC = () => {
