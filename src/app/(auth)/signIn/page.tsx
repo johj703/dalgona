@@ -49,43 +49,47 @@ export default function SignInPage() {
   };
 
   return (
-    <div>
-      <div>
-        <h1>로그인</h1>
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="w-full max-w-sm p-4 bg-white shadow-md rounded-md">
+        <h1 className="text-center text-2xl font-bold mb-6">감정일기</h1>
 
         {/* 에러 메세지 출력 */}
-        {errorMessage && <p>{errorMessage}</p>}
+        {errorMessage && <p className="text-center text-red-500 mb-4">{errorMessage}</p>}
 
         {/* 로그인 폼 */}
         <form onSubmit={handleSignIn} className="space-y-4">
           {/* 이메일 입력 */}
           <div>
-            <label htmlFor="email">이메일:</label>
+            <label htmlFor="email" className="block text-sm font-medium">
+              이메일:
+            </label>
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEamil(e.target.value)}
               required
-              className="p-2 border border-gray-300"
+              className="block w-full p-2 border border-gray-300 rounded"
             />
           </div>
 
           {/* 비밀번호 입력 */}
           <div>
-            <label htmlFor="password">비밀번호:</label>
+            <label htmlFor="password" className="block text-sm font-medium">
+              비밀번호:
+            </label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="p-2 border border-gray-300"
+              className="block w-full p-2 border border-gray-300 rounded"
             />
           </div>
 
           {/* 자동 로그인 체크박스 */}
-          <div>
+          <div className="flex items-center">
             <input
               type="checkbox"
               id="rememberMe"
@@ -93,17 +97,19 @@ export default function SignInPage() {
               onChange={(e) => setRememberMe(e.target.checked)}
               className="mr-2"
             />
-            <label htmlFor="rememberMe">자동 로그인</label>
+            <label htmlFor="rememberMe" className="text-sm">
+              자동 로그인
+            </label>
           </div>
 
           <div>
-            <button type="submit" className="p-2 border border-gray-300">
+            <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">
               로그인
             </button>
           </div>
         </form>
 
-        <div className="gap-3">
+        <div className="flex justify-between text-sm mt-4">
           <a href="#" className="hover:underline">
             아이디 찾기
           </a>
@@ -116,12 +122,12 @@ export default function SignInPage() {
         </div>
 
         <div className="my-4 border-t border-gray-300"></div>
-        <p className="text-center">간편 로그인</p>
+        <p className="text-center text-sm">간편 로그인</p>
 
-        <div className="flex mt-4">
-          <button className="p-2 border border-gray-300 mr-2">깃허브</button>
-          <button className="p-2 border border-gray-300 mr-2">구글</button>
-          <button className="p-2 border border-gray-300">카카오</button>
+        <div className="flex justify-center mt-4 gap-3">
+          <button className="p-2 border-gray-200 rounded">깃허브</button>
+          <button className="p-2 border-gray-200 rounded">구글</button>
+          <button className="p-2 border-gray-200 rounded">카카오</button>
         </div>
       </div>
     </div>
