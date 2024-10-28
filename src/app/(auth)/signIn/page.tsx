@@ -16,12 +16,6 @@ export default function SignInPage() {
     setIsMounted(true);
   }, []);
 
-  // // 가짜 사용자 데이터(supabase와 연결하면 이 부분은 supabase API로 변경)
-  // const fakeUser = {
-  //   email: "user@example.com",
-  //   password: "password123"
-  // };
-
   // 로그인 처리 함수
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
