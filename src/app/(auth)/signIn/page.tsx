@@ -1,5 +1,6 @@
 "use client";
 
+import browserClient from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -15,29 +16,41 @@ export default function SignInPage() {
     setIsMounted(true);
   }, []);
 
-  // 가짜 사용자 데이터(supabase와 연결하면 이 부분은 supabase API로 변경)
-  const fakeUser = {
-    email: "user@example.com",
-    password: "password123"
-  };
+  // // 가짜 사용자 데이터(supabase와 연결하면 이 부분은 supabase API로 변경)
+  // const fakeUser = {
+  //   email: "user@example.com",
+  //   password: "password123"
+  // };
 
   // 로그인 처리 함수
-  const handleSignIn = (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (email === "" || password === "") {
       setErrorMessage("이메일과 비밀번호를 모두 입력해 주세요.");
       return;
     }
-    // fakeUser 데이터와 비교하는 가짜 로그인 로직
-    if (email === fakeUser.email && password === fakeUser.password) {
-      console.log("로그인 성공");
-      // 로그인 성공 후 리다이렉트
-      if (isMounted) {
-        router.push("/main");
+
+    try {
+      // Supabase의 signInWithPassword 메서드로 로그인
+      const { data, error } = await browserClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        setErrorMessage("아이디 또는 비밀번호가 올바르지 않습니다.");
+        return;
       }
-    } else {
-      setErrorMessage("아이디 또는 비밀번호가 올바르지 않습니다.");
+      console.log("로그인 성공: ", data);
+
+      // 로그인 성공 후 페이지 이동
+      if (isMounted) {
+        router.push("/mail");
+      }
+    } catch (error) {
+      console.log("로그인 오류: ", error);
+      setErrorMessage("로그인 중 문제가 발생했습니다. 다시 시도해 주세요.");
     }
   };
 
