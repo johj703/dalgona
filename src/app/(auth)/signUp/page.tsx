@@ -2,7 +2,6 @@
 
 import browserClient from "@/utils/supabase/client";
 import { useState } from "react";
-import browserClient from "../../../utils/supabase/client";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
