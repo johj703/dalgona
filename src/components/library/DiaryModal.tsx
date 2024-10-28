@@ -98,14 +98,25 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear }
         return isSameYear && isSameMonth && isSameDay && matchesSearch;
       });
 
-      if (sort === "newest") {
-        result.sort((a, b) => parseDate(b.date).getTime() - parseDate(a.date).getTime());
-      } else {
-        result.sort((a, b) => parseDate(a.date).getTime() - parseDate(b.date).getTime());
-      }
+      //   if (sort === "newest") {
+      //     result.sort((a, b) => parseDate(b.date)!.getTime() - parseDate(a.date)!.getTime());
+      //   } else {
+      //     result.sort((a, b) => parseDate(a.date)!.getTime() - parseDate(b.date)!.getTime());
+      //   }
 
+      //   console.log("result=>", result);
+
+      //   setFilteredDiaries(result);
+      // };
+
+      result.sort((a, b) => {
+        const dateA = parseDate(a.date);
+        const dateB = parseDate(b.date);
+        return sort === "newest"
+          ? (dateB?.getTime() || 0) - (dateA?.getTime() || 0)
+          : (dateA?.getTime() || 0) - (dateB?.getTime() || 0);
+      });
       console.log("result=>", result);
-
       setFilteredDiaries(result);
     };
 
