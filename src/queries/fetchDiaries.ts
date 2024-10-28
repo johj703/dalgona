@@ -1,3 +1,4 @@
+import { SortedDiaries } from "@/types/main/Calendar";
 import { createClient } from "@/utils/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
@@ -28,7 +29,8 @@ export const getSelectedDiaries = async (startDate: string, endDate: string) => 
     .gte("date", startDate)
     .lte("date", endDate)
     .order("date", { ascending: false });
-  return selectedDiaries;
+
+  return selectedDiaries as SortedDiaries[];
 };
 
 //NOTE -
@@ -50,7 +52,6 @@ export const getSelectedDiaries = async (startDate: string, endDate: string) => 
 //     .gte("date", firstDayOfMonth)
 //     .lt("date", lastDayOfMonth)
 //     .order("date", { ascending: true });
-//   //브라우저, 서버에서 뿌려줌..?
 //   console.log("initialDiaries===>", initialDiaries);
 
 //   return initialDiaries;
@@ -59,7 +60,7 @@ export const getSelectedDiaries = async (startDate: string, endDate: string) => 
 //NOTE -
 // 유저아이디, 년, 월 props로 받을 예정
 // 역할: 유저아이디, 년, 월 값을 기반으로 데이터베이스에서 일기 데이터를 직접 가져오는 역할
-// fetchSchedules: 단순한 API 호출이며 React와는 직접적인 연관이 없습니다.
+// fetchSchedules: 단순한 API 호출이며 React와는 직접적인 연관이 없
 // export const fetchDiaries = async () => {
 //   const supabase = createClient();
 //   const currentMonth = new Date();

@@ -20,8 +20,10 @@ const SelectFeedCalendar = () => {
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>
-            <EmblaCarousel slides={SLIDES} options={OPTIONS} />
-            <DiaryList />
+            <div>
+              <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+              <DiaryList />
+            </div>
           </Tab.Panel>
           <Tab.Panel>
             <Calendar />

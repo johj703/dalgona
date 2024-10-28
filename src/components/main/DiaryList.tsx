@@ -4,29 +4,19 @@ import { Listbox, Tab } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
 import TopButton from "./TopButton";
 import { formatDate } from "@/utils/calendar/dateFormat";
+import { SortedDiaries } from "@/types/main/Calendar";
 
 const sorts = [
   { id: 1, name: "최신순", unavailable: false },
   { id: 2, name: "오래된순", unavailable: false }
 ];
 
-export type SortedDiaries = {
-  id: string;
-  created_at: string;
-  title: string;
-  contents: string;
-  draw: string;
-  date: string;
-  emotion: string;
-  user_id: string;
-};
-
-const DiaryList = () => {
-  const [selectedBox, setSelectedBox] = useState(sorts[0]);
+const DiaryList = (): JSX.Element => {
   const [sortedDiaries, setSortedDiaries] = useState<SortedDiaries[]>([]);
+  const [selectedBox, setSelectedBox] = useState(sorts[0]);
 
   //prefetchQuery를 통해 캐시에 미리 저장된 데이터가 있으니, 새롭게 데이터를 가져오지 않고 캐시에 저장된 데이터를 반환
-  const { data: diaries, error, isLoading } = useFetchDiaries();
+  const { data: diaries } = useFetchDiaries();
 
   // 선택한 정렬 기준에 따라 일기를 정렬
   useEffect(() => {
@@ -43,19 +33,18 @@ const DiaryList = () => {
         else if (selectedBox.id === 2) {
           return +dateA - +dateB;
         }
-
         return 0; // **REVIEW - 기본값: 정렬 기준이 없으면 0을 반환 (변경하지 않음)
       });
       setSortedDiaries(sorted);
     }
   }, [selectedBox, diaries]); // selectedBox나 diaries가 변경될 때마다 실행
 
-  if (error) return console.error("일기를 불러오는데 오류가 발생하였습니다." + error);
-  if (isLoading) return console.error("로딩중입니다.");
+  // if (error) return console.error("일기를 불러오는데 오류가 발생하였습니다." + error);
+  // if (isLoading) return console.error("로딩중입니다.");
 
   return (
     <div>
-      <div className="">
+      <div>
         <div>
           <Tab.Group>
             <div className="flex justify-between h-[70px]">
