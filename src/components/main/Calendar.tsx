@@ -144,7 +144,7 @@ export default function Calendar(): JSX.Element {
     if (diaries) {
       const formatTodayDate = format(startDate, "yyyy년 MM월 dd일");
       const searchDiaries = diaries?.find((diary: SortedDiaries) => diary.date === formatTodayDate);
-      setRangeList(searchDiaries);
+      setRangeList([...rangeList, { ...searchDiaries }]); //REVIEW -
     }
   }, []);
 
