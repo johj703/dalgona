@@ -19,10 +19,11 @@
     "embla-carousel": "^8.3.0",
     "embla-carousel-react": "^8.3.0",
     "garlic-toast": "^0.0.6",
+    "react-datepicker": "^7.5.0",
+    "hex-to-rgba": "^2.0.1",
     "next": "14.2.15",
     "react": "^18",
     "react-dom": "^18",
-    "react-datepicker": "^7.5.0",
     "zustand": "^5.0.0"
   },
   "devDependencies": {
