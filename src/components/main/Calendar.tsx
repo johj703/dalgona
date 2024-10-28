@@ -111,7 +111,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, filterDiaries })
 };
 
 type Dates = {
-  rangeList: SortedDiaries[];
+  rangeList: SortedDiaries[] | undefined;
 };
 
 const DiarySelectedList = ({ rangeList }: Dates) => {
@@ -157,14 +157,18 @@ export default function Calendar() {
   const [endDate, setEndDate] = useState(new Date());
   const [rangeList, setRangeList] = useState<SortedDiaries[]>([]);
 
-  useEffect(() => {
-    const formatTodayDate = format(startDate, "yyyy년 MM월 dd일");
-    const searchDiaries = [diaries?.find((diary: SortedDiaries) => diary.date === formatTodayDate)];
-    setRangeList(searchDiaries);
-  }, []);
-
   //일기 전체 데이터 가져오기
   const { data: diaries, error, isLoading } = useFetchDiaries();
+
+  //REVIEW - useEffect가 실행될 때 diaries가 아직 로딩 중일 수 있기 때문에, diaries가 undefined일 가능성
+  useEffect(() => {
+    if (diaries) {
+      const formatTodayDate = format(startDate, "yyyy년 MM월 dd일");
+      const searchDiaries = diaries?.find((diary: SortedDiaries) => diary.date === formatTodayDate);
+      setRangeList(searchDiaries);
+    }
+  }, []);
+
   if (error) return console.error("일기를 불러오는데 오류가 발생하였습니다." + error);
   if (isLoading) return console.error("로딩중입니다.");
 
