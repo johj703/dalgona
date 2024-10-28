@@ -7,6 +7,8 @@ import ReDraw from "@/lib/ReDraw";
 import SetCanvasContext from "@/lib/SetCanvasContext";
 import Undo from "@/lib/Undo";
 import { CanvasProps } from "@/types/Canvas";
+import browserClient from "@/utils/supabase/client";
+import { decode } from "base64-arraybuffer";
 import { RefObject, useEffect, useRef, useState } from "react";
 
 const Canvas = ({
@@ -69,6 +71,23 @@ const Canvas = ({
         Undo({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory, saveHistory });
       } else if (pathMode === "redo" && pathHistory[pathStep + 1]) {
         Redo({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory, saveHistory });
+      } else if (pathMode === "save") {
+        const uploadImage = async () => {
+          if (canvasRef.current) {
+            const imageDataUrl = canvasRef.current.toDataURL("image/png"); // Canvas에서 이미지 데이터 가져오기
+            const base64FileData = imageDataUrl.split(",")[1]; // Base64 데이터 추출
+
+            const { data, error } = await browserClient.storage
+              .from("posts")
+              .upload("drawing/testImage", decode(base64FileData), {
+                contentType: "image/png"
+              });
+
+            if (error) console.error("error messgage =>", error);
+            console.log(data);
+          }
+        };
+        uploadImage();
       }
     }
   }, [pathMode]);
@@ -89,6 +108,12 @@ const Canvas = ({
       }
     }
   };
+  useEffect(() => {
+    if (!painting) {
+      ctx?.closePath();
+      ctx?.beginPath();
+    }
+  }, [painting]);
 
   // 사각형 그리기 (보류)
   const drawSquare = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -117,7 +142,7 @@ const Canvas = ({
     setPathStep(pathStep + 1);
   };
 
-  const paintCanvas = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const paintCanvas = (e: React.PointerEvent<HTMLCanvasElement>) => {
     const curPos = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
     if (!curPos) return;
     const currentColor = convertHexToRgba(lineCustom.lineColor);
@@ -146,7 +171,7 @@ const Canvas = ({
       onPointerLeave={() => {
         setPainting(false);
       }}
-      className="bg-white"
+      className="bg-white touch-none"
     />
   );
 };

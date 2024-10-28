@@ -17,6 +17,7 @@ const Draw = () => {
   const [isEraser, setIsEraser] = useState<boolean>(false);
   const [pathMode, setPathMode] = useState<string>("");
   const [tool, setTool] = useState<string>("pen");
+  const [showPallete, setShowPallete] = useState<boolean>(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const clientRect = useClientSize(wrapRef);
@@ -28,18 +29,12 @@ const Draw = () => {
     setLineCustom({ ...lineCustom, [id]: value });
   };
 
-  const handleClickUndo = () => {
-    setPathMode("undo");
-  };
-  const handleClickRedo = () => {
-    setPathMode("redo");
-  };
-
   return (
     <>
-      <div>
-        <button onClick={() => handleClickUndo()}>undo</button>
-        <button onClick={() => handleClickRedo()}>redo</button>
+      <div className="fixed top-0 left-0 w-full z-10">
+        <button onClick={() => setPathMode("save")}>save</button>
+        <button onClick={() => setPathMode("undo")}>undo</button>
+        <button onClick={() => setPathMode("redo")}>redo</button>
       </div>
       <div ref={wrapRef} className="w-full h-dvh">
         <Canvas
@@ -54,16 +49,28 @@ const Draw = () => {
           fileRef={fileRef.current}
         />
       </div>
-      <div>
-        <div>
-          <button
-            onClick={() => {
-              setTool("pen");
-              setIsEraser(false);
-            }}
-          >
-            펜
-          </button>
+      <div className="fixed bottom-0 left-0 w-full z-10">
+        <button onClick={() => setShowPallete(true)}>컬러팔레트</button>
+        <button
+          onClick={() => {
+            setTool("pen");
+            setIsEraser(false);
+          }}
+        >
+          펜
+        </button>
+
+        <button
+          onClick={() => {
+            setIsEraser(true);
+            setTool("pen");
+          }}
+        >
+          지우개
+        </button>
+
+        {/* <button onClick={() => setTool("paint")}>채우기</button> */}
+        {tool === "pen" && (
           <input
             type="range"
             name="lineWidth"
@@ -74,37 +81,30 @@ const Draw = () => {
             step={1}
             onChange={(e) => handleChangeCustom(e)}
           />
-          <div className="w-5 h-5 bg-red-600" onClick={() => setLineCustom({ ...lineCustom, lineColor: "#dc2626" })}>
-            red
-          </div>
-          <input
-            type="color"
-            name="lineColor"
-            id="lineColor"
-            value={lineCustom.lineColor}
-            onChange={(e) => {
-              handleChangeCustom(e);
-              setIsEraser(false);
-            }}
-          />
-        </div>
+        )}
+        {showPallete && (
+          <div>
+            <div className="w-5 h-5 bg-red-600" onClick={() => setLineCustom({ ...lineCustom, lineColor: "#dc2626" })}>
+              red
+            </div>
 
-        <button onClick={() => setTool("paint")}>페인트</button>
+            <input
+              type="color"
+              name="lineColor"
+              id="lineColor"
+              value={lineCustom.lineColor}
+              onChange={(e) => {
+                handleChangeCustom(e);
+                setIsEraser(false);
+              }}
+            />
+          </div>
+        )}
 
         {/* 네모 그리기 보류 */}
         {/* <div>
           <div onClick={() => setTool("square")}>네모</div>
         </div> */}
-
-        <div
-          className=""
-          onClick={() => {
-            setIsEraser(true);
-            setTool("pen");
-          }}
-        >
-          지우개
-        </div>
 
         <input
           type="file"
