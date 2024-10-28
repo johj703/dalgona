@@ -17,6 +17,7 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear }
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
+  const [year, setYear] = useState(selectedYear);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   // const [day, setDay] = useState(new Date().getDate());
   const [day, setDay] = useState(0);
@@ -85,7 +86,8 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear }
         const diaryDay = diaryDate.getDate();
 
         // 필터링 조건 설정
-        const isSameYear = diaryYear === selectedYear;
+        // const isSameYear = diaryYear === selectedYear;
+        const isSameYear = diaryYear === year;
         const isSameMonth = diaryMonth === month;
         const isSameDay = day === 0 || diaryDay === day; // day가 0이면 해당 월의 모든 일기 표시
 
@@ -98,7 +100,7 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear }
     };
 
     filterDiaries();
-  }, [diaries, selectedYear, month, day, debouncedSearchTerm]);
+  }, [diaries, year, month, day, debouncedSearchTerm]);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
@@ -107,7 +109,7 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear }
           X
         </button>
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        <DateDropdown month={month} day={day} setMonth={setMonth} setDay={setDay} />
+        <DateDropdown year={year} month={month} day={day} setYear={setYear} setMonth={setMonth} setDay={setDay} />
         <div className="overflow-y-auto max-h-[56vh]">
           <DiaryList diaries={filteredDiaries} loading={loading} userId={userId} />
         </div>

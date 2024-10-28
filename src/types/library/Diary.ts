@@ -26,8 +26,10 @@ export interface SearchBarProps {
 }
 
 export interface DateDropdownProps {
+  year: number;
   month: number;
   day: number;
+  setYear: (year: number) => void;
   setMonth: (month: number) => void;
   setDay: (day: number) => void;
 }
