@@ -46,7 +46,7 @@ export default function SignInPage() {
 
       // 로그인 성공 후 페이지 이동
       if (isMounted) {
-        router.push("/mail");
+        router.push("/main");
       }
     } catch (error) {
       console.log("로그인 오류: ", error);
