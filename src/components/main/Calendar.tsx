@@ -137,7 +137,7 @@ export default function Calendar(): JSX.Element {
   const [endDate, setEndDate] = useState<Date>(new Date());
 
   //일기 전체 데이터 가져오기
-  const { data: diaries, error, isLoading } = useFetchDiaries();
+  const { data: diaries } = useFetchDiaries();
 
   //REVIEW - useEffect가 실행될 때 diaries가 아직 로딩 중일 수 있기 때문에, diaries가 undefined일 가능성이 있음 이케 맞나
   useEffect(() => {
@@ -147,9 +147,6 @@ export default function Calendar(): JSX.Element {
       setRangeList([...rangeList, { ...searchDiaries }]); //REVIEW -
     }
   }, []);
-
-  if (error) return console.error("일기를 불러오는데 오류가 발생하였습니다." + error);
-  if (isLoading) return console.error("로딩중입니다.");
 
   //REVIEW -
   const filterDiaries = diaries?.filter((diary) => {

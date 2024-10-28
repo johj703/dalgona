@@ -11,12 +11,13 @@ const sorts = [
   { id: 2, name: "오래된순", unavailable: false }
 ];
 
-const DiaryList = (): JSX.Element => {
+const DiaryList = () => {
   const [sortedDiaries, setSortedDiaries] = useState<SortedDiaries[]>([]);
   const [selectedBox, setSelectedBox] = useState(sorts[0]);
 
   //prefetchQuery를 통해 캐시에 미리 저장된 데이터가 있으니, 새롭게 데이터를 가져오지 않고 캐시에 저장된 데이터를 반환
   const { data: diaries } = useFetchDiaries();
+  // console.log("diaries", diaries);
 
   // 선택한 정렬 기준에 따라 일기를 정렬
   useEffect(() => {
@@ -24,6 +25,8 @@ const DiaryList = (): JSX.Element => {
       const sorted = [...diaries].sort((a, b) => {
         const dateA = formatDate(a.date);
         const dateB = formatDate(b.date);
+        // console.log("dateA :", dateA); //Thu Oct 24 2024 00:00:00 GMT+0900 (한국 표준시)
+        // console.log("dateB  :", dateB);
 
         //정렬:최신순
         if (selectedBox.id === 1) {
@@ -39,8 +42,7 @@ const DiaryList = (): JSX.Element => {
     }
   }, [selectedBox, diaries]); // selectedBox나 diaries가 변경될 때마다 실행
 
-  // if (error) return console.error("일기를 불러오는데 오류가 발생하였습니다." + error);
-  // if (isLoading) return console.error("로딩중입니다.");
+  // console.log("sortedDiaries", sortedDiaries);
 
   return (
     <div>
