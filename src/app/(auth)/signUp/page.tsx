@@ -2,6 +2,7 @@
 
 import browserClient from "@/utils/supabase/client";
 import { useState } from "react";
+import browserClient from "../../../utils/supabase/client";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -39,12 +40,22 @@ export default function SignUpPage() {
       return;
     }
 
-    let { data, error } = await browserClient.auth.signInWithPassword({
-      email: "someone@email.com",
-      password: "xbAwBoJzrabCsDxRJtQo"
-    });
+    // Supabase에 회원 정보 추가
+    try {
+      const { data, error } = await browserClient.auth.signUp({
+        email,
+        password
+      });
 
-    console.log("회원가입 성공:", { email, password, nickname });
+      if (error) {
+        setErrorMessage(error.message);
+      } else {
+        console.log("회원가입 성공: ", data);
+      }
+    } catch (error) {
+      console.log("회원가입 중 오류 발생", error);
+      setErrorMessage("회원가입 중 오류가 발생했습니다.");
+    }
   };
 
   return (
