@@ -1,25 +1,25 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { z }  from "zod";
-import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 
 // 입력 유효성 검사를 위해서 Zod 스키마 정의
-type profileSchema = z.object({
+const profileSchema = z.object({
   profileImage: z.string().optional(),
   birthYear: z.string().nonempty("년도를 선택해 주세요."),
   birthMonth: z.string().nonempty("월을 선택해 주세요."),
-  gender: z.enum(["male", "female"], { required_error: "성별을 선택해 주세요." }),
+  gender: z.enum(["male", "female"], { required_error: "성별을 선택해 주세요." })
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
 export default function SaveUserProfilePage() {
   const { handleSubmit, control } = useForm<ProfileFormData>({
-    resolver: zodResolver(profileSchema),
-  })
+    resolver: zodResolver(profileSchema)
+  });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -40,80 +40,92 @@ export default function SaveUserProfilePage() {
   return (
     <div>
       {/* 페이지 안내 텍스트 */}
-      <div>
-        <h1>안녕하세요.</h1>
-        <p>사용하실 프로필을 작성해 주세요.</p>
+      <div className="">
+        <h1 className="">안녕하세요.</h1>
+        <p className="">사용하실 프로필을 작성해 주세요.</p>
       </div>
 
-      {/* 프로필 사진 입력 */}
-      <div>
-        <label htmlFor="profileImage">프로필 사진</label>
-        {/* 프로필 이미지 미리보기 */}
-        {profileImagePreview ? (
-          <Image src={profileImagePreview} alt="프로필 미리보기" width={100} height={100} />
+      {/* 프로필 사진 업로드 */}
+      <div className="">
+        {imagePreview ? (
+          <Image src={imagePreview} alt="프로필 미리보기" width={100} height={100} className="" />
         ) : (
-          <div>
-            <span>미리보기 없음</span>
+          <div className="">
+            <span>이미지 없음</span>
           </div>
         )}
-        <input type="file" id="profileImage" {...register("profileImage")} onChange={handleImagePreview} />
+        <input type="file" accept="image/*" onChange={handleImageUpload} className="" />
       </div>
 
-      {/* 생년월일 입력 */}
-      <div>
+      <form onSubmit={handleSubmit(onSubmit)} className="">
+        {/* 생년월일 입력 */}
         <div>
-          <label htmlFor="birthYear">생년</label>
-          <Controller
-            name="birthYear"
-            control={control}
-            render={({ field }) => (
-              <select id="birthYear" {...field} className="">
-                <option value="">년</option>
-                {Array.from({ length: 43 }, (_, i) => (
-                  <option key={1980 + i} value={1980 + i}>
-                    {1980 + i}
-                  </option>
-                ))}
-              </select>
-            )}
-          />
+          <label>생년월일</label>
+          <div className="">
+            <Controller
+              name="birthYear"
+              control={control}
+              render={({ field }) => (
+                <select {...field} className="">
+                  <option value="">년</option>
+                  {[...Array(100)].map((_, i) => (
+                    <option key={i} value={2023 - i}>
+                      {2023 - i}
+                    </option>
+                  ))}
+                </select>
+              )}
+            />
+            <Controller
+              name="birthMonth"
+              control={control}
+              render={({ field }) => (
+                <select {...field} className="">
+                  <option value="">월</option>
+                  {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+                    <option key={month} value={month}>
+                      {month}
+                    </option>
+                  ))}
+                </select>
+              )}
+            />
+          </div>
         </div>
+
+        {/* 성별 선택 */}
         <div>
-          <label htmlFor="birthMonth">생월</label>
-          <Controller
-            name="birthMonth"
-            control={control}
-            render={({ field }) => (
-              <select id="birthMonth" {...field} className="">
-                <option value="">월</option>
-                {Array.from({ length: 12 }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1}월
-                  </option>
-                ))}
-              </select>
-            )}
-          />
+          <label>성별</label>
+          <div className="">
+            <Controller
+              name="gender"
+              control={control}
+              render={({ field }) => (
+                <>
+                  <label>
+                    <input {...field} type="radio" value="male" />
+                    남성
+                  </label>
+                  <label>
+                    <input {...field} type="radio" value="female" />
+                    여성
+                  </label>
+                </>
+              )}
+            />
+          </div>
         </div>
-      </div>
 
-      {/* 성별 선택 */}
-      <div>
-        <label>
-          <input type="radio" value="남성" {...register("gender")} />
-          남성
-        </label>
-        <label>
-          <input type="radio" value="여성" {...register("gender")} />
-          여성
-        </label>
-      </div>
-
-      {/* 건나뛰기 및 시작하기 버튼 */}
-      <div>
-        <button onClick={() => console.log("건너뛰기 클릭")}>건너뛰기</button>
-        <button onClick={handleSubmit(onSubmit)}>시작하기</button>
-      </div>
+        {/* 건너뛰기 및 시작하기 버튼 */}
+        <div className="">
+          <button type="button" className="">
+            건너뛰기
+          </button>
+          <button type="submit" className="">
+            시작하기
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
