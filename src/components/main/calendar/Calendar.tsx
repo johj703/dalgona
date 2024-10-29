@@ -1,87 +1,21 @@
 "use client";
 import { useEffect, useState } from "react";
-import { CellsProps, SortedDiaries } from "@/types/main/Calendar";
-import { format, addMonths, subMonths, isSameMonth, addDays } from "date-fns";
-import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
+import { SortedDiaries } from "@/types/main/Calendar";
+import { format, addMonths, subMonths } from "date-fns";
 import { getSelectedDiaries, useFetchDiaries } from "@/queries/fetchDiaries";
-import "react-datepicker/dist/react-datepicker.css";
 import RenderHeader from "./RenderHeader";
 import RenderDays from "./RenderDays";
+import RenderCells from "./RenderCells";
 import DiarySelectedList from "./DiarySelectedList";
 import CalendarModal from "./CalendarModal";
-
-// firstDayOfMonth : 현재 달의 시작일
-// lastDayOfMonth : 현재 달의 마지막 날
-// startDate : firstDayOfMonth가 속한 주의 시작일
-// endDate : lastDayOfMonth가 속한 주의 마지막일
-// rows : [일월화수목금토] 한 주 * 4 또는 5주
-// days : [일월화수목금토] 한 주
-// cloneDay 형식 //Tue Oct 08 2024 00:00:00 GMT+0900 (한국 표준시)
-const RenderCells = ({ currentDate, onDateClick, filterDiaries }: CellsProps) => {
-  const firstDayOfMonth = startOfMonth(currentDate);
-  const lastDayOfMonth = endOfMonth(firstDayOfMonth);
-  const startDate = startOfWeek(firstDayOfMonth);
-  const endDate = endOfWeek(lastDayOfMonth);
-
-  const rows = [];
-  let days = [];
-  let day = startDate;
-  let formattedDate = "";
-
-  while (day <= endDate) {
-    for (let i = 0; i < 7; i++) {
-      formattedDate = format(day, "d");
-      const cloneDay = day;
-
-      //해당 달에 일기 쓴날의 데이터(filterDiaries)와 해당 달의 전체 날짜(cloneDay) 비교해서 일기 쓴 날짜만 찾기
-      const formatDate = format(cloneDay, "yyyy년 MM월 dd일");
-      //일기 데이터(filterDiaries)에서 formatDate해당하는 데이터를 찾기
-      const emotionDate = filterDiaries?.find((diary: SortedDiaries) => diary.date === formatDate);
-
-      days.push(
-        <div
-          className={`col cell ${
-            !isSameMonth(day, firstDayOfMonth)
-              ? "disabled"
-              : // : isSameDay(day, selectedDate)
-              // ? "selected"
-              format(currentDate, "M") !== format(day, "M")
-              ? "not-valid"
-              : "valid"
-          }`}
-          key={day.toString()}
-          onClick={() => onDateClick(cloneDay)}
-        >
-          <span className={format(currentDate, "M") !== format(day, "M") ? "text not-valid text-slate-300" : ""}>
-            {formattedDate}
-          </span>
-          {emotionDate && <div className="emotion">{emotionDate.emotion}</div>}
-        </div>
-      );
-      day = addDays(day, 1);
-    }
-    rows.push(
-      <div className="grid grid-cols-7 w-full text-center" key={day.toString()}>
-        {days}
-      </div>
-    );
-    days = [];
-  }
-
-  return <div className="body">{rows}</div>;
-};
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Calendar(): JSX.Element {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  // const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [rangeList, setRangeList] = useState<SortedDiaries[]>([]);
   const [startDate, setStartDate] = useState<Date>(new Date());
-  // const [endDate, setEndDate] = useState<Date>(new Date());
-
-  // console.log(setSelectedDate);
-
-  //TODO - 모달상태
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  console.log(setStartDate);
 
   //일기 전체 데이터 가져오기
   const { data: diaries } = useFetchDiaries();
@@ -97,8 +31,8 @@ export default function Calendar(): JSX.Element {
     }
   }, []);
 
-  //REVIEW -
-  //TODO - diary 테이블에 data없을 경우 에러
+  //REVIEW - 해당되는 날짜의 감정 가져오기
+  //TODO - diary 테이블에 data없을 경우 에러남...
   const filterDiaries = diaries?.filter((diary) => {
     const filterMonth = diary.date.match(/\d{1,2}월/)[0].replace("월", "");
     const filterYear = diary.date.split("년")[0].trim();
@@ -115,7 +49,7 @@ export default function Calendar(): JSX.Element {
     setCurrentDate(addMonths(currentDate, 1)); //addMonths : 현재달에서 한달 더하기
   };
 
-  //달력 셀 클릭
+  //캘린더 셀 클릭
   const onDateClick = async (day: Date) => {
     const formatStartDate = format(day, "yyyy년 MM월 dd일");
     const formatEndDate = format(day, "yyyy년 MM월 dd일");
@@ -123,10 +57,8 @@ export default function Calendar(): JSX.Element {
     setRangeList(searchList);
   };
 
-  //조회기간 설정 버튼 클릭
+  //캘린더 조회기간 설정
   const handleSearchDiaries = async (startDate: string, endDate: string) => {
-    // const formatStartDate = format(startDate, "yyyy년 MM월 dd일");
-    // const formatEndDate = format(endDate, "yyyy년 MM월 dd일");
     if (startDate && endDate) {
       const searchList = await getSelectedDiaries(startDate, endDate);
       setRangeList(searchList);
