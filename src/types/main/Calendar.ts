@@ -21,7 +21,7 @@ export type Dates = {
 
 export type CellsProps = {
   currentDate: Date;
-  selectedDate: Date;
+  // selectedDate: Date;
   onDateClick: (arg0: Date) => void;
   filterDiaries: SortedDiaries[];
 };

@@ -1,15 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import { CellsProps, SortedDiaries } from "@/types/main/Calendar";
-import { format, addMonths, subMonths, isSameMonth, isSameDay, addDays } from "date-fns";
+import { format, addMonths, subMonths, isSameMonth, addDays } from "date-fns";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
 import { getSelectedDiaries, useFetchDiaries } from "@/queries/fetchDiaries";
 import "react-datepicker/dist/react-datepicker.css";
-import DatePicker from "react-datepicker";
 import RenderHeader from "./RenderHeader";
 import RenderDays from "./RenderDays";
 import DiarySelectedList from "./DiarySelectedList";
-// import CalendarModal from "./CalendarModal";
+import CalendarModal from "./CalendarModal";
 
 // firstDayOfMonth : 현재 달의 시작일
 // lastDayOfMonth : 현재 달의 마지막 날
@@ -18,7 +17,7 @@ import DiarySelectedList from "./DiarySelectedList";
 // rows : [일월화수목금토] 한 주 * 4 또는 5주
 // days : [일월화수목금토] 한 주
 // cloneDay 형식 //Tue Oct 08 2024 00:00:00 GMT+0900 (한국 표준시)
-const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: CellsProps) => {
+const RenderCells = ({ currentDate, onDateClick, filterDiaries }: CellsProps) => {
   const firstDayOfMonth = startOfMonth(currentDate);
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
   const startDate = startOfWeek(firstDayOfMonth);
@@ -44,9 +43,9 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
           className={`col cell ${
             !isSameMonth(day, firstDayOfMonth)
               ? "disabled"
-              : isSameDay(day, selectedDate)
-              ? "selected"
-              : format(currentDate, "M") !== format(day, "M")
+              : // : isSameDay(day, selectedDate)
+              // ? "selected"
+              format(currentDate, "M") !== format(day, "M")
               ? "not-valid"
               : "valid"
           }`}
@@ -74,15 +73,15 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
 
 export default function Calendar(): JSX.Element {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  // const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [rangeList, setRangeList] = useState<SortedDiaries[]>([]);
   const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  // const [endDate, setEndDate] = useState<Date>(new Date());
 
-  console.log(setSelectedDate);
+  // console.log(setSelectedDate);
 
   //TODO - 모달상태
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   //일기 전체 데이터 가져오기
   const { data: diaries } = useFetchDiaries();
@@ -124,47 +123,29 @@ export default function Calendar(): JSX.Element {
   };
 
   //조회기간 설정 버튼 클릭
-  const handleSearchDiaries = async (startDate: Date, endDate: Date) => {
-    const formatStartDate = format(startDate, "yyyy년 MM월 dd일");
-    const formatEndDate = format(endDate, "yyyy년 MM월 dd일");
-    const searchList = await getSelectedDiaries(formatStartDate, formatEndDate);
+  const handleSearchDiaries = async (startDate: string, endDate: string) => {
+    // const formatStartDate = format(startDate, "yyyy년 MM월 dd일");
+    // const formatEndDate = format(endDate, "yyyy년 MM월 dd일");
+    const searchList = await getSelectedDiaries(startDate, endDate);
     setRangeList(searchList);
   };
 
   //버튼 클릭시 모달 버튼 클릭 유무를 설정하는 state 함수
-  // const clickModal = () => setIsModalOpen(!isModalOpen);
+  const clickModal = () => setIsModalOpen(!isModalOpen);
   return (
     <>
       <div>
         <div className="flex">
-          <button onClick={() => handleSearchDiaries(startDate, endDate)}>조회기간 설정</button>
-          {/* <button onClick={clickModal} className="px-4 py-2 rounded bg-gray-300 text-sm text-black hover:bg-gray-200">
+          <button onClick={clickModal} className="px-4 py-2 rounded bg-gray-300 text-sm text-black hover:bg-gray-200">
             조회기간 설정
-          </button> */}
-          {/* {isModalOpen && <CalendarModal />} */}
-          <DatePicker
-            selected={startDate}
-            onChange={(date) => setStartDate(date as Date)}
-            dateFormat="yyyy-MM-dd"
-            className="w-[70px]"
-          />
-          <DatePicker
-            selected={endDate}
-            onChange={(date) => setEndDate(date as Date)}
-            dateFormat="yyyy-MM-dd"
-            className="w-[70px]"
-          />
+          </button>
+          {isModalOpen && <CalendarModal clickModal={clickModal} handleSearchDiaries={handleSearchDiaries} />}
           <p>전체기간</p>
         </div>
         <div className="p-4 border-2 rounded-lg mt-4">
           <RenderHeader currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
           <RenderDays />
-          <RenderCells
-            currentDate={currentDate}
-            selectedDate={selectedDate}
-            onDateClick={onDateClick}
-            filterDiaries={filterDiaries || []}
-          />
+          <RenderCells currentDate={currentDate} onDateClick={onDateClick} filterDiaries={filterDiaries || []} />
         </div>
       </div>
       <DiarySelectedList rangeList={rangeList} />
