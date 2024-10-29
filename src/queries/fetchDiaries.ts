@@ -32,3 +32,24 @@ export const getSelectedDiaries = async (startDate: string, endDate: string) => 
 
   return selectedDiaries as SortedDiaries[];
 };
+
+//NOTE -
+export const getSearchDiaries = async (value: string) => {
+  if (value) {
+    const { data: searchDiaries } = await browserClient.from("diary").select().like("contents", `%${value}%`);
+    return searchDiaries as SortedDiaries[];
+  }
+};
+
+//
+// export const getDrawings = async () => {
+//   const { data } = browserClient.storage.from("posts").getPublicUrl("default.png", {
+//     transform: {
+//       width: 100,
+//       height: 100
+//     }
+//   });
+//   console.log(data);
+// };
+
+// getDrawings();
