@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 type ProfileFormData = {
   profileImage: FileList;
@@ -11,11 +12,10 @@ type ProfileFormData = {
 };
 
 export default function SaveUserProfilePage() {
-  const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImagePreview, setProfileImagePreview] = useState<string | null>(null);
-  const [birthYear, setBirthYear] = useState("");
-  const [birthMonth, setBirthMonth] = useState("");
-  const [gender, setGender] = useState("");
+  const { register, handleSubmit, control, watch } = useForm<ProfileFormData>();
+
+  const profileImageFile = watch("profileImage");
 
   // 프로필 이미지 변경 시 미리보기 URL 설정
   const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
