@@ -1,16 +1,19 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import { createClient } from "@supabase/supabase-js";
 import { Diary, DiaryModalProps } from "@/types/library/Diary";
 
 import SearchBar from "@/components/library/SearchBar";
 import DateDropdown from "@/components/library/DateDropdown";
 import DiaryList from "@/components//library/DiaryList";
+<<<<<<< HEAD
 import SortDropdown from "@/components/library/SortDropdown";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
+=======
+import browserClient from "@/utils/supabase/client";
+>>>>>>> 1b24e45954f3d4f543a0af18e471eba0042835ec
 
 const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, setSelectedDiary }) => {
   const [diaries, setDiaries] = useState<Diary[]>([]);
@@ -51,7 +54,7 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
   const fetchUserDiaries = async (userId: string) => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
+      const { data, error } = await browserClient
         .from("diary")
         .select("*")
         .eq("user_id", userId)

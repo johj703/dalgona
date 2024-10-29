@@ -3,12 +3,7 @@
 import React, { useEffect, useState } from "react";
 import YearSelector from "@/components/library/YearSelector";
 import DiaryReminder from "@/components/library/DiaryReminder";
-import { createClient } from "@supabase/supabase-js";
-
-// Supabase 설정
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import browserClient from "@/utils/supabase/client";
 
 const LibraryPage: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -20,7 +15,7 @@ const LibraryPage: React.FC = () => {
   const fetchUserId = async () => {
     setLoading(true);
 
-    const { data, error } = await supabase.from("users").select("id").limit(1); // 더미 데이터에서 사용자의 user_id 가져오기
+    const { data, error } = await browserClient.from("users").select("id").limit(1); // 더미 데이터에서 사용자의 user_id 가져오기
 
     if (error) {
       console.error("Error fetching userId:", error.message);
