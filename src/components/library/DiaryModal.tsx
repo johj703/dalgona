@@ -12,9 +12,11 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear }) => {
+const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, setSelectedDiary }) => {
   const [diaries, setDiaries] = useState<Diary[]>([]);
   const [filteredDiaries, setFilteredDiaries] = useState<Diary[]>([]);
+  //useState 하나 더 만들기 -> 선택할 때마다 state가 들어가게끔 (취소 고려)
+  const [currentDiary, setCurrentDiary] = useState<Diary | null>(null);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
@@ -127,6 +129,34 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear }
   //   setSort((prevSort) => (prevSort === "newest" ? "oldest" : "newest"));
   // };
 
+  const saveDiary = async (diary: Diary) => {
+    try {
+      const { error } = await supabase
+        .from("users")
+        .update({
+          main_diary: diary.id
+        })
+        .eq("id", userId);
+
+      if (error) throw error;
+      console.log("일기 저장 성공");
+    } catch (error) {
+      console.log("일기 저장 실패:", error);
+    }
+  };
+
+  const handleSelectDiary = (diary: Diary) => {
+    setCurrentDiary(diary);
+  };
+
+  const handleComplete = async () => {
+    if (currentDiary) {
+      setSelectedDiary(currentDiary);
+      await saveDiary(currentDiary);
+    }
+    onClose();
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
       <div className=" bg-white p-6 rounded-lg shadow-md w-full max-w-md h-[80vh]">
@@ -138,16 +168,16 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear }
         {/* 최신순/오래된순 정렬 */}
         <SortDropdown currentSort={sort} onSortChange={setSort} />
         <div className="overflow-y-auto max-h-[56vh]">
-          <DiaryList diaries={filteredDiaries} loading={loading} userId={userId} sort={sort} />
+          <DiaryList
+            diaries={filteredDiaries}
+            loading={loading}
+            userId={userId}
+            sort={sort}
+            onSelectDiary={handleSelectDiary}
+          />
         </div>
         <div className="flex items-center justify-center">
-          <button
-            className="my-2 bg-slate-400 rounded hover:bg-slate-500 py-2 px-8"
-            onClick={() => {
-              console.log("완료");
-              onClose();
-            }}
-          >
+          <button className="my-2 bg-slate-400 rounded hover:bg-slate-500 py-2 px-8" onClick={handleComplete}>
             완료
           </button>
         </div>

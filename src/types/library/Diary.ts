@@ -1,5 +1,7 @@
 // Diary DiaryReminder, DiaryModal, SearchBar, DateDropdown, DiaryList 타입
 
+import { Dispatch, SetStateAction } from "react";
+
 export interface Diary {
   id: string;
   user_id: string;
@@ -18,6 +20,7 @@ export interface DiaryModalProps {
   onClose: () => void;
   userId: string;
   selectedYear: number;
+  setSelectedDiary: Dispatch<SetStateAction<Diary>>;
 }
 
 export interface SearchBarProps {
@@ -39,4 +42,5 @@ export interface DiaryListProps {
   loading: boolean;
   userId: string;
   sort: "newest" | "oldest";
+  onSelectDiary: (diary: Diary) => void;
 }
