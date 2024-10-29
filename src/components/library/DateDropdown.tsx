@@ -1,11 +1,20 @@
 import React, { useState } from "react";
 import { DateDropdownProps } from "@/types/library/Diary";
 
-const DateDropdown: React.FC<DateDropdownProps> = ({ month, day, setMonth, setDay }) => {
+const DateDropdown: React.FC<DateDropdownProps> = ({ year, month, day, setYear, setMonth, setDay }) => {
+  const [isYearOpen, setIsYearOpen] = useState(false);
   const [isMonthOpen, setIsMonthOpen] = useState(false);
   const [isDayOpen, setIsDayOpen] = useState(false);
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 10 }, (_, i) => currentYear - i);
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
+
+  const toggleYearDropdown = () => {
+    setIsYearOpen(!isYearOpen);
+    if (isYearOpen) setIsYearOpen(false);
+  };
 
   const toggleMonthDropdown = () => {
     setIsMonthOpen(!isMonthOpen);
@@ -20,6 +29,35 @@ const DateDropdown: React.FC<DateDropdownProps> = ({ month, day, setMonth, setDa
   return (
     <div className="flex mb-4">
       <div className="relative">
+        <div className="flex items-center pt-4 pl-4">
+          <span className="text-lg font-normal">{year}년</span>
+          <button
+            onClick={toggleYearDropdown}
+            className="ml-1 py-1 text-sm rounded focus:outline-none"
+            aria-expanded={isYearOpen}
+          >
+            ▼
+          </button>
+        </div>
+        {isYearOpen && (
+          <ul className="absolute z-10 rounded border ml-4 bg-white max-h-40 overflow-y-auto">
+            {years.map((y) => (
+              <li
+                key={y}
+                onClick={() => {
+                  setYear(y);
+                  setIsYearOpen(false);
+                }}
+                className="cursor-pointer py-2 text-sm hover:bg-gray-200"
+              >
+                {y}년
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div className="relative ml-2">
         <div className="flex items-center pt-4 pl-4">
           <span className="text-lg font-normal">{month}월</span>
           <button
@@ -79,5 +117,4 @@ const DateDropdown: React.FC<DateDropdownProps> = ({ month, day, setMonth, setDa
     </div>
   );
 };
-
 export default DateDropdown;
