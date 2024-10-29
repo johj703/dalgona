@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+
 export default function NotFound() {
   return (
     <section className="flex items-center justify-center min-h-screen py-8 pb-20 m-auto max-w-custom container">
