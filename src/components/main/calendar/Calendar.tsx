@@ -79,6 +79,8 @@ export default function Calendar(): JSX.Element {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
 
+  console.log(setSelectedDate);
+
   //TODO - 모달상태
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
