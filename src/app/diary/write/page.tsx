@@ -2,6 +2,9 @@
 
 import Draw from "@/components/diary/Draw";
 import { FormData } from "@/types/Canvas";
+import browserClient from "@/utils/supabase/client";
+import Calender from "@/utils/test/Calender";
+import { toast } from "garlic-toast";
 import { RefObject, useEffect, useRef, useState } from "react";
 
 const POST_ID = crypto.randomUUID();
@@ -11,8 +14,9 @@ const initialData = {
   date: "",
   emotion: "",
   type: "",
-  content: "",
-  draw: null
+  contents: "",
+  draw: null,
+  user_id: "32b1e26a-2968-453b-a5c4-f2b766c9bccb"
 };
 const EMOTION_LIST = ["행복해요", "좋아요", "그냥 그래요", "별로에요", "힘들어요"];
 const TYPE_LIST = ["모눈종이", "줄노트", "편지지"];
@@ -20,6 +24,63 @@ const TYPE_LIST = ["모눈종이", "줄노트", "편지지"];
 const Write = () => {
   const [goDraw, setGoDraw] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>(initialData);
+  const [isDraft, setIsDraft] = useState<boolean>(false);
+
+  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const uploadToDrafts = async () => {
+    const { data, error } = await browserClient.from("drafts").select("id").eq("id", POST_ID);
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    try {
+      if (data.length === 0) {
+        const { error } = await browserClient.from("drafts").insert(formData);
+        if (error) {
+          toast.error("임시저장에 실패하였습니다.");
+          console.error(error);
+          return;
+        }
+
+        toast.success("임시 저장 되었습니다.");
+      } else {
+        const { error } = await browserClient.from("drafts").update(formData).eq("id", POST_ID);
+        if (error) {
+          toast.error("임시저장에 실패하였습니다.");
+          console.error(error);
+          return;
+        }
+
+        toast.success("임시 저장 되었습니다.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    if (!isDraft) return;
+
+    uploadToDrafts();
+    setIsDraft(false);
+  }, [isDraft]);
+
+  useEffect(() => {
+    if (formData.contents) {
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current);
+      }
+      debounceTimeout.current = setTimeout(() => {
+        setIsDraft(true);
+      }, 1000);
+    }
+    return () => {
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current);
+      }
+    };
+  }, [formData.contents]);
 
   const textareaRef: RefObject<HTMLTextAreaElement> = useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
@@ -28,21 +89,30 @@ const Write = () => {
       textarea.style.height = "auto";
       textarea.style.height = textarea.scrollHeight + "px";
     }
-  }, [textareaRef.current?.scrollHeight]);
+  }, [textareaRef.current?.value]);
 
   const onChangeFormData = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
 
+  const onSubmit = async () => {
+    const { error: insertError } = await browserClient.from("diary").insert(formData);
+    if (insertError) return console.error("insertError => ", insertError);
+
+    const { error: deleteError } = await browserClient.from("drafts").delete().eq("id", POST_ID);
+    if (deleteError) return console.error("deleteError => ", deleteError);
+  };
+
   return (
     <>
-      <form action="">
+      <form action={() => onSubmit()}>
+        <button>저장</button>
         {/* 타이틀 */}
         <input
           type="text"
           name="title"
-          id="tilte"
+          id="title"
           value={formData.title}
           onChange={(e) => onChangeFormData(e)}
           placeholder="제목 입력"
@@ -59,7 +129,11 @@ const Write = () => {
           <ul>
             {EMOTION_LIST.map((emotion) => {
               return (
-                <li key={emotion} onClick={() => setFormData({ ...formData, emotion: emotion })}>
+                <li
+                  key={emotion}
+                  className={`${formData.emotion === emotion && "border-2 border-black"}`}
+                  onClick={() => setFormData({ ...formData, emotion: emotion })}
+                >
                   {emotion}
                 </li>
               );
@@ -72,7 +146,11 @@ const Write = () => {
           <ul>
             {TYPE_LIST.map((type) => {
               return (
-                <li key={type} onClick={() => setFormData({ ...formData, type: type })}>
+                <li
+                  key={type}
+                  className={`${formData.type === type && "border-2 border-black"}`}
+                  onClick={() => setFormData({ ...formData, type: type })}
+                >
                   {type}
                 </li>
               );
@@ -85,19 +163,23 @@ const Write = () => {
           {!formData.draw ? (
             <div onClick={() => setGoDraw(true)}>탭하여 그림그리기 페이지로 이동</div>
           ) : (
-            <img src={formData.draw} alt="그림" onClick={() => setGoDraw(true)} />
+            <>
+              <div onClick={() => setFormData({ ...formData, draw: null })}>삭제하기</div>
+              <img src={formData.draw} alt="그림" onClick={() => setGoDraw(true)} />
+            </>
           )}
         </div>
 
         <div>
-          <label htmlFor="content">글로 쓰기</label>
+          <div>글 내용</div>
           <textarea
             ref={textareaRef}
-            name="content"
-            id="content"
+            name="contents"
+            id="contents"
             rows={1}
-            value={formData.content}
+            value={formData.contents}
             onChange={(e) => onChangeFormData(e)}
+            className="resize-none"
           />
         </div>
       </form>
@@ -108,6 +190,9 @@ const Write = () => {
           <Draw POST_ID={POST_ID} setFormData={setFormData} formData={formData} setGoDraw={setGoDraw} goDraw={goDraw} />
         )}
       </div>
+
+      {/* 달력 */}
+      <Calender />
     </>
   );
 };
