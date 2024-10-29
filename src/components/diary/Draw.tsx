@@ -4,13 +4,14 @@ import { RefObject, useRef, useState } from "react";
 import Canvas from "./Canvas";
 import useClientSize from "@/hooks/useClientSize";
 import { LineCustom } from "@/types/LineCustom";
+import { DrawProps } from "@/types/Canvas";
 
 const initialCustom = {
   lineWidth: "4",
   lineColor: "#212121"
 };
 
-const Draw = () => {
+const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) => {
   const wrapRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const [lineCustom, setLineCustom] = useState<LineCustom>(initialCustom);
   const [getImage, setGetImage] = useState<FileList | null>(null);
@@ -30,8 +31,9 @@ const Draw = () => {
   };
 
   return (
-    <>
+    <div className="fixed top-0 left-0 w-full z-10 bg-white">
       <div className="fixed top-0 left-0 w-full z-10">
+        <div onClick={() => setGoDraw(false)}>닫기</div>
         <button onClick={() => setPathMode("save")}>save</button>
         <button onClick={() => setPathMode("undo")}>undo</button>
         <button onClick={() => setPathMode("redo")}>redo</button>
@@ -47,6 +49,11 @@ const Draw = () => {
           setPathMode={setPathMode}
           tool={tool}
           fileRef={fileRef.current}
+          setFormData={setFormData}
+          setGoDraw={setGoDraw}
+          goDraw={goDraw}
+          formData={formData}
+          POST_ID={POST_ID}
         />
       </div>
       <div className="fixed bottom-0 left-0 w-full z-10">
@@ -113,12 +120,11 @@ const Draw = () => {
           accept="image/*"
           ref={fileRef}
           onChange={(e) => {
-            console.log(e.target.files);
             setGetImage(e.target.files);
           }}
         />
       </div>
-    </>
+    </div>
   );
 };
 export default Draw;

@@ -1,6 +1,7 @@
 "use client";
 
 import DrawImage from "@/lib/DrawImage";
+import GetRatio from "@/lib/GetRatio";
 import { convertHexToRgba, floodFill } from "@/lib/Paint";
 import Redo from "@/lib/Redo";
 import ReDraw from "@/lib/ReDraw";
@@ -20,7 +21,12 @@ const Canvas = ({
   pathMode,
   setPathMode,
   tool,
-  fileRef
+  fileRef,
+  setFormData,
+  formData,
+  setGoDraw,
+  goDraw,
+  POST_ID
 }: CanvasProps) => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
@@ -47,6 +53,23 @@ const Canvas = ({
       ReDraw({ pathHistory, canvas, canvasContext, pathStep });
     }
   }, [canvasWidth, canvasHeight]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const canvasContext = canvas?.getContext("2d");
+    if (formData.draw && canvasContext && canvas) {
+      const pathPic = new Image();
+      pathPic.crossOrigin = "anonymous";
+      pathPic.src = formData.draw;
+      pathPic.onload = () => {
+        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+
+        const ratio: number = GetRatio(canvas, pathPic) as number;
+        canvasContext.drawImage(pathPic, 0, 0, pathPic.width * ratio, pathPic.height * ratio);
+        saveHistory();
+      };
+    }
+  }, [goDraw]);
 
   // 펜 커스텀
   if (ctx) {
@@ -79,12 +102,19 @@ const Canvas = ({
 
             const { data, error } = await browserClient.storage
               .from("posts")
-              .upload("drawing/testImage", decode(base64FileData), {
-                contentType: "image/png"
+              .upload(`drawing/${POST_ID}`, decode(base64FileData), {
+                contentType: "image/png",
+                upsert: true
               });
 
             if (error) console.error("error messgage =>", error);
-            console.log(data);
+            if (data) {
+              const { data } = browserClient.storage.from("posts").getPublicUrl(`drawing/${POST_ID}`);
+
+              setFormData({ ...formData, draw: `${data.publicUrl}?version=${crypto.randomUUID()}` });
+
+              setGoDraw(false);
+            }
           }
         };
         uploadImage();
