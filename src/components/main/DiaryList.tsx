@@ -18,7 +18,6 @@ const DiaryList = () => {
 
   //prefetchQuery를 통해 캐시에 미리 저장된 데이터가 있으니, 새롭게 데이터를 가져오지 않고 캐시에 저장된 데이터를 반환
   const { data: diaries } = useFetchDiaries();
-  // console.log("diaries", diaries);
 
   // 선택한 정렬 기준에 따라 일기를 정렬
   useEffect(() => {
@@ -26,8 +25,6 @@ const DiaryList = () => {
       const sorted = [...diaries].sort((a, b) => {
         const dateA = formatDate(a.date);
         const dateB = formatDate(b.date);
-        // console.log("dateA :", dateA); //Thu Oct 24 2024 00:00:00 GMT+0900 (한국 표준시)
-        // console.log("dateB  :", dateB);
 
         //정렬:최신순
         if (selectedBox.id === 1) {
@@ -85,6 +82,7 @@ const DiaryList = () => {
                 <div key={diary.id} className="p-4 mb-2 border-2 rounded-lg">
                   <div className="">
                     <div className="p-4 mb-2 border-2 h-[200px] rounded-lg flex gap-2">
+                      이미지 가져와야함
                       <span>{diary.date}</span>
                       <span>{diary.emotion}</span>
                     </div>

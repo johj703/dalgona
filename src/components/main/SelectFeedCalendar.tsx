@@ -4,6 +4,7 @@ import Calendar from "./calendar/Calendar";
 import EmblaCarousel from "./EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
 import DiaryList from "./DiaryList";
+import Link from "next/link";
 
 const OPTIONS: EmblaOptionsType = {};
 const SLIDE_COUNT = 3;
@@ -14,9 +15,14 @@ const SelectFeedCalendar = () => {
     <div>
       <Tab.Group>
         <Tab.List>
-          <div className="my-4 flex gap-4">
-            <Tab>피드</Tab>
-            <Tab>달력보기</Tab>
+          <div className="flex justify-between my-2">
+            <div className="flex gap-4 ">
+              <Tab>피드</Tab>
+              <Tab>달력보기</Tab>
+            </div>
+            <Link href={"/main/search"}>
+              <div className="border-2 rounded-3xl p-2 text-sm">돋보기</div>
+            </Link>
           </div>
         </Tab.List>
         <Tab.Panels>
