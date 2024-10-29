@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import TopButton from "./TopButton";
 import { formatDate } from "@/utils/calendar/dateFormat";
 import { SortedDiaries } from "@/types/main/Calendar";
+import Link from "next/link";
 
 const sorts = [
   { id: 1, name: "최신순", unavailable: false },
@@ -46,57 +47,68 @@ const DiaryList = () => {
 
   return (
     <div>
-      <div>
-        <div>
-          <Tab.Group>
-            <div className="flex justify-between h-[70px]">
-              <div>
-                <Listbox value={selectedBox} onChange={setSelectedBox}>
-                  <Listbox.Button>{selectedBox.name}</Listbox.Button>
-                  <Listbox.Options>
-                    {sorts.map((sort) => (
-                      <Listbox.Option key={sort.id} value={sort} disabled={sort.unavailable}>
-                        {sort.name}
-                      </Listbox.Option>
-                    ))}
-                  </Listbox.Options>
-                </Listbox>
-              </div>
-              <div>
-                <Tab.List>
-                  <Tab className="pr-2">네모아이콘</Tab>
-                  <Tab>목록아이콘</Tab>
-                </Tab.List>
-              </div>
+      <div className="p-4 border-2 rounded-xl">
+        <Tab.Group>
+          <div className="flex justify-between h-[70px]">
+            <div>
+              <Listbox value={selectedBox} onChange={setSelectedBox}>
+                <Listbox.Button>{selectedBox.name}</Listbox.Button>
+                <Listbox.Options>
+                  {sorts.map((sort) => (
+                    <Listbox.Option key={sort.id} value={sort} disabled={sort.unavailable}>
+                      {sort.name}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </Listbox>
             </div>
-            <Tab.Panels>
-              <Tab.Panel>
-                {sortedDiaries?.map((diary) => (
-                  <div key={diary.id} className="p-2 mb-2 border-2">
-                    <div className="">
-                      <div className="border-2 h-[200px]">
-                        이미지
-                        <span>{diary.date}</span>
-                      </div>
-                      <p className="border-2 my-2">{diary.contents}</p>
+            <div>
+              <Tab.List>
+                <Tab className="pr-2">피드</Tab>
+                <Tab>목록</Tab>
+              </Tab.List>
+            </div>
+          </div>
+          <div className="flex gap-2 mb-4 ">
+            <Link href={"/"}>
+              <div className="border-2 rounded-3xl p-2 text-sm">날짜별 일기</div>
+            </Link>
+            <Link href={"/library"}>
+              <div className="border-2 rounded-3xl p-2 text-sm">내 서재</div>
+            </Link>
+            <Link href={"/diary/write"}>
+              <div className="border-2 rounded-3xl p-2 text-sm">일기 쓰러가기</div>
+            </Link>
+          </div>
+          <Tab.Panels>
+            {/* 피드 클릭 시 */}
+            <Tab.Panel>
+              {sortedDiaries?.map((diary) => (
+                <div key={diary.id} className="p-4 mb-2 border-2 rounded-lg">
+                  <div className="">
+                    <div className="p-4 mb-2 border-2 h-[200px] rounded-lg flex gap-2">
+                      <span>{diary.date}</span>
+                      <span>{diary.emotion}</span>
                     </div>
+                    <p>{diary.contents}</p>
                   </div>
-                ))}
-              </Tab.Panel>
-              <Tab.Panel>
-                {sortedDiaries?.map((diary) => (
-                  <div key={diary.id} className="p-2 mb-2 border-2 flex">
-                    <div className="mr-4 border-2">이미지</div>
-                    <div>
-                      <p>{diary.title}</p>
-                      <p>{diary.date}</p>
-                    </div>
+                </div>
+              ))}
+            </Tab.Panel>
+            {/* 목록 클릭 시 */}
+            <Tab.Panel>
+              {sortedDiaries?.map((diary) => (
+                <div key={diary.id} className="p-4 mb-2 border-2 flex rounded-lg">
+                  <div className="mr-4 border-2">이미지</div>
+                  <div>
+                    <p>{diary.title}</p>
+                    <p className="text-sm">{diary.date}</p>
                   </div>
-                ))}
-              </Tab.Panel>
-            </Tab.Panels>
-          </Tab.Group>
-        </div>
+                </div>
+              ))}
+            </Tab.Panel>
+          </Tab.Panels>
+        </Tab.Group>
       </div>
       <TopButton />
     </div>

@@ -1,7 +1,6 @@
 "use client";
 import { Tab } from "@headlessui/react";
-import React from "react";
-import Calendar from "./Calendar";
+import Calendar from "./calendar/Calendar";
 import EmblaCarousel from "./EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
 import DiaryList from "./DiaryList";
@@ -15,8 +14,10 @@ const SelectFeedCalendar = () => {
     <div>
       <Tab.Group>
         <Tab.List>
-          <Tab className="pr-2">피드</Tab>
-          <Tab>달력보기</Tab>
+          <div className="my-4 flex gap-4">
+            <Tab>피드</Tab>
+            <Tab>달력보기</Tab>
+          </div>
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>

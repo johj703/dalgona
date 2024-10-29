@@ -19,7 +19,7 @@ const MainPage = async () => {
   return (
     <>
       <HydrationBoundary state={dehydratedState}>
-        <div className="p-2 m-2 border-2">
+        <div className="p-2 m-2">
           <SelectFeedCalendar />
         </div>
       </HydrationBoundary>
