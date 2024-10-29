@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 
 export default function NotFound() {
@@ -12,7 +11,6 @@ export default function NotFound() {
             요청하신 페이지가 존재하지 않거나, 경로가 잘못되었습니다. 경로를 확인하고 다시 시도해 주세요.
           </p>
         </div>
-
         <Link href="/" passHref>
           홈으로
         </Link>
