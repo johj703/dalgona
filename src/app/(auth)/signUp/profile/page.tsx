@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 type ProfileFormData = {
   profileImage: FileList;
@@ -49,55 +49,55 @@ export default function SaveUserProfilePage() {
             <span>미리보기 없음</span>
           </div>
         )}
-        <input type="file" id="profileImage" accept="image/*" onChange={handleProfileImageChange} />
+        <input type="file" id="profileImage" {...register("profileImage")} onChange={handleImagePreview} />
       </div>
 
       {/* 생년월일 입력 */}
       <div>
         <div>
-          <label>생년</label>
-          <select id="birthYear" value={birthYear} onChange={(e) => setBirthYear(e.target.value)}>
-            <option>년</option>
-            {Array.from({ length: 43 }, (_, i) => (
-              <option key={1980 + i} value={1980 + i}>
-                {1980 + i}
-              </option>
-            ))}
-          </select>
+          <label htmlFor="birthYear">생년</label>
+          <Controller
+            name="birthYear"
+            control={control}
+            render={({ field }) => (
+              <select id="birthYear" {...field} className="">
+                <option value="">년</option>
+                {Array.from({ length: 43 }, (_, i) => (
+                  <option key={1980 + i} value={1980 + i}>
+                    {1980 + i}
+                  </option>
+                ))}
+              </select>
+            )}
+          />
         </div>
         <div>
           <label htmlFor="birthMonth">생월</label>
-          <select id="birthMonth" value={birthMonth} onChange={(e) => setBirthMonth(e.target.value)}>
-            <option value="">월</option>
-            {Array.from({ length: 12 }, (_, i) => (
-              <option key={i + 1} value={i + 1}>
-                {i + 1}월
-              </option>
-            ))}
-          </select>
+          <Controller
+            name="birthMonth"
+            control={control}
+            render={({ field }) => (
+              <select id="birthMonth" {...field} className="">
+                <option value="">월</option>
+                {Array.from({ length: 12 }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {i + 1}월
+                  </option>
+                ))}
+              </select>
+            )}
+          />
         </div>
       </div>
 
       {/* 성별 선택 */}
       <div>
         <label>
-          <input
-            type="radio"
-            name="gender"
-            value="남성"
-            checked={gender === "남성"}
-            onChange={(e) => setGender(e.target.value)}
-          />
+          <input type="radio" value="남성" {...register("gender")} />
           남성
         </label>
         <label>
-          <input
-            type="radio"
-            name="gender"
-            value="여성"
-            checked={gender === "여성"}
-            onChange={(e) => setGender(e.target.value)}
-          />
+          <input type="radio" value="여성" {...register("gender")} />
           여성
         </label>
       </div>
@@ -105,7 +105,7 @@ export default function SaveUserProfilePage() {
       {/* 건나뛰기 및 시작하기 버튼 */}
       <div>
         <button onClick={() => console.log("건너뛰기 클릭")}>건너뛰기</button>
-        <button onClick={handleSaveProfile}>시작하기</button>
+        <button onClick={handleSubmit(onSubmit)}>시작하기</button>
       </div>
     </div>
   );
