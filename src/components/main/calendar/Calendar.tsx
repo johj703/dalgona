@@ -1,38 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import { CellsProps, Dates, HeaderProps, SortedDiaries } from "@/types/main/Calendar";
+import { CellsProps, SortedDiaries } from "@/types/main/Calendar";
 import { format, addMonths, subMonths, isSameMonth, isSameDay, addDays } from "date-fns";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
 import { getSelectedDiaries, useFetchDiaries } from "@/queries/fetchDiaries";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
-import { Icon } from "@iconify/react";
-import Link from "next/link";
-
-const RenderHeader = ({ currentDate, prevMonth, nextMonth }: HeaderProps) => {
-  return (
-    <div>
-      <div className="flex justify-between">
-        <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} />
-        <h2>
-          {format(currentDate, "yyyy")} . {format(currentDate, "M")}
-        </h2>
-        <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
-      </div>
-    </div>
-  );
-};
-
-const RenderDays = () => {
-  const DAY_LIST: string[] = ["일", "월", "화", "수", "목", "금", "토"];
-  return (
-    <div className="grid grid-cols-7 w-full text-center">
-      {DAY_LIST.map((day, index) => {
-        return <div key={`${index}day`}>{day}</div>;
-      })}
-    </div>
-  );
-};
+import RenderHeader from "./RenderHeader";
+import RenderDays from "./RenderDays";
+import DiarySelectedList from "./DiarySelectedList";
+// import CalendarModal from "./CalendarModal";
 
 // firstDayOfMonth : 현재 달의 시작일
 // lastDayOfMonth : 현재 달의 마지막 날
@@ -73,7 +50,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
               ? "not-valid"
               : "valid"
           }`}
-          key={day}
+          key={day.toString()}
           onClick={() => onDateClick(cloneDay)}
         >
           <span className={format(currentDate, "M") !== format(day, "M") ? "text not-valid text-slate-300" : ""}>
@@ -85,7 +62,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
       day = addDays(day, 1);
     }
     rows.push(
-      <div className="grid grid-cols-7 w-full text-center" key={day}>
+      <div className="grid grid-cols-7 w-full text-center" key={day.toString()}>
         {days}
       </div>
     );
@@ -95,46 +72,15 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
   return <div className="body">{rows}</div>;
 };
 
-//NOTE - 일기 데이터
-const DiarySelectedList = ({ rangeList }: Dates) => {
-  return (
-    <>
-      {rangeList && rangeList.length > 0 ? (
-        rangeList.map((list) => (
-          <div key={list.id}>
-            <div className="p-4 mb-2 border-2">
-              <div>
-                <div className="border-2 h-[200px]">
-                  이미지
-                  <span>{list.date}</span>
-                </div>
-                <p className="border-2 my-2">{list.contents}</p>
-              </div>
-            </div>
-          </div>
-        ))
-      ) : (
-        <div className="flex justify-center items-center m-2 p-12 border-2">
-          <div>
-            <p>작성된 일기가 없어요🥹</p>
-            <p>이야기를 기록해보세요</p>
-            <Link href={"/"}>
-              <div>일기 쓰러가기</div>
-            </Link>
-          </div>
-        </div>
-      )}
-    </>
-  );
-};
-
-//NOTE -
 export default function Calendar(): JSX.Element {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [rangeList, setRangeList] = useState<SortedDiaries[]>([]);
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
+
+  //TODO - 모달상태
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   //일기 전체 데이터 가져오기
   const { data: diaries } = useFetchDiaries();
@@ -144,7 +90,9 @@ export default function Calendar(): JSX.Element {
     if (diaries) {
       const formatTodayDate = format(startDate, "yyyy년 MM월 dd일");
       const searchDiaries = diaries?.find((diary: SortedDiaries) => diary.date === formatTodayDate);
-      setRangeList([...rangeList, { ...searchDiaries }]); //REVIEW -
+      if (searchDiaries) {
+        setRangeList([...rangeList, { ...searchDiaries }]); //REVIEW -
+      }
     }
   }, []);
 
@@ -181,11 +129,17 @@ export default function Calendar(): JSX.Element {
     setRangeList(searchList);
   };
 
+  //버튼 클릭시 모달 버튼 클릭 유무를 설정하는 state 함수
+  // const clickModal = () => setIsModalOpen(!isModalOpen);
   return (
     <>
       <div>
         <div className="flex">
           <button onClick={() => handleSearchDiaries(startDate, endDate)}>조회기간 설정</button>
+          {/* <button onClick={clickModal} className="px-4 py-2 rounded bg-gray-300 text-sm text-black hover:bg-gray-200">
+            조회기간 설정
+          </button> */}
+          {/* {isModalOpen && <CalendarModal />} */}
           <DatePicker
             selected={startDate}
             onChange={(date) => setStartDate(date as Date)}
@@ -200,7 +154,7 @@ export default function Calendar(): JSX.Element {
           />
           <p>전체기간</p>
         </div>
-        <div className="pt-2 border-2 ">
+        <div className="p-4 border-2 rounded-lg mt-4">
           <RenderHeader currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
           <RenderDays />
           <RenderCells
