@@ -18,17 +18,16 @@ export default function SaveUserProfilePage() {
   const profileImageFile = watch("profileImage");
 
   // 프로필 이미지 변경 시 미리보기 URL 설정
-  const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setProfileImage(file);
+  const handleImagePreview = () => {
+    const file = profileImageFile?.[0];
+    if (file) {
       setProfileImagePreview(URL.createObjectURL(file));
     }
   };
 
   // 프로필 저장 처리 함수
-  const handleSaveProfile = () => {
-    console.log("프로필 저장 : ", { profileImage, birthYear, birthMonth, gender });
+  const onSubmit = (data: ProfileFormData) => {
+    console.log("프로필 저장 : ", data);
   };
 
   return (
