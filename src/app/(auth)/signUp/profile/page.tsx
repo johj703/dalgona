@@ -3,6 +3,13 @@
 import Image from "next/image";
 import { useState } from "react";
 
+type ProfileFormData = {
+  profileImage: FileList;
+  birthYear: string;
+  birthMonth: string;
+  gender: string;
+};
+
 export default function SaveUserProfilePage() {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImagePreview, setProfileImagePreview] = useState<string | null>(null);
