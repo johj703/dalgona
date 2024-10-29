@@ -3,31 +3,38 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { z }  from "zod";
+import { zodResolver } from "@hookform/resolvers/zod"
 
-type ProfileFormData = {
-  profileImage: FileList;
-  birthYear: string;
-  birthMonth: string;
-  gender: string;
-};
+// 입력 유효성 검사를 위해서 Zod 스키마 정의
+type profileSchema = z.object({
+  profileImage: z.string().optional(),
+  birthYear: z.string().nonempty("년도를 선택해 주세요."),
+  birthMonth: z.string().nonempty("월을 선택해 주세요."),
+  gender: z.enum(["male", "female"], { required_error: "성별을 선택해 주세요." }),
+});
+
+type ProfileFormData = z.infer<typeof profileSchema>;
 
 export default function SaveUserProfilePage() {
-  const [profileImagePreview, setProfileImagePreview] = useState<string | null>(null);
-  const { register, handleSubmit, control, watch } = useForm<ProfileFormData>();
+  const { handleSubmit, control } = useForm<ProfileFormData>({
+    resolver: zodResolver(profileSchema),
+  })
 
-  const profileImageFile = watch("profileImage");
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  // 프로필 이미지 변경 시 미리보기 URL 설정
-  const handleImagePreview = () => {
-    const file = profileImageFile?.[0];
+  // 프로필 이미지 업로드 핸들러
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
-      setProfileImagePreview(URL.createObjectURL(file));
+      const imageUrl = URL.createObjectURL(file);
+      setImagePreview(imageUrl);
     }
   };
 
   // 프로필 저장 처리 함수
   const onSubmit = (data: ProfileFormData) => {
-    console.log("프로필 저장 : ", data);
+    console.log("프로필 데이터 : ", data);
   };
 
   return (
