@@ -3,7 +3,8 @@
 import Draw from "@/components/diary/Draw";
 import { FormData } from "@/types/Canvas";
 import browserClient from "@/utils/supabase/client";
-import Calender from "@/utils/test/Calender";
+import Calender from "@/utils/diary/Calender";
+import { format } from "date-fns";
 import { toast } from "garlic-toast";
 import { RefObject, useEffect, useRef, useState } from "react";
 
@@ -11,7 +12,7 @@ const POST_ID = crypto.randomUUID();
 const initialData = {
   id: POST_ID,
   title: "",
-  date: "",
+  date: format(new Date(), "yyyy년 MM월 dd일"),
   emotion: "",
   type: "",
   contents: "",
@@ -25,9 +26,12 @@ const Write = () => {
   const [goDraw, setGoDraw] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>(initialData);
   const [isDraft, setIsDraft] = useState<boolean>(false);
+  const [openCalender, setOpenCalender] = useState<boolean>(false);
 
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+  const textareaRef: RefObject<HTMLTextAreaElement> = useRef<HTMLTextAreaElement>(null);
 
+  // 임시 저장
   const uploadToDrafts = async () => {
     const { data, error } = await browserClient.from("drafts").select("id").eq("id", POST_ID);
     if (error) {
@@ -82,7 +86,7 @@ const Write = () => {
     };
   }, [formData.contents]);
 
-  const textareaRef: RefObject<HTMLTextAreaElement> = useRef<HTMLTextAreaElement>(null);
+  // 일기 내용 : contents
   useEffect(() => {
     const textarea = textareaRef.current;
     if (textarea) {
@@ -91,11 +95,13 @@ const Write = () => {
     }
   }, [textareaRef.current?.value]);
 
+  // input 값 변경 이벤트
   const onChangeFormData = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
 
+  // 기록하기
   const onSubmit = async () => {
     const { error: insertError } = await browserClient.from("diary").insert(formData);
     if (insertError) return console.error("insertError => ", insertError);
@@ -103,6 +109,11 @@ const Write = () => {
     const { error: deleteError } = await browserClient.from("drafts").delete().eq("id", POST_ID);
     if (deleteError) return console.error("deleteError => ", deleteError);
   };
+
+  // 날짜 선택시 달력 off
+  useEffect(() => {
+    if (openCalender) setOpenCalender(false);
+  }, [formData.date]);
 
   return (
     <>
@@ -121,7 +132,14 @@ const Write = () => {
         {/* 날짜 */}
         <div>
           <label htmlFor="date">날짜</label>
-          <input type="text" name="date" id="date" />
+          <input
+            type="text"
+            name="date"
+            id="date"
+            value={formData.date}
+            onChange={(e) => e.preventDefault()}
+            onClick={() => setOpenCalender(true)}
+          />
         </div>
 
         <div>
@@ -192,7 +210,7 @@ const Write = () => {
       </div>
 
       {/* 달력 */}
-      <Calender />
+      {openCalender && <Calender setFormData={setFormData} formData={formData} />}
     </>
   );
 };

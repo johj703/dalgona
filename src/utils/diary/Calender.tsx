@@ -1,18 +1,27 @@
 "use client";
 import RenderDays from "@/components/main/calendar/RenderDays";
 import RenderHeader from "@/components/main/calendar/RenderHeader";
-import { RenderCells } from "./RenderCells";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addMonths, format, subMonths } from "date-fns";
+import { RenderCells } from "./RenderCells";
+import { FormData, FormState } from "@/types/Canvas";
 
-const Calender = () => {
+type CalenderProps = {
+  setFormData: FormState;
+  formData: FormData;
+};
+
+const Calender = ({ formData, setFormData }: CalenderProps) => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
+  useEffect(() => {}, [selectedDate]);
+
   //달력 셀 클릭
   const onDateClick = async (day: Date) => {
-    const formatStartDate = format(day, "yyyy년 MM월 dd일");
-    const formatEndDate = format(day, "yyyy년 MM월 dd일");
+    setSelectedDate(new Date(day));
+    const formatClickDate = format(new Date(day), "yyyy년 MM월 dd일");
+    setFormData({ ...formData, date: formatClickDate });
   };
 
   // 이전 월로 이동하는 함수

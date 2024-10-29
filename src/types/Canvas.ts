@@ -6,8 +6,8 @@ type canvas = HTMLCanvasElement;
 type ctx = CanvasRenderingContext2D;
 type stringState = React.Dispatch<React.SetStateAction<string>>;
 type numberState = React.Dispatch<React.SetStateAction<number>>;
-type FormState = React.Dispatch<React.SetStateAction<FormData>>;
-type booleanState = React.Dispatch<React.SetStateAction<boolean>>;
+export type booleanState = React.Dispatch<React.SetStateAction<boolean>>;
+export type FormState = React.Dispatch<React.SetStateAction<FormData>>;
 
 export type CanvasProps = {
   canvasWidth: canvasWidth;
