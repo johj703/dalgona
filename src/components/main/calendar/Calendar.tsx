@@ -98,6 +98,7 @@ export default function Calendar(): JSX.Element {
   }, []);
 
   //REVIEW -
+  //TODO - diary 테이블에 data없을 경우 에러
   const filterDiaries = diaries?.filter((diary) => {
     const filterMonth = diary.date.match(/\d{1,2}월/)[0].replace("월", "");
     const filterYear = diary.date.split("년")[0].trim();
@@ -126,8 +127,10 @@ export default function Calendar(): JSX.Element {
   const handleSearchDiaries = async (startDate: string, endDate: string) => {
     // const formatStartDate = format(startDate, "yyyy년 MM월 dd일");
     // const formatEndDate = format(endDate, "yyyy년 MM월 dd일");
-    const searchList = await getSelectedDiaries(startDate, endDate);
-    setRangeList(searchList);
+    if (startDate && endDate) {
+      const searchList = await getSelectedDiaries(startDate, endDate);
+      setRangeList(searchList);
+    }
   };
 
   //버튼 클릭시 모달 버튼 클릭 유무를 설정하는 state 함수
@@ -135,14 +138,14 @@ export default function Calendar(): JSX.Element {
   return (
     <>
       <div>
-        <div className="flex">
-          <button onClick={clickModal} className="px-4 py-2 rounded bg-gray-300 text-sm text-black hover:bg-gray-200">
+        <div className="flex justify-between">
+          <button onClick={clickModal} className="p-2 rounded-lg bg-gray-200 text-sm">
             조회기간 설정
           </button>
           {isModalOpen && <CalendarModal clickModal={clickModal} handleSearchDiaries={handleSearchDiaries} />}
-          <p>전체기간</p>
+          <p className="p-2">전체기간</p>
         </div>
-        <div className="p-4 border-2 rounded-lg mt-4">
+        <div className="p-2  border-2 rounded-lg my-4">
           <RenderHeader currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
           <RenderDays />
           <RenderCells currentDate={currentDate} onDateClick={onDateClick} filterDiaries={filterDiaries || []} />

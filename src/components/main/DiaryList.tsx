@@ -43,8 +43,6 @@ const DiaryList = () => {
     }
   }, [selectedBox, diaries]); // selectedBox나 diaries가 변경될 때마다 실행
 
-  // console.log("sortedDiaries", sortedDiaries);
-
   return (
     <div>
       <div className="p-4 border-2 rounded-xl">
@@ -69,7 +67,7 @@ const DiaryList = () => {
               </Tab.List>
             </div>
           </div>
-          <div className="flex gap-2 mb-4 ">
+          <div className="flex gap-2 mb-4 justify-end">
             <Link href={"/"}>
               <div className="border-2 rounded-3xl p-2 text-sm">날짜별 일기</div>
             </Link>
