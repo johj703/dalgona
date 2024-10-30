@@ -27,6 +27,7 @@ export default function SaveUserProfilePage() {
   } = useForm<ProfileData>({
     resolver: zodResolver(profileSchema)
   });
+  const [profileImage, setProfileImage] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
@@ -62,24 +63,17 @@ export default function SaveUserProfilePage() {
   return (
     <div>
       {/* 페이지 안내 텍스트 */}
-      <div className="">
-        <h1 className="">환영해요.</h1>
-        <p className="">사용하실 프로필을 작성해 주세요.</p>
-      </div>
-
-      {/* 프로필 사진 업로드 */}
-      <div className="">
-        {imagePreview ? (
-          <Image src={imagePreview} alt="프로필 미리보기" width={100} height={100} className="" />
-        ) : (
-          <div className="">
-            <span>이미지 없음</span>
-          </div>
-        )}
-        <input type="file" accept="image/*" onChange={handleImageUpload} className="" />
-      </div>
+      <h1 className="">환영해요.</h1>
+      <p className="">사용하실 프로필을 작성해 주세요.</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="">
+        {/* 프로필 사진 업로드 */}
+        <div className="">
+          <label className="">프로필 사진</label>
+          <Image src={""} alt="프로필 사진" width={100} height={100} className="" />
+          <input type="file" {...register("profileImage")} className="" />
+        </div>
+
         {/* 생년월일 입력 */}
         <div>
           <label>생년월일</label>
