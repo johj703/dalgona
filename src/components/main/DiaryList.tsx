@@ -12,6 +12,9 @@ const sorts = [
   { id: 2, name: "오래된순", unavailable: false }
 ];
 
+//TODO - 이미지 가져오기
+//TODO - 무한스크롤
+
 const DiaryList = () => {
   const [sortedDiaries, setSortedDiaries] = useState<SortedDiaries[]>([]);
   const [selectedBox, setSelectedBox] = useState(sorts[0]);

@@ -10,6 +10,12 @@ import DiarySelectedList from "./DiarySelectedList";
 import CalendarModal from "./CalendarModal";
 import "react-datepicker/dist/react-datepicker.css";
 
+//TODO - 조회기간설정 - 디폴트 오늘날짜
+//TODO - 조회기간설정 - 완료버튼 클릭 시 기간이 달력위에 보이게
+//TODO - 달력 접기
+//TODO - 이미지 가져오기
+//TODO - 전체기간 클릭 시 초기화
+
 export default function Calendar(): JSX.Element {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [rangeList, setRangeList] = useState<SortedDiaries[]>([]);

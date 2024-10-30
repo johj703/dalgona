@@ -4,6 +4,10 @@ import { SortedDiaries } from "@/types/main/Calendar";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
+//TODO - 일기 클릭하면 상세로 이동
+//TODO - 무한스크롤
+//TODO - 최근검색어..?
+
 const SearchPage = () => {
   const [query, setQuery] = useState("");
   const [searchDiaries, setSearchDiaries] = useState<SortedDiaries[]>([]);
