@@ -73,11 +73,15 @@ export default function SaveUserProfilePage() {
       <p className="">사용하실 프로필을 작성해 주세요.</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="">
-        {/* 프로필 사진 업로드 */}
+        {/* 프로필 사진 */}
         <div className="">
           <label className="">프로필 사진</label>
-          <Image src={""} alt="프로필 사진" width={100} height={100} className="" />
-          <input type="file" {...register("profileImage")} className="" />
+          {profileImage ? (
+            <Image src={URL.createObjectURL(profileImage)} alt="프로필 사진" width={100} height={100} className="" />
+          ) : (
+            <div className=""></div>
+          )}
+          <input type="file" onChange={handleImageUpload} className="" />
         </div>
 
         {/* 생년월일 입력 */}
