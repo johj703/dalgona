@@ -87,36 +87,24 @@ export default function SaveUserProfilePage() {
         {/* 생년월일 입력 */}
         <div>
           <label>생년월일</label>
-          <div className="">
-            <Controller
-              name="birthYear"
-              control={control}
-              render={({ field }) => (
-                <select {...field} className="">
-                  <option value="">년</option>
-                  {[...Array(100)].map((_, i) => (
-                    <option key={i} value={2023 - i}>
-                      {2023 - i}
-                    </option>
-                  ))}
-                </select>
-              )}
-            />
-            <Controller
-              name="birthMonth"
-              control={control}
-              render={({ field }) => (
-                <select {...field} className="">
-                  <option value="">월</option>
-                  {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-                    <option key={month} value={month}>
-                      {month}
-                    </option>
-                  ))}
-                </select>
-              )}
-            />
-          </div>
+          <select {...register("birthYear")} className="">
+            <option value="">년</option>
+            {Array.from({ length: 124 }, (_, i) => 1900 + i).map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+          <select {...register("birthMonth")} className="">
+            <option value="">월</option>
+            {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+              <option key={month} value={month}>
+                {month}
+              </option>
+            ))}
+          </select>
+          {errors.birthYear && <p className="">{errors.birthYear.message}</p>}
+          {errors.birthMonth && <p className="">{errors.birthMonth.message}</p>}
         </div>
 
         {/* 성별 선택 */}
