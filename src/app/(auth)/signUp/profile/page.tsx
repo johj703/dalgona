@@ -123,6 +123,9 @@ export default function SaveUserProfilePage() {
           {errors.gender && <p className="">{errors.gender.message}</p>}
         </div>
 
+        {/* 에러 메세지 */}
+        {errorMessage && <p className="">{errorMessage}</p>}
+
         {/* 건너뛰기 및 시작하기 버튼 */}
         <div className="">
           <button type="button" className="">
