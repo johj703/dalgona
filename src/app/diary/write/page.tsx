@@ -7,6 +7,7 @@ import Calender from "@/utils/diary/Calender";
 import { format } from "date-fns";
 import { toast } from "garlic-toast";
 import { RefObject, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const POST_ID = crypto.randomUUID();
 const initialData = {
@@ -27,6 +28,8 @@ const Write = () => {
   const [formData, setFormData] = useState<FormData>(initialData);
   const [isDraft, setIsDraft] = useState<boolean>(false);
   const [openCalender, setOpenCalender] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
   const textareaRef: RefObject<HTMLTextAreaElement> = useRef<HTMLTextAreaElement>(null);
@@ -86,6 +89,11 @@ const Write = () => {
     };
   }, [formData.contents]);
 
+  const onClickDraft = async () => {
+    await uploadToDrafts();
+    router.replace("/main");
+  };
+
   // 일기 내용 : contents
   useEffect(() => {
     const textarea = textareaRef.current;
@@ -103,11 +111,22 @@ const Write = () => {
 
   // 기록하기
   const onSubmit = async () => {
+    if (formData.title === "") return toast.error("제목을 입력해주세요.");
+    if (formData.emotion === "") return toast.error("오늘의 감정을 선택해주세요.");
+    if (formData.type === "") return toast.error("일기장 속지 양식을 선택해주세요.");
+    if (formData.type === "편지지") {
+      if (!formData.draw) return toast.error("그림을 그려주세요.");
+    } else {
+      if (formData.contents === "") return toast.error("일기 내용을 작성해주세요.");
+    }
+
     const { error: insertError } = await browserClient.from("diary").insert(formData);
     if (insertError) return console.error("insertError => ", insertError);
 
     const { error: deleteError } = await browserClient.from("drafts").delete().eq("id", POST_ID);
     if (deleteError) return console.error("deleteError => ", deleteError);
+
+    router.replace(`/diary/read/${POST_ID}`);
   };
 
   // 날짜 선택시 달력 off
@@ -118,7 +137,6 @@ const Write = () => {
   return (
     <>
       <form action={() => onSubmit()}>
-        <button>저장</button>
         {/* 타이틀 */}
         <input
           type="text"
@@ -188,18 +206,25 @@ const Write = () => {
           )}
         </div>
 
-        <div>
-          <div>글 내용</div>
-          <textarea
-            ref={textareaRef}
-            name="contents"
-            id="contents"
-            rows={1}
-            value={formData.contents}
-            onChange={(e) => onChangeFormData(e)}
-            className="resize-none"
-          />
-        </div>
+        {formData.type !== "편지지" && (
+          <div>
+            <div>글 내용</div>
+            <textarea
+              ref={textareaRef}
+              name="contents"
+              id="contents"
+              rows={1}
+              value={formData.contents}
+              onChange={(e) => onChangeFormData(e)}
+              className="resize-none"
+            />
+          </div>
+        )}
+
+        <button type="button" onClick={() => onClickDraft()}>
+          임시저장
+        </button>
+        <button>저장</button>
       </form>
 
       {/* 그림판 */}
@@ -210,7 +235,7 @@ const Write = () => {
       </div>
 
       {/* 달력 */}
-      {openCalender && <Calender setFormData={setFormData} formData={formData} />}
+      {openCalender && <Calender setFormData={setFormData} formData={formData} setOpenCalender={setOpenCalender} />}
     </>
   );
 };

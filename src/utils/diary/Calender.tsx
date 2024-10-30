@@ -1,21 +1,20 @@
 "use client";
 import RenderDays from "@/components/main/calendar/RenderDays";
 import RenderHeader from "@/components/main/calendar/RenderHeader";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { addMonths, format, subMonths } from "date-fns";
 import { RenderCells } from "./RenderCells";
-import { FormData, FormState } from "@/types/Canvas";
+import { booleanState, FormData, FormState } from "@/types/Canvas";
 
 type CalenderProps = {
   setFormData: FormState;
   formData: FormData;
+  setOpenCalender: booleanState;
 };
 
-const Calender = ({ formData, setFormData }: CalenderProps) => {
+const Calender = ({ formData, setFormData, setOpenCalender }: CalenderProps) => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-
-  useEffect(() => {}, [selectedDate]);
 
   //달력 셀 클릭
   const onDateClick = async (day: Date) => {
@@ -36,6 +35,7 @@ const Calender = ({ formData, setFormData }: CalenderProps) => {
 
   return (
     <div className="p-4 border-2 rounded-lg mt-4">
+      <button onClick={() => setOpenCalender(false)}>X</button>
       <RenderHeader currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
       <RenderDays />
       <RenderCells currentDate={currentDate} selectedDate={selectedDate} onDateClick={onDateClick} filterDiaries={[]} />
