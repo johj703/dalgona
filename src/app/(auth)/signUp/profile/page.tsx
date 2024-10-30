@@ -6,12 +6,14 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import supabase from "../../../../utils/supabase/client.ts";
+import browserClient from "@/utils/supabase/client";
 
 // 입력 유효성 검사를 위해서 Zod 스키마 정의
 const profileSchema = z.object({
-  profileImage: z.instanceof(File).optional(),
-  birthYear: z.string().min(4, "유효한 연도를 입력해 주세요"),
-  birthMonth: z.string().min(1, "유효한 월을 입력해 주세요"),
+  profileImage: z.string().optional(),
+  birthYear: z.string().min(1950, "년도는 1950년 이상이어야 합니다."),
+  birthMonth: z.string().min(1, "월은 1월부터 시작합니다.").max(12, "월은 12월까지만 가능합니다."),
   gender: z.enum(["남성", "여성"])
 });
 
@@ -25,21 +27,36 @@ export default function SaveUserProfilePage() {
   } = useForm<ProfileData>({
     resolver: zodResolver(profileSchema)
   });
-  const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
-  // 프로필 이미지 업로드 핸들러
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImagePreview(imageUrl);
+  // 프로필 저장 함수
+  const saveUserProfile = async (data: ProfileData) => {
+    try {
+      // Supabase에 프로필 데이터 저장
+      const { data: insertData, error } = await supabase
+        .from("users")
+        .update({
+          profile_image: data.profileImage,
+          birth_year: data.birthYear,
+          birth_month: data.birthMonth,
+          gender: data.gender
+        })
+        // 이메일로 특정 사용자 지정
+        .ep("email", "사용자의 이메일 주소");
+
+      // 오류 발생 시 예외 처리
+      if (error) {
+        console.error("데이터베이스 오류 : ", error.message);
+        setErrorMessage("프로필 저장 중 문제가 발생했습니다. 다시 시도해 주세요.");
+        return;
+      }
+      // 성공 시 다음 페이지로 이동
+      router.push("/main");
+    } catch (error) {
+      console.error("네트워크 오류 또는 알 수 없는 오류 : ", error);
+      setErrorMessage("알 수 없는 ");
     }
-  };
-
-  // 프로필 저장 처리 함수
-  const onSubmit = (data: ProfileFormData) => {
-    console.log("프로필 데이터 : ", data);
   };
 
   return (
