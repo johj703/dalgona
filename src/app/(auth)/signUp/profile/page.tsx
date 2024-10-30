@@ -31,6 +31,12 @@ export default function SaveUserProfilePage() {
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
+  // 프로필 이미지 업로드 핸들러
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setProfileImage(file);
+  };
+
   // 프로필 저장 함수
   const saveUserProfile = async (data: ProfileData) => {
     try {
