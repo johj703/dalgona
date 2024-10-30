@@ -49,7 +49,7 @@ export default function SaveUserProfilePage() {
           gender: data.gender
         })
         // 이메일로 특정 사용자 지정
-        .ep("email", "사용자의 이메일 주소");
+        .eq("email", "사용자의 이메일 주소");
 
       // 오류 발생 시 예외 처리
       if (error) {
