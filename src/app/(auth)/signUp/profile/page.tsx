@@ -26,6 +26,7 @@ export default function SaveUserProfilePage() {
     resolver: zodResolver(profileSchema)
   });
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState("");
 
   // 프로필 이미지 업로드 핸들러
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
