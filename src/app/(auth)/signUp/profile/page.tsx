@@ -128,7 +128,7 @@ export default function SaveUserProfilePage() {
 
         {/* 건너뛰기 및 시작하기 버튼 */}
         <div className="">
-          <button type="button" className="">
+          <button type="button" onClick={() => router.push("/main")} className="">
             건너뛰기
           </button>
           <button type="submit" className="">
