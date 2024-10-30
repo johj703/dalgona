@@ -8,10 +8,10 @@ import Image from "next/image";
 
 // 입력 유효성 검사를 위해서 Zod 스키마 정의
 const profileSchema = z.object({
-  profileImage: z.string().optional(),
-  birthYear: z.string().nonempty("년도를 선택해 주세요."),
-  birthMonth: z.string().nonempty("월을 선택해 주세요."),
-  gender: z.enum(["male", "female"], { required_error: "성별을 선택해 주세요." })
+  profileImage: z.instanceof(File).optional(),
+  birthYear: z.string().min(4, "유효한 연도를 입력해 주세요"),
+  birthMonth: z.string().min(1, "유효한 월을 입력해 주세요"),
+  gender: z.enum(["남성", "여성"])
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
