@@ -37,7 +37,7 @@ export default function SaveUserProfilePage() {
     if (file) setProfileImage(file);
   };
 
-  // 프로필 저장 함수
+  // 폼 제출 핸들러
   const saveUserProfile = async (data: ProfileData) => {
     try {
       // Supabase에 프로필 데이터 저장
