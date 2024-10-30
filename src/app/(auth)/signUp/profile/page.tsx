@@ -108,26 +108,19 @@ export default function SaveUserProfilePage() {
         </div>
 
         {/* 성별 선택 */}
-        <div>
-          <label>성별</label>
+        <div className="">
+          <label className="">성별</label>
           <div className="">
-            <Controller
-              name="gender"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <label>
-                    <input {...field} type="radio" value="male" />
-                    남성
-                  </label>
-                  <label>
-                    <input {...field} type="radio" value="female" />
-                    여성
-                  </label>
-                </>
-              )}
-            />
+            <label>
+              <input type="radio" value="남성" {...register("gender")} className="" />
+              남성
+            </label>
+            <label>
+              <input type="radio" value="여성" {...register("gender")} className="" />
+              여성
+            </label>
           </div>
+          {errors.gender && <p className="">{errors.gender.message}</p>}
         </div>
 
         {/* 건너뛰기 및 시작하기 버튼 */}
