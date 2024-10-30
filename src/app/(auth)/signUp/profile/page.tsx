@@ -62,7 +62,7 @@ export default function SaveUserProfilePage() {
       router.push("/main");
     } catch (error) {
       console.error("네트워크 오류 또는 알 수 없는 오류 : ", error);
-      setErrorMessage("알 수 없는 ");
+      setErrorMessage("알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
   };
 
