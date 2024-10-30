@@ -46,7 +46,7 @@ export const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiar
       day = addDays(day, 1);
     }
     rows.push(
-      <div className="grid grid-cols-7 w-full text-center" key={day.toString()}>
+      <div className="grid grid-cols-7 w-full text-center cursor-pointer" key={day.toString()}>
         {days}
       </div>
     );
