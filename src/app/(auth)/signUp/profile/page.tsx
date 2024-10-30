@@ -63,7 +63,7 @@ export default function SaveUserProfilePage() {
     <div>
       {/* 페이지 안내 텍스트 */}
       <div className="">
-        <h1 className="">안녕하세요.</h1>
+        <h1 className="">환영해요.</h1>
         <p className="">사용하실 프로필을 작성해 주세요.</p>
       </div>
 
