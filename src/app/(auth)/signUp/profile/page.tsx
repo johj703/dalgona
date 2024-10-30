@@ -44,7 +44,7 @@ export default function SaveUserProfilePage() {
       const { data: insertData, error } = await supabase
         .from("users")
         .update({
-          profile_image: data.profileImage,
+          profile_image: profileImage ? URL.createObjectURL(profileImage) : undefined,
           birth_year: data.birthYear,
           birth_month: data.birthMonth,
           gender: data.gender
