@@ -38,7 +38,7 @@ export default function SaveUserProfilePage() {
   };
 
   // 폼 제출 핸들러
-  const saveUserProfile = async (data: ProfileData) => {
+  const onSubmit = async (data: ProfileData) => {
     try {
       // Supabase에 프로필 데이터 저장
       const { data: insertData, error } = await supabase
