@@ -9,6 +9,8 @@ export interface Diary {
   contents: string;
   created_at: string;
   date: string;
+  emotion: string;
+  draw: string;
 }
 
 export interface DiaryReminderProps {
@@ -43,4 +45,10 @@ export interface DiaryListProps {
   userId: string;
   sort: "newest" | "oldest";
   onSelectDiary: (diary: Diary) => void;
+}
+
+export interface DiaryContentProps {
+  userId: string;
+  year: number;
+  month: number;
 }
