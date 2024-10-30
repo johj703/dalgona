@@ -14,7 +14,7 @@ const profileSchema = z.object({
   gender: z.enum(["남성", "여성"])
 });
 
-type ProfileFormData = z.infer<typeof profileSchema>;
+type ProfileData = z.infer<typeof profileSchema>;
 
 export default function SaveUserProfilePage() {
   const { handleSubmit, control } = useForm<ProfileFormData>({
