@@ -52,7 +52,7 @@ const MonthDiaryPage: React.FC = () => {
         ◀
       </button>
       <h1 className="text-2xl font-semibold mb-4 text-center">{month}월</h1>
-      <p className="text-center mb-2">이곳은 {month}의 나를 담은 방이에요.</p>
+      <p className="text-center mb-2">이곳은 {month}월의 나를 담은 방이에요.</p>
       <p className="text-center mb-6">이렇게 많은 순간들을 기억에 남겼어요!</p>
       <DiaryContent userId={userId} year={Number(year)} month={Number(month)} />
     </div>

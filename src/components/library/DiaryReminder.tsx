@@ -100,10 +100,7 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
             <h3>{selectedDiary.title}</h3>
             <p>{selectedDiary.contents}</p>
             <button className="px-4 py-2 rounded bg-gray-300 text-sm text-black hover:bg-gray-200">보러가기</button>
-            <button
-              onClick={() => setIsDeleteConfirmOpen(true)}
-              className="mt-4 px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600"
-            >
+            <button onClick={() => setIsDeleteConfirmOpen(true)} className="mt-4 px-4 py-2 text-black">
               일기 삭제
             </button>
           </div>
@@ -126,13 +123,10 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h3 className="text-lg font-bold">정말로 이 일기를 삭제하시겠습니까?</h3>
             <div className="flex justify-between mt-4">
-              <button onClick={handleDeleteDiary} className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600">
+              <button onClick={handleDeleteDiary} className="px-4 py-2 text-black">
                 삭제
               </button>
-              <button
-                onClick={() => setIsDeleteConfirmOpen(false)}
-                className="px-4 py-2 rounded bg-gray-300 text-black hover:bg-gray-200"
-              >
+              <button onClick={() => setIsDeleteConfirmOpen(false)} className="px-4 py-2 text-black">
                 취소
               </button>
             </div>
