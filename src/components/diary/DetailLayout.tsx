@@ -20,7 +20,7 @@ const DetailLayout = ({ postData }: { postData: FormData }) => {
         {postData.draw && <img src={postData.draw} alt={postData.title} />}
 
         {postData.type !== "편지지" && postData.type === "모눈종이" ? (
-          <div className="flex flex-wrap">{GraphPaper(postData.contents)}</div>
+          postData.contents && <div className="flex flex-wrap">{GraphPaper(postData.contents)}</div>
         ) : (
           <div>{postData.contents}</div>
         )}
