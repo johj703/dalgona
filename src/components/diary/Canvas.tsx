@@ -1,12 +1,15 @@
 "use client";
 
 import DrawImage from "@/lib/DrawImage";
+import GetRatio from "@/lib/GetRatio";
 import { convertHexToRgba, floodFill } from "@/lib/Paint";
 import Redo from "@/lib/Redo";
 import ReDraw from "@/lib/ReDraw";
 import SetCanvasContext from "@/lib/SetCanvasContext";
 import Undo from "@/lib/Undo";
 import { CanvasProps } from "@/types/Canvas";
+import browserClient from "@/utils/supabase/client";
+import { decode } from "base64-arraybuffer";
 import { RefObject, useEffect, useRef, useState } from "react";
 
 const Canvas = ({
@@ -18,7 +21,12 @@ const Canvas = ({
   pathMode,
   setPathMode,
   tool,
-  fileRef
+  fileRef,
+  setFormData,
+  formData,
+  setGoDraw,
+  goDraw,
+  POST_ID
 }: CanvasProps) => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
@@ -46,6 +54,23 @@ const Canvas = ({
     }
   }, [canvasWidth, canvasHeight]);
 
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const canvasContext = canvas?.getContext("2d");
+    if (formData.draw && canvasContext && canvas) {
+      const pathPic = new Image();
+      pathPic.crossOrigin = "anonymous";
+      pathPic.src = formData.draw;
+      pathPic.onload = () => {
+        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+
+        const ratio: number = GetRatio(canvas, pathPic) as number;
+        canvasContext.drawImage(pathPic, 0, 0, pathPic.width * ratio, pathPic.height * ratio);
+        saveHistory();
+      };
+    }
+  }, [goDraw]);
+
   // 펜 커스텀
   if (ctx) {
     ctx.lineWidth = Number(lineCustom.lineWidth);
@@ -69,6 +94,30 @@ const Canvas = ({
         Undo({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory, saveHistory });
       } else if (pathMode === "redo" && pathHistory[pathStep + 1]) {
         Redo({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory, saveHistory });
+      } else if (pathMode === "save") {
+        const uploadImage = async () => {
+          if (canvasRef.current) {
+            const imageDataUrl = canvasRef.current.toDataURL("image/png"); // Canvas에서 이미지 데이터 가져오기
+            const base64FileData = imageDataUrl.split(",")[1]; // Base64 데이터 추출
+
+            const { data, error } = await browserClient.storage
+              .from("posts")
+              .upload(`drawing/${POST_ID}`, decode(base64FileData), {
+                contentType: "image/png",
+                upsert: true
+              });
+
+            if (error) console.error("error messgage =>", error);
+            if (data) {
+              const { data } = browserClient.storage.from("posts").getPublicUrl(`drawing/${POST_ID}`);
+
+              setFormData({ ...formData, draw: `${data.publicUrl}?version=${crypto.randomUUID()}` });
+
+              setGoDraw(false);
+            }
+          }
+        };
+        uploadImage();
       }
     }
   }, [pathMode]);
@@ -89,6 +138,12 @@ const Canvas = ({
       }
     }
   };
+  useEffect(() => {
+    if (!painting) {
+      ctx?.closePath();
+      ctx?.beginPath();
+    }
+  }, [painting]);
 
   // 사각형 그리기 (보류)
   const drawSquare = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -117,7 +172,7 @@ const Canvas = ({
     setPathStep(pathStep + 1);
   };
 
-  const paintCanvas = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const paintCanvas = (e: React.PointerEvent<HTMLCanvasElement>) => {
     const curPos = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
     if (!curPos) return;
     const currentColor = convertHexToRgba(lineCustom.lineColor);
@@ -146,7 +201,7 @@ const Canvas = ({
       onPointerLeave={() => {
         setPainting(false);
       }}
-      className="bg-white"
+      className="bg-white touch-none"
     />
   );
 };
