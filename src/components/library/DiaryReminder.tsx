@@ -14,7 +14,9 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
     title: "",
     contents: "",
     created_at: "",
-    date: ""
+    date: "",
+    emotion: "",
+    draw: ""
   });
   console.log("sd=>", selectedDiary);
 
@@ -41,7 +43,16 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
           if (diaryError) throw diaryError;
           setSelectedDiary(diaryData);
         } else {
-          setSelectedDiary({ id: "", user_id: "", title: "", contents: "", created_at: "", date: "" }); // mian_diary 없으면 초기화
+          setSelectedDiary({
+            id: "",
+            user_id: "",
+            title: "",
+            contents: "",
+            created_at: "",
+            date: "",
+            emotion: "",
+            draw: ""
+          }); // mian_diary 없으면 초기화
         }
       } catch (error) {
         console.error("Error fetching diaries:", error);

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import YearSelector from "@/components/library/YearSelector";
 import DiaryReminder from "@/components/library/DiaryReminder";
+import MonthSelector from "@/components/library/MonthSelector";
 import browserClient from "@/utils/supabase/client";
 
 const LibraryPage: React.FC = () => {
@@ -50,6 +51,7 @@ const LibraryPage: React.FC = () => {
     <div>
       <YearSelector currentYear={currentYear} onYearChange={handleYearChange} />
       {userId ? <DiaryReminder userId={userId} selectedYear={selectedYear} /> : <p>유저 정보를 불러오지 못했습니다.</p>}
+      <MonthSelector year={selectedYear} />
     </div>
   );
 };
