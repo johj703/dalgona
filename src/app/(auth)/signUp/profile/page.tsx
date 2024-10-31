@@ -11,8 +11,14 @@ import supabase from "@/utils/supabase/client";
 // 입력 유효성 검사를 위해서 Zod 스키마 정의
 const profileSchema = z.object({
   profileImage: z.string().optional(),
-  birthYear: z.string().min(1950, "년도는 1950년 이상이어야 합니다."),
-  birthMonth: z.string().min(1, "월은 1월부터 시작합니다.").max(12, "월은 12월까지만 가능합니다."),
+  birthYear: z
+    .string()
+    .transform((val) => Number(val))
+    .pipe(z.number().min(1950, "년도는 1950년 이상이어야 합니다.")),
+  birthMonth: z
+    .string()
+    .transform((val) => Number(val))
+    .pipe(z.number().min(1, "월은 1월부터 시작합니다.").max(12, "월은 12월까지만 가능합니다.")),
   gender: z.enum(["남성", "여성"])
 });
 
@@ -22,10 +28,14 @@ export default function SaveUserProfilePage() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    clearErrors,
+    watch
   } = useForm<ProfileData>({
     resolver: zodResolver(profileSchema)
   });
+  const values = watch();
+  console.log(values);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
@@ -33,11 +43,13 @@ export default function SaveUserProfilePage() {
   // 프로필 이미지 업로드 핸들러
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    console.log(file);
     if (file) setProfileImage(file);
   };
 
   // 폼 제출 핸들러
   const onSubmit = async (data: ProfileData) => {
+    console.log(data);
     try {
       // Supabase에 프로필 데이터 저장
       const { data: insertData, error } = await supabase
@@ -123,7 +135,7 @@ export default function SaveUserProfilePage() {
         </div>
 
         {/* 에러 메세지 */}
-        {errorMessage && <p className="">{errorMessage}</p>}
+        {/* {errorMessage && <p className="">{errorMessage}</p>} */}
 
         {/* 건너뛰기 및 시작하기 버튼 */}
         <div className="">
