@@ -64,7 +64,8 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
       <div className="space-y-4">
         {diaries.length > 0 ? (
           diaries.map((diary) => {
-            const { data: imageUrlData } = supabase.storage.from("posts").getPublicUrl(diary.draw);
+            // const { data: imageUrlData } = supabase.storage.from("posts").getPublicUrl(diary.draw);
+            const imageUrlData = diary.draw ? supabase.storage.from("posts").getPublicUrl(diary.draw).data : null;
             console.log(`Diary ID => ${diary.id}, Image URL =>`, imageUrlData?.publicUrl);
 
             const diaryDate = parseDate(diary.date);
@@ -74,15 +75,14 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
 
             return (
               <div key={diary.id} className="border rounded-lg shadow-md p-4">
-                <div className="h-48 bg-gray-200 flex items-center justify-center mb-2">
-                  {imageUrlData?.publicUrl ? (
+                {/* 그림이 있는 경우에만 그림 렌더링 */}
+                {imageUrlData?.publicUrl ? (
+                  <div className="h-48 bg-gray-200 flex items-center justify-center mb-2">
                     <img src={diary.draw} alt="그림" className="object-cover h-full w-full" />
-                  ) : (
-                    <span className="text-gray-500">그림 없음</span>
-                  )}
-                </div>
+                  </div>
+                ) : null}
                 <h3 className="font-bold text-lg">{diary.title}</h3>
-                <p className="text-sm text-gray-500">{formattedDate}</p>
+                <p className="text-sm text-gray-500">{formattedDate}</p> {/* 일만 표시 */}
                 <p className="text-gray-700">{diary.contents}</p>
                 <p className="mt-2 text-gray-600">감정: {diary.emotion || "없음"}</p>
               </div>
