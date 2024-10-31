@@ -14,18 +14,21 @@ const Mypage = () => {
   const [userData, setUserData] = useState<UserData>();
   const [monthlyData, setMonthlyData] = useState<EmojiData>();
   const [myDrawing, setMyDrawing] = useState<{ draw: string }[]>();
+
   const getData = async () => {
     const UserData = await GetUserData(USER_ID);
     const MonthlyData = await GetMonthlyEmotion(USER_ID);
     const MyDrawing = await GetMyDrawing(USER_ID);
+
     setUserData(UserData);
+
     if (MonthlyData) setMonthlyData(MonthlyData);
     if (MyDrawing) setMyDrawing(MyDrawing);
   };
   useEffect(() => {
     getData();
   }, []);
-  console.log(myDrawing);
+
   return (
     <>
       <div>
