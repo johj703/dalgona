@@ -6,8 +6,10 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [selectedDiary, setSelectedDiary] = useState<Diary>({
     id: "",
     user_id: "",
@@ -18,12 +20,10 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
     emotion: "",
     draw: ""
   });
-  console.log("sd=>", selectedDiary);
 
   useEffect(() => {
     const fetchUserDiaries = async () => {
       try {
-        // users에서 main_diary 불러오기
         const { data: userData, error: userError } = await supabase
           .from("users")
           .select("main_diary")
@@ -32,7 +32,6 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
 
         if (userError) throw userError;
 
-        // main_diary로 일기 데이터 불러오기
         if (userData && userData.main_diary) {
           const { data: diaryData, error: diaryError } = await supabase
             .from("diary")
@@ -52,7 +51,7 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
             date: "",
             emotion: "",
             draw: ""
-          }); // mian_diary 없으면 초기화
+          });
         }
       } catch (error) {
         console.error("Error fetching diaries:", error);
@@ -70,6 +69,28 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
     setIsModalOpen(false);
   };
 
+  const handleDeleteDiary = async () => {
+    try {
+      const { error } = await supabase.from("diary").delete().eq("id", selectedDiary.id);
+      if (error) throw error;
+
+      // 일기 삭제 후 상태 초기화
+      setSelectedDiary({
+        id: "",
+        user_id: "",
+        title: "",
+        contents: "",
+        created_at: "",
+        date: "",
+        emotion: "",
+        draw: ""
+      });
+      setIsDeleteConfirmOpen(false); // 삭제 확인 모달 닫기
+    } catch (error) {
+      console.error("Error deleting diary:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center p-4">
       <div className="p-12 w-full max-w-sm rounded-lg text-center border bg-white">
@@ -78,7 +99,13 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
           <div>
             <h3>{selectedDiary.title}</h3>
             <p>{selectedDiary.contents}</p>
-            <button>보러가기</button>
+            <button className="px-4 py-2 rounded bg-gray-300 text-sm text-black hover:bg-gray-200">보러가기</button>
+            <button
+              onClick={() => setIsDeleteConfirmOpen(true)}
+              className="mt-4 px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600"
+            >
+              일기 삭제
+            </button>
           </div>
         ) : (
           <div>
@@ -91,15 +118,36 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
             </button>
           </div>
         )}
-        {isModalOpen && (
-          <DiaryModal
-            onClose={handleCloseModal}
-            userId={userId}
-            selectedYear={selectedYear}
-            setSelectedDiary={setSelectedDiary}
-          />
-        )}
       </div>
+
+      {/* 삭제 확인 모달 */}
+      {isDeleteConfirmOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-lg font-bold">정말로 이 일기를 삭제하시겠습니까?</h3>
+            <div className="flex justify-between mt-4">
+              <button onClick={handleDeleteDiary} className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600">
+                삭제
+              </button>
+              <button
+                onClick={() => setIsDeleteConfirmOpen(false)}
+                className="px-4 py-2 rounded bg-gray-300 text-black hover:bg-gray-200"
+              >
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isModalOpen && (
+        <DiaryModal
+          onClose={handleCloseModal}
+          userId={userId}
+          selectedYear={selectedYear}
+          setSelectedDiary={setSelectedDiary}
+        />
+      )}
     </div>
   );
 };
