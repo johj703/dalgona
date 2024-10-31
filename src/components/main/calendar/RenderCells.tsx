@@ -1,4 +1,4 @@
-import { CellsProps, SortedDiaries } from "@/types/main/Calendar";
+import { CalendarCellsProps, SortedDiaries } from "@/types/main/Calendar";
 import { addDays, endOfMonth, endOfWeek, format, isSameMonth, startOfMonth, startOfWeek } from "date-fns";
 import React from "react";
 
@@ -9,7 +9,7 @@ import React from "react";
 // rows : [일월화수목금토] 한 주 * 4 또는 5주
 // days : [일월화수목금토] 한 주
 // cloneDay 형식 //Tue Oct 08 2024 00:00:00 GMT+0900 (한국 표준시)
-const RenderCells = ({ currentDate, onDateClick, filterDiaries }: CellsProps) => {
+const RenderCells = ({ currentDate, onDateClick, filterDiaries }: CalendarCellsProps) => {
   const firstDayOfMonth = startOfMonth(currentDate);
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
   const startDate = startOfWeek(firstDayOfMonth);
