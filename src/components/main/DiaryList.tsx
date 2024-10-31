@@ -3,16 +3,18 @@ import { useFetchDiaries } from "@/queries/fetchDiaries";
 import { Listbox, Tab } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
 import TopButton from "./TopButton";
-import { formatDate } from "@/utils/calendar/dateFormat";
+import { formatDate, getDayOfTheWeek } from "@/utils/calendar/dateFormat";
 import { SortedDiaries } from "@/types/main/Calendar";
 import Link from "next/link";
+// import Image from "next/image";
 
 const sorts = [
   { id: 1, name: "최신순", unavailable: false },
   { id: 2, name: "오래된순", unavailable: false }
 ];
 
-//TODO - 이미지 가져오기
+//TODO - 감정이미지 가져오기
+//TODO - next.js 이미지 최적화
 //TODO - 무한스크롤
 
 const DiaryList = () => {
@@ -83,11 +85,16 @@ const DiaryList = () => {
             <Tab.Panel>
               {sortedDiaries?.map((diary) => (
                 <div key={diary.id} className="p-4 mb-2 border-2 rounded-lg">
-                  <div className="">
-                    <div className="p-4 mb-2 border-2 h-[200px] rounded-lg flex gap-2">
-                      이미지 가져와야함
-                      <span>{diary.date}</span>
-                      <span>{diary.emotion}</span>
+                  <div>
+                    <div className="mb-2 border-2 h-[200px] rounded-lg flex gap-2">
+                      <img src={diary.draw} width={700} height={700} alt="Picture of the author" />
+                    </div>
+                    <div className="flex justify-between">
+                      <div className="text-sm">
+                        <p>{getDayOfTheWeek(diary.date)}</p>
+                        <p>{diary.date}</p>
+                      </div>
+                      <div>{diary.emotion}</div>
                     </div>
                     <p>{diary.contents}</p>
                   </div>
@@ -97,8 +104,10 @@ const DiaryList = () => {
             {/* 목록 클릭 시 */}
             <Tab.Panel>
               {sortedDiaries?.map((diary) => (
-                <div key={diary.id} className="p-4 mb-2 border-2 flex rounded-lg">
-                  <div className="mr-4 border-2">이미지</div>
+                <div key={diary.id} className="p-2 mb-2 border-2 flex rounded-lg">
+                  <div className="mr-4 border-2 h-[50px] w-[50px]">
+                    <img src={diary.draw} width={50} height={50} alt="Picture of the author" />
+                  </div>
                   <div>
                     <p>{diary.title}</p>
                     <p className="text-sm">{diary.date}</p>
