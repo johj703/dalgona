@@ -35,6 +35,8 @@ const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) 
       <div className="fixed top-0 left-0 w-full z-10">
         <div onClick={() => setGoDraw(false)}>닫기</div>
         <button onClick={() => setPathMode("save")}>save</button>
+
+        <button onClick={() => setPathMode("reset")}>reset</button>
         <button onClick={() => setPathMode("undo")}>undo</button>
         <button onClick={() => setPathMode("redo")}>redo</button>
       </div>

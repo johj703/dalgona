@@ -4,6 +4,7 @@ import DetailLayout from "@/components/diary/DetailLayout";
 import { FormData } from "@/types/Canvas";
 import { FetchData } from "@/utils/diary/FetchData";
 import browserClient from "@/utils/supabase/client";
+import { toast } from "garlic-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -26,9 +27,20 @@ const Read = ({ params }: { params: { id: string } }) => {
   };
 
   const onClickDelete = async () => {
-    await browserClient.from("diary").delete().eq("id", params.id);
+    toast
+      .confirm("정말 삭제하시겠습니까?", {
+        confirmBtn: "확인",
+        cancleBtn: "취소",
+        confirmBtnColor: "#0000ff",
+        cancleBtnColor: "#ff0000"
+      })
+      .then(async (isConfirm) => {
+        if (isConfirm) {
+          await browserClient.from("diary").delete().eq("id", params.id);
 
-    router.replace("/main");
+          router.replace("/main");
+        }
+      });
   };
 
   return (

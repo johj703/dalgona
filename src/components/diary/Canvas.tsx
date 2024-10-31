@@ -10,6 +10,7 @@ import Undo from "@/lib/Undo";
 import { CanvasProps } from "@/types/Canvas";
 import browserClient from "@/utils/supabase/client";
 import { decode } from "base64-arraybuffer";
+import { toast } from "garlic-toast";
 import { RefObject, useEffect, useRef, useState } from "react";
 
 const Canvas = ({
@@ -84,7 +85,7 @@ const Canvas = ({
     }
   }, [getImage]);
 
-  // undo redo
+  // undo redo reset
   useEffect(() => {
     const canvas = canvasRef.current;
 
@@ -118,6 +119,23 @@ const Canvas = ({
           }
         };
         uploadImage();
+      } else if (pathMode === "reset") {
+        toast
+          .confirm("정말 초기화하시겠습니까?", {
+            confirmBtn: "확인",
+            cancleBtn: "취소",
+            confirmBtnColor: "#0000ff",
+            cancleBtnColor: "#ff0000"
+          })
+          .then(async (isConfirm) => {
+            if (isConfirm) {
+              ctx.reset();
+              const canvasCtx = SetCanvasContext({ canvas, canvasContext: ctx, canvasWidth, canvasHeight });
+              setCtx(canvasCtx);
+              setPathHistory([]);
+              setPathStep(-1);
+            }
+          });
       }
     }
   }, [pathMode]);

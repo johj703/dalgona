@@ -16,7 +16,6 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
   const [formData, setFormData] = useState<FormData>(initialData);
   const [isDraft, setIsDraft] = useState<boolean>(false);
   const [openCalender, setOpenCalender] = useState<boolean>(false);
-  console.log(initialData);
   const router = useRouter();
 
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -105,7 +104,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
     if (formData.type === "편지지") {
       if (!formData.draw) return toast.error("그림을 그려주세요.");
     } else {
-      if (formData.contents === "") return toast.error("일기 내용을 작성해주세요.");
+      if (formData.contents?.replaceAll(" ", "") === "") return toast.error("일기 내용을 작성해주세요.");
     }
 
     if (isModify) {
