@@ -32,7 +32,7 @@ export type FormData = {
   emotion: string;
   type: string;
   draw?: string | null;
-  contents: string;
+  contents?: string;
 };
 
 export type DrawProps = {

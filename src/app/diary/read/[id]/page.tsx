@@ -22,11 +22,11 @@ const Read = ({ params }: { params: { id: string } }) => {
   }, []);
 
   const onClickModify = () => {
-    router.replace(`/modify/${params}`);
+    router.replace(`/diary/modify/${params.id}`);
   };
 
   const onClickDelete = async () => {
-    await browserClient.from("diary").delete().eq("id", params);
+    await browserClient.from("diary").delete().eq("id", params.id);
 
     router.replace("/main");
   };
