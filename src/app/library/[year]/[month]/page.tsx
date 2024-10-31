@@ -2,12 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import DiaryContent from "@/components/library/DiaryContent";
-import { createClient } from "@supabase/supabase-js";
 import { useParams, useRouter } from "next/navigation";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import browserClient from "@/utils/supabase/client";
 
 const MonthDiaryPage: React.FC = () => {
   const { year, month } = useParams(); // useParams로 year와 month 가져오기
@@ -18,7 +14,7 @@ const MonthDiaryPage: React.FC = () => {
 
   useEffect(() => {
     const fetchUserId = async () => {
-      const { data, error } = await supabase.from("users").select("id").limit(1);
+      const { data, error } = await browserClient.from("users").select("id").limit(1);
 
       if (error) {
         console.error("Error fetching userId:", error.message);

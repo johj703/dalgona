@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DiaryModal from "./DiaryModal";
 import { Diary, DiaryReminderProps } from "@/types/library/Diary";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import browserClient from "@/utils/supabase/client";
 
 const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +20,7 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
   useEffect(() => {
     const fetchUserDiaries = async () => {
       try {
-        const { data: userData, error: userError } = await supabase
+        const { data: userData, error: userError } = await browserClient
           .from("users")
           .select("main_diary")
           .eq("id", userId)
@@ -33,7 +29,7 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
         if (userError) throw userError;
 
         if (userData && userData.main_diary) {
-          const { data: diaryData, error: diaryError } = await supabase
+          const { data: diaryData, error: diaryError } = await browserClient
             .from("diary")
             .select("*")
             .eq("id", userData.main_diary)
@@ -71,7 +67,7 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
 
   const handleDeleteDiary = async () => {
     try {
-      const { error } = await supabase.from("diary").delete().eq("id", selectedDiary.id);
+      const { error } = await browserClient.from("diary").delete().eq("id", selectedDiary.id);
       if (error) throw error;
 
       // 일기 삭제 후 상태 초기화

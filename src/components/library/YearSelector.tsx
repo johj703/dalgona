@@ -1,16 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { YearSelectorProps } from "@/types/library/YearSelector";
 
-const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, onYearChange }) => {
+const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, onYearChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [selectedYear, setSelectedYear] = useState<number>(currentYear);
 
-  // 드롭다운을 열 때마다 항상 현재 연도부터 과거 연도로 배열 생성 10년까지!
+  // 현재 연도를 포함하여 과거 10년 범위로 배열 생성
   const years = Array.from({ length: 10 }, (_, i) => currentYear - i);
 
   const handleYearChange = (year: number) => {
-    setSelectedYear(year);
     onYearChange(year);
     setIsOpen(false); // 연도를 선택하면 드롭다운 닫기
   };
@@ -55,7 +53,9 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, onYearChange }
               onClick={() => handleYearChange(year)}
               role="option"
               aria-selected={year === selectedYear}
-              className="cursor-pointer px-4 py-2 text-sm bg-white text-black hover:bg-gray-200"
+              className={`cursor-pointer px-4 py-2 text-sm bg-white text-black hover:bg-gray-200 ${
+                year === selectedYear ? "font-bold" : ""
+              }`}
             >
               {year}
             </li>

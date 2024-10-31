@@ -1,16 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-
-import { createClient } from "@supabase/supabase-js";
+import browserClient from "@/utils/supabase/client";
 import { Diary, DiaryModalProps } from "@/types/library/Diary";
 
 import SearchBar from "@/components/library/SearchBar";
 import DateDropdown from "@/components/library/DateDropdown";
-import DiaryList from "@/components//library/DiaryList";
+import DiaryList from "@/components/library/DiaryList";
 import SortDropdown from "@/components/library/SortDropdown";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, setSelectedDiary }) => {
   const [diaries, setDiaries] = useState<Diary[]>([]);
@@ -21,7 +16,6 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   const [year, setYear] = useState(selectedYear);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
-  // const [day, setDay] = useState(new Date().getDate());
   const [day, setDay] = useState(0);
   const [sort, setSort] = useState<"newest" | "oldest">("newest");
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -50,7 +44,7 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
   const fetchUserDiaries = async (userId: string) => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
+      const { data, error } = await browserClient
         .from("diary")
         .select("*")
         .eq("user_id", userId)
@@ -88,27 +82,14 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
         const diaryMonth = diaryDate.getMonth() + 1;
         const diaryDay = diaryDate.getDate();
 
-        // 필터링 조건 설정
-        // const isSameYear = diaryYear === selectedYear;
         const isSameYear = diaryYear === year;
         const isSameMonth = diaryMonth === month;
-        const isSameDay = day === 0 || diaryDay === day; // day가 0이면 해당 월의 모든 일기 표시
+        const isSameDay = day === 0 || diaryDay === day;
 
         const matchesSearch = diary.title.includes(debouncedSearchTerm) || diary.contents.includes(debouncedSearchTerm);
 
         return isSameYear && isSameMonth && isSameDay && matchesSearch;
       });
-
-      //   if (sort === "newest") {
-      //     result.sort((a, b) => parseDate(b.date)!.getTime() - parseDate(a.date)!.getTime());
-      //   } else {
-      //     result.sort((a, b) => parseDate(a.date)!.getTime() - parseDate(b.date)!.getTime());
-      //   }
-
-      //   console.log("result=>", result);
-
-      //   setFilteredDiaries(result);
-      // };
 
       result.sort((a, b) => {
         const dateA = parseDate(a.date);
@@ -124,13 +105,9 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
     filterDiaries();
   }, [diaries, year, month, day, debouncedSearchTerm, sort]);
 
-  // const toggleSort = () => {
-  //   setSort((prevSort) => (prevSort === "newest" ? "oldest" : "newest"));
-  // };
-
   const saveDiary = async (diary: Diary) => {
     try {
-      const { error } = await supabase
+      const { error } = await browserClient
         .from("users")
         .update({
           main_diary: diary.id
@@ -164,7 +141,6 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
         </button>
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         <DateDropdown year={year} month={month} day={day} setYear={setYear} setMonth={setMonth} setDay={setDay} />
-        {/* 최신순/오래된순 정렬 */}
         <SortDropdown currentSort={sort} onSortChange={setSort} />
         <div className="overflow-y-auto max-h-[56vh]">
           <DiaryList
