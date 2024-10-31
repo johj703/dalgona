@@ -1,31 +1,14 @@
 "use client";
-import browserClient from "@/utils/supabase/client";
+import { GetMonthlyEmotion } from "@/lib/mypage/GetMonthlyEmotion";
+import { GetMyDrawing } from "@/lib/mypage/GetMyDrawing";
+import { GetUserData } from "@/lib/mypage/GetUserData";
+import { EmojiData } from "@/types/mypage/EmojiData";
+import { UserData } from "@/types/mypage/UserData";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-type UserData = {
-  id: string;
-  created_at: string;
-  name: string;
-  email: string;
-  profile_image?: string;
-  gender?: string;
-  birthday?: string;
-  nickname: string;
-  main_diary?: string;
-  bloodtype?: string;
-};
-
-const USER_ID = "c56a4180-65aa-42ec-a945-5fd21dec0538";
+const USER_ID = "c56a4180-65aa-42ec-a945-5fd21dec0538"; // 유저데이터 전역관리 되면 수정
 const DEFAULT_IMAGE = "https://spimvuqwvknjuepojplk.supabase.co/storage/v1/object/public/profile/default_profile.svg";
-
-type EmojiData = {
-  happy: number;
-  good: number;
-  soso: number;
-  bad: number;
-  tired: number;
-};
 
 const Mypage = () => {
   const [userData, setUserData] = useState<UserData>();
@@ -110,59 +93,3 @@ const Mypage = () => {
   );
 };
 export default Mypage;
-
-const GetUserData = async (user_id: string) => {
-  try {
-    const { data, error } = await browserClient.from("users").select("*").eq("id", user_id);
-
-    if (error) {
-      console.error("유저정보 불러오기 실패 => ", error);
-      return <div>유저정보를 불러오는데 실패하였습니다.</div>;
-    }
-
-    return data[0];
-  } catch (error) {
-    console.error("FetchData Error => ", error);
-  }
-};
-
-const GetMonthlyEmotion = async (user_id: string) => {
-  try {
-    const result = await browserClient
-      .from("diary")
-      .select("emotion")
-      .eq("user_id", user_id)
-      .textSearch("date", `2024년&10월`);
-
-    if (result.data) {
-      const monthlyData = result.data;
-      const emotionData = {
-        happy: monthlyData?.filter((emotion) => emotion.emotion === "기쁨").length, //기쁨 텍스트 수정 필요
-        good: monthlyData?.filter((emotion) => emotion.emotion === "좋아요").length,
-        soso: monthlyData?.filter((emotion) => emotion.emotion === "그냥 그래요").length,
-        bad: monthlyData?.filter((emotion) => emotion.emotion === "별로에요").length,
-        tired: monthlyData?.filter((emotion) => emotion.emotion === "힘들어요").length
-      };
-
-      return emotionData;
-    }
-  } catch (error) {
-    console.error("Emotion Load Error => ", error);
-  }
-};
-
-const GetMyDrawing = async (user_id: string) => {
-  try {
-    const { data } = await browserClient
-      .from("diary")
-      .select("*")
-      .eq("user_id", user_id)
-      .neq("draw", null)
-      .order("created_at", { ascending: false })
-      .range(0, 2);
-
-    return data;
-  } catch (error) {
-    console.error("Drawing Load Error => ", error);
-  }
-};
