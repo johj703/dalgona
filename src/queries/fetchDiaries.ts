@@ -41,15 +41,64 @@ export const getSearchDiaries = async (value: string) => {
   }
 };
 
-//
-// export const getDrawings = async () => {
-//   const { data } = browserClient.storage.from("posts").getPublicUrl("default.png", {
-//     transform: {
-//       width: 100,
-//       height: 100
-//     }
+//NOTE - 페이지 단위로 데이터 가져오기
+export const getPaginatedDiaries = async (pageParam: number, limit: number) => {
+  const from = (pageParam - 1) * limit;
+  const to = pageParam * limit - 1;
+
+  const { data: diariesList, error } = await browserClient
+    .from("diary")
+    .select("*")
+    // .eq('user_id', user_id)
+    .range(from, pageParam * to);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  return diariesList; //데이터반환
+};
+
+//NOTE - useInfiniteQuery 사용하기
+// export const useInfiniteQueryDiaries = () => {
+//   const {
+//     data,
+//     isError,
+//     isLoading,
+//     fetchNextPage,
+//     hasNextPage,
+//     isFetchingNextPage
+//   } = useInfiniteQuery({
+//     queryKey: ['diary'],
+//     queryFn: ({ pageParam = 1 }) => getPaginatedDiaries(pageParam, 10),
+//     getNextPageParam: (lastPage, pages) => {
+//       if (lastPage.length < 6) return undefined;
+//       return pages.length + 1;
+//     },
+//     staleTime: 300000
 //   });
-//   console.log(data);
+
+//   return { data, isError, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage };
 // };
 
-// getDrawings();
+// type Param = {
+//   pageParam:number
+// }
+// export const useInfiniteQueryDiaries = () => {
+//   const {
+//     isFetching,
+//     fetchNextPage,
+//     data,
+//     refetch
+//   } = useInfiniteQuery(
+//     queryKey:['diary'],
+//     queryFn: ({ pageParam = 1 }) => getPaginatedDiaries(pageParam,10),
+//     {
+//       getNextPageParam: (lastPage, allPages) => lastPage.nextCursor
+//     }
+//   )
+//   return { data,
+//     isFetching,
+//     fetchNextPage,
+//     data,
+//     refetch};
+// };

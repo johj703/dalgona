@@ -17,7 +17,6 @@ const SearchPage = () => {
     const delayDebounceTimer = setTimeout(async () => {
       //api코드
       const searchDiaries = await getSearchDiaries(query);
-      console.log(searchDiaries);
       //받아온 값을 setSearchResults에 저장
       setSearchDiaries(searchDiaries as SortedDiaries[]);
     }, 1000); //디바운스 지연 시간
