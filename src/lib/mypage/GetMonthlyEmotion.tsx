@@ -1,12 +1,16 @@
 import browserClient from "@/utils/supabase/client";
 
 export const GetMonthlyEmotion = async (user_id: string) => {
+  const Today = new Date();
+  const Year = Today.getFullYear();
+  const Month = Today.getMonth() < 9 ? `0${Today.getMonth() + 1}` : Today.getMonth() + 1;
+
   try {
     const result = await browserClient
       .from("diary")
       .select("emotion")
       .eq("user_id", user_id)
-      .textSearch("date", `2024년&10월`);
+      .textSearch("date", `${Year}년&${Month}월`);
 
     if (result.data) {
       const monthlyData = result.data;
