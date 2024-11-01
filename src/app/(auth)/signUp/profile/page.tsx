@@ -65,6 +65,10 @@ export default function SaveUserProfilePage() {
 
   // 폼 제출 핸들러
   const onSubmit = async (data: ProfileData) => {
+    if (!userEmail) {
+      setErrorMessage("로그인 상태를 확인할 수 없습니다.");
+      return;
+    }
     console.log(data);
     try {
       // Supabase에 프로필 데이터 저장
