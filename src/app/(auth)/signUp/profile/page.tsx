@@ -56,7 +56,7 @@ export default function SaveUserProfilePage() {
     console.log(data);
     try {
       // Supabase에 프로필 데이터 저장
-      const { data: insertData, error } = await supabase
+      const { error } = await supabase
         .from("users")
         .update({
           profile_image: profileImage ? URL.createObjectURL(profileImage) : undefined,
