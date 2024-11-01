@@ -48,6 +48,7 @@ export default function SaveUserProfilePage() {
     const file = e.target.files?.[0];
     console.log(file);
     if (file) setProfileImage(file);
+    clearErrors();
   };
 
   // 폼 제출 핸들러
