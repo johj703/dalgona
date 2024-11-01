@@ -22,6 +22,7 @@ const profileSchema = z.object({
   gender: z.enum(["남성", "여성"])
 });
 
+// zod 스키마의 타입을 추론해서 ProfileData 타입을 정의
 type ProfileData = z.infer<typeof profileSchema>;
 
 export default function SaveUserProfilePage() {
@@ -62,15 +63,17 @@ export default function SaveUserProfilePage() {
       .from("profile-images") // 스토리지 버킷 이름
       .upload(fileName, file);
 
+    console.log(data);
+
     if (error) {
       console.log("프로필 이미지 업로드 오류 : ", error);
       return null;
     }
 
     // 이미지 URL 생성
-    const { publicURL } = supabase.storage.from("profile-images").getPublicUrl(data.path);
+    const { data: publicData } = supabase.storage.from("profile-images").getPublicUrl(data.path);
 
-    return publicURL || null;
+    return publicData.publicUrl || null;
   }
 
   // 프로필 이미지 업로드 핸들러
