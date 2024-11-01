@@ -17,43 +17,43 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
     draw: ""
   });
 
-  useEffect(() => {
-    const fetchUserDiaries = async () => {
-      try {
-        const { data: userData, error: userError } = await browserClient
-          .from("users")
-          .select("main_diary")
-          .eq("id", userId)
+  const fetchUserDiaries = async () => {
+    try {
+      const { data: userData, error: userError } = await browserClient
+        .from("users")
+        .select("main_diary")
+        .eq("id", userId)
+        .single();
+
+      if (userError) throw userError;
+
+      if (userData && userData.main_diary) {
+        const { data: diaryData, error: diaryError } = await browserClient
+          .from("diary")
+          .select("*")
+          .eq("id", userData.main_diary)
           .single();
 
-        if (userError) throw userError;
-
-        if (userData && userData.main_diary) {
-          const { data: diaryData, error: diaryError } = await browserClient
-            .from("diary")
-            .select("*")
-            .eq("id", userData.main_diary)
-            .single();
-
-          if (diaryError) throw diaryError;
-          setSelectedDiary(diaryData);
-        } else {
-          setSelectedDiary({
-            id: "",
-            user_id: "",
-            title: "",
-            contents: "",
-            created_at: "",
-            date: "",
-            emotion: "",
-            draw: ""
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching diaries:", error);
+        if (diaryError) throw diaryError;
+        setSelectedDiary(diaryData);
+      } else {
+        setSelectedDiary({
+          id: "",
+          user_id: "",
+          title: "",
+          contents: "",
+          created_at: "",
+          date: "",
+          emotion: "",
+          draw: ""
+        });
       }
-    };
+    } catch (error) {
+      console.error("Error fetching diaries:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchUserDiaries();
   }, [userId]);
 
@@ -70,6 +70,10 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
       const { error } = await browserClient.from("diary").delete().eq("id", selectedDiary.id);
       if (error) throw error;
 
+      // 사용자 데이터의 main_diary를 null로 업데이트
+      const { error: userError } = await browserClient.from("users").update({ main_diary: null }).eq("id", userId);
+      if (userError) throw userError;
+
       // 일기 삭제 후 상태 초기화
       setSelectedDiary({
         id: "",
@@ -82,6 +86,8 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
         draw: ""
       });
       setIsDeleteConfirmOpen(false); // 삭제 확인 모달 닫기
+
+      fetchUserDiaries();
     } catch (error) {
       console.error("Error deleting diary:", error);
     }

@@ -33,28 +33,28 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
 
   return (
     <div ref={dropdownRef} className="relative">
-      <div className="flex items-center pt-4 pl-4">
-        <span className="text-lg font-normal">{selectedYear}년</span>
-        <button
-          onClick={toggleDropdown}
-          className="ml-1 py-1 text-sm rounded focus:outline-none"
-          aria-expanded={isOpen}
-          aria-controls="year-list"
-        >
-          ▼
-        </button>
+      <div
+        className="h-9 inline-flex items-center justify-center p-2.5 gap-2.5 border border-black rounded-lg cursor-pointer"
+        onClick={toggleDropdown}
+      >
+        <span className="text-xs font-normal font-['Pretendard'] leading-[18px]">{selectedYear}년</span>
+        <img src={isOpen ? "/icons/arrow-up(W).svg" : "/icons/arrow-down.svg"} alt="Arrow Icon" className="relative" />
       </div>
 
       {isOpen && (
-        <ul id="year-list" role="listbox" className="absolute z-10 rounded border ml-4">
+        <ul
+          id="year-list"
+          role="listbox"
+          className="absolute z-10 mt-1 w-32 rounded-lg border border-gray-300 bg-white shadow-lg"
+        >
           {years.map((year) => (
             <li
               key={year}
               onClick={() => handleYearChange(year)}
               role="option"
               aria-selected={year === selectedYear}
-              className={`cursor-pointer px-4 py-2 text-sm bg-white text-black hover:bg-gray-200 ${
-                year === selectedYear ? "font-bold" : ""
+              className={`cursor-pointer px-4 py-2 text-sm text-black hover:bg-gray-200 ${
+                year === selectedYear ? "bg-gray-300 font-bold" : ""
               }`}
             >
               {year}

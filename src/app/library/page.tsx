@@ -30,7 +30,10 @@ const LibraryPage: React.FC = () => {
   const fetchUserId = async () => {
     setLoading(true);
 
-    const { data, error } = await browserClient.from("users").select("id").limit(1);
+    const { data, error } = await browserClient
+      .from("users")
+      .select("id")
+      .eq("id", "c56a4180-65aa-42ec-a945-5fd21dec0538");
 
     if (error) {
       console.error("Error fetching userId:", error.message);
@@ -58,6 +61,14 @@ const LibraryPage: React.FC = () => {
 
   return (
     <div>
+      <div className="h-[52px] p-2.5 flex items-center">
+        <button className="flex-shrink-0">
+          <img src="/icons/arrow-left.svg" alt="Arrow Left" className="relative" />
+        </button>
+        <h1 className="flex-grow text-center text-black text-base font-semibold font-['Pretendard'] leading-normal">
+          기록의 방
+        </h1>
+      </div>
       <YearSelector currentYear={currentYear} selectedYear={selectedYear} onYearChange={handleYearChange} />
       {userId ? <DiaryReminder userId={userId} selectedYear={selectedYear} /> : <p>유저 정보를 불러오지 못했습니다.</p>}
       <MonthSelector year={selectedYear} />

@@ -14,7 +14,10 @@ const MonthDiaryPage: React.FC = () => {
 
   useEffect(() => {
     const fetchUserId = async () => {
-      const { data, error } = await browserClient.from("users").select("id").limit(1);
+      const { data, error } = await browserClient
+        .from("users")
+        .select("id")
+        .eq("id", "c56a4180-65aa-42ec-a945-5fd21dec0538");
 
       if (error) {
         console.error("Error fetching userId:", error.message);
