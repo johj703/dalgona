@@ -35,6 +35,9 @@ export default function SaveUserProfilePage() {
     resolver: zodResolver(profileSchema)
   });
   const values = watch();
+
+  // ** signIn 된 로그인 정보 가져오기 로직 추가
+  // ** 그 후 users 테이블에 한꺼번에 업데이트 하면 됨!
   console.log(values);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
