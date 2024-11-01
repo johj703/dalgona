@@ -94,24 +94,39 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
-      <div className="p-12 w-full max-w-sm rounded-lg text-center border bg-white">
+    <div className="flex-grow flex items-center justify-center py-4">
+      <div className="w-full max-w-sm rounded-lg border bg-white">
         {/* id 존재 여부 */}
         {selectedDiary.id ? (
-          <div>
-            <h3>{selectedDiary.title}</h3>
-            <p>{selectedDiary.contents}</p>
-            <button className="px-4 py-2 rounded bg-gray-300 text-sm text-black hover:bg-gray-200">보러가기</button>
-            <button onClick={() => setIsDeleteConfirmOpen(true)} className="mt-4 px-4 py-2 text-black">
+          <div className="h-[210px] px-4 py-4 rounded-lg  border border-[#a5a5a5] justify-center flex items-center gap-6 relative">
+            <div className="w-[92px] h-[120px] bg-gray-300 rounded-lg"></div>
+            <div>
+              <h3 className="text-black text-lg font-medium font-['Pretendard'] leading-normal pb-1">
+                {selectedDiary.title}
+              </h3>
+              <p className="w-[202px] h-11 text-black text-sm font-normal font-['Pretendard'] leading-[21px]">
+                {selectedDiary.contents}
+              </p>
+              <div className="pt-2">
+                <button className="w-[131px] h-10 px-3 pt-1 bg-[#d84e35] rounded-lg flex justify-center items-center text-white text-sm font-semibold font-['Pretendard'] leading0[21px]">
+                  보러가기
+                </button>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setIsDeleteConfirmOpen(true)}
+              className="text-[#a5a5a5] text-sm font-medium font-['Pretendard'] leading-[21px] absolute bottom-0 right-0 mb-4 mr-4 "
+            >
               일기 삭제
             </button>
           </div>
         ) : (
-          <div>
-            <h2 className="text-lg mb-3 font-normal">기억하고 싶은 순간이 있으신가요?</h2>
+          <div className="h-[210px] px-4 pt-16 pb-[52px] rounded-lg  border border-[#a5a5a5] justify-center flex flex-col items-center">
+            <h2 className="text-lg font-medium leading-normal pb-6">기억하고 싶은 순간이 있으신가요?</h2>
             <button
               onClick={handleOpenModal}
-              className="px-4 py-2 rounded bg-gray-300 text-sm text-black hover:bg-gray-200"
+              className=" bg-[#d84e35] rounded-lg justify-center w-[170px] h-[46px] px-3 py-1 text-white text-sm leading-[21px]"
             >
               등록하기
             </button>

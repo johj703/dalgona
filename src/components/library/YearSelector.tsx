@@ -3,6 +3,7 @@ import { YearSelectorProps } from "@/types/library/YearSelector";
 
 const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, onYearChange }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // 현재 연도를 포함하여 과거 10년 범위로 배열 생성
@@ -15,6 +16,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+    setIsClicked(!isClicked);
   };
 
   // 여백 클릭 시 드롭다운 닫기
@@ -22,6 +24,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+        setIsClicked(false); // 드롭다운을 닫으면 스타일 초기화
       }
     };
 
@@ -34,7 +37,8 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
   return (
     <div ref={dropdownRef} className="relative">
       <div
-        className="h-9 inline-flex items-center justify-center p-2.5 gap-2.5 border border-black rounded-lg cursor-pointer"
+        className={`h-10 inline-flex items-center justify-center p-2.5 gap-2.5 border rounded-lg cursor-pointer 
+                    ${isClicked ? "bg-[#a5a5a5] text-white" : "bg-white border-black text-black"}`}
         onClick={toggleDropdown}
       >
         <span className="text-xs font-normal font-['Pretendard'] leading-[18px]">{selectedYear}년</span>
@@ -45,16 +49,16 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
         <ul
           id="year-list"
           role="listbox"
-          className="absolute z-10 mt-1 w-32 rounded-lg border border-gray-300 bg-white shadow-lg"
+          className="absolute z-10 mt-1 w-20 rounded-lg border border-black bg-[#f2f2f2] max-h-40 overflow-y-auto text-center"
         >
-          {years.map((year) => (
+          {years.map((year, index) => (
             <li
               key={year}
               onClick={() => handleYearChange(year)}
               role="option"
               aria-selected={year === selectedYear}
-              className={`cursor-pointer px-4 py-2 text-sm text-black hover:bg-gray-200 ${
-                year === selectedYear ? "bg-gray-300 font-bold" : ""
+              className={`cursor-pointer px-4 py-2 text-sm text-black ${
+                index < years.length - 1 ? "border-b border-black" : ""
               }`}
             >
               {year}
