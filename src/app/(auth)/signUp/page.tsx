@@ -49,7 +49,19 @@ export default function SignUpPage() {
 
       // 회원가입 요청에 성공한 경우 실행
       if (data) {
+        // 별명(nickname)을 포함한 데이터를 users 테이블에 추가
+        const { error: dbError } = await browserClient.from("users").insert({
+          email,
+          nickname
+        });
+
+        // 데이터 베이스 삽입 중 오류가 발생한 경우 오류 메시지 설정 후 종료
+        if (dbError) {
+          setErrorMessage("회원 데이터 추가 중 오류가 발생했습니다.");
+          return;
+        }
       }
+
       // 이메일과 비밀번호를 사용해 로그인 실행
 
       // **페이지 이동하기 로직 추가
