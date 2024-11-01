@@ -63,6 +63,7 @@ export default function SignUpPage() {
       }
 
       // 이메일과 비밀번호를 사용해 로그인 실행
+      await browserClient.auth.signInWithPassword({ email, password });
 
       // **페이지 이동하기 로직 추가
 
