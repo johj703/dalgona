@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,9 +39,21 @@ export default function SaveUserProfilePage() {
   // ** signIn 된 로그인 정보 가져오기 로직 추가
   // ** 그 후 users 테이블에 한꺼번에 업데이트 하면 됨!
   console.log(values);
+  const [userEmail, setUserEmail];
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
+
+  // 로그인한 사용자 이메일 가져오기
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { session }
+      } = await supabase.auth.getSession();
+      if (session?.user.email) setUserEmail(session.user.email);
+    };
+    fetchUser();
+  }, []);
 
   // 프로필 이미지 업로드 핸들러
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
