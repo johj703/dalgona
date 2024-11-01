@@ -1,8 +1,8 @@
 "use client";
 import { SortedDiaries } from "@/types/main/Calendar";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+// import { useInfiniteQuery} from "@tanstack/react-query";
 import browserClient from "@/utils/supabase/client";
-// import { createClient } from "@/utils/supabase/server";
 
 //NOTE - 처음 일기 데이터 받아오기
 export const getInitialDiaries = async () => {
@@ -43,62 +43,41 @@ export const getSearchDiaries = async (value: string) => {
 
 //NOTE - 페이지 단위로 데이터 가져오기
 export const getPaginatedDiaries = async (pageParam: number, limit: number) => {
-  const from = (pageParam - 1) * limit;
-  const to = pageParam * limit - 1;
+  console.log("pageParam", pageParam);
 
-  const { data: diariesList, error } = await browserClient
+  const from = (pageParam - 1) * limit; //10
+  const to = pageParam * limit - 1; //19
+
+  const {
+    data: diariesList,
+    error,
+    count
+  } = await browserClient //REVIEW - count추가
+
     .from("diary")
-    .select("*")
+    .select("*", { count: "exact" }) //REVIEW -  전체 개수(count)를 포함하여 가져오기 ***
     // .eq('user_id', user_id)
-    .range(from, pageParam * to);
+    .order("date", { ascending: false })
+    .range(from, to);
 
   if (error) {
     throw new Error(error.message);
   }
-  return diariesList; //데이터반환
+  //REVIEW -  다음 페이지가 있는지 확인
+  const hasNext = to + 1 < (count || 0);
+  return { diariesList, hasNext, nextPage: pageParam + 1, count }; // hasNext와 nextPage 반환
 };
 
-//NOTE - useInfiniteQuery 사용하기
-// export const useInfiniteQueryDiaries = () => {
-//   const {
-//     data,
-//     isError,
-//     isLoading,
-//     fetchNextPage,
-//     hasNextPage,
-//     isFetchingNextPage
-//   } = useInfiniteQuery({
-//     queryKey: ['diary'],
-//     queryFn: ({ pageParam = 1 }) => getPaginatedDiaries(pageParam, 10),
-//     getNextPageParam: (lastPage, pages) => {
-//       if (lastPage.length < 6) return undefined;
-//       return pages.length + 1;
-//     },
-//     staleTime: 300000
-//   });
+// NOTE - useInfiniteQuery 사용하기
+export const useInfiniteQueryDiaries = () => {
+  const { data, isError, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ["diaries"],
+    initialPageParam: 1,
+    queryFn: ({ pageParam }) => getPaginatedDiaries(pageParam, 10),
+    getNextPageParam: (lastPage) => {
+      return lastPage?.hasNext ? lastPage.nextPage : undefined;
+    }
+  });
 
-//   return { data, isError, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage };
-// };
-
-// type Param = {
-//   pageParam:number
-// }
-// export const useInfiniteQueryDiaries = () => {
-//   const {
-//     isFetching,
-//     fetchNextPage,
-//     data,
-//     refetch
-//   } = useInfiniteQuery(
-//     queryKey:['diary'],
-//     queryFn: ({ pageParam = 1 }) => getPaginatedDiaries(pageParam,10),
-//     {
-//       getNextPageParam: (lastPage, allPages) => lastPage.nextCursor
-//     }
-//   )
-//   return { data,
-//     isFetching,
-//     fetchNextPage,
-//     data,
-//     refetch};
-// };
+  return { data, isError, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage };
+};

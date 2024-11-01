@@ -23,6 +23,7 @@ const SearchPage = () => {
     // 이전에 설정한 타이머를 클리어하여 디바운스 취소
     return () => clearTimeout(delayDebounceTimer);
   }, [query]);
+
   return (
     <div className="p-6 mt-4 text-center">
       <div className="flex gap-4 p-2">

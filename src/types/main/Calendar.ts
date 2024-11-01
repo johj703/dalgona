@@ -31,3 +31,10 @@ export type CalendarCellsProps = {
   onDateClick: (arg0: Date) => void;
   filterDiaries: SortedDiaries[];
 };
+
+export type CalendarModalProps = {
+  clickModal: () => void;
+  handleSearchDiaries: (startDate: string, endDate: string) => void;
+  calenderInput: (startDate: string, endDate: string) => void;
+  currentDate: Date;
+};

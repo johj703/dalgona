@@ -10,17 +10,19 @@ import DiarySelectedList from "./DiarySelectedList";
 import CalendarModal from "./CalendarModal";
 import "react-datepicker/dist/react-datepicker.css";
 
-//TODO - 조회기간설정 - 디폴트 오늘날짜
-//TODO - 조회기간설정 - 완료버튼 클릭 시 기간이 달력위에 보이게
 //TODO - 달력 접기
-//TODO - 이미지 가져오기
-//TODO - 전체기간 클릭 시 초기화
+//TODO - 이미지(감정) 가져오기
+//TODO - css - 오늘날짜 하단밑줄
+//TODO - 감정있으면 날짜대신 감정이모지 / 감정이모지 없으면 날짜로
 
 export default function Calendar(): JSX.Element {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [rangeList, setRangeList] = useState<SortedDiaries[]>([]);
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  //input창에 날짜범위담는상태
+  const [firstDate, setFirstDate] = useState<string>("");
+  const [secondDate, setSecondDate] = useState<string>("");
   console.log(setStartDate);
 
   //일기 전체 데이터 가져오기
@@ -38,7 +40,7 @@ export default function Calendar(): JSX.Element {
   }, []);
 
   //REVIEW - 해당되는 날짜의 감정 가져오기
-  //TODO - diary 테이블에 data없을 경우 에러남...
+  //TODO - diary 테이블에 감정null인 경우 에러남...
   const filterDiaries = diaries?.filter((diary) => {
     const filterMonth = diary.date.match(/\d{1,2}월/)[0].replace("월", "");
     const filterYear = diary.date.split("년")[0].trim();
@@ -63,7 +65,7 @@ export default function Calendar(): JSX.Element {
     setRangeList(searchList);
   };
 
-  //캘린더 조회기간 설정
+  //캘린더 조회기간 설정해서 데이터 가져오기
   const handleSearchDiaries = async (startDate: string, endDate: string) => {
     if (startDate && endDate) {
       const searchList = await getSelectedDiaries(startDate, endDate);
@@ -71,17 +73,49 @@ export default function Calendar(): JSX.Element {
     }
   };
 
+  //input창에 범위 넣는 함수
+  const calenderInput = (first: string, second: string) => {
+    if (first && second) {
+      setFirstDate(first);
+      setSecondDate(second);
+    }
+  };
+
+  //전체기간 버튼
+  const InitializationInput = () => {
+    setFirstDate("");
+    setSecondDate("");
+  };
+
   //버튼 클릭시 모달 버튼 클릭 유무를 설정하는 state 함수
   const clickModal = () => setIsModalOpen(!isModalOpen);
   return (
     <>
       <div>
-        <div className="flex justify-between">
-          <button onClick={clickModal} className="p-2 rounded-lg bg-gray-200 text-sm">
+        <div className="flex justify-between h-[30px]">
+          <button onClick={clickModal} className="p-2 rounded-lg bg-gray-200 text-sm ">
             조회기간 설정
           </button>
-          {isModalOpen && <CalendarModal clickModal={clickModal} handleSearchDiaries={handleSearchDiaries} />}
-          <p className="p-2">전체기간</p>
+          {isModalOpen && (
+            <CalendarModal
+              clickModal={clickModal}
+              handleSearchDiaries={handleSearchDiaries}
+              calenderInput={calenderInput}
+              currentDate={currentDate}
+            />
+          )}
+          {firstDate && secondDate ? (
+            <div className="flex text-sm ">
+              <input type="text" className="w-[80px] border-2" value={firstDate} readOnly /> ~
+              <input type="text" className="w-[80px] border-2" value={secondDate} readOnly />
+            </div>
+          ) : (
+            <div></div>
+          )}
+
+          <button className="p-2 rounded-lg bg-gray-200 text-sm" onClick={InitializationInput}>
+            전체기간
+          </button>
         </div>
         <div className="p-2  border-2 rounded-lg my-4">
           <RenderHeader currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />

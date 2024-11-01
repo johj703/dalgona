@@ -14,6 +14,7 @@ const RenderCells = ({ currentDate, onDateClick, filterDiaries }: CalendarCellsP
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
   const startDate = startOfWeek(firstDayOfMonth);
   const endDate = endOfWeek(lastDayOfMonth);
+  // const today = currentDate.getDate();
 
   const rows = [];
   let days = [];
@@ -50,11 +51,13 @@ const RenderCells = ({ currentDate, onDateClick, filterDiaries }: CalendarCellsP
       );
       day = addDays(day, 1);
     }
+
     rows.push(
       <div className="grid grid-cols-7 w-full text-center" key={day.toString()}>
         {days}
       </div>
     );
+
     days = [];
   }
 

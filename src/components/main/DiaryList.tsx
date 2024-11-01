@@ -28,8 +28,8 @@ const DiaryList = () => {
   useEffect(() => {
     if (diaries) {
       const sorted = [...diaries].sort((a, b) => {
-        const dateA = formatDate(a.date);
-        const dateB = formatDate(b.date);
+        const dateA = formatDate(a.date as string);
+        const dateB = formatDate(b.date as string);
 
         //정렬:최신순
         if (selectedBox.id === 1) {
