@@ -62,13 +62,13 @@ export default function SignUpPage() {
           setErrorMessage("회원 데이터 추가 중 오류가 발생했습니다.");
           return;
         }
+
+        // 이메일과 비밀번호를 사용해 로그인 실행
+        await browserClient.auth.signInWithPassword({ email, password });
+
+        // **페이지 이동하기 로직 추가
+        router.push("/(auth)/signUp/profile");
       }
-
-      // 이메일과 비밀번호를 사용해 로그인 실행
-      await browserClient.auth.signInWithPassword({ email, password });
-
-      // **페이지 이동하기 로직 추가
-      router.push("/(auth)/signUp/profile");
 
       if (error) {
         setErrorMessage(error.message);
