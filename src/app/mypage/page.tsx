@@ -1,7 +1,7 @@
 "use client";
-import { GetMonthlyEmotion } from "@/lib/mypage/GetMonthlyEmotion";
-import { GetMyDrawing } from "@/lib/mypage/GetMyDrawing";
-import { GetUserData } from "@/lib/mypage/GetUserData";
+import { getMonthlyEmotion } from "@/lib/mypage/getMonthlyEmotion";
+import { getMyDrawing } from "@/lib/mypage/getMyDrawing";
+import { getUserData } from "@/lib/mypage/getUserData";
 import { EmojiData } from "@/types/mypage/EmojiData";
 import { UserData } from "@/types/mypage/UserData";
 import Image from "next/image";
@@ -16,9 +16,9 @@ const Mypage = () => {
   const [myDrawing, setMyDrawing] = useState<{ draw: string }[]>();
 
   const getData = async () => {
-    const UserData = await GetUserData(USER_ID);
-    const MonthlyData = await GetMonthlyEmotion(USER_ID);
-    const MyDrawing = await GetMyDrawing(USER_ID);
+    const UserData = await getUserData(USER_ID);
+    const MonthlyData = await getMonthlyEmotion(USER_ID);
+    const MyDrawing = await getMyDrawing(USER_ID);
 
     setUserData(UserData);
 

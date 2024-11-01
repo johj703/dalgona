@@ -1,6 +1,6 @@
 import browserClient from "@/utils/supabase/client";
 
-export const GetMonthlyEmotion = async (user_id: string) => {
+export const getMonthlyEmotion = async (user_id: string) => {
   const Today = new Date();
   const Year = Today.getFullYear();
   const Month = Today.getMonth() < 9 ? `0${Today.getMonth() + 1}` : Today.getMonth() + 1;

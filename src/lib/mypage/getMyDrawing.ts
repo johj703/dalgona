@@ -1,6 +1,6 @@
 import browserClient from "@/utils/supabase/client";
 
-export const GetMyDrawing = async (user_id: string) => {
+export const getMyDrawing = async (user_id: string) => {
   try {
     const { data } = await browserClient
       .from("diary")
