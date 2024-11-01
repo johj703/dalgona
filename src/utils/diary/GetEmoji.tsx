@@ -1,4 +1,4 @@
-export const GetEmoji = (emotion: string) => {
+export const getEmoji = (emotion: string) => {
   switch (emotion) {
     case "행복해요":
       return <img src="happy.png" alt="행복해요" />;

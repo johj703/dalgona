@@ -1,7 +1,7 @@
 import { FormData } from "@/types/Canvas";
 import { GraphPaper } from "./GraphPaper";
-import { GetEmoji } from "@/utils/diary/GetEmoji";
-import { ChangeDateForm } from "@/utils/diary/ChangeDateForm";
+import { ChangeDateForm } from "@/components/diary/ChangeDateForm";
+import { getEmoji } from "@/utils/diary/GetEmoji";
 
 const DetailLayout = ({ postData }: { postData: FormData }) => {
   return (
@@ -10,7 +10,7 @@ const DetailLayout = ({ postData }: { postData: FormData }) => {
         {postData.date && <div>{ChangeDateForm(postData.date)}</div>}
         <div>
           <span>오늘의 기분은</span>
-          {GetEmoji(postData.emotion)}
+          {getEmoji(postData.emotion)}
           {postData.emotion}
         </div>
       </div>

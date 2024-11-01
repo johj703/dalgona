@@ -3,7 +3,7 @@
 import Draw from "@/components/diary/Draw";
 import { FormData } from "@/types/Canvas";
 import browserClient from "@/utils/supabase/client";
-import Calender from "@/utils/diary/Calender";
+import Calender from "@/components/diary/Calender";
 import { toast } from "garlic-toast";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";

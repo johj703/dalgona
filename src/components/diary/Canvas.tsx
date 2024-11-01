@@ -1,12 +1,12 @@
 "use client";
 
-import DrawImage from "@/lib/DrawImage";
-import GetRatio from "@/lib/GetRatio";
-import { convertHexToRgba, floodFill } from "@/lib/Paint";
-import Redo from "@/lib/Redo";
-import ReDraw from "@/lib/ReDraw";
-import SetCanvasContext from "@/lib/SetCanvasContext";
-import Undo from "@/lib/Undo";
+import drawImage from "@/lib/drawImage";
+import getRatio from "@/lib/getRatio";
+import { convertHexToRgba, floodFill } from "@/lib/paint";
+import redo from "@/lib/redo";
+import reDraw from "@/lib/reDraw";
+import setCanvasContext from "@/lib/setCanvasContext";
+import undo from "@/lib/undo";
 import { CanvasProps } from "@/types/Canvas";
 import browserClient from "@/utils/supabase/client";
 import { decode } from "base64-arraybuffer";
@@ -43,7 +43,7 @@ const Canvas = ({
 
     const setCanvas = () => {
       if (canvas && canvasContext) {
-        const canvasCtx = SetCanvasContext({ canvas, canvasContext, canvasWidth, canvasHeight });
+        const canvasCtx = setCanvasContext({ canvas, canvasContext, canvasWidth, canvasHeight });
         setCtx(canvasCtx);
       }
     };
@@ -51,7 +51,7 @@ const Canvas = ({
     setCanvas();
 
     if (pathHistory.length !== 0 && canvas && canvasContext) {
-      ReDraw({ pathHistory, canvas, canvasContext, pathStep });
+      reDraw({ pathHistory, canvas, canvasContext, pathStep });
     }
   }, [canvasWidth, canvasHeight]);
 
@@ -65,7 +65,7 @@ const Canvas = ({
       pathPic.onload = () => {
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
 
-        const ratio: number = GetRatio(canvas, pathPic) as number;
+        const ratio: number = getRatio(canvas, pathPic) as number;
         canvasContext.drawImage(pathPic, 0, 0, pathPic.width * ratio, pathPic.height * ratio);
         saveHistory();
       };
@@ -81,7 +81,7 @@ const Canvas = ({
   // 이미지 업로드
   useEffect(() => {
     if (ctx) {
-      DrawImage({ getImage, ctx, saveHistory, fileRef });
+      drawImage({ getImage, ctx, saveHistory, fileRef });
     }
   }, [getImage]);
 
@@ -92,9 +92,9 @@ const Canvas = ({
     if (canvas && ctx) {
       const pathPic = new Image();
       if (pathMode === "undo" && pathStep !== -1) {
-        Undo({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory, saveHistory });
+        undo({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory, saveHistory });
       } else if (pathMode === "redo" && pathHistory[pathStep + 1]) {
-        Redo({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory, saveHistory });
+        redo({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory, saveHistory });
       } else if (pathMode === "save") {
         const uploadImage = async () => {
           if (canvasRef.current) {
@@ -130,7 +130,7 @@ const Canvas = ({
           .then(async (isConfirm) => {
             if (isConfirm) {
               ctx.reset();
-              const canvasCtx = SetCanvasContext({ canvas, canvasContext: ctx, canvasWidth, canvasHeight });
+              const canvasCtx = setCanvasContext({ canvas, canvasContext: ctx, canvasWidth, canvasHeight });
               setCtx(canvasCtx);
               setPathHistory([]);
               setPathStep(-1);
@@ -173,7 +173,7 @@ const Canvas = ({
       const mouseY = e.nativeEvent.offsetY;
 
       if (!painting) return;
-      ReDraw({ pathHistory, canvas, canvasContext, pathStep });
+      reDraw({ pathHistory, canvas, canvasContext, pathStep });
       ctx.beginPath();
       ctx.strokeRect(pos[0], pos[1], mouseX - pos[0], mouseY - pos[1]);
     }

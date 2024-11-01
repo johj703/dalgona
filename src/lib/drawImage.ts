@@ -1,6 +1,6 @@
 import { DrawImageProps } from "@/types/Canvas";
 
-const DrawImage = ({ getImage, ctx, saveHistory, fileRef }: DrawImageProps) => {
+const drawImage = ({ getImage, ctx, saveHistory, fileRef }: DrawImageProps) => {
   if (getImage) {
     const file = getImage[0];
     const url = URL.createObjectURL(file);
@@ -13,4 +13,4 @@ const DrawImage = ({ getImage, ctx, saveHistory, fileRef }: DrawImageProps) => {
     };
   }
 };
-export default DrawImage;
+export default drawImage;

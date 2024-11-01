@@ -1,6 +1,6 @@
 import { Context } from "@/types/Canvas";
 
-const SetCanvasContext = ({ canvas, canvasContext, canvasWidth, canvasHeight }: Context) => {
+const setCanvasContext = ({ canvas, canvasContext, canvasWidth, canvasHeight }: Context) => {
   const devicePixelRatio = window.devicePixelRatio ?? 1;
   canvas.style.width = canvasWidth + "px";
   canvas.style.height = canvasHeight + "px";
@@ -15,4 +15,4 @@ const SetCanvasContext = ({ canvas, canvasContext, canvasWidth, canvasHeight }: 
   canvasContext.globalCompositeOperation = "source-over";
   return canvasContext;
 };
-export default SetCanvasContext;
+export default setCanvasContext;

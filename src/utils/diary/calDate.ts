@@ -1,4 +1,4 @@
-export const CalDate = (date: number) => {
+export const calDate = (date: number) => {
   switch (date) {
     case 0:
       return "일요일";

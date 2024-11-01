@@ -3,7 +3,7 @@ type GetSize = {
   canvasPicSize: number;
 };
 
-const GetRatio = (canvas: HTMLCanvasElement, canvasPic: HTMLImageElement) => {
+const getRatio = (canvas: HTMLCanvasElement, canvasPic: HTMLImageElement) => {
   const calRatio = ({ canvasSize, canvasPicSize }: GetSize) => {
     const calRatio = canvasSize / canvasPicSize;
     return calRatio;
@@ -22,4 +22,4 @@ const GetRatio = (canvas: HTMLCanvasElement, canvasPic: HTMLImageElement) => {
 
   return 1;
 };
-export default GetRatio;
+export default getRatio;

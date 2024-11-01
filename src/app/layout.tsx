@@ -25,7 +25,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const ToastContainer = dynamic(() => import("@/lib/GetToast"), { ssr: false });
+  const ToastContainer = dynamic(() => import("@/components/GetToast"), { ssr: false });
 
   return (
     <html lang="en" suppressHydrationWarning>

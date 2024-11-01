@@ -2,7 +2,7 @@
 
 import DetailLayout from "@/components/diary/DetailLayout";
 import { FormData } from "@/types/Canvas";
-import { FetchData } from "@/utils/diary/FetchData";
+import { fetchData } from "@/utils/diary/fetchData";
 import browserClient from "@/utils/supabase/client";
 import { toast } from "garlic-toast";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ const Read = ({ params }: { params: { id: string } }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
   const getData = async () => {
-    const DiaryData = await FetchData(params.id);
+    const DiaryData = await fetchData(params.id);
     setPostData(DiaryData);
     setIsLoading(false);
   };

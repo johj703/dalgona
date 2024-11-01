@@ -1,6 +1,6 @@
 import browserClient from "../supabase/client";
 
-export const FetchData = async (params: string) => {
+export const fetchData = async (params: string) => {
   try {
     const { data, error } = await browserClient.from("diary").select("*").eq("id", params);
 

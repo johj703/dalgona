@@ -1,7 +1,7 @@
 import { ChangedoProps } from "@/types/Canvas";
-import GetRatio from "./GetRatio";
+import GetRatio from "./getRatio";
 
-const Undo = ({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory }: ChangedoProps) => {
+const undo = ({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHistory }: ChangedoProps) => {
   if (pathStep === 0) {
     ctx?.clearRect(0, 0, canvas.width, canvas.height);
     // saveHistory();
@@ -17,4 +17,4 @@ const Undo = ({ pathStep, ctx, canvas, pathPic, setPathMode, setPathStep, pathHi
   setPathMode("");
   setPathStep(pathStep - 1);
 };
-export default Undo;
+export default undo;

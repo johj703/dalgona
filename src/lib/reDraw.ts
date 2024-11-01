@@ -1,12 +1,12 @@
 import { ReDrawProps } from "@/types/Canvas";
-import GetRatio from "./GetRatio";
+import getRatio from "./getRatio";
 
-const ReDraw = ({ pathHistory, canvas, canvasContext, pathStep }: ReDrawProps) => {
+const reDraw = ({ pathHistory, canvas, canvasContext, pathStep }: ReDrawProps) => {
   const canvasPic = new Image();
   canvasPic.src = pathHistory[pathStep];
 
-  const ratio: number = GetRatio(canvas, canvasPic) as number;
+  const ratio: number = getRatio(canvas, canvasPic) as number;
 
   canvasPic.onload = () => canvasContext?.drawImage(canvasPic, 0, 0, canvasPic.width * ratio, canvasPic.height * ratio);
 };
-export default ReDraw;
+export default reDraw;
