@@ -39,12 +39,18 @@ export default function SignUpPage() {
       return;
     }
 
-    // Supabase에 회원 정보 추가
     try {
+      // Supabase에 회원 정보 추가 및 회원가입 요청
       const { data, error } = await browserClient.auth.signUp({
         email,
         password
       });
+
+      // ** 데이터가 입력이 되면 로그인이 실행되고(이 때, 테이블에 추가가 되는것으로 작성하기) 회원가입2로 이동하도록 작성
+      if (data) {
+        //
+        // **페이지 이동하기 로직 추가
+      }
 
       if (error) {
         setErrorMessage(error.message);
