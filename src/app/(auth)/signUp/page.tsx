@@ -1,6 +1,7 @@
 "use client";
 
 import browserClient from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function SignUpPage() {
@@ -9,6 +10,7 @@ export default function SignUpPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
   // 회원가입 버튼을 클릭했을 때 호출되는 함수
   const handleSignUp = async (e: React.FormEvent) => {
@@ -66,6 +68,7 @@ export default function SignUpPage() {
       await browserClient.auth.signInWithPassword({ email, password });
 
       // **페이지 이동하기 로직 추가
+      router.push("/(auth)/signUp/profile");
 
       if (error) {
         setErrorMessage(error.message);
