@@ -39,7 +39,7 @@ export default function SaveUserProfilePage() {
   // ** signIn 된 로그인 정보 가져오기 로직 추가
   // ** 그 후 users 테이블에 한꺼번에 업데이트 하면 됨!
   console.log(values);
-  const [userEmail, setUserEmail];
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
@@ -81,7 +81,7 @@ export default function SaveUserProfilePage() {
           gender: data.gender
         })
         // 이메일로 특정 사용자 지정
-        .eq("email", "사용자의 이메일 주소");
+        .eq("email", userEmail);
 
       // 오류 발생 시 예외 처리
       if (error) {
