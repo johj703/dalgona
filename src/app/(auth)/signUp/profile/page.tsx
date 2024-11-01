@@ -55,6 +55,24 @@ export default function SaveUserProfilePage() {
     fetchUser();
   }, []);
 
+  // Supabase 스토리지에 프로필 이미지 업로드 및 URL 가져오기
+  async function uploadProfileImage(file: File): Promise<string | null> {
+    const fileName = `${Date.now()}_${file.name}`; // 고유한 파일 이름 생성
+    const { data, error } = await supabase.storage
+      .from("profile-images") // 스토리지 버킷 이름
+      .upload(fileName, file);
+
+    if (error) {
+      console.log("프로필 이미지 업로드 오류 : ", error);
+      return null;
+    }
+
+    // 이미지 URL 생성
+    const { publicURL } = supabase.storage.from("profile-images").getPublicUrl(data.path);
+
+    return publicURL || null;
+  }
+
   // 프로필 이미지 업로드 핸들러
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -71,11 +89,17 @@ export default function SaveUserProfilePage() {
     }
     console.log(data);
     try {
+      // 프로필 이미지 URL 업로드 후 URL 가져오기
+      let profileImageUrl = null;
+      if (profileImage) {
+        profileImageUrl = await uploadProfileImage(profileImage);
+      }
+
       // Supabase에 프로필 데이터 저장
       const { error } = await supabase
         .from("users")
         .update({
-          profile_image: profileImage ? URL.createObjectURL(profileImage) : undefined,
+          profile_image: profileImageUrl, // 이미지 URL을 profile_image에 저장
           birth_year: data.birthYear,
           birth_month: data.birthMonth,
           gender: data.gender
