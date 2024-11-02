@@ -19,6 +19,9 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
   const router = useRouter();
 
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+  const drawRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+
+  const contentsRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const textareaRef: RefObject<HTMLTextAreaElement> = useRef<HTMLTextAreaElement>(null);
 
   // 임시 저장
@@ -126,9 +129,19 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
     if (openCalender) setOpenCalender(false);
   }, [formData.date]);
 
+  // 탭 토글
+  const toggleTab = (ref: RefObject<HTMLDivElement>) => {
+    const currentRef = ref.current;
+    if (currentRef?.classList.contains("open")) {
+      currentRef?.classList.remove("open");
+    } else {
+      currentRef?.classList.add("open");
+    }
+  };
+
   return (
     <>
-      <form action={() => onSubmit()}>
+      <form action={() => onSubmit()} className="flex flex-col gap-4">
         {/* 타이틀 */}
         <input
           type="text"
@@ -141,7 +154,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
         {/* 날짜 */}
         <div>
-          <label htmlFor="date">날짜</label>
+          <div className="flex items-center justify-between text-base font-semibold leading-5">날짜</div>
           <input
             type="text"
             name="date"
@@ -152,14 +165,16 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
           />
         </div>
 
-        <div>
-          <span>오늘의 기분</span>
-          <ul>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between text-base font-semibold leading-5">오늘의 기분</div>
+          <ul className="flex gap-2 overflow-x-auto">
             {EMOTION_LIST.map((emotion) => {
               return (
                 <li
                   key={emotion}
-                  className={`${formData.emotion === emotion && "border-2 border-black"}`}
+                  className={`w-[74px] shrink-0 text-center text-xs leading-5 ${
+                    formData.emotion === emotion && "border-2 border-black"
+                  }`}
                   onClick={() => setFormData({ ...formData, emotion: emotion })}
                 >
                   {emotion}
@@ -169,14 +184,16 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
           </ul>
         </div>
 
-        <div>
-          <span>일기장 속지 양식 선택</span>
-          <ul>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between text-base font-semibold leading-5">
+            일기장 속지 양식 선택
+          </div>
+          <ul className="flex gap-4">
             {TYPE_LIST.map((type) => {
               return (
                 <li
                   key={type}
-                  className={`${formData.type === type && "border-2 border-black"}`}
+                  className={`flex-1 ${formData.type === type && "border-2 border-black"}`}
                   onClick={() => setFormData({ ...formData, type: type })}
                 >
                   {type}
@@ -187,36 +204,48 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
         </div>
 
         {/* 그림판 */}
-        <div>
+        <div ref={drawRef} className="group/draw open">
+          <div className="flex items-center justify-between text-base font-semibold leading-5">
+            그림 그리기 <span onClick={() => toggleTab(drawRef)}>V</span>
+          </div>
+
           {!formData.draw ? (
-            <div onClick={() => setGoDraw(true)}>탭하여 그림그리기 페이지로 이동</div>
+            <div className="group-[.open]/draw:block hidden" onClick={() => setGoDraw(true)}>
+              탭하여 그림그리기 페이지로 이동
+            </div>
           ) : (
-            <>
-              <div onClick={() => setFormData({ ...formData, draw: null })}>삭제하기</div>
-              <img src={formData.draw} alt="그림" onClick={() => setGoDraw(true)} />
-            </>
+            <div className="group-[.open]/draw:flex hidden relative items-center justify-center w-full h-[calc((100vw-32px)*0.782)] overflow-hidden rounded-2xl border border-solid border-black">
+              <div className="absolute top-4 right-4" onClick={() => setFormData({ ...formData, draw: null })}>
+                삭제하기
+              </div>
+              <img className="" src={formData.draw} alt="그림" onClick={() => setGoDraw(true)} />
+            </div>
           )}
         </div>
 
         {formData.type !== "편지지" && (
-          <div>
-            <div>글 내용</div>
+          <div ref={contentsRef} className="group/contents open">
+            <div className="flex items-center justify-between text-base font-semibold leading-5">
+              글로 쓰기 <span onClick={() => toggleTab(contentsRef)}>V</span>
+            </div>
             <textarea
               ref={textareaRef}
               name="contents"
               id="contents"
-              rows={1}
+              rows={9}
               value={formData.contents}
               onChange={(e) => onChangeFormData(e)}
-              className="resize-none"
+              className="resize-none w-full bg-local bg-custom-textarea leading-8 group-[.open]/contents:block hidden"
             />
           </div>
         )}
 
-        <button type="button" onClick={() => onClickDraft()}>
-          임시저장
-        </button>
-        <button>저장</button>
+        <div className="flex w-full">
+          <button className="flex-1 text-center" type="button" onClick={() => onClickDraft()}>
+            임시저장
+          </button>
+          <button className="flex-1 text-center">저장</button>
+        </div>
       </form>
 
       {/* 그림판 */}
