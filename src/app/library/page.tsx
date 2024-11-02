@@ -60,10 +60,10 @@ const LibraryPage: React.FC = () => {
   }
 
   return (
-    <div>
-      <div className="h-[52px] p-2.5 flex items-center">
+    <div className="p-4">
+      <div className="h-[52px] pb-4 flex items-center">
         <button className="flex-shrink-0">
-          <img src="/icons/arrow-left.svg" alt="Arrow Left" className="relative" />
+          <img src="/icons/arrow-left.svg" alt="Arrow Left" className="w-4 h-4 relative" />
         </button>
         <h1 className="flex-grow text-center text-black text-base font-semibold font-['Pretendard'] leading-normal">
           기록의 방
