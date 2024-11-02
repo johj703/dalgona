@@ -1,6 +1,6 @@
 "use client";
 
-import DetailLayout from "@/components/diary/DetailLayout";
+import DetailComponent from "@/components/diary/DetailComponent";
 import { FormData } from "@/types/Canvas";
 import { fetchData } from "@/utils/diary/fetchData";
 import browserClient from "@/utils/supabase/client";
@@ -47,7 +47,7 @@ const Read = ({ params }: { params: { id: string } }) => {
     !isLoading &&
     (postData ? (
       <>
-        <DetailLayout postData={postData} />
+        <DetailComponent postData={postData} />
         <div>
           <button onClick={() => onClickModify()}>수정</button>
           <button onClick={() => onClickDelete()}>삭제</button>

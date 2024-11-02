@@ -3,7 +3,7 @@ import { GraphPaper } from "./GraphPaper";
 import { ChangeDateForm } from "@/components/diary/ChangeDateForm";
 import { getEmoji } from "@/utils/diary/GetEmoji";
 
-const DetailLayout = ({ postData }: { postData: FormData }) => {
+const DetailComponent = ({ postData }: { postData: FormData }) => {
   return (
     <div>
       <div>
@@ -28,4 +28,4 @@ const DetailLayout = ({ postData }: { postData: FormData }) => {
     </div>
   );
 };
-export default DetailLayout;
+export default DetailComponent;
