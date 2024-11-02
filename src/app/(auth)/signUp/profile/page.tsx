@@ -56,12 +56,19 @@ export default function SaveUserProfilePage() {
     fetchUser();
   }, []);
 
+  // 파일 이름을 안전하게 변환하는 함수
+  function sanitizeFileName(fileName: string): string {
+    const extension = fileName.split(".").pop(); // 파일 확장자 추출
+    const sanitizedFileName = `${Date.now()}_${fileName.replace(/[^a-zA-Z0-9]/g, "_")}`;
+    return extension ? `${sanitizedFileName}.${extension}` : sanitizedFileName;
+  }
+
   // Supabase 스토리지에 프로필 이미지 업로드 및 URL 가져오기
   async function uploadProfileImage(file: File): Promise<string | null> {
-    const fileName = `${Date.now()}_${file.name}`; // 고유한 파일 이름 생성
+    const sanitizedFileName = sanitizeFileName(file.name); // 고유한 파일 이름 생성
     const { data, error } = await supabase.storage
       .from("profile-images") // 스토리지 버킷 이름
-      .upload(fileName, file);
+      .upload(sanitizedFileName, file);
 
     console.log(data);
 
