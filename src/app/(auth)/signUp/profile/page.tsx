@@ -19,6 +19,10 @@ const profileSchema = z.object({
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().min(1, "월은 1월부터 시작합니다.").max(12, "월은 12월까지만 가능합니다.")),
+  birthDay: z
+    .string()
+    .transform((val) => Number(val))
+    .pipe(z.number().min(1, "일은 1일부터 시작합니다.").max(31, "일은 31일까지 가능합니다.")),
   gender: z.enum(["남성", "여성"])
 });
 
