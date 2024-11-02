@@ -109,6 +109,12 @@ export default function SaveUserProfilePage() {
     }
     console.log(data);
     try {
+      // 생년월일을 조합해서 yyyy-mm-dd 형식의 문자열로 변환
+      const birthday = `${data.birthYear}-${String(data.birthMonth).padStart(2, "0")}-${String(data.birthDay).padStart(
+        2,
+        "0"
+      )}`;
+
       // 프로필 이미지 URL 업로드 후 URL 가져오기
       let profileImageUrl = null;
       if (profileImage) {
@@ -120,8 +126,7 @@ export default function SaveUserProfilePage() {
         .from("users")
         .update({
           profile_image: profileImageUrl, // 이미지 URL을 profile_image에 저장
-          birth_year: data.birthYear,
-          birth_month: data.birthMonth,
+          birthday, // yyyy-mm-dd 형태로 저장
           gender: data.gender
         })
         // 이메일로 특정 사용자 지정
@@ -178,8 +183,17 @@ export default function SaveUserProfilePage() {
               </option>
             ))}
           </select>
+          <select {...register("birthDay")} className="">
+            <option value="">일</option>
+            {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
+              <option key={day} value={day}>
+                {day}
+              </option>
+            ))}
+          </select>
           {errors.birthYear && <p className="">{errors.birthYear.message}</p>}
           {errors.birthMonth && <p className="">{errors.birthMonth.message}</p>}
+          {errors.birthDay && <p className="">{errors.birthDay.message}</p>}
         </div>
 
         {/* 성별 선택 */}
