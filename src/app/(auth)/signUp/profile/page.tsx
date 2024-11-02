@@ -67,7 +67,7 @@ export default function SaveUserProfilePage() {
   async function uploadProfileImage(file: File): Promise<string | null> {
     const sanitizedFileName = sanitizeFileName(file.name); // 고유한 파일 이름 생성
     const { data, error } = await supabase.storage
-      .from("profile-images") // 스토리지 버킷 이름
+      .from("profile") // 스토리지 버킷 이름
       .upload(sanitizedFileName, file);
 
     console.log(data);
