@@ -174,6 +174,7 @@ export default function SaveUserProfilePage() {
                 {year}
               </option>
             ))}
+            년
           </select>
           <select {...register("birthMonth")} className="">
             <option value="">월</option>
@@ -182,6 +183,7 @@ export default function SaveUserProfilePage() {
                 {month}
               </option>
             ))}
+            월
           </select>
           <select {...register("birthDay")} className="">
             <option value="">일</option>
@@ -190,6 +192,7 @@ export default function SaveUserProfilePage() {
                 {day}
               </option>
             ))}
+            일
           </select>
           {errors.birthYear && <p className="">{errors.birthYear.message}</p>}
           {errors.birthMonth && <p className="">{errors.birthMonth.message}</p>}
