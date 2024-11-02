@@ -1,7 +1,13 @@
 import React from "react";
+import Link from "next/link";
 
-const page = () => {
-  return <div>메인페이지!</div>;
+const MyPage: React.FC = () => {
+  return (
+    <div>
+      <h1>마이페이지</h1>
+      <Link href="/mypage/artwork">내 그림 모아보기</Link>
+    </div>
+  );
 };
 
-export default page;
+export default MyPage;
