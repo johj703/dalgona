@@ -65,10 +65,16 @@ export default function SaveUserProfilePage() {
 
   // Supabase 스토리지에 프로필 이미지 업로드 및 URL 가져오기
   async function uploadProfileImage(file: File): Promise<string | null> {
+    if (!userEmail) {
+      console.log("사용자 이메일을 찾을 수 없습니다.");
+      return null;
+    }
     const sanitizedFileName = sanitizeFileName(file.name); // 고유한 파일 이름 생성
+    const filePath = `${userEmail}/${sanitizedFileName}`; // 입력한 이메일 디렉토리를 포함한 파일 경로
+
     const { data, error } = await supabase.storage
       .from("profile") // 스토리지 버킷 이름
-      .upload(sanitizedFileName, file);
+      .upload(filePath, file);
 
     console.log(data);
 
@@ -78,7 +84,7 @@ export default function SaveUserProfilePage() {
     }
 
     // 이미지 URL 생성
-    const { data: publicData } = supabase.storage.from("profile").getPublicUrl(data.path);
+    const { data: publicData } = supabase.storage.from("profile").getPublicUrl(filePath);
 
     return publicData.publicUrl || null;
   }
