@@ -78,7 +78,7 @@ export default function SaveUserProfilePage() {
     }
 
     // 이미지 URL 생성
-    const { data: publicData } = supabase.storage.from("profile-images").getPublicUrl(data.path);
+    const { data: publicData } = supabase.storage.from("profile").getPublicUrl(data.path);
 
     return publicData.publicUrl || null;
   }
