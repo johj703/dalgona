@@ -4,7 +4,7 @@ import browserClient from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 
 const DraftsList = () => {
-  const [drafts, setDrafts] = useState<Diary[]>([]);
+  const [drafts, setDrafts] = useState<Diary[] | null>(null);
   const [delList, setDelList] = useState<string[]>([]);
 
   const getDraft = async (user_id: string) => {
@@ -28,7 +28,7 @@ const DraftsList = () => {
     await delDrafts(delList);
     await getDraft("32b1e26a-2968-453b-a5c4-f2b766c9bccb");
   };
-
+  if (!drafts) return <div>임시저장된 내용이 없습니다</div>;
   return (
     <>
       <ul>
