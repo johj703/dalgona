@@ -1,7 +1,7 @@
 "use client";
 
 import Form from "@/components/diary/Form";
-import { FetchData } from "@/utils/diary/FetchData";
+import { fetchData } from "@/utils/diary/fetchData";
 import { useEffect, useState } from "react";
 
 const initialData = {
@@ -21,7 +21,7 @@ const Modify = ({ params }: { params: { id: string } }) => {
   const POST_ID = params.id;
 
   const getData = async () => {
-    const DiaryData = await FetchData(POST_ID);
+    const DiaryData = await fetchData(POST_ID);
     setPostData({ ...postData, ...DiaryData });
     setIsLoading(false);
   };
