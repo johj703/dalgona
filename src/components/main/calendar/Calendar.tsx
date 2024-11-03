@@ -40,7 +40,7 @@ export default function Calendar(): JSX.Element {
   }, []);
 
   //REVIEW - 해당되는 날짜의 감정 가져오기
-  //TODO - diary 테이블에 감정null인 경우 에러남...
+  //TODO - diary 테이블에 감정null인 경우 에러남... 일기쓸때 꼭넣어야하는지 안넣어두 되는지??
   const filterDiaries = diaries?.filter((diary) => {
     const filterMonth = diary.date.match(/\d{1,2}월/)[0].replace("월", "");
     const filterYear = diary.date.split("년")[0].trim();

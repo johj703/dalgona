@@ -73,7 +73,7 @@ export const useInfiniteQueryDiaries = () => {
   const { data, isError, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ["diaries"],
     initialPageParam: 1,
-    queryFn: ({ pageParam }) => getPaginatedDiaries(pageParam, 10),
+    queryFn: ({ pageParam }) => getPaginatedDiaries(pageParam, 5),
     getNextPageParam: (lastPage) => {
       return lastPage?.hasNext ? lastPage.nextPage : undefined;
     }
