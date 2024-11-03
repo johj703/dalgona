@@ -13,7 +13,7 @@ export const getInitialDiaries = async () => {
 //NOTE - useQuery로 fetch하기
 export const useFetchDiaries = () => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ["diaries"],
+    queryKey: ["allDiaries"],
     queryFn: async () => {
       return await getInitialDiaries();
     }
