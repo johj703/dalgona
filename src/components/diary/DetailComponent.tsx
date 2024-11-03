@@ -1,7 +1,7 @@
 import { FormData } from "@/types/Canvas";
 import { GraphPaper } from "./GraphPaper";
-import { ChangeDateForm } from "@/components/diary/ChangeDateForm";
-import { getEmoji } from "@/utils/diary/GetEmoji";
+import { getEmoji } from "@/utils/diary/getEmoji";
+import { ChangeDateForm } from "./ChangeDateForm";
 
 const DetailComponent = ({ postData }: { postData: FormData }) => {
   return (
