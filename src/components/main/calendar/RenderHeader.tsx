@@ -8,7 +8,7 @@ const RenderHeader = ({ currentDate, prevMonth, nextMonth }: HeaderProps) => {
     <div>
       <div className="flex justify-between p-2">
         <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} />
-        <h2>
+        <h2 className="font-bold">
           {format(currentDate, "yyyy")} . {format(currentDate, "M")}
         </h2>
         <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />

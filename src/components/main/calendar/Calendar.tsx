@@ -12,19 +12,18 @@ import "react-datepicker/dist/react-datepicker.css";
 
 //TODO - 달력 접기
 //TODO - 이미지(감정) 가져오기
-//TODO - css - 오늘날짜 하단밑줄
 //TODO - 감정있으면 날짜대신 감정이모지 / 감정이모지 없으면 날짜로
 //TODO - 하루에 일기를 여러개 작성할경우 달력에 보이는 감정이모지는??
 
 export default function Calendar(): JSX.Element {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [rangeList, setRangeList] = useState<SortedDiaries[]>([]);
-  const [startDate, setStartDate] = useState<Date>(new Date());
+  // const [startDate, setStartDate] = useState<Date>(new Date());
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   //input창에 날짜범위담는상태
   const [firstDate, setFirstDate] = useState<string>("");
   const [secondDate, setSecondDate] = useState<string>("");
-  console.log(setStartDate);
+  // console.log(setStartDate);
 
   //일기 전체 데이터 가져오기
   const { data: diaries } = useFetchDiaries();
@@ -36,7 +35,7 @@ export default function Calendar(): JSX.Element {
   //REVIEW - useEffect가 실행될 때 diaries가 아직 로딩 중일 수 있기 때문에, diaries가 undefined일 가능성이 있음 이케 맞나
   useEffect(() => {
     if (diaries) {
-      const formatTodayDate = format(startDate, "yyyy년 MM월 dd일");
+      const formatTodayDate = format(new Date(), "yyyy년 MM월 dd일");
       const searchDiaries = diaries?.find((diary: SortedDiaries) => diary.date === formatTodayDate);
       if (searchDiaries) {
         setRangeList([...rangeList, { ...searchDiaries }]); //REVIEW -

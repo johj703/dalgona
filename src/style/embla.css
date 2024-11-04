@@ -34,8 +34,9 @@
 }
 .embla__controls {
   display: grid;
-  grid-template-columns: auto 1fr;
-  justify-content: space-between;
+  /* grid-template-columns: auto 1fr;
+  justify-content: space-between; */
+  justify-items: center;
   gap: 1.2rem;
   margin-top: 1.8rem;
 }

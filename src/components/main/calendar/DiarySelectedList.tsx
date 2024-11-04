@@ -1,4 +1,5 @@
 import { Dates } from "@/types/main/Calendar";
+import { getDayOfTheWeek, getSimpleDate } from "@/utils/calendar/dateFormat";
 import Link from "next/link";
 import React from "react";
 
@@ -7,21 +8,23 @@ const DiarySelectedList = ({ rangeList }: Dates) => {
   return (
     <>
       <div className="border-2 rounded-lg p-4">
-        <p className="font-bold text-center py-[10px]">내가 남긴 이야기</p>
         {rangeList && rangeList.length > 0 ? (
           rangeList.map((list) => (
-            <div key={list.id} className="p-4 mb-4 border-2 rounded-lg">
-              <div>
-                <div className="mb-2 border-2 h-[200px] rounded-lg flex gap-2">
-                  <img src={list.draw} width={700} height={700} alt="Picture of the author" />
+            <div key={list.id}>
+              <div className="justify-items-center">
+                <div className="font-bold">내가 남긴 이야기</div>
+                <div className="text-sm w-[60px] ">
+                  <p className="today text-center border-b-2">{getDayOfTheWeek(rangeList[0].date)}</p>
+                  <p className="simple-date text-center">{getSimpleDate(rangeList[0].date)}</p>
                 </div>
-                <div className="flex justify-between">
-                  <div className="text-sm">
-                    <p>{list.date}</p>
+              </div>
+              <div className=" p-4 mb-4 border-2 rounded-lg">
+                <div>
+                  <div className="mb-2 border-2 h-[200px] rounded-lg flex gap-2">
+                    <img src={list.draw} width={700} height={700} alt="Picture of the author" />
                   </div>
-                  <div>{list.emotion}</div>
+                  <p>{list.contents}</p>
                 </div>
-                <p>{list.contents}</p>
               </div>
             </div>
           ))

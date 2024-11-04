@@ -3,7 +3,7 @@ import { useInfiniteQueryDiaries } from "@/lib/main/fetchDiaries";
 import { Select, Tab } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
 import TopButton from "./TopButton";
-import { formatDate, getDayOfTheWeek } from "@/utils/calendar/dateFormat";
+import { formatDate, getDayOfTheWeek, getSimpleDate } from "@/utils/calendar/dateFormat";
 import { SortedDiaries } from "@/types/main/Calendar";
 import Link from "next/link";
 
@@ -101,14 +101,14 @@ const DiaryList = () => {
             <Tab.Panel>
               {sortedDiaries?.map((diary) => (
                 <div key={diary.id} className="p-4 mb-2 border-2 rounded-lg">
-                  <div>
+                  <div className="relative">
                     <div className="mb-2 border-2 h-[200px] rounded-lg flex gap-2">
                       <img src={diary.draw} width={700} height={700} alt="Picture of the author" />
                     </div>
-                    <div className="flex justify-between">
+                    <div className="absolute top-[10px] p-2 flex gap-[180px]">
                       <div className="text-sm">
-                        <p>{getDayOfTheWeek(diary.date)}</p>
-                        <p>{diary.date}</p>
+                        <p className="today text-center border-b-2">{getDayOfTheWeek(diary.date)}</p>
+                        <p className="simple-date text-center">{getSimpleDate(diary.date)}</p>
                       </div>
                       <div>{diary.emotion}</div>
                     </div>

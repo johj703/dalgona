@@ -1,12 +1,14 @@
 "use client";
 import { getSearchDiaries } from "@/lib/main/fetchDiaries";
 import { SortedDiaries } from "@/types/main/Calendar";
+import { getDayOfTheWeek, getSimpleDate } from "@/utils/calendar/dateFormat";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 //TODO - 일기 클릭하면 상세로 이동
 //TODO - 무한스크롤
 //TODO - 최근검색어..?
+//TODO - 진입시 초기 로딩 지연 수정하기!
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");
@@ -43,7 +45,10 @@ const SearchPage = () => {
           {searchDiaries.map((diary) => (
             <div key={diary.id} className="border-2 p-2 rounded-md my-2">
               <p>{diary.contents}</p>
-              <p className="text-right text-sm">{diary.date}</p>
+              <div className="flex text-sm">
+                <p className="mr-2">{getDayOfTheWeek(diary.date)}</p>
+                <p>{getSimpleDate(diary.date)}</p>
+              </div>
             </div>
           ))}
         </div>

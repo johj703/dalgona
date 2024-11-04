@@ -15,6 +15,9 @@ const RenderCells = ({ currentDate, onDateClick, filterDiaries }: CalendarCellsP
   const startDate = startOfWeek(firstDayOfMonth);
   const endDate = endOfWeek(lastDayOfMonth);
 
+  const todayDate = new Date().getDate().toString();
+  const todayMonth = (new Date().getMonth() + 1).toString();
+
   const rows = [];
   let days = [];
   let day = startDate;
@@ -43,7 +46,15 @@ const RenderCells = ({ currentDate, onDateClick, filterDiaries }: CalendarCellsP
           key={day.toString()}
           onClick={() => onDateClick(cloneDay)}
         >
-          <span className={format(currentDate, "M") !== format(day, "M") ? "text not-valid text-slate-300" : ""}>
+          <span
+            className={
+              format(currentDate, "M") !== format(day, "M")
+                ? "text not-valid text-slate-300 px-2"
+                : format(day, "M") === todayMonth && format(day, "d") === todayDate
+                ? "today border-b-2 border-rose-500 px-2"
+                : "px-2"
+            }
+          >
             {formattedDate}
           </span>
           {emotionDate && <div className="emotion">{emotionDate.emotion}</div>}
