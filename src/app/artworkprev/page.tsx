@@ -1,8 +1,10 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import browserClient from "@/utils/supabase/client";
 import { Diary } from "@/types/library/Diary";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const GalleryPage = () => {
   const searchParams = useSearchParams();

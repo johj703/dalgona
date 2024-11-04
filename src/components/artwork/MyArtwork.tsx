@@ -80,7 +80,7 @@ const MyArtwork: React.FC = () => {
   const handleViewGallery = () => {
     const diaryId = diaryEntries[currentIndex]?.id; // 현재 인덱스에 해당하는 다이어리 ID 가져오기
     if (diaryId) {
-      router.push(`/artwork/gallery?id=${diaryId}`); // 페이지 이동, ID를 쿼리 파라미터로 전달
+      router.push(`/artworkprev?id=${diaryId}`); // 페이지 이동, ID를 쿼리 파라미터로 전달
     }
   };
 
