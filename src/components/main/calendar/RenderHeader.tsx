@@ -6,7 +6,7 @@ import React from "react";
 const RenderHeader = ({ currentDate, prevMonth, nextMonth }: HeaderProps) => {
   return (
     <div>
-      <div className="flex justify-between">
+      <div className="flex justify-between p-2">
         <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} />
         <h2>
           {format(currentDate, "yyyy")} . {format(currentDate, "M")}

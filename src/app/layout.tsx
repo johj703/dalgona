@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import ReactQueryProviders from "@/hooks/useReactQuery";
 import dynamic from "next/dynamic";
+// import Navigation from "@/components/layout/Navigation";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ToastContainer />
         <ReactQueryProviders>{children}</ReactQueryProviders>
+        {/* <Navigation /> */}
       </body>
     </html>
   );
