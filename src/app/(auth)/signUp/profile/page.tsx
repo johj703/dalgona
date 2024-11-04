@@ -170,7 +170,7 @@ export default function SaveUserProfilePage() {
               </option>
             ))}
           </select>
-          년
+          <p>년</p>
           <select {...register("birthMonth")} className="">
             <option value=""></option>
             {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
@@ -179,7 +179,7 @@ export default function SaveUserProfilePage() {
               </option>
             ))}
           </select>
-          월
+          <p>월</p>
           <select {...register("birthDay")} className="">
             <option value=""></option>
             {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
@@ -188,7 +188,8 @@ export default function SaveUserProfilePage() {
               </option>
             ))}
           </select>
-          일{errors.birthYear && <p className="">{errors.birthYear.message}</p>}
+          <p>월</p>
+          {errors.birthYear && <p className="">{errors.birthYear.message}</p>}
           {errors.birthMonth && <p className="">{errors.birthMonth.message}</p>}
           {errors.birthDay && <p className="">{errors.birthDay.message}</p>}
         </div>
