@@ -43,7 +43,6 @@ export default function SaveUserProfilePage() {
 
   // ** signIn 된 로그인 정보 가져오기 로직 추가
   // ** 그 후 users 테이블에 한꺼번에 업데이트 하면 됨!
-  console.log(values);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -80,8 +79,6 @@ export default function SaveUserProfilePage() {
       .from("profile") // 스토리지 버킷 이름
       .upload(filePath, file);
 
-    console.log(data);
-
     if (error) {
       console.log("프로필 이미지 업로드 오류 : ", error);
       return null;
@@ -96,7 +93,6 @@ export default function SaveUserProfilePage() {
   // 프로필 이미지 업로드 핸들러
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log(file);
     if (file) setProfileImage(file);
     clearErrors();
   };
@@ -107,7 +103,6 @@ export default function SaveUserProfilePage() {
       setErrorMessage("로그인 상태를 확인할 수 없습니다.");
       return;
     }
-    console.log(data);
     try {
       // 생년월일을 조합해서 yyyy-mm-dd 형식의 문자열로 변환
       const birthday = `${data.birthYear}-${String(data.birthMonth).padStart(2, "0")}-${String(data.birthDay).padStart(
