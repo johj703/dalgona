@@ -3,13 +3,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import browserClient from "@/utils/supabase/client";
 import { Diary } from "@/types/library/Diary";
+import { useRouter } from "next/navigation";
 
 const MyArtwork: React.FC = () => {
   const [diaryEntries, setDiaryEntries] = useState<Diary[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(true); // 로딩 상태 추가
-  const touchStartRef = useRef<number | null>(null); // 터치 시작 위치
-  const mouseStartRef = useRef<number | null>(null); // 마우스 시작 위치
+  const [loading, setLoading] = useState(true);
+  const touchStartRef = useRef<number | null>(null);
+  const mouseStartRef = useRef<number | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchRandomArtworks = async () => {
@@ -30,7 +32,7 @@ const MyArtwork: React.FC = () => {
   }, []);
 
   const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
-    touchStartRef.current = event.touches[0].clientX; // 터치 시작 위치 저장
+    touchStartRef.current = event.touches[0].clientX;
   };
 
   const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
@@ -40,18 +42,16 @@ const MyArtwork: React.FC = () => {
     const touchDiff = touchStartRef.current - touchEnd;
 
     if (touchDiff > 50) {
-      // 오른쪽에서 왼쪽으로 스와이프
       handleNext();
-      touchStartRef.current = null; // 리셋
+      touchStartRef.current = null;
     } else if (touchDiff < -50) {
-      // 왼쪽에서 오른쪽으로 스와이프
       handlePrev();
-      touchStartRef.current = null; // 리셋
+      touchStartRef.current = null;
     }
   };
 
   const handleMouseStart = (event: React.MouseEvent<HTMLDivElement>) => {
-    mouseStartRef.current = event.clientX; // 마우스 시작 위치 저장
+    mouseStartRef.current = event.clientX;
   };
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -61,13 +61,11 @@ const MyArtwork: React.FC = () => {
     const mouseDiff = mouseStartRef.current - mouseEnd;
 
     if (mouseDiff > 50) {
-      // 오른쪽에서 왼쪽으로 스와이프
       handleNext();
-      mouseStartRef.current = null; // 리셋
+      mouseStartRef.current = null;
     } else if (mouseDiff < -50) {
-      // 왼쪽에서 오른쪽으로 스와이프
       handlePrev();
-      mouseStartRef.current = null; // 리셋
+      mouseStartRef.current = null;
     }
   };
 
@@ -79,51 +77,70 @@ const MyArtwork: React.FC = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + diaryEntries.length) % diaryEntries.length);
   };
 
+  const handleViewGallery = () => {
+    const diaryId = diaryEntries[currentIndex]?.id; // 현재 인덱스에 해당하는 다이어리 ID 가져오기
+    if (diaryId) {
+      router.push(`/artwork/gallery?id=${diaryId}`); // 페이지 이동, ID를 쿼리 파라미터로 전달
+    }
+  };
+
+  // const handleViewGallery = () => {
+  //   // 보러가기 버튼 클릭 시 갤러리 페이지로 이동
+  //   router.push("/artwork/gallery");
+  // };
+
   return (
     <div className="flex flex-col h-screen">
-      {/* <div className="flex items-center justify-between p-4">
-        <p className="text-xl font-bold">내 그림 모아보기</p>
-      </div> */}
+      <div className="flex p-4">
+        <button className="text-black">◀</button>
+        <p className="text-xl font-bold flex-grow text-center">내 그림 모아보기</p>
+      </div>
 
       {/* 슬라이더 영역 */}
       <div
-        onTouchStart={handleTouchStart} // 터치 이벤트
+        onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
-        onMouseDown={handleMouseStart} // 마우스 이벤트
+        onMouseDown={handleMouseStart}
         onMouseMove={handleMouseMove}
-        className={`flex items-center justify-center ${loading ? "hidden" : ""}`}
+        className={`relative flex items-center justify-center ${loading ? "hidden" : ""}`}
       >
         {diaryEntries.length > 0 ? (
-          <div className="relative w-full h-60 overflow-hidden rounded-lg">
+          <div className="relative w-full h-96 overflow-hidden border-2">
             {diaryEntries.map((diary: Diary, index: number) => (
               <div
                 key={diary.id}
                 className={`absolute inset-0 transition-opacity duration-500 ${index === currentIndex ? "opacity-100" : "opacity-0"}`}
               >
                 {diary.draw ? (
-                  <img src={diary.draw} className="rounded-lg h-full w-full object-cover" alt={`Artwork ${diary.id}`} />
+                  <img src={diary.draw} className=" h-full w-full object-cover" alt={`Artwork ${diary.id}`} />
                 ) : (
                   <span className="text-xl text-white">이미지 없음</span>
                 )}
               </div>
             ))}
+
+            {/* 인디케이터 */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+              {diaryEntries.map((_, index) => (
+                <div
+                  key={index}
+                  className={`h-2 w-2 rounded-full ${index === currentIndex ? "bg-[#AEAEAE]" : "bg-[#D9D9D9]"}`}
+                />
+              ))}
+            </div>
           </div>
         ) : (
           !loading && <span className="text-2xl text-white">슬라이더 콘텐츠</span>
         )}
-      </div>
 
-      {/* 인디케이터 */}
-      {!loading && diaryEntries.length > 0 && (
-        <div className="flex justify-center mb-2">
-          {diaryEntries.map((_, index) => (
-            <div
-              key={index}
-              className={`h-2 w-2 mx-1 rounded-full ${index === currentIndex ? "bg-[#AEAEAE]" : "bg-[#D9D9D9]"}`}
-            />
-          ))}
-        </div>
-      )}
+        {/* 보러가기 버튼 */}
+        <button
+          onClick={handleViewGallery}
+          className="absolute bottom-4 right-4 bg-[#D9D9D9] text-white px-4 py-2 rounded-full"
+        >
+          보러가기
+        </button>
+      </div>
     </div>
   );
 };
