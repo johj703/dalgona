@@ -34,12 +34,10 @@ export default function SaveUserProfilePage() {
     register,
     handleSubmit,
     formState: { errors },
-    clearErrors,
-    watch
+    clearErrors
   } = useForm<ProfileData>({
     resolver: zodResolver(profileSchema)
   });
-  const values = watch();
 
   // ** signIn 된 로그인 정보 가져오기 로직 추가
   // ** 그 후 users 테이블에 한꺼번에 업데이트 하면 됨!
@@ -47,6 +45,7 @@ export default function SaveUserProfilePage() {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
+  console.log(errorMessage);
 
   // 로그인한 사용자 이메일 가져오기
   useEffect(() => {
@@ -84,6 +83,7 @@ export default function SaveUserProfilePage() {
       return null;
     }
 
+    console.log(data);
     // 이미지 URL 생성
     const { data: publicData } = supabase.storage.from("profile").getPublicUrl(filePath);
 
