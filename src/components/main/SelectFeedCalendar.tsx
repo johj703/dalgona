@@ -10,6 +10,8 @@ const OPTIONS: EmblaOptionsType = {};
 const SLIDE_COUNT = 3;
 const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 
+//TODO - 피드에 이미지 넣기
+
 const SelectFeedCalendar = () => {
   return (
     <div>

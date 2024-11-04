@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { SortedDiaries } from "@/types/main/Calendar";
 import { format, addMonths, subMonths } from "date-fns";
-import { getSelectedDiaries, useFetchDiaries } from "@/queries/fetchDiaries";
+import { getSelectedDiaries, useFetchDiaries } from "@/lib/main/fetchDiaries";
 import RenderHeader from "./RenderHeader";
 import RenderDays from "./RenderDays";
 import RenderCells from "./RenderCells";
@@ -14,6 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 //TODO - 이미지(감정) 가져오기
 //TODO - css - 오늘날짜 하단밑줄
 //TODO - 감정있으면 날짜대신 감정이모지 / 감정이모지 없으면 날짜로
+//TODO - 하루에 일기를 여러개 작성할경우 달력에 보이는 감정이모지는??
 
 export default function Calendar(): JSX.Element {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
@@ -27,6 +28,10 @@ export default function Calendar(): JSX.Element {
 
   //일기 전체 데이터 가져오기
   const { data: diaries } = useFetchDiaries();
+  // diaries (30) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+
+  //DiaryList에 무한스크롤 만들고 난 후, 데이터 가져오면
+  //console.log("diaries", diaries); //{pages: Arr ay(1), pageParams: Array(1)}
 
   //REVIEW - useEffect가 실행될 때 diaries가 아직 로딩 중일 수 있기 때문에, diaries가 undefined일 가능성이 있음 이케 맞나
   useEffect(() => {

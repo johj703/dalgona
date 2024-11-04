@@ -1,5 +1,5 @@
 "use client";
-import { useInfiniteQueryDiaries } from "@/queries/fetchDiaries";
+import { useInfiniteQueryDiaries } from "@/lib/main/fetchDiaries";
 import { Select, Tab } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
 import TopButton from "./TopButton";
@@ -9,23 +9,24 @@ import Link from "next/link";
 
 //TODO - 감정이미지 가져오기
 //TODO - next.js 이미지 최적화
+//TODO - 로그인 한 유저만
 
 const DiaryList = () => {
   const [originDiaries, setOriginDiaries] = useState<SortedDiaries[]>([]);
   const [sortedDiaries, setSortedDiaries] = useState<SortedDiaries[]>([]);
   const [selectedBox, setSelectedBox] = useState<string>("최신순");
+  // const [throttle, setThrottle] = useState<boolean>(false);
 
   //prefetchQuery를 통해 캐시에 미리 저장된 데이터가 있으니, 새롭게 데이터를 가져오지 않고 캐시에 저장된 데이터를 반환
   // const { data: diaries } = useFetchDiaries();
   const { data: diaries, hasNextPage, fetchNextPage } = useInfiniteQueryDiaries();
-
   //REVIEW -  모든 페이지의 diariesList 데이터를 합쳐서 가져오기
   const originList = diaries?.pages.flatMap((page) => page.diariesList) || [];
 
   useEffect(() => {
     if (diaries) {
       setOriginDiaries(originList);
-      setSortedDiaries(originList); // 초기 화면에서도 정렬된 데이터가 필요하므로, 기본적으로 최신순으로 정렬
+      setSortedDiaries(originList);
     }
   }, [diaries]);
 
@@ -52,8 +53,8 @@ const DiaryList = () => {
 
   useEffect(() => {
     let fetching = false;
-    const handleScroll = async (e) => {
-      const { scrollHeight, scrollTop, clientHeight } = e.target.scrollingElement;
+    const handleScroll = async () => {
+      const { scrollHeight, scrollTop, clientHeight } = document.scrollingElement as HTMLElement;
       if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.2) {
         fetching = true;
         if (hasNextPage) await fetchNextPage();

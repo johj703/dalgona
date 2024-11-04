@@ -14,7 +14,6 @@ const RenderCells = ({ currentDate, onDateClick, filterDiaries }: CalendarCellsP
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
   const startDate = startOfWeek(firstDayOfMonth);
   const endDate = endOfWeek(lastDayOfMonth);
-  // const today = currentDate.getDate();
 
   const rows = [];
   let days = [];

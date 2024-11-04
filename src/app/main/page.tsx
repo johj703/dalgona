@@ -1,6 +1,6 @@
 import SelectFeedCalendar from "@/components/main/SelectFeedCalendar";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { getInitialDiaries } from "@/queries/fetchDiaries";
+import { getInitialDiaries } from "@/lib/main/fetchDiaries";
 
 const MainPage = async () => {
   //NOTE - 일기정보 가져오기

@@ -1,5 +1,5 @@
 "use client";
-import { getSearchDiaries } from "@/queries/fetchDiaries";
+import { getSearchDiaries } from "@/lib/main/fetchDiaries";
 import { SortedDiaries } from "@/types/main/Calendar";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
