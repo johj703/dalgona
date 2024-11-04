@@ -1,6 +1,7 @@
 "use client";
 
 import browserClient from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function SignUpPage() {
@@ -9,6 +10,7 @@ export default function SignUpPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
   // 회원가입 버튼을 클릭했을 때 호출되는 함수
   const handleSignUp = async (e: React.FormEvent) => {
@@ -39,12 +41,34 @@ export default function SignUpPage() {
       return;
     }
 
-    // Supabase에 회원 정보 추가
+    // ** 데이터가 입력이 되면 로그인이 실행되고(이 때, 테이블에 추가가 되는것으로 작성하기) 회원가입2로 이동하도록 작성
     try {
+      // Supabase에 회원 정보 추가 및 회원가입 요청
       const { data, error } = await browserClient.auth.signUp({
         email,
         password
       });
+
+      // 회원가입 요청에 성공한 경우 실행
+      if (data) {
+        // 별명(nickname)을 포함한 데이터를 users 테이블에 추가
+        const { error: dbError } = await browserClient.from("users").insert({
+          email,
+          nickname
+        });
+
+        // 데이터 베이스 삽입 중 오류가 발생한 경우 오류 메시지 설정 후 종료
+        if (dbError) {
+          setErrorMessage("회원 데이터 추가 중 오류가 발생했습니다.");
+          return;
+        }
+
+        // 이메일과 비밀번호를 사용해 로그인 실행
+        await browserClient.auth.signInWithPassword({ email, password });
+
+        // **페이지 이동하기 로직 추가
+        router.push("/signUp/profile");
+      }
 
       if (error) {
         setErrorMessage(error.message);
