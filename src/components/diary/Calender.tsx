@@ -34,11 +34,20 @@ const Calender = ({ formData, setFormData, setOpenCalender }: CalenderProps) => 
   };
 
   return (
-    <div className="p-4 border-2 rounded-lg mt-4">
-      <button onClick={() => setOpenCalender(false)}>X</button>
-      <RenderHeader currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
-      <RenderDays />
-      <RenderCells currentDate={currentDate} selectedDate={selectedDate} onDateClick={onDateClick} filterDiaries={[]} />
+    <div>
+      <div>날짜 선택</div>
+      <div className="p-4 border-2 rounded-lg mt-4">
+        <RenderHeader currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
+        <RenderDays />
+        <RenderCells
+          currentDate={currentDate}
+          selectedDate={selectedDate}
+          onDateClick={onDateClick}
+          filterDiaries={[]}
+        />
+      </div>
+
+      <button onClick={() => setOpenCalender(false)}>뒤로가기</button>
     </div>
   );
 };

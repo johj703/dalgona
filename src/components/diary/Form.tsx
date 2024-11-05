@@ -184,12 +184,12 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
           value={formData.title}
           onChange={(e) => onChangeFormData(e)}
           placeholder="제목 입력"
-          className="py-4 mx-4 text-xl leading-tight font-bold placeholder:text-[#8B8B8B] bg-transparent border-b border-[rgba(184, 179, 179, 0.40)]"
+          className="outline-none py-4 mx-4 text-xl leading-tight placeholder:text-[#8B8B8B] bg-transparent border-b border-[rgba(184, 179, 179, 0.40)]"
         />
 
         {/* 날짜 */}
         <div className="flex flex-col gap-2 mx-4 pb-4 border-b border-[rgba(184, 179, 179, 0.40)]">
-          <div className="flex items-center justify-between text-base font-semibold leading-5">날짜</div>
+          <div className="flex items-center justify-between text-base leading-5">날짜</div>
 
           <div onClick={() => setOpenCalender(true)} className="flex gap-2">
             <div className="text-xl leading-tight text-[#8B8B8B]">
@@ -205,18 +205,20 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
         </div>
 
         <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-between  mx-4 text-base font-semibold leading-5">오늘의 기분</div>
+          <div className="flex items-center justify-between  mx-4 text-base leading-5">오늘의 기분</div>
           <ul className="flex gap-2 overflow-x-auto px-4 scrollbar-hide">
             {EMOTION_LIST.map((emotion) => {
               return (
                 <li
                   key={emotion}
-                  className={`flex flex-col items-center gap-1 w-[74px] shrink-0 text-center text-xs leading-5 ${
-                    formData.emotion === emotion && "border-2 border-black"
-                  }`}
+                  className="flex flex-col items-center gap-1 w-[74px] shrink-0 text-center text-xs leading-5"
                   onClick={() => setFormData({ ...formData, emotion: emotion })}
                 >
-                  <Image src={getEmoji(emotion)} alt={emotion} width={40} height={40} />
+                  {formData.emotion === emotion ? (
+                    <Image src={getEmoji(emotion, "on")} alt={emotion} width={40} height={40} />
+                  ) : (
+                    <Image src={getEmoji(emotion, "off")} alt={emotion} width={40} height={40} />
+                  )}
 
                   {emotion}
                 </li>
@@ -226,9 +228,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
         </div>
 
         <div className="flex flex-col gap-2  mx-4">
-          <div className="flex items-center justify-between text-base font-semibold leading-5">
-            일기장 속지 양식 선택
-          </div>
+          <div className="flex items-center justify-between text-base leading-5">일기장 속지 양식 선택</div>
           <ul className="flex gap-4">
             {TYPE_LIST.map((type, idx) => {
               return (
@@ -246,7 +246,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
         {/* 그림판 */}
         <div ref={drawRef} className="group/draw open  flex flex-col gap-2  mx-4">
-          <div className="flex items-center justify-between text-base font-semibold leading-5">
+          <div className="flex items-center justify-between text-base leading-5">
             그림 그리기{" "}
             <span onClick={() => toggleTab(drawRef)} className="group-[.open]/draw:rotate-180">
               <img src="/icons/toggle-arrow.svg" alt="아래 화살표" />
@@ -272,7 +272,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
         {formData.type !== "편지지" && (
           <div ref={contentsRef} className="group/contents open flex flex-col gap-2  mx-4">
-            <div className="flex items-center justify-between text-base font-semibold leading-5">
+            <div className="flex items-center justify-between text-base leading-5">
               글로 쓰기{" "}
               <span onClick={() => toggleTab(contentsRef)} className="group-[.open]/contents:rotate-180">
                 <img src="/icons/toggle-arrow.svg" alt="아래 화살표" />

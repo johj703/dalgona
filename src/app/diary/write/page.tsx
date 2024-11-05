@@ -3,20 +3,32 @@
 import { format } from "date-fns";
 
 import Form from "@/components/diary/Form";
+import { useEffect, useState } from "react";
+import getLoginUser from "@/lib/getLoginUser";
 
 const POST_ID = crypto.randomUUID();
-const initialData = {
-  id: POST_ID,
-  title: "",
-  date: format(new Date(), "yyyy년 MM월 dd일"),
-  emotion: "",
-  type: "",
-  contents: "",
-  draw: null,
-  user_id: "32b1e26a-2968-453b-a5c4-f2b766c9bccb"
-};
 
 const Write = () => {
+  const [userId, setUserId] = useState<string>("");
+
+  const getUserId = async () => {
+    const data = await getLoginUser();
+    if (data) setUserId(data.id);
+  };
+  useEffect(() => {
+    getUserId();
+  }, []);
+
+  const initialData = {
+    id: POST_ID,
+    title: "",
+    date: format(new Date(), "yyyy년 MM월 dd일"),
+    emotion: "",
+    type: "",
+    contents: "",
+    draw: null,
+    user_id: userId
+  };
   return (
     <>
       <Form POST_ID={POST_ID} initialData={initialData} />
