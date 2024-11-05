@@ -1,5 +1,8 @@
-import { CalendarCellsProps, SortedDiaries } from "@/types/main/Calendar";
-import { addDays, endOfMonth, endOfWeek, format, isSameMonth, startOfMonth, startOfWeek } from "date-fns";
+import { CellsProps, SortedDiaries } from "@/types/main/Calendar";
+import { addDays, endOfMonth, endOfWeek, format, isSameDay, isSameMonth, startOfMonth, startOfWeek } from "date-fns";
+import defaultEmotion from "../../../../public/images/main/State=blank.png";
+import happy from "../../../../public/images/main/State-happy.png";
+import Image from "next/image";
 import React from "react";
 
 // firstDayOfMonth : 현재 달의 시작일
@@ -9,7 +12,7 @@ import React from "react";
 // rows : [일월화수목금토] 한 주 * 4 또는 5주
 // days : [일월화수목금토] 한 주
 // cloneDay 형식 //Tue Oct 08 2024 00:00:00 GMT+0900 (한국 표준시)
-const RenderCells = ({ currentDate, onDateClick, filterDiaries }: CalendarCellsProps) => {
+const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: CellsProps) => {
   const firstDayOfMonth = startOfMonth(currentDate);
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
   const startDate = startOfWeek(firstDayOfMonth);
@@ -39,13 +42,24 @@ const RenderCells = ({ currentDate, onDateClick, filterDiaries }: CalendarCellsP
           className={`col cell ${
             !isSameMonth(day, firstDayOfMonth) // 현재 달과 다른 달에 해당하는 날짜
               ? "disabled"
+              : isSameDay(day, selectedDate)
+              ? "selected"
               : format(currentDate, "M") !== format(day, "M")
               ? "not-valid"
               : "valid"
-          }`}
+          } `}
           key={day.toString()}
           onClick={() => onDateClick(cloneDay)}
         >
+          {emotionDate ? (
+            <div className="emotion">
+              <Image src={happy} width={30} height={30} alt="Picture of the author" />
+            </div>
+          ) : (
+            <div>
+              <Image src={defaultEmotion} width={30} height={30} alt="Picture of the author" />
+            </div>
+          )}
           <span
             className={
               format(currentDate, "M") !== format(day, "M")
@@ -57,7 +71,6 @@ const RenderCells = ({ currentDate, onDateClick, filterDiaries }: CalendarCellsP
           >
             {formattedDate}
           </span>
-          {emotionDate && <div className="emotion">{emotionDate.emotion}</div>}
         </div>
       );
       day = addDays(day, 1);

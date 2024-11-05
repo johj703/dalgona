@@ -39,3 +39,21 @@ export const getSimpleDate = (date: string) => {
   const reDate = substrDate.replace("월", ".").substring(0, 5);
   return reDate;
 };
+//yyyy년 mm월 yy일 -> yyyy.mm.yy
+export const getSimpleFullDate = (date: string) => {
+  const replacedFullDate = date.replace(/\s/g, ""); //yyyy년mm월yy일
+  const reFullDate = replacedFullDate.replace("월", ".").replace("년", ".").substring(0, 10);
+  return reFullDate;
+};
+
+export const getSimpleMonth = (date: string) => {
+  const replacedDate = date.replace(/\s/g, ""); //yyyy년mm월yy일
+  const subMonth = replacedDate.substring(5, 7); //mm
+  return subMonth;
+};
+
+export const getSimpleYear = (date: string) => {
+  const replacedDate = date.replace(/\s/g, ""); //yyyy년mm월yy일
+  const subYear = replacedDate.substring(0, 4); //yyyy
+  return subYear;
+};

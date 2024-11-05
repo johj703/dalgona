@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SortedDiaries } from "@/types/main/Calendar";
 import { format, addMonths, subMonths } from "date-fns";
 import { getSelectedDiaries, useFetchDiaries } from "@/lib/main/fetchDiaries";
@@ -9,6 +9,7 @@ import RenderCells from "./RenderCells";
 import DiarySelectedList from "./DiarySelectedList";
 import CalendarModal from "./CalendarModal";
 import "react-datepicker/dist/react-datepicker.css";
+import { getSimpleMonth, getSimpleYear } from "@/utils/calendar/dateFormat";
 
 //TODO - 달력 접기
 //TODO - 이미지(감정) 가져오기
@@ -18,37 +19,34 @@ import "react-datepicker/dist/react-datepicker.css";
 export default function Calendar(): JSX.Element {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [rangeList, setRangeList] = useState<SortedDiaries[]>([]);
-  // const [startDate, setStartDate] = useState<Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   //input창에 날짜범위담는상태
   const [firstDate, setFirstDate] = useState<string>("");
   const [secondDate, setSecondDate] = useState<string>("");
-  // console.log(setStartDate);
 
   //일기 전체 데이터 가져오기
   const { data: diaries } = useFetchDiaries();
-  // diaries (30) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
 
-  //DiaryList에 무한스크롤 만들고 난 후, 데이터 가져오면
-  //console.log("diaries", diaries); //{pages: Arr ay(1), pageParams: Array(1)}
+  //이게 왜 있지...?
+  // useEffect(() => {
+  //   if (diaries) {
+  //     const formatTodayDate = format(new Date(), "yyyy년 MM월 dd일");
+  //     console.log("🚀 ~ useEffect ~ formatTodayDate:", formatTodayDate);
+  //     const searchDiaries = diaries?.find((diary: SortedDiaries) => diary.date === formatTodayDate);
+  //     console.log("🚀 ~ useEffect ~ searchDiaries:", searchDiaries);
+  //     if (searchDiaries) {
+  //       setRangeList([...rangeList, { ...searchDiaries }]); //REVIEW -
+  //     }
+  //   }
+  // }, []);
 
-  //REVIEW - useEffect가 실행될 때 diaries가 아직 로딩 중일 수 있기 때문에, diaries가 undefined일 가능성이 있음 이케 맞나
-  useEffect(() => {
-    if (diaries) {
-      const formatTodayDate = format(new Date(), "yyyy년 MM월 dd일");
-      const searchDiaries = diaries?.find((diary: SortedDiaries) => diary.date === formatTodayDate);
-      if (searchDiaries) {
-        setRangeList([...rangeList, { ...searchDiaries }]); //REVIEW -
-      }
-    }
-  }, []);
-
-  //REVIEW - 해당되는 날짜의 감정 가져오기
+  //TODO - 전체데이터에서 currentDate에 작성한 일기들만 반환
   //TODO - diary 테이블에 감정null인 경우 에러남... 일기쓸때 꼭넣어야하는지 안넣어두 되는지??
-  const filterDiaries = diaries?.filter((diary) => {
-    const filterMonth = diary.date.match(/\d{1,2}월/)[0].replace("월", "");
-    const filterYear = diary.date.split("년")[0].trim();
-    return filterMonth == currentDate.getMonth() + 1 && filterYear == currentDate.getFullYear();
+  const filterDiaries = diaries?.filter((diary: SortedDiaries) => {
+    const filterMonth: string = getSimpleMonth(diary.date); //10
+    const filterYear: string = getSimpleYear(diary.date); //2024
+    return filterMonth == (currentDate.getMonth() + 1).toString() && filterYear == currentDate.getFullYear().toString();
   });
 
   // 이전 월로 이동하는 함수
@@ -67,6 +65,7 @@ export default function Calendar(): JSX.Element {
     const formatEndDate = format(day, "yyyy년 MM월 dd일");
     const searchList = await getSelectedDiaries(formatStartDate, formatEndDate);
     setRangeList(searchList);
+    setSelectedDate(new Date(day));
   };
 
   //캘린더 조회기간 설정해서 데이터 가져오기
@@ -124,10 +123,15 @@ export default function Calendar(): JSX.Element {
         <div className="p-2  border-2 rounded-lg my-4">
           <RenderHeader currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
           <RenderDays />
-          <RenderCells currentDate={currentDate} onDateClick={onDateClick} filterDiaries={filterDiaries || []} />
+          <RenderCells
+            currentDate={currentDate}
+            selectedDate={selectedDate}
+            onDateClick={onDateClick}
+            filterDiaries={filterDiaries || []}
+          />
         </div>
       </div>
-      <DiarySelectedList rangeList={rangeList} />
+      <DiarySelectedList rangeList={rangeList} selectedDate={selectedDate} />
     </>
   );
 }
