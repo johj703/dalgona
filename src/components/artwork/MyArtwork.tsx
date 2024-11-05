@@ -90,7 +90,7 @@ const MyArtwork: React.FC = () => {
   // };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col">
       <div className="flex p-4">
         <button className="text-black">◀</button>
         <p className="text-xl font-bold flex-grow text-center">내 그림 모아보기</p>
