@@ -4,9 +4,10 @@ import { useRouter } from "next/navigation";
 type TitleProps = {
   title: string;
   post_id?: string;
+  draft?: boolean;
 };
 
-const CommonTitle = ({ title, post_id }: TitleProps) => {
+const CommonTitle = ({ title, post_id, draft }: TitleProps) => {
   const router = useRouter();
   return (
     <div className="relative flex items-center justify-center py-[14px]">
@@ -25,6 +26,12 @@ const CommonTitle = ({ title, post_id }: TitleProps) => {
           className="absolute top-1/2 -translate-y-1/2 right-[10px] text-base font-bold"
         >
           편집
+        </Link>
+      )}
+
+      {draft && (
+        <Link href={`/diary/drafts`} className="absolute top-1/2 -translate-y-1/2 right-[10px] text-base font-bold">
+          보관
         </Link>
       )}
     </div>

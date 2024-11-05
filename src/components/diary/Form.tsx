@@ -38,11 +38,21 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
     try {
       if (data.length === 0) {
+        if (formData.title === "") {
+          return toast.error("제목을 입력해주세요.", {
+            position: "b-l",
+            autoClose: true,
+            autoCloseTime: 2000,
+            progressBar: false
+          });
+        }
+
         const { error } = await browserClient.from("drafts").insert(formData);
         if (error) {
           toast.error("임시저장에 실패하였습니다.", {
             position: "b-l",
-            autoCloseTime: 1000,
+            autoClose: true,
+            autoCloseTime: 2000,
             progressBar: false
           });
           console.error(error);
@@ -51,18 +61,29 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
         toast.success("임시 저장 되었습니다.", {
           position: "b-l",
-          autoCloseTime: 1000,
+          autoClose: true,
+          autoCloseTime: 2000,
           progressBar: false
         });
       } else {
         const { error } = await browserClient.from("drafts").update(formData).eq("id", POST_ID);
         if (error) {
-          toast.error("임시저장에 실패하였습니다.");
+          toast.error("임시저장에 실패하였습니다.", {
+            position: "b-l",
+            autoClose: true,
+            autoCloseTime: 2000,
+            progressBar: false
+          });
           console.error(error);
           return;
         }
 
-        toast.success("임시 저장 되었습니다.");
+        toast.success("임시 저장 되었습니다.", {
+          position: "b-l",
+          autoClose: true,
+          autoCloseTime: 2000,
+          progressBar: false
+        });
       }
     } catch (error) {
       console.error(error);
@@ -153,8 +174,8 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
   return (
     <div className="bg-background02 min-h-screen">
-      <CommonTitle title={"일기 쓰기"} />
-      <form action={() => onSubmit()} className="flex flex-col gap-6">
+      <CommonTitle title={"일기 쓰기"} draft={true} />
+      <form onSubmit={() => onSubmit()} className="flex flex-col gap-6">
         {/* 타이틀 */}
         <input
           type="text"
@@ -163,26 +184,29 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
           value={formData.title}
           onChange={(e) => onChangeFormData(e)}
           placeholder="제목 입력"
-          className="py-4 mx-4 text-xl font-bold placeholder:text-[#8B8B8B] bg-transparent"
+          className="py-4 mx-4 text-xl leading-tight font-bold placeholder:text-[#8B8B8B] bg-transparent border-b border-[rgba(184, 179, 179, 0.40)]"
         />
 
         {/* 날짜 */}
-        <div className="flex flex-col gap-2  mx-4">
+        <div className="flex flex-col gap-2 mx-4 pb-4 border-b border-[rgba(184, 179, 179, 0.40)]">
           <div className="flex items-center justify-between text-base font-semibold leading-5">날짜</div>
-          <input
-            type="text"
-            name="date"
-            id="date"
-            value={formData.date}
-            onChange={(e) => e.preventDefault()}
-            onClick={() => setOpenCalender(true)}
-            className="bg-transparent"
-          />
+
+          <div onClick={() => setOpenCalender(true)} className="flex gap-2">
+            <div className="text-xl leading-tight text-[#8B8B8B]">
+              <span className="text-[#1C1B1F]">{formData.date.slice(0, 4)}</span>년
+            </div>
+            <div className="text-xl leading-tight text-[#8B8B8B]">
+              <span className="text-[#1C1B1F]">{formData.date.split("월")[0].slice(-2)}</span>월
+            </div>
+            <div className="text-xl leading-tight text-[#8B8B8B]">
+              <span className="text-[#1C1B1F]">{formData.date.split("일")[0].slice(-2)}</span>일
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between  mx-4 text-base font-semibold leading-5">오늘의 기분</div>
-          <ul className="flex gap-2 overflow-x-auto px-4">
+          <ul className="flex gap-2 overflow-x-auto px-4 scrollbar-hide">
             {EMOTION_LIST.map((emotion) => {
               return (
                 <li

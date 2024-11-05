@@ -21,6 +21,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 @layer components {
   .button-144-48 {
     @apply flex items-center justify-center w-36 h-12 rounded-lg bg-[#BF452F] text-[14px] font-semibold text-white;
