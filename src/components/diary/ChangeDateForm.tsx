@@ -8,11 +8,11 @@ export const ChangeDateForm = (date: string) => {
 
   return (
     <>
-      <div>
+      <div className="text-xl ">
         {Year}. {Month}
       </div>
-      <div>{Day}</div>
-      <div>{GetDate}</div>
+      <div className="text-[40px]  text-[#BB433E]">{Day}</div>
+      <div className="text-[14px] leading-normal">{GetDate}</div>
     </>
   );
 };

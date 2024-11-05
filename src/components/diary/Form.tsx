@@ -7,8 +7,11 @@ import Calender from "@/components/diary/Calender";
 import { toast } from "garlic-toast";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { EMOTION_LIST, getEmoji } from "@/utils/diary/getEmoji";
+import Image from "next/image";
+import CommonTitle from "../CommonTitle";
+import { TypeModal } from "./TypeModal";
 
-const EMOTION_LIST = ["행복해요", "좋아요", "그냥 그래요", "별로에요", "힘들어요"];
 const TYPE_LIST = ["모눈종이", "줄노트", "편지지"];
 
 const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData: FormData; isModify?: boolean }) => {
@@ -16,6 +19,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
   const [formData, setFormData] = useState<FormData>(initialData);
   const [isDraft, setIsDraft] = useState<boolean>(false);
   const [openCalender, setOpenCalender] = useState<boolean>(false);
+  const [openTypeModal, setOpenTypeModal] = useState<string>("");
   const router = useRouter();
 
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -36,12 +40,20 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
       if (data.length === 0) {
         const { error } = await browserClient.from("drafts").insert(formData);
         if (error) {
-          toast.error("임시저장에 실패하였습니다.");
+          toast.error("임시저장에 실패하였습니다.", {
+            position: "b-l",
+            autoCloseTime: 1000,
+            progressBar: false
+          });
           console.error(error);
           return;
         }
 
-        toast.success("임시 저장 되었습니다.");
+        toast.success("임시 저장 되었습니다.", {
+          position: "b-l",
+          autoCloseTime: 1000,
+          progressBar: false
+        });
       } else {
         const { error } = await browserClient.from("drafts").update(formData).eq("id", POST_ID);
         if (error) {
@@ -140,8 +152,9 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
   };
 
   return (
-    <>
-      <form action={() => onSubmit()} className="flex flex-col gap-4">
+    <div className="bg-background02 min-h-screen">
+      <CommonTitle title={"일기 쓰기"} />
+      <form action={() => onSubmit()} className="flex flex-col gap-6">
         {/* 타이틀 */}
         <input
           type="text"
@@ -150,10 +163,11 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
           value={formData.title}
           onChange={(e) => onChangeFormData(e)}
           placeholder="제목 입력"
+          className="py-4 mx-4 text-xl font-bold placeholder:text-[#8B8B8B] bg-transparent"
         />
 
         {/* 날짜 */}
-        <div>
+        <div className="flex flex-col gap-2  mx-4">
           <div className="flex items-center justify-between text-base font-semibold leading-5">날짜</div>
           <input
             type="text"
@@ -162,21 +176,25 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
             value={formData.date}
             onChange={(e) => e.preventDefault()}
             onClick={() => setOpenCalender(true)}
+            className="bg-transparent"
           />
         </div>
 
         <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-between text-base font-semibold leading-5">오늘의 기분</div>
-          <ul className="flex gap-2 overflow-x-auto">
+          <div className="flex items-center justify-between  mx-4 text-base font-semibold leading-5">오늘의 기분</div>
+          <ul className="flex gap-2 overflow-x-auto px-4">
             {EMOTION_LIST.map((emotion) => {
               return (
                 <li
                   key={emotion}
-                  className={`w-[74px] shrink-0 text-center text-xs leading-5 ${
+                  className={`flex flex-col items-center gap-1 w-[74px] shrink-0 text-center text-xs leading-5 ${
                     formData.emotion === emotion && "border-2 border-black"
                   }`}
                   onClick={() => setFormData({ ...formData, emotion: emotion })}
                 >
+                  <span className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-white drop-shadow-[2.9px_2.9px_2.32px_rgba(0,0,0,0.25)]">
+                    <Image src={getEmoji(emotion)} alt={emotion} width={45} height={45} />
+                  </span>
                   {emotion}
                 </li>
               );
@@ -184,19 +202,19 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
           </ul>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2  mx-4">
           <div className="flex items-center justify-between text-base font-semibold leading-5">
             일기장 속지 양식 선택
           </div>
           <ul className="flex gap-4">
-            {TYPE_LIST.map((type) => {
+            {TYPE_LIST.map((type, idx) => {
               return (
                 <li
                   key={type}
                   className={`flex-1 ${formData.type === type && "border-2 border-black"}`}
-                  onClick={() => setFormData({ ...formData, type: type })}
+                  onClick={() => setOpenTypeModal(type)}
                 >
-                  {type}
+                  <img src={`/images/diary-type-${idx + 1}.svg`} alt={type} />
                 </li>
               );
             })}
@@ -204,13 +222,19 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
         </div>
 
         {/* 그림판 */}
-        <div ref={drawRef} className="group/draw open">
+        <div ref={drawRef} className="group/draw open  flex flex-col gap-2  mx-4">
           <div className="flex items-center justify-between text-base font-semibold leading-5">
-            그림 그리기 <span onClick={() => toggleTab(drawRef)}>V</span>
+            그림 그리기{" "}
+            <span onClick={() => toggleTab(drawRef)} className="group-[.open]/draw:rotate-180">
+              <img src="/icons/toggle-arrow.svg" alt="아래 화살표" />
+            </span>
           </div>
 
           {!formData.draw ? (
-            <div className="group-[.open]/draw:block hidden" onClick={() => setGoDraw(true)}>
+            <div
+              className="group-[.open]/draw:block hidden text-center text-base text-[#D84E35] leading-none py-4 rounded-br-2xl rounded-bl-2xl border border-solid border-[#D84E35] bg-white"
+              onClick={() => setGoDraw(true)}
+            >
               탭하여 그림그리기 페이지로 이동
             </div>
           ) : (
@@ -224,9 +248,12 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
         </div>
 
         {formData.type !== "편지지" && (
-          <div ref={contentsRef} className="group/contents open">
+          <div ref={contentsRef} className="group/contents open flex flex-col gap-2  mx-4">
             <div className="flex items-center justify-between text-base font-semibold leading-5">
-              글로 쓰기 <span onClick={() => toggleTab(contentsRef)}>V</span>
+              글로 쓰기{" "}
+              <span onClick={() => toggleTab(contentsRef)} className="group-[.open]/contents:rotate-180">
+                <img src="/icons/toggle-arrow.svg" alt="아래 화살표" />
+              </span>
             </div>
             <textarea
               ref={textareaRef}
@@ -235,16 +262,18 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
               rows={9}
               value={formData.contents}
               onChange={(e) => onChangeFormData(e)}
-              className="resize-none w-full bg-local bg-custom-textarea leading-8 group-[.open]/contents:block hidden"
+              placeholder="이곳에 내용을 입력해주세요"
+              className="resize-none outline-none w-full bg-local bg-custom-textarea leading-8 group-[.open]/contents:block hidden"
             />
           </div>
         )}
 
-        <div className="flex w-full">
-          <button className="flex-1 text-center" type="button" onClick={() => onClickDraft()}>
+        <span className="h-14"></span>
+        <div className="fixed bottom-0 left-0 flex w-full h-14 bg-[#FDF7F4] border-t border-[#A6A6A6]">
+          <button className="flex-1 text-center text-[18px] py-4" type="button" onClick={() => onClickDraft()}>
             임시저장
           </button>
-          <button className="flex-1 text-center">저장</button>
+          <button className="flex-1 text-center text-[18px] py-4">저장</button>
         </div>
       </form>
 
@@ -257,7 +286,17 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
       {/* 달력 */}
       {openCalender && <Calender setFormData={setFormData} formData={formData} setOpenCalender={setOpenCalender} />}
-    </>
+
+      {/* 일기장 속지 모달 */}
+      {openTypeModal && (
+        <TypeModal
+          setFormData={setFormData}
+          formData={formData}
+          setOpenTypeModal={setOpenTypeModal}
+          openTypeModal={openTypeModal}
+        />
+      )}
+    </div>
   );
 };
 export default Form;

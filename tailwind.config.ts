@@ -10,11 +10,12 @@ const config: Config = {
     extend: {
       colors: {
         background: "var(--background)",
+        background02: "var(--background02)",
         foreground: "var(--foreground)"
       },
 
       backgroundImage: {
-        "custom-textarea": "repeating-linear-gradient(white, white 31px, #ccc 31px, #ccc 32px, white 32px)"
+        "custom-textarea": "repeating-linear-gradient(#fdf7f4, #fdf7f4 31px, #BFBFBF 31px, #BFBFBF 32px, #fdf7f4 32px)"
       }
     }
   },

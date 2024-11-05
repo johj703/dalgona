@@ -1,11 +1,11 @@
 import { LineCustom } from "./LineCustom";
 
-type canvasWidth = number;
-type canvasHeight = number;
-type canvas = HTMLCanvasElement;
-type ctx = CanvasRenderingContext2D;
-type stringState = React.Dispatch<React.SetStateAction<string>>;
-type numberState = React.Dispatch<React.SetStateAction<number>>;
+export type canvasWidth = number;
+export type canvasHeight = number;
+export type canvas = HTMLCanvasElement;
+export type ctx = CanvasRenderingContext2D;
+export type stringState = React.Dispatch<React.SetStateAction<string>>;
+export type numberState = React.Dispatch<React.SetStateAction<number>>;
 export type booleanState = React.Dispatch<React.SetStateAction<boolean>>;
 export type FormState = React.Dispatch<React.SetStateAction<FormData>>;
 

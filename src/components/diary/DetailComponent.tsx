@@ -6,11 +6,15 @@ import { ChangeDateForm } from "./ChangeDateForm";
 const DetailComponent = ({ postData }: { postData: FormData }) => {
   return (
     <div>
-      <div>
-        {postData.date && <div>{ChangeDateForm(postData.date)}</div>}
+      <div className="flex items-center gap-6">
+        {postData.date && (
+          <div className="flex flex-col justify-center gap-2 font-bold leading-none">
+            {ChangeDateForm(postData.date)}
+          </div>
+        )}
         <div>
           <span>오늘의 기분은</span>
-          {getEmoji(postData.emotion)}
+          <img src={getEmoji(postData.emotion)} alt={postData.emotion} />
           {postData.emotion}
         </div>
       </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import CommonTitle from "@/components/CommonTitle";
 import DetailComponent from "@/components/diary/DetailComponent";
 import { FormData } from "@/types/Canvas";
 import { fetchData } from "@/utils/diary/fetchData";
@@ -47,6 +48,7 @@ const Read = ({ params }: { params: { id: string } }) => {
     !isLoading &&
     (postData ? (
       <>
+        <CommonTitle title={"일기 쓰기"} post_id={params.id} />
         <DetailComponent postData={postData} />
         <div>
           <button onClick={() => onClickModify()}>수정</button>
