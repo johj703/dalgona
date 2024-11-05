@@ -35,7 +35,7 @@ export const updateSession = async (request: NextRequest) => {
     // https://supabase.com/docs/guides/auth/server-side/nextjs
     await supabase.auth.getUser();
 
-    // 로그인이 되어있지 않고 mypage에 접근하면 로그인 페이지로 redirect되는 로직
+    // 로그인이 되어있지 않고 mypage, diary, library 페이지에 접근하면 로그인 페이지로 redirect되는 로직
     // 나중에 로그인이 필요한 부분 주소를 파악하고 추가하면 됨
 
     const { data } = await supabase.auth.getUser();
