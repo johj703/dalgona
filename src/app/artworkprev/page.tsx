@@ -38,10 +38,10 @@ const GalleryPage = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen bg-[#FDF7F4]">
       <div className="flex p-4">
         <button onClick={() => router.back()} className="text-black">
-          ◀
+          <img src="/icons/arrow-left.svg" alt="Arrow Left" className="w-4 h-4 relative" />
         </button>
         <p className="text-xl font-bold flex-grow text-center">내 그림 모아보기</p>
       </div>
@@ -51,27 +51,30 @@ const GalleryPage = () => {
       ) : mainEntry ? (
         <div>
           {/* 메인 이미지 표시 */}
-          <div className="mb-4">
+          <div className="relative flex items-center justify-center bg-white mb-4 w-full min-h-[531px] overflow-hidden border border-[#D9D9D9] ">
             {mainEntry.draw ? (
-              <img src={mainEntry.draw} alt={`Artwork ${mainEntry.id}`} className="w-full h-auto" />
+              <img src={mainEntry.draw} alt={`Artwork ${mainEntry.id}`} className="w-full border border-[#D9D9D9]" />
             ) : (
               <span>이미지 없음</span>
             )}
           </div>
 
           {/* 하단의 스와이프 가능한 이미지 리스트 */}
-          <div className="flex overflow-x-auto space-x-2">
-            {diaryEntries.map((entry) => (
-              <img
-                key={entry.id}
-                src={entry.draw}
-                alt={`Artwork ${entry.id}`}
-                className={`w-24 h-24 object-cover cursor-pointer ${
-                  entry.id === mainEntry.id ? "border-2 border-blue-500" : ""
-                }`}
-                onClick={() => handleSwipeSelect(entry)} // 이미지를 클릭하면 메인 이미지 변경
-              />
-            ))}
+          <div className="py-4">
+            <div className="flex overflow-x-auto space-x-2 px-4">
+              {diaryEntries.map((entry) => (
+                <div key={entry.id} className="flex-shrink-0 w-12 h-12">
+                  <img
+                    src={entry.draw}
+                    alt={`Artwork ${entry.id}`}
+                    className={`w-full h-full object-cover cursor-pointer bg-white border border-[#D9D9D9] ${
+                      entry.id === mainEntry.id ? "border-2 border-[#D84E35]" : ""
+                    }`}
+                    onClick={() => handleSwipeSelect(entry)} // 이미지를 클릭하면 메인 이미지 변경
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       ) : (

@@ -1,17 +1,14 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import browserClient from "@/utils/supabase/client";
 import { Diary } from "@/types/library/Diary";
 import { useRouter } from "next/navigation";
 
 const MemoryCollection: React.FC = () => {
   const [selectedEntries, setSelectedEntries] = useState<Diary[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const touchStartRef = useRef<number | null>(null);
-  const touchEndRef = useRef<number | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -39,44 +36,16 @@ const MemoryCollection: React.FC = () => {
     fetchAllArtworks();
   }, []);
 
-  const handleSwipe = () => {
-    if (touchStartRef.current !== null && touchEndRef.current !== null) {
-      const swipeDistance = touchStartRef.current - touchEndRef.current;
-      if (swipeDistance > 50) {
-        // 다음
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % selectedEntries.length);
-      } else if (swipeDistance < -50) {
-        // 이전
-        setCurrentIndex((prevIndex) => (prevIndex - 1 + selectedEntries.length) % selectedEntries.length);
-      }
-    }
-    touchStartRef.current = null;
-    touchEndRef.current = null;
-  };
-
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchStartRef.current = e.touches[0].clientX;
-  };
-
-  const onTouchEnd = (e: React.TouchEvent) => {
-    touchEndRef.current = e.changedTouches[0].clientX;
-    handleSwipe();
-  };
-
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md">
+    <div className="bg-[#FDF7F4] rounded-lg shadow-md p-4">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold">추억 모음</h2>
-        <button onClick={() => router.push("/gallery")} className="text-sm text-blue-500 hover:underline">
+        <h2 className="text-xl font-normal">추억 모음</h2>
+        <button onClick={() => router.push("/gallery")} className="text-lg text-[#18778c] hover:underline">
           전체 보기
         </button>
       </div>
 
-      <div
-        className="relative flex overflow-hidden border rounded-lg"
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-      >
+      <div className="relative overflow-x-auto flex rounded-lg">
         {loading ? (
           <div className="flex items-center justify-center w-full h-48">
             <span>로딩 중...</span>
@@ -87,14 +56,17 @@ const MemoryCollection: React.FC = () => {
           selectedEntries.map((diary: Diary, index: number) => (
             <div
               key={diary.id}
-              className={`flex-shrink-0 w-full transition-transform transform ${
-                index === currentIndex ? "translate-x-0" : "hidden"
-              }`}
+              className="flex-shrink-0 w-64 transition-transform duration-700 linear"
+              style={{ marginRight: index !== selectedEntries.length - 1 ? "16px" : "0" }}
             >
               {diary.draw ? (
-                <img src={diary.draw} className="object-cover w-full h-full rounded-lg" alt={`Artwork ${diary.id}`} />
+                <img
+                  src={diary.draw}
+                  className="object-cover w-full h-40 border border-[#D9D9D9] rounded-lg"
+                  alt={`Artwork ${diary.id}`}
+                />
               ) : (
-                <div className="flex items-center justify-center w-full h-full bg-gray-200">이미지 없음</div>
+                <div className="flex items-center justify-center w-full h-full bg-gray-200 rounded-lg">이미지 없음</div>
               )}
             </div>
           ))
