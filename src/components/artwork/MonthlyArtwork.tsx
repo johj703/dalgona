@@ -1,16 +1,13 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import browserClient from "@/utils/supabase/client";
 import { Diary } from "@/types/library/Diary";
 import { useRouter } from "next/navigation";
 
 const MonthlyArtwork: React.FC = () => {
   const [diaryEntries, setDiaryEntries] = useState<Diary[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
-  const touchStartRef = useRef<number | null>(null);
-  const touchEndRef = useRef<number | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -39,30 +36,6 @@ const MonthlyArtwork: React.FC = () => {
     fetchMonthlyArtworks();
   }, []);
 
-  const handleSwipe = () => {
-    if (touchStartRef.current !== null && touchEndRef.current !== null) {
-      const swipeDistance = touchStartRef.current - touchEndRef.current;
-      if (swipeDistance > 50) {
-        // 다음 (마지막 인덱스에서 더 이상 증가하지 않도록)
-        setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, diaryEntries.length - 1));
-      } else if (swipeDistance < -50) {
-        // 이전 (첫 번째 인덱스에서 더 이상 감소하지 않도록)
-        setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
-      }
-    }
-    touchStartRef.current = null;
-    touchEndRef.current = null;
-  };
-
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchStartRef.current = e.touches[0].clientX;
-  };
-
-  const onTouchEnd = (e: React.TouchEvent) => {
-    touchEndRef.current = e.changedTouches[0].clientX;
-    handleSwipe();
-  };
-
   // 전체 보기 클릭 핸들러
   const handleViewAllClick = () => {
     const currentMonth = new Date().getMonth() + 1; // 현재 월 (1월은 0이므로 +1)
@@ -78,7 +51,7 @@ const MonthlyArtwork: React.FC = () => {
         </button>
       </div>
 
-      <div className="relative overflow-x-auto flex rounded-lg " onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <div className="relative overflow-x-auto flex rounded-lg">
         {loading ? (
           <div className="flex items-center justify-center w-full h-48">
             <span>로딩 중...</span>
@@ -87,9 +60,7 @@ const MonthlyArtwork: React.FC = () => {
           diaryEntries.map((diary: Diary, index: number) => (
             <div
               key={diary.id}
-              className={`flex-shrink-0 w-64 transition-transform duration-700 linear ${
-                index === currentIndex || index === currentIndex + 1 ? "translate-x-0" : "hidden"
-              }`}
+              className="flex-shrink-0 w-64 transition-transform duration-700 linear"
               style={{ marginRight: index !== diaryEntries.length - 1 ? "16px" : "0" }} // 마지막 항목에는 오른쪽 마진 없음
             >
               {diary.draw ? (

@@ -1,17 +1,14 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import browserClient from "@/utils/supabase/client";
 import { Diary } from "@/types/library/Diary";
 import { useRouter } from "next/navigation";
 
 const MemoryCollection: React.FC = () => {
   const [selectedEntries, setSelectedEntries] = useState<Diary[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const touchStartRef = useRef<number | null>(null);
-  const touchEndRef = useRef<number | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -39,30 +36,6 @@ const MemoryCollection: React.FC = () => {
     fetchAllArtworks();
   }, []);
 
-  const handleSwipe = () => {
-    if (touchStartRef.current !== null && touchEndRef.current !== null) {
-      const swipeDistance = touchStartRef.current - touchEndRef.current;
-      if (swipeDistance > 50) {
-        // 다음 (마지막 인덱스일 때 증가하지 않도록)
-        setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, selectedEntries.length - 1));
-      } else if (swipeDistance < -50) {
-        // 이전 (첫 번째 인덱스에서 돌아가지 않도록)
-        setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
-      }
-    }
-    touchStartRef.current = null;
-    touchEndRef.current = null;
-  };
-
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchStartRef.current = e.touches[0].clientX;
-  };
-
-  const onTouchEnd = (e: React.TouchEvent) => {
-    touchEndRef.current = e.changedTouches[0].clientX;
-    handleSwipe();
-  };
-
   return (
     <div className="bg-[#FDF7F4] rounded-lg shadow-md p-4">
       <div className="flex justify-between items-center mb-4">
@@ -72,7 +45,7 @@ const MemoryCollection: React.FC = () => {
         </button>
       </div>
 
-      <div className="relative overflow-x-auto flex rounded-lg" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <div className="relative overflow-x-auto flex rounded-lg">
         {loading ? (
           <div className="flex items-center justify-center w-full h-48">
             <span>로딩 중...</span>
@@ -83,9 +56,7 @@ const MemoryCollection: React.FC = () => {
           selectedEntries.map((diary: Diary, index: number) => (
             <div
               key={diary.id}
-              className={`flex-shrink-0 w-64 transition-transform duration-700 linear ${
-                index === currentIndex || index === currentIndex + 1 ? "translate-x-0" : "hidden"
-              }`}
+              className="flex-shrink-0 w-64 transition-transform duration-700 linear"
               style={{ marginRight: index !== selectedEntries.length - 1 ? "16px" : "0" }}
             >
               {diary.draw ? (
