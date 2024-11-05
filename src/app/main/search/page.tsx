@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 
 //TODO - 일기 클릭하면 상세로 이동
 //TODO - 최근검색어..?
-//TODO - 진입시 초기 로딩 지연 수정하기!
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");

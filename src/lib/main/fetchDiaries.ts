@@ -18,7 +18,7 @@ export const useFetchDiaries = () => {
   return { data, error, isLoading };
 };
 
-//SECTION - 조회범위 일기 데이터 가져오기
+//SECTION - 조회범위 일기 데이터 가져오기 & 셀 클릭 시 일기 데이터 가져오기
 export const getSelectedDiaries = async (startDate: string, endDate: string) => {
   const { data: selectedDiaries } = await browserClient
     .from("diary")

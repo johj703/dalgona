@@ -5,9 +5,11 @@ import EmblaCarousel from "./EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
 import DiaryList from "./DiaryList";
 import Link from "next/link";
+import search from "../../../public/images/main/search.png";
+import Image from "next/image";
 
 const OPTIONS: EmblaOptionsType = {};
-const SLIDE_COUNT = 3;
+const SLIDE_COUNT = 2;
 const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 
 //TODO - 피드에 이미지 넣기
@@ -17,14 +19,16 @@ const SelectFeedCalendar = () => {
     <div>
       <Tab.Group>
         <Tab.List>
-          <div className="flex justify-between my-2">
-            <div className="flex gap-4 ">
+          <div className="flex py-[24px] px-[16] justify-between items-center self-stretch">
+            <div className="flex gap-[10px] items-center">
               <Tab>피드</Tab>
               <Tab>달력보기</Tab>
             </div>
-            <Link href={"/main/search"}>
-              <div className="border-2 rounded-3xl p-2 text-sm">돋보기</div>
-            </Link>
+            <div>
+              <Link href={"/main/search"}>
+                <Image src={search} width={24} height={24} alt="Picture of the author" />
+              </Link>
+            </div>
           </div>
         </Tab.List>
         <Tab.Panels>
