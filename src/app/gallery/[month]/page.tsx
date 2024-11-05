@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import browserClient from "@/utils/supabase/client";
 import { Diary } from "@/types/library/Diary";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // Params 타입 정의
 interface Params {
@@ -12,6 +13,7 @@ interface Params {
 
 const MonthlyGallery = ({ params }: { params: Params }) => {
   const { month } = params; // URL의 month 매개변수 추출
+  const router = useRouter();
   const [artworks, setArtworks] = useState<Diary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -50,30 +52,34 @@ const MonthlyGallery = ({ params }: { params: Params }) => {
   }, [month]);
 
   return (
-    <div className="p-4 bg-white rounded-lg">
-      <h2 className="text-lg font-bold">{month}월의 그림</h2>
+    <div className="flex flex-col h-screen bg-[#FDF7F4]">
+      <div className="flex p-4">
+        <button onClick={() => router.back()} className="text-black">
+          <img src="/icons/arrow-left.svg" alt="Arrow Left" className="w-4 h-4 relative" />
+        </button>
+        <p className="text-xl font-bold flex-grow text-center">내 그림 모아보기</p>
+      </div>
+      <h2 className="text-2xl p-4">{month}월</h2>
       {loading ? (
-        <div>로딩 중...</div>
+        <div className="text-center">로딩 중...</div>
       ) : error ? (
-        <div className="text-red-500">{error}</div>
+        <div className="text-red-500 text-center">{error}</div>
       ) : artworks.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-4">
           {artworks.map((artwork) => (
-            <div key={artwork.id} className="border rounded-lg overflow-hidden">
+            <div key={artwork.id} className="border border-[#D9D9D9]">
               <Link href={`/artworkprev?id=${artwork.id}`}>
-                {" "}
-                {/* Link 컴포넌트 추가 */}
                 <img
                   src={artwork.draw}
                   alt={`Artwork ${artwork.id}`}
-                  className="w-full h-auto object-cover cursor-pointer"
+                  className="w-full  object-cover cursor-pointer transition-transform duration-300 hover:scale-105"
                 />
               </Link>
             </div>
           ))}
         </div>
       ) : (
-        <div>그 달의 그림이 없습니다.</div>
+        <div className="text-center">그 달의 그림이 없습니다.</div>
       )}
     </div>
   );

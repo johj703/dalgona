@@ -90,10 +90,12 @@ const MyArtwork: React.FC = () => {
   // };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-[#FDF7F4]">
       <div className="flex p-4">
-        <button className="text-black">◀</button>
-        <p className="text-xl font-bold flex-grow text-center">내 그림 모아보기</p>
+        <button>
+          <img src="/icons/arrow-left.svg" alt="Arrow Left" className="w-4 h-4 relative" />
+        </button>
+        <p className="text-lg font-normal leading-[27px] flex-grow text-center">내 그림 모아보기</p>
       </div>
 
       {/* 슬라이더 영역 */}
@@ -102,10 +104,10 @@ const MyArtwork: React.FC = () => {
         onTouchMove={handleTouchMove}
         onMouseDown={handleMouseStart}
         onMouseMove={handleMouseMove}
-        className={`relative flex items-center justify-center ${loading ? "hidden" : ""}`}
+        className={`pb-4 relative flex items-center justify-center ${loading ? "hidden" : ""}`}
       >
         {diaryEntries.length > 0 ? (
-          <div className="relative w-full h-96 overflow-hidden border-2">
+          <div className="relative w-full h-[490px] overflow-hidden border-2 border-[#D9D99]">
             {diaryEntries.map((diary: Diary, index: number) => (
               <div
                 key={diary.id}
@@ -136,7 +138,7 @@ const MyArtwork: React.FC = () => {
         {/* 보러가기 버튼 */}
         <button
           onClick={handleViewGallery}
-          className="absolute bottom-4 right-4 bg-[#D9D9D9] text-white px-4 py-2 rounded-full"
+          className="absolute bottom-12 right-4 bg-[#D9D9D9] text-black text-sm px-4 py-2 rounded-full"
         >
           보러가기
         </button>
