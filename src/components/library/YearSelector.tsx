@@ -38,7 +38,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
     <div ref={dropdownRef} className="relative">
       <div
         className={`h-10 inline-flex items-center justify-center p-2.5 gap-2.5 border rounded-lg cursor-pointer 
-                    ${isClicked ? "bg-[#a5a5a5] text-white" : "bg-white border-black text-black"}`}
+                    ${isClicked ? "bg-[#D84E35] text-white" : "bg-white border-black text-black"}`}
         onClick={toggleDropdown}
       >
         <span className="text-xs font-normal font-['Pretendard'] leading-[18px]">{selectedYear}년</span>
@@ -58,7 +58,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
               role="option"
               aria-selected={year === selectedYear}
               className={`cursor-pointer px-4 py-2 text-sm text-black ${
-                index < years.length - 1 ? "border-b border-black" : ""
+                index < years.length - 1 ? "border-b border-[#8C8C8C]" : ""
               }`}
             >
               {year}

@@ -60,8 +60,8 @@ const LibraryPage: React.FC = () => {
   }
 
   return (
-    <div className="p-4">
-      <div className="h-[52px] pb-4 flex items-center">
+    <div className="p-4 flex flex-col min-h-screen bg-[#FDF7F4]">
+      <div className="pb-6 flex items-center">
         <button className="flex-shrink-0">
           <img src="/icons/arrow-left.svg" alt="Arrow Left" className="w-4 h-4 relative" />
         </button>
