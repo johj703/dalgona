@@ -1,30 +1,43 @@
 "use client";
-import { getSearchDiaries } from "@/lib/main/fetchDiaries";
-import { SortedDiaries } from "@/types/main/Calendar";
+import { useInfiniteQuerySearchDiaries } from "@/lib/main/fetchDiaries";
 import { getDayOfTheWeek, getSimpleDate } from "@/utils/calendar/dateFormat";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 //TODO - 일기 클릭하면 상세로 이동
-//TODO - 무한스크롤
 //TODO - 최근검색어..?
 //TODO - 진입시 초기 로딩 지연 수정하기!
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");
-  const [searchDiaries, setSearchDiaries] = useState<SortedDiaries[]>([]);
+  const [searchDiaries, setSearchDiaries] = useState("");
 
-  // 입력 값이 변경될 때마다 타이머 설정
+  const { data: diaries, hasNextPage, fetchNextPage } = useInfiniteQuerySearchDiaries(searchDiaries);
+  const diariesList = diaries ? diaries.pages.flatMap((page) => page.searchPaginatedDiaries) : [];
+
+  //디바운스 적용
   useEffect(() => {
-    const delayDebounceTimer = setTimeout(async () => {
-      //api코드
-      const searchDiaries = await getSearchDiaries(query);
-      //받아온 값을 setSearchResults에 저장
-      setSearchDiaries(searchDiaries as SortedDiaries[]);
-    }, 1000); //디바운스 지연 시간
-    // 이전에 설정한 타이머를 클리어하여 디바운스 취소
+    const delayDebounceTimer = setTimeout(() => {
+      setSearchDiaries(query);
+    }, 1000);
     return () => clearTimeout(delayDebounceTimer);
   }, [query]);
+
+  useEffect(() => {
+    let fetching = false;
+    const handleScroll = async () => {
+      const { scrollHeight, scrollTop, clientHeight } = document.scrollingElement as HTMLElement;
+      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.2) {
+        fetching = true;
+        if (hasNextPage) await fetchNextPage();
+        fetching = false;
+      }
+    };
+    document.addEventListener("scroll", handleScroll);
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, [fetchNextPage, hasNextPage]);
 
   return (
     <div className="p-6 mt-4 text-center">
@@ -35,14 +48,15 @@ const SearchPage = () => {
         <input
           type="text"
           className="border-2 rounded-md w-[300px] h-[40px] bg-zinc-200 p-2"
+          placeholder="일기를 검색해주세요"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
       </div>
-      {searchDiaries ? (
+      {diariesList && diariesList.length > 0 ? (
         <div className="text-left">
-          <p className="text-sm p-2">검색결과 ({searchDiaries.length})</p>
-          {searchDiaries.map((diary) => (
+          <p className="text-sm p-2">검색결과 ({diariesList.length})</p>
+          {diariesList.map((diary) => (
             <div key={diary.id} className="border-2 p-2 rounded-md my-2">
               <p>{diary.contents}</p>
               <div className="flex text-sm">
@@ -54,7 +68,7 @@ const SearchPage = () => {
         </div>
       ) : (
         <div>
-          <p className="font-bold m-6">검색된 내용이 없네요.</p>
+          <p className="font-bold m-6">일치하는 검색결과가 없습니다.</p>
           <p className="text-sm text-gray-400">오늘은 어떤 이야기를 들려주실 건가요?</p>
         </div>
       )}
