@@ -3,28 +3,33 @@ import CommonTitle from "@/components/CommonTitle";
 import Modal from "@/components/Modal";
 import { delDrafts } from "@/lib/drafts/delDrafts";
 import { fetchDrafts } from "@/lib/drafts/fetchDrafts";
+import getLoginUser from "@/lib/getLoginUser";
 import { Diary } from "@/types/library/Diary";
 import { toast } from "garlic-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const USER_ID = "32b1e26a-2968-453b-a5c4-f2b766c9bccb";
-
 const Drafts = () => {
   const [drafts, setDrafts] = useState<Diary[] | null>(null);
   const [checkList, setCheckList] = useState<string[]>([]);
   const [openClose, setOpenClose] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string>("");
 
-  const router = useRouter();
-
+  const getUserId = async () => {
+    const data = await getLoginUser();
+    if (data) setUserId(data.id);
+  };
   const getDraft = async (user_id: string) => {
     const data = await fetchDrafts(user_id);
     if (data) setDrafts(data);
   };
 
   useEffect(() => {
-    getDraft(USER_ID);
-  }, []);
+    getUserId();
+    if (userId) getDraft(userId);
+  }, [userId]);
+
+  const router = useRouter();
 
   const addCheckList = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (e.target.checked) {
@@ -43,7 +48,7 @@ const Drafts = () => {
 
   const deleteDraft = async () => {
     await delDrafts(checkList);
-    await getDraft(USER_ID);
+    await getDraft(userId);
   };
 
   const clickLoad = async () => {

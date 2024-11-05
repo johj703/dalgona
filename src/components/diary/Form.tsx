@@ -114,7 +114,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
   const onClickDraft = async () => {
     await uploadToDrafts();
-    router.replace("/main");
+    // router.replace("/main");
   };
 
   // 일기 내용 : contents
@@ -129,6 +129,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
   // input 값 변경 이벤트
   const onChangeFormData = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
+    if (id === "title" && value.length > 20) return toast.error("제목은 최대 20글자까지 작성가능합니다.");
     setFormData({ ...formData, [id]: value });
   };
 
@@ -154,13 +155,13 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
     const { error: deleteError } = await browserClient.from("drafts").delete().eq("id", POST_ID);
     if (deleteError) return console.error("deleteError => ", deleteError);
 
-    router.replace(`/diary/read/${POST_ID}`);
+    return router.replace(`/diary/read/${POST_ID}`);
   };
 
   // 날짜 선택시 달력 off
   useEffect(() => {
     if (openCalender) setOpenCalender(false);
-  }, [formData.date]);
+  }, []);
 
   // 탭 토글
   const toggleTab = (ref: RefObject<HTMLDivElement>) => {
@@ -173,7 +174,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
   };
 
   return (
-    <div className="bg-background02 min-h-screen">
+    <div className={`bg-background02 min-h-screen ${goDraw && "h-screen overflow-hidden"}`}>
       <CommonTitle title={"일기 쓰기"} draft={true} />
       <form onSubmit={() => onSubmit()} className="flex flex-col gap-6">
         {/* 타이틀 */}
@@ -261,7 +262,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
               탭하여 그림그리기 페이지로 이동
             </div>
           ) : (
-            <div className="group-[.open]/draw:flex hidden relative items-center justify-center w-full h-[calc((100vw-32px)*0.782)] overflow-hidden rounded-2xl border border-solid border-black">
+            <div className="group-[.open]/draw:flex hidden relative items-center justify-center w-full h-[calc((100vw-32px)*0.782)] overflow-hidden rounded-2xl border border-solid border-black bg-white">
               <div className="absolute top-4 right-4" onClick={() => setFormData({ ...formData, draw: null })}>
                 삭제하기
               </div>

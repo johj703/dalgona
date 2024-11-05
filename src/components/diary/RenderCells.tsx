@@ -25,7 +25,7 @@ export const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiar
 
       days.push(
         <div
-          className={`col cell ${
+          className={`flex items-center justify-center w-10 h-10 text-sm leading-normal ${
             !isSameMonth(day, firstDayOfMonth)
               ? "disabled"
               : isSameDay(day, selectedDate)
@@ -46,12 +46,12 @@ export const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiar
       day = addDays(day, 1);
     }
     rows.push(
-      <div className="grid grid-cols-7 w-full text-center cursor-pointer" key={day.toString()}>
+      <div className="w-full flex justify-center gap-6px cursor-pointer" key={day.toString()}>
         {days}
       </div>
     );
     days = [];
   }
 
-  return <div className="body">{rows}</div>;
+  return <div className="flex flex-col gap-[2px] mt-[2px]">{rows}</div>;
 };

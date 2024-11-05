@@ -17,7 +17,6 @@ const Canvas = ({
   canvasWidth,
   canvasHeight,
   lineCustom,
-  isEraser,
   getImage,
   pathMode,
   setPathMode,
@@ -75,7 +74,7 @@ const Canvas = ({
   // 펜 커스텀
   if (ctx) {
     ctx.lineWidth = Number(lineCustom.lineWidth);
-    ctx.strokeStyle = isEraser ? "#ffffff" : lineCustom.lineColor;
+    ctx.strokeStyle = tool === "eraser" ? "#ffffff" : lineCustom.lineColor;
   }
 
   // 이미지 업로드
@@ -146,7 +145,7 @@ const Canvas = ({
     const mouseX = e.nativeEvent.offsetX;
     const mouseY = e.nativeEvent.offsetY;
     // drawing
-    if (tool === "pen") {
+    if (tool === "pen" || tool === "eraser") {
       if (!painting) {
         ctx?.beginPath();
         ctx?.moveTo(mouseX, mouseY);

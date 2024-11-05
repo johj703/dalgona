@@ -4,6 +4,7 @@
 
 :root {
   --background: #ffffff;
+  --background01: #efe6de;
   --background02: #fdf7f4;
   --foreground: #171717;
 }
@@ -29,7 +30,7 @@
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: var(--background02);
   font-family: "Dovemayo_gothic", Arial, Helvetica, sans-serif;
 }
 

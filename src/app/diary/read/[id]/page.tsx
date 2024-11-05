@@ -23,10 +23,6 @@ const Read = ({ params }: { params: { id: string } }) => {
     getData();
   }, []);
 
-  const onClickModify = () => {
-    router.replace(`/diary/modify/${params.id}`);
-  };
-
   const onClickDelete = async () => {
     toast
       .confirm("정말 삭제하시겠습니까?", {
@@ -51,7 +47,6 @@ const Read = ({ params }: { params: { id: string } }) => {
         <CommonTitle title={"일기 쓰기"} post_id={params.id} />
         <DetailComponent postData={postData} />
         <div>
-          <button onClick={() => onClickModify()}>수정</button>
           <button onClick={() => onClickDelete()}>삭제</button>
         </div>
       </>

@@ -13,7 +13,6 @@ export type CanvasProps = {
   canvasWidth: canvasWidth;
   canvasHeight: canvasHeight;
   lineCustom: LineCustom;
-  isEraser: boolean;
   getImage: FileList | null;
   pathMode: string;
   setPathMode: stringState;
