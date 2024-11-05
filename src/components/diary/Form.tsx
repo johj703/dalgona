@@ -216,9 +216,8 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
                   }`}
                   onClick={() => setFormData({ ...formData, emotion: emotion })}
                 >
-                  <span className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-white drop-shadow-[2.9px_2.9px_2.32px_rgba(0,0,0,0.25)]">
-                    <Image src={getEmoji(emotion)} alt={emotion} width={45} height={45} />
-                  </span>
+                  <Image src={getEmoji(emotion)} alt={emotion} width={40} height={40} />
+
                   {emotion}
                 </li>
               );
@@ -233,12 +232,12 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
           <ul className="flex gap-4">
             {TYPE_LIST.map((type, idx) => {
               return (
-                <li
-                  key={type}
-                  className={`flex-1 ${formData.type === type && "border-2 border-black"}`}
-                  onClick={() => setOpenTypeModal(type)}
-                >
-                  <img src={`/images/diary-type-${idx + 1}.svg`} alt={type} />
+                <li key={type} className="flex-1" onClick={() => setOpenTypeModal(type)}>
+                  {formData.type === type ? (
+                    <img src={`/images/diary-type-on-${idx + 1}.svg`} alt={type} />
+                  ) : (
+                    <img src={`/images/diary-type-${idx + 1}.svg`} alt={type} />
+                  )}
                 </li>
               );
             })}
@@ -293,11 +292,15 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
         )}
 
         <span className="h-14"></span>
-        <div className="fixed bottom-0 left-0 flex w-full h-14 bg-[#FDF7F4] border-t border-[#A6A6A6]">
-          <button className="flex-1 text-center text-[18px] py-4" type="button" onClick={() => onClickDraft()}>
+        <div className="fixed bottom-0 left-0 flex w-full h-14 bg-[#EFE6DE] border-t border-[#A6A6A6] rounded-tr-2xl rounded-tl-2xl overflow-hidden">
+          <button
+            className="flex-1 text-center text-xl leading-[1.35] py-4"
+            type="button"
+            onClick={() => onClickDraft()}
+          >
             임시저장
           </button>
-          <button className="flex-1 text-center text-[18px] py-4">저장</button>
+          <button className="flex-1 text-center text-xl leading-[1.35] py-4">저장</button>
         </div>
       </form>
 
