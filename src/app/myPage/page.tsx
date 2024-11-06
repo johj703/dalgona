@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/utils/supabase/supabase";
+import { useRouter } from "next/navigation";
 
 const USER_ID = "c56a4180-65aa-42ec-a945-5fd21dec0538"; // 유저데이터 전역관리 되면 수정
 const DEFAULT_IMAGE = "https://spimvuqwvknjuepojplk.supabase.co/storage/v1/object/public/profile/default_profile.svg";
@@ -16,6 +17,7 @@ const Mypage = () => {
   const [userData, setUserData] = useState<UserData>();
   const [monthlyData, setMonthlyData] = useState<EmojiData>();
   const [myDrawing, setMyDrawing] = useState<{ draw: string }[]>();
+  const router = useRouter();
 
   const getData = async () => {
     const UserData = await getUserData(USER_ID);
@@ -102,6 +104,10 @@ const Mypage = () => {
           onClick={async () => {
             console.log("로그아웃");
             await supabase.auth.signOut();
+
+            //  로그아웃 완료 알림 후 sign-in 페이지로 이동
+            alert("로그아웃이 완료 되었습니다.");
+            router.push("/sign-in");
           }}
         >
           로그아웃
