@@ -33,21 +33,18 @@ export const updateSession = async (request: NextRequest) => {
 
     // 만료된 세션을 갱신합니다. (서버 컴포넌트에서 필요함)
     // https://supabase.com/docs/guides/auth/server-side/nextjs
-    await supabase.auth.getUser();
+    
 
     // 로그인이 되어있지 않고 mypage, diary, library 페이지에 접근하면 로그인 페이지로 redirect되는 로직
     // 나중에 로그인이 필요한 부분 주소를 파악하고 추가하면 됨
 
-    const { data } = await supabase.auth.getUser();
-    console.log(data.user);
-    if (!data.user) {
-      if (
-        request.nextUrl.pathname.startsWith("/mypage") &&
-        request.nextUrl.pathname.startsWith("/diary") &&
-        request.nextUrl.pathname.startsWith("/library")
-      ) {
-        return NextResponse.redirect(new URL("/sign-in", request.url));
-      }
+    const user = await supabase.auth.getUser();
+    if (
+      !request.nextUrl.pathname.startsWith("/sign-up") &&
+      !request.nextUrl.pathname.startsWith("/sign-in") &&
+      user.error
+    ) {
+      return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
     return response;
