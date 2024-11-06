@@ -67,7 +67,7 @@ export default function SignUpPage() {
         await browserClient.auth.signInWithPassword({ email, password });
 
         // **페이지 이동하기 로직 추가
-        router.push("/signUp/profile");
+        router.push("/sign-up/profile");
       }
 
       if (error) {
