@@ -1,11 +1,12 @@
 "use client";
-import RenderDays from "@/components/main/calendar/RenderDays";
-import RenderHeader from "@/components/main/calendar/RenderHeader";
+
+import RenderHeader from "./RenderHeader";
 import { useEffect, useState } from "react";
 import { addMonths, format, subMonths } from "date-fns";
 import { RenderCells } from "./RenderCells";
 import { booleanState, FormData, FormState } from "@/types/Canvas";
 import { CustomAlert } from "../CustomAlert";
+import RenderDays from "./RenderDays";
 
 type CalenderProps = {
   setFormData: FormState;

@@ -5,7 +5,7 @@ import { ChangeDateForm } from "./ChangeDateForm";
 
 const DetailComponent = ({ postData }: { postData: FormData }) => {
   return (
-    <div className="mt-[35px] px-[13px]">
+    <div className="mt-[35px] px-[13px] pb-[52px]">
       <div className="flex items-center justify-center gap-6">
         {postData.date && (
           <div className="flex flex-col items-center justify-center gap-2 w-[136px] h-[130px]">
