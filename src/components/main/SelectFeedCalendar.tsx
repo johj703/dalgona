@@ -9,10 +9,7 @@ import search from "../../../public/images/main/search.png";
 import Image from "next/image";
 
 const OPTIONS: EmblaOptionsType = {};
-const SLIDE_COUNT = 2;
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
-
-//TODO - 피드에 이미지 넣기
+const SLIDES = [{ img: "/icons/banner1.svg" }, { img: "/icons/banner2.svg" }];
 
 const SelectFeedCalendar = () => {
   return (

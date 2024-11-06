@@ -5,23 +5,24 @@ import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
 import "../../style/embla.css";
 
 type PropType = {
-  slides: number[];
+  slides: { img: string }[];
   options?: EmblaOptionsType;
 };
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
   const { slides, options } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
-
   const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);
 
   return (
     <section className="embla">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
-          {slides.map((index) => (
+          {slides.map((slide, index) => (
             <div className="embla__slide" key={index}>
-              <div className="embla__slide__number">{index + 1}</div>
+              <div className="embla__slide__number">
+                <img src={slide.img} alt={`Slide ${index + 1}`} width={358} height={110} />
+              </div>
             </div>
           ))}
         </div>

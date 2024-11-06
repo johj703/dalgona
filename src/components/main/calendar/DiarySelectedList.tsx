@@ -32,7 +32,7 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
                 <img
                   src={list.draw}
                   alt="Picture of the author"
-                  className="img border-[1px] rounded-lg border-black h-[238px] w-[100%] bg-white pt-[12.5] pl-[15px] pr-[10px] mb-[10px]"
+                  className="img border-[1px] rounded-lg border-black h-[238px] w-[100%] bg-white mb-[10px]"
                 />
                 <div className="absolute top-[75px] right-[25px]">
                   <img src={getEmoji(list.emotion, "on")} alt={list.emotion} className="w-[40px] h-[40px] " />
