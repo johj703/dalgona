@@ -1,18 +1,18 @@
 export const calDate = (date: number) => {
   switch (date) {
     case 0:
-      return "일요일";
+      return "일";
     case 1:
-      return "월요일";
+      return "월";
     case 2:
-      return "화요일";
+      return "화";
     case 3:
-      return "수요일";
+      return "수";
     case 4:
-      return "목요일";
+      return "목";
     case 5:
-      return "금요일";
+      return "금";
     case 6:
-      return "토요일";
+      return "토";
   }
 };
