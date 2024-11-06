@@ -1,17 +1,16 @@
 import { HeaderProps } from "@/types/main/Calendar";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import { format } from "date-fns";
 import React from "react";
 
 const RenderHeader = ({ currentDate, prevMonth, nextMonth }: HeaderProps) => {
   return (
     <div>
-      <div className="flex justify-between p-2">
-        <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} />
-        <h2>
+      <div className="flex justify-between ">
+        <img src="/icons/calendar-prev.svg" alt="이전 달로" onClick={prevMonth} />
+        <h2 className="text-sm">
           {format(currentDate, "yyyy")} . {format(currentDate, "M")}
         </h2>
-        <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
+        <img src="/icons/calendar-next.svg" alt="다음 달로" onClick={nextMonth} />
       </div>
     </div>
   );

@@ -12,12 +12,12 @@ type TitleProps = {
 const CommonTitle = ({ title, post_id, draft, setOpenClose }: TitleProps) => {
   const router = useRouter();
   return (
-    <div className="relative flex items-center justify-center py-[14px]">
+    <div className="relative flex items-center justify-center h-[52px]">
       <div
-        className="absolute top-1/2 -translate-y-1/2 left-[10px] flex items-center justify-center w-[34px] h-[34px]"
+        className="absolute top-1/2 -translate-y-1/2 left-[8.5px] flex items-center justify-center w-[34px] h-[34px]"
         onClick={() => router.back()}
       >
-        <img src="/icons/arrow-left.svg" alt="Arrow Left" />
+        <img src="/icons/back.svg" alt="뒤로가기" />
       </div>
 
       <h2 className="text-[18px] leading-normal">{title}</h2>

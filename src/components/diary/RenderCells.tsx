@@ -1,8 +1,8 @@
-import { CellsProps, SortedDiaries } from "@/types/main/Calendar";
+import { CellsProps } from "@/types/main/Calendar";
 import { format, isSameMonth, isSameDay, addDays } from "date-fns";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
 
-export const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: CellsProps) => {
+export const RenderCells = ({ currentDate, selectedDate, onDateClick }: CellsProps) => {
   const firstDayOfMonth = startOfMonth(currentDate);
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
   const startDate = startOfWeek(firstDayOfMonth);
@@ -18,14 +18,9 @@ export const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiar
       formattedDate = format(day, "d");
       const cloneDay = day;
 
-      //해당 달에 일기 쓴날의 데이터(filterDiaries)와 해당 달의 전체 날짜(cloneDay) 비교해서 일기 쓴 날짜만 찾기
-      const formatDate = format(cloneDay, "yyyy년 MM월 dd일");
-      //일기 데이터(filterDiaries)에서 formatDate해당하는 데이터를 찾기
-      const emotionDate = filterDiaries?.find((diary: SortedDiaries) => diary.date === formatDate);
-
       days.push(
         <div
-          className={`flex items-center justify-center w-10 h-10 text-sm leading-normal ${
+          className={`flex items-center justify-center w-10 h-10 text-sm leading-normal group ${
             !isSameMonth(day, firstDayOfMonth)
               ? "disabled"
               : isSameDay(day, selectedDate)
@@ -37,16 +32,19 @@ export const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiar
           key={day.toString()}
           onClick={() => onDateClick(cloneDay)}
         >
-          <span className={format(currentDate, "M") !== format(day, "M") ? "text not-valid text-slate-300" : ""}>
+          <span
+            className={`relative text-sm leading-normal content-none before:content-none group-[.selected]:before:content-[''] before:w-[30px] before:h-[2px] before:bg-[#D84E35] before:absolute before:left-1/2 before:bottom-0 before:-translate-x-1/2 ${
+              format(currentDate, "M") !== format(day, "M") ? "text not-valid text-[#A6A6A6]" : ""
+            }`}
+          >
             {formattedDate}
           </span>
-          {emotionDate && <div className="emotion">{emotionDate.emotion}</div>}
         </div>
       );
       day = addDays(day, 1);
     }
     rows.push(
-      <div className="w-full flex justify-center gap-6px cursor-pointer" key={day.toString()}>
+      <div className="w-full flex justify-center gap-[6px] cursor-pointer" key={day.toString()}>
         {days}
       </div>
     );

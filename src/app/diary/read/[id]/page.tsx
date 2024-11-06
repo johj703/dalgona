@@ -34,7 +34,7 @@ const Read = ({ params }: { params: { id: string } }) => {
     !isLoading &&
     (postData ? (
       <>
-        <CommonTitle title={"일기 쓰기"} post_id={params.id} setOpenClose={setOpenClose} />
+        <CommonTitle title={"일기장"} post_id={params.id} setOpenClose={setOpenClose} />
         <DetailComponent postData={postData} />
 
         {/* 삭제 확인 모달 */}

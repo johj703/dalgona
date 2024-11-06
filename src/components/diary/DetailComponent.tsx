@@ -5,7 +5,7 @@ import { ChangeDateForm } from "./ChangeDateForm";
 
 const DetailComponent = ({ postData }: { postData: FormData }) => {
   return (
-    <div className="mt-6 px-[13px]">
+    <div className="mt-[35px] px-[13px]">
       <div className="flex items-center justify-center gap-6">
         {postData.date && (
           <div className="flex flex-col items-center justify-center gap-2 w-[136px] h-[130px]">
@@ -26,10 +26,13 @@ const DetailComponent = ({ postData }: { postData: FormData }) => {
         </div>
         {postData.draw && <img src={postData.draw} alt={postData.title} className="bg-white w-full" />}
       </div>
+
       {postData.type !== "편지지" && postData.type === "모눈종이" ? (
-        postData.contents && <div className="flex flex-wrap">{GraphPaper(postData.contents)}</div>
+        postData.contents && (
+          <div className="flex flex-wrap font-Dovemayo text-[30px] mt-4 mb-[26px]">{GraphPaper(postData.contents)}</div>
+        )
       ) : (
-        <div className="bg-detail-content text-2xl leading-loose">{postData.contents}</div>
+        <div className="bg-detail-content text-2xl leading-loose my-[26px] font-Dovemayo">{postData.contents}</div>
       )}
     </div>
   );
