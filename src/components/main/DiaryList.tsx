@@ -133,7 +133,7 @@ const DiaryList = () => {
                           alt="Picture of the author"
                           className="img border-[1px] rounded-lg border-black h-[238px] my-[10px] bg-white "
                         />
-                        <div className="absolute w-[269px] top-[46.5px] flex justify-between items-center mx-[15px]">
+                        <div className="absolute w-[269px] top-[45px] flex justify-between items-center mx-[15px]">
                           <div className="w-[50px] text-sm">
                             <p className="today text-center border-b-2">{getDayOfTheWeek(diary.date)}</p>
                             <p className="simple-date text-center">{getSimpleFullDate(diary.date).substring(2)}</p>

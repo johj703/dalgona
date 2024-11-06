@@ -4,8 +4,8 @@ import defaultEmotion from "../../../../public/images/main/State=blank.png";
 import Image from "next/image";
 import React from "react";
 import { getEmoji } from "@/utils/diary/getEmoji";
-// import { GetEmoji } from "@/utils/diary/GetEmoji";
 
+// border-b-2 border-rose-500
 const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: CellsProps) => {
   const firstDayOfMonth = startOfMonth(currentDate);
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
@@ -26,9 +26,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
       formattedDate = format(day, "d"); //1
       const cloneDay = day;
 
-      //해당 달에 일기 쓴날의 데이터(filterDiaries)와 해당 달의 전체 날짜(cloneDay) 비교해서 일기 쓴 날짜만 찾기
       const formatDate = format(cloneDay, "yyyy년 MM월 dd일");
-      //일기 데이터(filterDiaries)에서 formatDate해당하는 데이터를 찾기
       const emotionDate = filterDiaries?.find((diary: SortedDiaries) => diary.date === formatDate);
 
       days.push(
@@ -59,7 +57,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
               format(currentDate, "M") !== format(day, "M")
                 ? "text not-valid h-[30px] p-[10px] flex flex-col justify-center items-center gap-[10px] self-stretch"
                 : format(day, "M") === todayMonth && format(day, "d") === todayDate
-                ? "today  h-[30px] p-[10px]  flex flex-col justify-center items-center gap-[10px] self-stretch border-b-2 border-rose-500"
+                ? "today  h-[30px] p-[10px]  flex flex-col justify-center items-center gap-[10px] self-stretch"
                 : "h-[30px] p-[10px] flex flex-col justify-center items-center gap-[10px] self-stretch"
             }
           >
@@ -76,7 +74,6 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
         {days}
       </div>
     );
-
     // 한 주가 끝나면 days 배열을 비워서 다음 주의 날짜 셀을 준비
     days = [];
   }
