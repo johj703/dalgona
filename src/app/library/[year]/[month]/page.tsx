@@ -46,8 +46,8 @@ const MonthDiaryPage: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col bg-[#FDF7F4]">
-      <div className="flex p-4">
+    <div className="flex flex-col bg-[#FDF7F4] min-h-screen">
+      <div className="flex p-4 h-[52px]">
         <button onClick={() => router.back()}>
           <img src="/icons/arrow-left.svg" alt="Arrow Left" className="w-4 h-4 relative" />
         </button>

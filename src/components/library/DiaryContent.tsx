@@ -54,20 +54,22 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
   if (loading) return <p className="text-center">로딩 중...</p>;
 
   return (
-    <div className="flex flex-col p-4 min-h-screen bg-[#FDF7F4]">
-      <div className="border border-black rounded-lg p-4 mb-4 bg-white">
-        <p className="text-center font-bold">나만의 {month}월이 완성되어 가고 있어요! 많은 날들이 일기로 남았어요.</p>
-      </div>
-      <div className="space-y-4 border rounded-lg p-4 bg-[#EFE6DE]">
-        {diaries.length > 0 ? (
-          diaries.map((diary: Diary) => {
+    <div className="flex flex-1 flex-col p-4 bg-[#FDF7F4]">
+      {diaries.length > 0 && (
+        <div className="border border-black rounded-lg p-4 mb-4 bg-white">
+          <p className="text-center font-bold">나만의 {month}월이 완성되어 가고 있어요! 많은 날들이 일기로 남았어요.</p>
+        </div>
+      )}
+      {diaries.length > 0 ? (
+        <div className="space-y-4 border rounded-lg p-4 bg-[#EFE6DE]">
+          {diaries.map((diary: Diary) => {
             const diaryDate = parseDate(diary.date);
             const formattedDate = diaryDate
               ? diaryDate.toLocaleDateString("ko-KR", { day: "numeric" })
               : "날짜 정보 없음";
 
             return (
-              <div key={diary.id} className="border rounded-lg bg-[#FDF7F4] border-black p-4">
+              <div key={diary.id} className=" border rounded-lg bg-[#FDF7F4] border-black p-4">
                 {diary.draw && (
                   <div className="relative h-48 border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden">
                     <img src={diary.draw} alt="그림" className="object-cover h-full w-full" />
@@ -94,11 +96,21 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
                 <p className="text-gray-700 line-clamp-2">{diary.contents}</p>
               </div>
             );
-          })
-        ) : (
-          <p className="text-center">{month}월에는 작성된 일기가 없습니다.</p>
-        )}
-      </div>
+          })}
+        </div>
+      ) : (
+        <div className="flex flex-1 flex-col items-center justify-center bg-background01 border rounded-lg border-black p-4">
+          <div className="flex items-center mb-2">
+            <p className="text-lg font-bold text-center mr-2">이번 달에 작성된 일기가 없어요</p>
+            <img src="/icons/mini-diary.svg" alt="mini-diary" className="w-6 h-6" /> {/* 아이콘 크기 조정 */}
+          </div>
+          <p className="text-center text-[#a5a5a5]">하루의 소중한 기록을 남겨보세요.</p>
+          <button className="mt-4 px-4 py-2 bg-white border border-black rounded-lg text-black flex items-center">
+            일기 쓰러 가기
+            <img src="/icons/mini-pencil.svg" alt="mini-pencil" className="ml-2 w-4 h-4" /> {/* 아이콘 크기 조정 */}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
