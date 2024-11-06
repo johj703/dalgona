@@ -7,7 +7,7 @@ import { UserData } from "@/types/mypage/UserData";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { browserClient } from "@/utils/supabase/client";
+import { supabase } from "@/utils/supabase/client";
 
 const USER_ID = "c56a4180-65aa-42ec-a945-5fd21dec0538"; // 유저데이터 전역관리 되면 수정
 const DEFAULT_IMAGE = "https://spimvuqwvknjuepojplk.supabase.co/storage/v1/object/public/profile/default_profile.svg";
@@ -30,11 +30,6 @@ const Mypage = () => {
   useEffect(() => {
     getData();
   }, []);
-
-  // 로그아웃 처리 함수
-  const handleLogout = async () => {
-    await browserClient.auth.signOut();
-  };
 
   return (
     <>
@@ -102,7 +97,13 @@ const Mypage = () => {
       </div>
 
       <div>
-        <button onClick={handleLogout} className="">
+        <button
+          className=""
+          onClick={async () => {
+            console.log("로그아웃");
+            await supabase.auth.signOut();
+          }}
+        >
           로그아웃
         </button>
       </div>
