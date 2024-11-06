@@ -33,7 +33,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
 
       days.push(
         <div
-          className={`col cell ${
+          className={`col cell w-[33px] flex flex-col items-start shrink-0 ${
             !isSameMonth(day, firstDayOfMonth) // 현재 달과 다른 달에 해당하는 날짜
               ? "disabled"
               : isSameDay(day, selectedDate)
@@ -46,25 +46,25 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
           onClick={() => onDateClick(cloneDay)}
         >
           {emotionDate ? (
-            <div className="emotion">
-              <img src={getEmoji(emotionDate.emotion, "on")} alt={emotionDate.emotion} className="w-10 h-10 mt-1" />
+            <div className="emotion flex flex-col justify-center items-center self-stretch">
+              <img src={getEmoji(emotionDate.emotion, "on")} alt={emotionDate.emotion} className="h-[30px]" />
             </div>
           ) : (
             <div>
               <Image src={defaultEmotion} width={30} height={30} alt="Picture of the author" />
             </div>
           )}
-          <span
+          <div
             className={
               format(currentDate, "M") !== format(day, "M")
-                ? "text not-valid text-slate-300 px-2"
+                ? "text not-valid h-[30px] p-[10px] flex flex-col justify-center items-center gap-[10px] self-stretch"
                 : format(day, "M") === todayMonth && format(day, "d") === todayDate
-                ? "today border-b-2 border-rose-500 px-2"
-                : "px-2"
+                ? "today  h-[30px] p-[10px]  flex flex-col justify-center items-center gap-[10px] self-stretch border-b-2 border-rose-500"
+                : "h-[30px] p-[10px] flex flex-col justify-center items-center gap-[10px] self-stretch"
             }
           >
             {formattedDate}
-          </span>
+          </div>
         </div>
       );
       day = addDays(day, 1);
@@ -72,7 +72,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
 
     //일주일 단위로 날짜 셀(days)을 하나의 행(row)으로 묶어 추가
     rows.push(
-      <div className="grid grid-cols-7 w-full text-center" key={day.toString()}>
+      <div className="flex w-[325px] justify-center items-center gap-[12px]" key={day.toString()}>
         {days}
       </div>
     );

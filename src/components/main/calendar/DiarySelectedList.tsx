@@ -1,6 +1,7 @@
 import { Dates } from "@/types/main/Calendar";
 import { getDayOfTheWeek, getSimpleDate } from "@/utils/calendar/dateFormat";
 import { getEmoji } from "@/utils/diary/getEmoji";
+import Link from "next/link";
 // import Link from "next/link";
 import React from "react";
 
@@ -70,9 +71,11 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
               </p>
             </div>
             <div>
-              <button className="flex gap-[10px] py-[12px] px-[16px] bg-white rounded-2xl border-[1px] border-black ">
-                <p>일기 쓰러가기</p> <img src="/icons/pencil.svg" width={20} height={20} alt="pencil" />
-              </button>
+              <Link href={"/diary/write"}>
+                <button className="flex gap-[10px] py-[12px] px-[16px] bg-white rounded-2xl border-[1px] border-black ">
+                  <p>일기 쓰러가기</p> <img src="/icons/pencil.svg" width={20} height={20} alt="pencil" />
+                </button>
+              </Link>
             </div>
           </div>
         </div>

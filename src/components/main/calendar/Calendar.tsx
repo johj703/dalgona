@@ -106,14 +106,14 @@ export default function Calendar(): JSX.Element {
             <div className="flex gap-[8px]">
               <input
                 type="text"
-                className="border-[1px] border-[#2E5342] rounded-lg w-[74] h-[22px] bg-[#FDF7F4] text-center font-['Pretendard'] text-[12px] not-italic font-[400] leading-normal"
+                className="border-[1px] border-[#2E5342] rounded-lg w-[74] h-[22px] bg-[#FDF7F4] text-center font-['Pretendard-Regular'] text-[12px] not-italic font-[400] leading-normal"
                 value={getSimpleFullDate(firstDate)}
                 readOnly
               />
               <div>~</div>
               <input
                 type="text"
-                className="border-[1px] border-[#2E5342] rounded-lg w-[74] h-[22px] bg-[#FDF7F4] text-center font-['Pretendard'] text-[12px] not-italic font-[400] leading-normal"
+                className="border-[1px] border-[#2E5342] rounded-lg w-[74] h-[22px] bg-[#FDF7F4] text-center font-['Pretendard-Regular'] text-[12px] not-italic font-[400] leading-normal"
                 value={getSimpleFullDate(secondDate)}
                 readOnly
               />
@@ -129,7 +129,7 @@ export default function Calendar(): JSX.Element {
             전체기간
           </button>
         </div>
-        <div className="calendar w-[356px] h-[416px] my-[10px] mx-[16px] px-[16px] pb-[4px] border-[1px] border-black rounded-lg bg-[#EFE6DE] flex flex-col justify-center items-center gap-[2px]">
+        <div className="calendar w-[356px] h-[420px] my-[8px] mx-[16px] px-[16px] pb-[4px] border-[1px] border-black rounded-lg bg-[#EFE6DE] flex flex-col justify-center items-center gap-[2px]">
           <RenderHeader currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
           <RenderDays />
           <RenderCells
