@@ -46,13 +46,13 @@ const MonthDiaryPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <button onClick={() => router.back()} className="mr-2 text-blue-500 hover:text-blue-700">
-        ◀
-      </button>
-      <h1 className="text-2xl font-semibold mb-4 text-center">{month}월</h1>
-      <p className="text-center mb-2">이곳은 {month}월의 나를 담은 방이에요.</p>
-      <p className="text-center mb-6">이렇게 많은 순간들을 기억에 남겼어요!</p>
+    <div className="flex flex-col bg-[#FDF7F4]">
+      <div className="flex p-4">
+        <button onClick={() => router.back()}>
+          <img src="/icons/arrow-left.svg" alt="Arrow Left" className="w-4 h-4 relative" />
+        </button>
+        <p className="text-lg font-normal leading-[27px] flex-grow text-center">{month}월</p>
+      </div>
       <DiaryContent userId={userId} year={Number(year)} month={Number(month)} />
     </div>
   );
