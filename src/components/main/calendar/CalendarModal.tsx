@@ -40,7 +40,10 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
   }, []);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-75" onClick={clickModal}>
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-75 z-[999]"
+      onClick={clickModal}
+    >
       <div
         className=" bg-white rounded-lg shadow-md  max-w-md h-[320px] w-[343px] "
         onClick={(e) => e.stopPropagation()}
