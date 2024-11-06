@@ -41,10 +41,19 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-75" onClick={clickModal}>
-      <div className=" bg-white p-6 rounded-lg shadow-md w-full max-w-md h-[50vh]" onClick={(e) => e.stopPropagation()}>
-        <p className="text-center text-lg font-bold">조회기간 설정</p>
-        <div className="py-6 mb-[20px] px-6">
-          <p className="text-sm	">시작 일자</p>
+      <div
+        className=" bg-white rounded-lg shadow-md  max-w-md h-[320px] w-[343px] "
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mt-[18px] mx-[113px] justify-center items-center gap-[10px] inline-flex">
+          <p className="text-center w-[100px] font-['LeferiBaseType-RegularA'] text-[16px] font-[400] not-italic leading-[21.6px] my-[10px]">
+            조회기간 설정
+          </p>
+        </div>
+        <div className="pt-4 pb-6 px-6">
+          <p className="text-center w-[70px] font-['LeferiBaseType-RegularA'] text-[14px] font-[400] not-italic leading-[21px] pb-[8px]">
+            시작 일자
+          </p>
           <div className="flex gap-4 mb-[20px]">
             <div>
               <Select
@@ -52,10 +61,10 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
                 aria-label="Project status"
                 value={startYear}
                 onChange={(e) => setStartYear(e.target.value)}
-                className="border-2 rounded-md p-2 mr-2"
+                className="border-[1px] rounded-lg border-[#BFBFBF] p-[5px] w-[70px] h-[36px] mr-[5px]"
               >
                 {years.map((y, idx) => (
-                  <option value={y} key={idx}>
+                  <option value={y} key={idx} className="text-[12px]">
                     {y}
                   </option>
                 ))}
@@ -68,7 +77,7 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
                 aria-label="Project status"
                 value={startMonth}
                 onChange={(e) => setStartMonth(e.target.value)}
-                className="border-2 rounded-md p-2 mr-2"
+                className="border-[1px] rounded-lg border-[#BFBFBF] p-[5px] w-[70px] h-[36px] mr-[5px]"
               >
                 {months.map((m, idx) => (
                   <option value={m} key={idx}>
@@ -84,7 +93,7 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
                 aria-label="Project status"
                 value={startDay}
                 onChange={(e) => setStartDay(e.target.value)}
-                className="border-2 rounded-md p-2 mr-2"
+                className="border-[1px] rounded-lg border-[#BFBFBF] p-[5px] w-[70px] h-[36px] mr-[5px]"
               >
                 <option value="none">선택</option>
                 {days.map((d, idx) => (
@@ -97,7 +106,9 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
             </div>
           </div>
 
-          <p className="text-sm	">종료 일자</p>
+          <p className="text-center w-[70px] font-['LeferiBaseType-RegularA'] text-[14px] font-[400] not-italic leading-[21px] pb-[8px]">
+            종료 일자
+          </p>
           <div className="flex gap-4">
             <div>
               <Select
@@ -105,7 +116,7 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
                 aria-label="Project status"
                 value={endYear}
                 onChange={(e) => setEndYear(e.target.value)}
-                className="border-2 rounded-md p-2 mr-2"
+                className="border-[1px] rounded-lg border-[#BFBFBF] p-[5px] w-[70px] h-[36px] mr-[5px]"
               >
                 {years.map((year) => (
                   <option value={year} key={year}>
@@ -121,7 +132,7 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
                 aria-label="Project status"
                 value={endMonth}
                 onChange={(e) => setEndMonth(e.target.value)}
-                className="border-2 rounded-md p-2 mr-2"
+                className="border-[1px] rounded-lg border-[#BFBFBF] p-[5px] w-[70px] h-[36px] mr-[5px]"
               >
                 {months.map((month) => (
                   <option value={month} key={month}>
@@ -137,7 +148,7 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
                 aria-label="Project status"
                 value={endDay}
                 onChange={(e) => setEndDay(e.target.value)}
-                className="border-2 rounded-md p-2 mr-2"
+                className="border-[1px] rounded-lg border-[#BFBFBF] p-[5px] w-[70px] h-[36px] mr-[5px]"
               >
                 <option value="none">선택</option>
                 {days.map((day) => (
@@ -150,8 +161,17 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center">
-          <button className="my-2 bg-slate-400 rounded hover:bg-slate-500 py-2 px-8" onClick={handleSelect}>
+        <div className="flex items-center justify-center gap-[30px]">
+          <button
+            className="w-[120px] h-[45px] rounded-lg bg-white text-center text-[#D84E35] border-[1px] border-[#D84E35]"
+            onClick={clickModal}
+          >
+            뒤로가기
+          </button>
+          <button
+            className="w-[120px] h-[45px] rounded-lg bg-[#D84E35] text-center text-white border-[1px] border-[#D84E35]"
+            onClick={handleSelect}
+          >
             완료
           </button>
         </div>

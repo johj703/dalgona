@@ -17,17 +17,12 @@ export type HeaderProps = {
 
 export type Dates = {
   rangeList: SortedDiaries[] | undefined;
+  selectedDate: Date;
 };
 
 export type CellsProps = {
   currentDate: Date;
   selectedDate: Date;
-  onDateClick: (arg0: Date) => void;
-  filterDiaries: SortedDiaries[];
-};
-
-export type CalendarCellsProps = {
-  currentDate: Date;
   onDateClick: (arg0: Date) => void;
   filterDiaries: SortedDiaries[];
 };

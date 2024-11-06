@@ -1,5 +1,5 @@
 import Image from "next/image";
-import topButton from "../../../public/images/topButton.png";
+import topButton from "../../../public/images/main/topButton.png";
 
 const TopButton = () => {
   const handleTop = () => {
