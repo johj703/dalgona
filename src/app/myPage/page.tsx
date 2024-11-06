@@ -7,7 +7,7 @@ import { UserData } from "@/types/mypage/UserData";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/utils/supabase/client";
+import { supabase } from "@/utils/supabase/supabase";
 
 const USER_ID = "c56a4180-65aa-42ec-a945-5fd21dec0538"; // 유저데이터 전역관리 되면 수정
 const DEFAULT_IMAGE = "https://spimvuqwvknjuepojplk.supabase.co/storage/v1/object/public/profile/default_profile.svg";
