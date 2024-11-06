@@ -2,7 +2,6 @@
 import { useInfiniteQueryDiaries } from "@/lib/main/fetchDiaries";
 import { Select, Tab } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
-import TopButton from "./TopButton";
 import { formatDate, getDayOfTheWeek, getSimpleFullDate } from "@/utils/calendar/dateFormat";
 import { SortedDiaries } from "@/types/main/Calendar";
 import Link from "next/link";
@@ -10,6 +9,7 @@ import feedActive from "../../../public/images/main/feed.png";
 import listActive from "../../../public/images/main/list.png";
 import Image from "next/image";
 import { getEmoji } from "@/utils/diary/getEmoji";
+import TopButton from "../TopButton";
 
 //TODO - next.js 이미지 최적화
 //TODO - 로그인 한 유저만
@@ -82,8 +82,12 @@ const DiaryList = () => {
                     onChange={(e) => setSelectedBox(e.target.value)}
                     className="bg-[#EFE6DE] text-base"
                   >
-                    <option value="최신순">최신순</option>
-                    <option value="오래된순">오래된순</option>
+                    <option value="최신순" className="text-[12px] not-italic font-[400] leading-[18px]">
+                      최신순
+                    </option>
+                    <option value="오래된순" className="text-[12px] not-italic font-[400] leading-[18px]">
+                      오래된순
+                    </option>
                   </Select>
                 </div>
                 <div className="flex gap-[14px]">
@@ -183,10 +187,12 @@ const DiaryList = () => {
           <div className="my-[8px] mx-[16px] py-[159px] px-[67px] border-2 rounded-2xl border-black bg-[#EFE6DE]">
             <div className="flex flex-col justify-center items-center gap-[23px]">
               <div>
-                <div className="flex gap-[10px] p-[10px]">
-                  <p className="text-[16px] not-italic font-[400]	leading-normal">아직 작성된 일기가 없어요</p>
-                  <img src="/icons/facial-expressions.svg" width={20.75} height={20} alt="facial-expressions" />
-                </div>
+                <Link href={"/diary/write"}>
+                  <div className="flex gap-[10px] p-[10px]">
+                    <p className="text-[16px] not-italic font-[400]	leading-normal">아직 작성된 일기가 없어요</p>
+                    <img src="/icons/group-1000005726.svg" width={17} height={21} alt="group-1000005726" />
+                  </div>
+                </Link>
                 <p className="text-[#A6A6A6] text-[14px] not-italic font-[400] leading-[21px] text-center">
                   오늘의 첫 이야기를 남겨보세요
                 </p>

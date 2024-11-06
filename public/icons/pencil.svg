@@ -1,5 +1,10 @@
-<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="Icon/pencil">
-<path id="Icon" d="M12.4999 22.1999H22.0999M15.4999 4.7999L19.6999 8.3999M4.6999 15.5999L16.5313 3.35533C17.8052 2.08143 19.8706 2.08143 21.1445 3.35533C22.4184 4.62923 22.4184 6.69463 21.1445 7.96853L8.8999 19.7999L2.8999 21.5999L4.6999 15.5999Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 1000005724">
+<path id="Vector" d="M2.39491 16.6001L2.65421 11.8551L4.15379 10.416L8.61363 14.8758L7.1443 16.3452L2.39491 16.6001Z" fill="white" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M2.49929 14.7419L2.3999 16.5959L4.25385 16.4965C4.26681 16.06 4.09395 15.6105 3.73958 15.2562C3.38521 14.9018 2.92713 14.729 2.49929 14.7419Z" fill="black" stroke="black" stroke-width="0.75" stroke-miterlimit="10"/>
+<path id="Vector_3" d="M13.208 1.33643L6.98064 7.56379L4.89765 9.64678L2.87084 11.6736C4.13706 12.862 6.01262 12.9571 7.12326 11.8724L15.4336 3.56203L13.208 1.33643Z" fill="white" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M15.433 3.56194L7.12268 11.8723C6.04229 12.9873 6.13304 14.8585 7.32147 16.1247L9.34828 14.0979L11.4313 12.0149L17.6586 5.78754L15.4287 3.55762L15.433 3.56194Z" fill="white" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_5" d="M14.1973 4.79782C15.4265 6.02699 16.9608 6.48554 17.6243 5.82203C18.2878 5.15852 17.8293 3.6242 16.6001 2.39504C15.3709 1.16587 13.8366 0.707315 13.1731 1.37083C12.5096 2.03434 12.9682 3.56865 14.1973 4.79782Z" fill="white" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_6" d="M15.1006 3.89473C15.5684 4.36253 16.1179 4.57149 16.3279 4.36146C16.5379 4.15142 16.329 3.60193 15.8612 3.13413C15.3934 2.66634 14.8439 2.45737 14.6339 2.66741C14.4238 2.87744 14.6328 3.42693 15.1006 3.89473Z" fill="black"/>
 </g>
 </svg>

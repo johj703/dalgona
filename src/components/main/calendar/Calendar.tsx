@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SortedDiaries } from "@/types/main/Calendar";
 import { format, addMonths, subMonths } from "date-fns";
 import { getSelectedDiaries, useFetchDiaries } from "@/lib/main/fetchDiaries";
@@ -9,12 +9,7 @@ import RenderCells from "./RenderCells";
 import DiarySelectedList from "./DiarySelectedList";
 import CalendarModal from "./CalendarModal";
 import "react-datepicker/dist/react-datepicker.css";
-import { getSimpleMonth, getSimpleYear } from "@/utils/calendar/dateFormat";
-
-//TODO - 달력 접기
-//TODO - 이미지(감정) 가져오기
-//TODO - 감정있으면 날짜대신 감정이모지 / 감정이모지 없으면 날짜로
-//TODO - 하루에 일기를 여러개 작성할경우 달력에 보이는 감정이모지는??
+import { getSimpleFullDate, getSimpleMonth, getSimpleYear } from "@/utils/calendar/dateFormat";
 
 export default function Calendar(): JSX.Element {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
@@ -28,21 +23,18 @@ export default function Calendar(): JSX.Element {
   //일기 전체 데이터 가져오기
   const { data: diaries } = useFetchDiaries();
 
-  //이게 왜 있지...?
-  // useEffect(() => {
-  //   if (diaries) {
-  //     const formatTodayDate = format(new Date(), "yyyy년 MM월 dd일");
-  //     console.log("🚀 ~ useEffect ~ formatTodayDate:", formatTodayDate);
-  //     const searchDiaries = diaries?.find((diary: SortedDiaries) => diary.date === formatTodayDate);
-  //     console.log("🚀 ~ useEffect ~ searchDiaries:", searchDiaries);
-  //     if (searchDiaries) {
-  //       setRangeList([...rangeList, { ...searchDiaries }]); //REVIEW -
-  //     }
-  //   }
-  // }, []);
+  //오늘의 일기 setRangeList에 담기 **
+  useEffect(() => {
+    if (diaries) {
+      const formatTodayDate = format(new Date(), "yyyy년 MM월 dd일");
+      const searchDiaries = diaries?.find((diary: SortedDiaries) => diary.date === formatTodayDate);
+      if (searchDiaries) {
+        setRangeList([...rangeList, { ...searchDiaries }]);
+      }
+    }
+  }, [diaries]); //REVIEW - **
 
   //TODO - 전체데이터에서 currentDate에 작성한 일기들만 반환
-  //TODO - diary 테이블에 감정null인 경우 에러남... 일기쓸때 꼭넣어야하는지 안넣어두 되는지??
   const filterDiaries = diaries?.filter((diary: SortedDiaries) => {
     const filterMonth: string = getSimpleMonth(diary.date); //10
     const filterYear: string = getSimpleYear(diary.date); //2024
@@ -93,11 +85,14 @@ export default function Calendar(): JSX.Element {
   //버튼 클릭시 모달 버튼 클릭 유무를 설정하는 state 함수
   const clickModal = () => setIsModalOpen(!isModalOpen);
   return (
-    <>
-      <div>
-        <div className="flex justify-between h-[30px]">
-          <button onClick={clickModal} className="p-2 rounded-lg bg-gray-200 text-sm ">
-            조회기간 설정
+    <div className="flex flex-col gap-[6px]">
+      <div className="flex flex-col justify-center items-center">
+        <div className="button-dummy py-[4px] px-[16px] flex justify-between items-center self-stretch">
+          <button
+            onClick={clickModal}
+            className="border-[2px] border-black rounded-lg bg-[#EFE6DE] py-[8px] px-[10px] font-['LeferiBaseType-RegularA'] text-[12px] not-italic font-[400] leading-[18px]"
+          >
+            조회기간
           </button>
           {isModalOpen && (
             <CalendarModal
@@ -108,19 +103,33 @@ export default function Calendar(): JSX.Element {
             />
           )}
           {firstDate && secondDate ? (
-            <div className="flex text-sm ">
-              <input type="text" className="w-[80px] border-2" value={firstDate} readOnly /> ~
-              <input type="text" className="w-[80px] border-2" value={secondDate} readOnly />
+            <div className="flex gap-[8px]">
+              <input
+                type="text"
+                className="border-[1px] border-[#2E5342] rounded-lg w-[74] h-[22px] bg-[#FDF7F4] text-center font-['Pretendard'] text-[12px] not-italic font-[400] leading-normal"
+                value={getSimpleFullDate(firstDate)}
+                readOnly
+              />
+              <div>~</div>
+              <input
+                type="text"
+                className="border-[1px] border-[#2E5342] rounded-lg w-[74] h-[22px] bg-[#FDF7F4] text-center font-['Pretendard'] text-[12px] not-italic font-[400] leading-normal"
+                value={getSimpleFullDate(secondDate)}
+                readOnly
+              />
             </div>
           ) : (
             <div></div>
           )}
 
-          <button className="p-2 rounded-lg bg-gray-200 text-sm" onClick={InitializationInput}>
+          <button
+            className="border-[2px] border-black rounded-lg bg-[#EFE6DE] py-[8px] px-[10px] font-['LeferiBaseType-RegularA'] text-[12px] not-italic font-[400] leading-[18px]"
+            onClick={InitializationInput}
+          >
             전체기간
           </button>
         </div>
-        <div className="p-2  border-2 rounded-lg my-4">
+        <div className="calendar w-[356px] h-[416px] my-[10px] mx-[16px] px-[16px] pb-[4px] border-[1px] border-black rounded-lg bg-[#EFE6DE] flex flex-col justify-center items-center gap-[2px]">
           <RenderHeader currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
           <RenderDays />
           <RenderCells
@@ -132,6 +141,6 @@ export default function Calendar(): JSX.Element {
         </div>
       </div>
       <DiarySelectedList rangeList={rangeList} selectedDate={selectedDate} />
-    </>
+    </div>
   );
 }

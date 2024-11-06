@@ -1,17 +1,11 @@
 import { CellsProps, SortedDiaries } from "@/types/main/Calendar";
 import { addDays, endOfMonth, endOfWeek, format, isSameDay, isSameMonth, startOfMonth, startOfWeek } from "date-fns";
 import defaultEmotion from "../../../../public/images/main/State=blank.png";
-import happy from "../../../../public/images/main/State-happy.png";
 import Image from "next/image";
 import React from "react";
+import { getEmoji } from "@/utils/diary/getEmoji";
+// import { GetEmoji } from "@/utils/diary/GetEmoji";
 
-// firstDayOfMonth : 현재 달의 시작일
-// lastDayOfMonth : 현재 달의 마지막 날
-// startDate : firstDayOfMonth가 속한 주의 시작일
-// endDate : lastDayOfMonth가 속한 주의 마지막일
-// rows : [일월화수목금토] 한 주 * 4 또는 5주
-// days : [일월화수목금토] 한 주
-// cloneDay 형식 //Tue Oct 08 2024 00:00:00 GMT+0900 (한국 표준시)
 const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: CellsProps) => {
   const firstDayOfMonth = startOfMonth(currentDate);
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
@@ -53,7 +47,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
         >
           {emotionDate ? (
             <div className="emotion">
-              <Image src={happy} width={30} height={30} alt="Picture of the author" />
+              <img src={getEmoji(emotionDate.emotion, "on")} alt={emotionDate.emotion} className="w-10 h-10 mt-1" />
             </div>
           ) : (
             <div>

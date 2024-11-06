@@ -19,10 +19,10 @@ const SelectFeedCalendar = () => {
     <div>
       <Tab.Group>
         <Tab.List>
-          <div className="flex py-[24px] px-[16] justify-between items-center self-stretch">
+          <div className="flex py-[24px] px-[24] justify-between items-center self-stretch">
             <div className="flex gap-[10px] items-center">
-              <Tab>피드</Tab>
-              <Tab>달력보기</Tab>
+              <Tab className="text-[20px] not-italic font-[400] leading-[27px]">피드</Tab>
+              <Tab className="text-[20px] not-italic font-[400] leading-[27px]">달력보기</Tab>
             </div>
             <div>
               <Link href={"/main/search"}>
