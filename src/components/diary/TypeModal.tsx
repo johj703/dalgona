@@ -1,4 +1,5 @@
 import { FormData, FormState, stringState } from "@/types/Canvas";
+import Image from "next/image";
 
 type TypeModalProps = {
   formData: FormData;
@@ -18,9 +19,9 @@ export const TypeModal = ({ formData, setFormData, setOpenTypeModal, openTypeMod
       <div className="fixed top-0 bottom-0 right-0 left-0 bg-black opacity-70"></div>
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-48px)] bg-white rounded-lg">
         {openTypeModal === "모눈종이" ? (
-          <img className="w-full" src="/images/type-preview-1.svg" alt="모눈종이" />
+          <Image src={"/images/type-preview-1.svg"} alt="모눈종이" width={312} height={402} className="w-full" />
         ) : (
-          <img className="w-full" src="/images/type-preview-2.svg" alt="줄노트" />
+          <Image src={"/images/type-preview-2.svg"} alt="줄노트" width={342} height={396} className="w-full" />
         )}
 
         <div className="flex justify-center gap-4 p-5">

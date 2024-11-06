@@ -2,16 +2,17 @@
 
 import CommonTitle from "@/components/CommonTitle";
 import DetailComponent from "@/components/diary/DetailComponent";
+import Modal from "@/components/Modal";
 import { FormData } from "@/types/Canvas";
 import { fetchData } from "@/utils/diary/fetchData";
 import browserClient from "@/utils/supabase/client";
-import { toast } from "garlic-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Read = ({ params }: { params: { id: string } }) => {
   const [postData, setPostData] = useState<FormData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [openClose, setOpenClose] = useState<boolean>(false);
   const router = useRouter();
   const getData = async () => {
     const DiaryData = await fetchData(params.id);
@@ -24,31 +25,28 @@ const Read = ({ params }: { params: { id: string } }) => {
   }, []);
 
   const onClickDelete = async () => {
-    toast
-      .confirm("정말 삭제하시겠습니까?", {
-        confirmBtn: "확인",
-        cancleBtn: "취소",
-        confirmBtnColor: "#0000ff",
-        cancleBtnColor: "#ff0000"
-      })
-      .then(async (isConfirm) => {
-        if (isConfirm) {
-          await browserClient.from("diary").delete().eq("id", params.id);
+    await browserClient.from("diary").delete().eq("id", params.id);
 
-          router.replace("/main");
-        }
-      });
+    router.replace("/main");
   };
 
   return (
     !isLoading &&
     (postData ? (
       <>
-        <CommonTitle title={"일기 쓰기"} post_id={params.id} />
+        <CommonTitle title={"일기 쓰기"} post_id={params.id} setOpenClose={setOpenClose} />
         <DetailComponent postData={postData} />
-        <div>
-          <button onClick={() => onClickDelete()}>삭제</button>
-        </div>
+
+        {/* 삭제 확인 모달 */}
+        {openClose && (
+          <Modal
+            mainText="이 날의 일기를 삭제 하시겠습니까??"
+            subText="초기화 후에는 복구할 수 없습니다."
+            setModalState={setOpenClose}
+            isConfirm={true}
+            confirmAction={onClickDelete}
+          />
+        )}
       </>
     ) : (
       <div>게시글을 불러오지 못 했습니다.</div>
