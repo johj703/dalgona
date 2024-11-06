@@ -37,7 +37,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
   return (
     <div ref={dropdownRef} className="relative">
       <div
-        className={`h-10 inline-flex items-center justify-center p-2.5 gap-2.5 border rounded-lg cursor-pointer 
+        className={`h-[36px] inline-flex items-center justify-center p-2.5 gap-2.5 border rounded-lg cursor-pointer 
                     ${isClicked ? "bg-[#D84E35] text-white" : "bg-white border-black text-black"}`}
         onClick={toggleDropdown}
       >
@@ -49,7 +49,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
         <ul
           id="year-list"
           role="listbox"
-          className="absolute z-10 mt-1 w-20 rounded-lg border border-black bg-[#f2f2f2] max-h-48 overflow-y-auto"
+          className="absolute z-10 mt-[10px] w-20 rounded-lg border border-black bg-[#f2f2f2] max-h-48 overflow-y-auto"
         >
           {years.map((year, index) => (
             <li

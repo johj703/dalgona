@@ -28,8 +28,9 @@ const DiaryList: React.FC<DiaryListProps> = ({ diaries, loading, userId, onSelec
             />
             <div>
               <h3 className="text-xl font-bold">{diary.title}</h3>
-              <p>{diary.contents}</p>
-              <span className="text-gray-500 text-sm">{diary.date}</span>
+              <p className="line-clamp-1">{diary.contents}</p>
+              {/* <span className="text-gray-500 text-sm">{diary.date}</span> */}
+              <span className="text-gray-500 text-sm">{ChangeDateForm(diary.date)}</span>
             </div>
           </div>
         ))
@@ -41,3 +42,20 @@ const DiaryList: React.FC<DiaryListProps> = ({ diaries, loading, userId, onSelec
 };
 
 export default DiaryList;
+
+import { calDate } from "../../utils/diary/calDate";
+
+export const ChangeDateForm = (date: string) => {
+  const Month = date.split("월")[0].slice(-2);
+  const Day = date.split("일")[0].slice(-2);
+  const GetDate = calDate(new Date(`${date.split("년")[0]}-${Month}-${Day}`).getDay());
+
+  return (
+    <>
+      <div>
+        {Month}.{Day}
+        <span>({GetDate})</span>
+      </div>
+    </>
+  );
+};

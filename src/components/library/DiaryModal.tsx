@@ -135,10 +135,13 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-      <div className=" bg-white p-6 rounded-lg shadow-md w-full max-w-md h-[80vh]">
-        <button className="absolute top-14 right-4 text-black" onClick={onClose}>
-          X
-        </button>
+      <div className="bg-background02 p-4 rounded-lg w-[342px] h-[80vh] relative">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold flex-grow text-center">일기 등록하기</h2>
+          <button className="text-black" onClick={onClose}>
+            <img src="/icons/close-small.svg" alt="close" />
+          </button>
+        </div>
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         <DateDropdown year={year} month={month} day={day} setYear={setYear} setMonth={setMonth} setDay={setDay} />
         <SortDropdown currentSort={sort} onSortChange={setSort} />
@@ -151,8 +154,11 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
             onSelectDiary={handleSelectDiary}
           />
         </div>
-        <div className="flex items-center justify-center">
-          <button className="my-2 bg-slate-400 rounded hover:bg-slate-500 py-2 px-8" onClick={handleComplete}>
+        <div className="flex items-center justify-between mt-4">
+          {/* <button className="bg-gray-200 rounded hover:bg-gray-300 py-2 px-4" onClick={onClose}>
+            뒤로 가기
+          </button> */}
+          <button className="bg-slate-400 rounded hover:bg-slate-500 py-2 px-8 text-white" onClick={handleComplete}>
             완료
           </button>
         </div>
