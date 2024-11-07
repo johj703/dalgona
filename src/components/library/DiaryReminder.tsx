@@ -67,8 +67,8 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
 
   const handleDeleteDiary = async () => {
     try {
-      const { error } = await browserClient.from("diary").delete().eq("id", selectedDiary.id);
-      if (error) throw error;
+      // const { error } = await browserClient.from("diary").delete().eq("id", selectedDiary.id);
+      // if (error) throw error;
 
       // 사용자 데이터의 main_diary를 null로 업데이트
       const { error: userError } = await browserClient.from("users").update({ main_diary: null }).eq("id", userId);
@@ -95,16 +95,18 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
 
   return (
     <div className="flex-grow flex items-center justify-center py-4">
-      <div className="w-full max-w-sm rounded-lg border bg-white">
+      <div className="w-full max-w-sm rounded-lg bg-white">
         {/* id 존재 여부 */}
         {selectedDiary.id ? (
-          <div className="h-[210px] px-4 py-4 rounded-lg  border border-[#a5a5a5] justify-center flex items-center gap-6 relative">
-            <div className="w-[92px] h-[120px] bg-gray-300 rounded-lg"></div>
+          <div className="h-[210px] px-4 py-4 rounded-lg  border border-[#a5a5a5] justify-center flex items-center gap-3 relative">
+            <div className="w-[100px] h-[120px] flex-shrink-0">
+              <img src={`/images/special-diary.svg`} alt={``} className="object-cover w-full h-full" />
+            </div>
             <div>
               <h3 className="text-black text-lg font-medium font-['Pretendard'] leading-normal pb-1">
                 {selectedDiary.title}
               </h3>
-              <p className="w-[202px] h-11 text-black text-sm font-normal font-['Pretendard'] leading-[21px]">
+              <p className="w-[202px] h-11 text-black text-sm font-normal font-['Pretendard'] leading-[21px] line-clamp-2">
                 {selectedDiary.contents}
               </p>
               <div className="pt-2">
