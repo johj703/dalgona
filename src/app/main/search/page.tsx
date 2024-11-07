@@ -1,4 +1,5 @@
 "use client";
+import getLoginUser from "@/lib/getLoginUser";
 import { useInfiniteQuerySearchDiaries } from "@/lib/main/fetchDiaries";
 import { getDayOfTheWeek, getSimpleDate } from "@/utils/calendar/dateFormat";
 import Link from "next/link";
@@ -10,9 +11,19 @@ import React, { useEffect, useState } from "react";
 const SearchPage = () => {
   const [query, setQuery] = useState("");
   const [searchDiaries, setSearchDiaries] = useState("");
+  const [userId, setUserId] = useState<string>("");
 
-  const { data: diaries, hasNextPage, fetchNextPage } = useInfiniteQuerySearchDiaries(searchDiaries);
+  const { data: diaries, hasNextPage, fetchNextPage } = useInfiniteQuerySearchDiaries(searchDiaries, userId);
   const diariesList = diaries ? diaries.pages.flatMap((page) => page.searchPaginatedDiaries) : [];
+
+  useEffect(() => {
+    // userId를 가져오는 함수 실행
+    const fetchUserId = async () => {
+      const data = await getLoginUser();
+      if (data) setUserId(data.id);
+    };
+    fetchUserId();
+  }, []);
 
   //디바운스 적용
   useEffect(() => {
