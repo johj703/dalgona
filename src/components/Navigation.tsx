@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-const NAVIGATION_LIST = ["/main", "/diary/write", "/library", "/myPage"];
+const NAVIGATION_LIST = ["/main", "/diary/write", "/library", "/mypage"];
 
 const getNavigation = (index: string, isOn: string) => {
   const nowNavigation = NAVIGATION_LIST.findIndex((item) => item === index);

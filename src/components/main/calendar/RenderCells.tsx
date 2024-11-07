@@ -1,9 +1,11 @@
+"use client";
 import { CellsProps, SortedDiaries } from "@/types/main/Calendar";
 import { addDays, endOfMonth, endOfWeek, format, isSameDay, isSameMonth, startOfMonth, startOfWeek } from "date-fns";
 import defaultEmotion from "../../../../public/images/main/State=blank.png";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getEmoji } from "@/utils/diary/getEmoji";
+import getLoginUser from "@/lib/getLoginUser";
 
 // border-b-2 border-rose-500
 const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: CellsProps) => {
@@ -14,6 +16,17 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
 
   const todayDate = new Date().getDate().toString();
   const todayMonth = (new Date().getMonth() + 1).toString();
+
+  const [userId, setUserId] = useState<string>("");
+
+  useEffect(() => {
+    // userId를 가져오는 함수 실행
+    const fetchUserId = async () => {
+      const data = await getLoginUser();
+      if (data) setUserId(data.id);
+    };
+    fetchUserId();
+  }, []);
 
   const rows = [];
   let days = [];
@@ -41,7 +54,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
               : "valid"
           } `}
           key={day.toString()}
-          onClick={() => onDateClick(cloneDay)}
+          onClick={() => onDateClick(cloneDay, userId)}
         >
           {emotionDate ? (
             <div className="emotion flex flex-col justify-center items-center self-stretch">

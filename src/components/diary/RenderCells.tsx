@@ -1,12 +1,26 @@
+"use client";
+import getLoginUser from "@/lib/getLoginUser";
 import { CellsProps } from "@/types/main/Calendar";
 import { format, isSameMonth, isSameDay, addDays } from "date-fns";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
+import { useEffect, useState } from "react";
 
 export const RenderCells = ({ currentDate, selectedDate, onDateClick }: CellsProps) => {
   const firstDayOfMonth = startOfMonth(currentDate);
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
   const startDate = startOfWeek(firstDayOfMonth);
   const endDate = endOfWeek(lastDayOfMonth);
+
+  const [userId, setUserId] = useState<string>("");
+
+  useEffect(() => {
+    // userId를 가져오는 함수 실행
+    const fetchUserId = async () => {
+      const data = await getLoginUser();
+      if (data) setUserId(data.id);
+    };
+    fetchUserId();
+  }, []);
 
   const rows = [];
   let days = [];
@@ -30,7 +44,7 @@ export const RenderCells = ({ currentDate, selectedDate, onDateClick }: CellsPro
               : "valid"
           }`}
           key={day.toString()}
-          onClick={() => onDateClick(cloneDay)}
+          onClick={() => onDateClick(cloneDay, userId)}
         >
           <span
             className={`relative text-sm leading-normal content-none before:content-none group-[.selected]:before:content-[''] before:w-[30px] before:h-[2px] before:bg-[#D84E35] before:absolute before:left-1/2 before:bottom-0 before:-translate-x-1/2 ${
