@@ -36,8 +36,8 @@ const Write = () => {
     if (error) return console.error(error);
 
     if (count !== 0) {
-      alert("이미 오늘 일기를 작성하셨습니다");
-      return router.push("/main");
+      // alert("이미 오늘 일기를 작성하셨습니다");
+      // return router.push("/main");
     }
   };
 
