@@ -7,8 +7,8 @@ import browserClient from "@/utils/supabase/client";
 export const getInitialDiaries = async (user_id: string) => {
   const { data: initialDiaries } = await browserClient
     .from("diary")
-    .select()
-    .eq("id", user_id)
+    .select("*")
+    .eq("user_id", user_id)
     .order("date", { ascending: false });
   return initialDiaries;
 };
@@ -26,8 +26,8 @@ export const useFetchDiaries = (user_id: string) => {
 export const getSelectedDiaries = async (startDate: string, endDate: string, user_id: string) => {
   const { data: selectedDiaries } = await browserClient
     .from("diary")
-    .select()
-    .eq("id", user_id)
+    .select("*")
+    .eq("user_id", user_id)
     .gte("date", startDate)
     .lte("date", endDate)
     .order("date", { ascending: false });
@@ -47,7 +47,7 @@ export const getSearchPaginatedDiaries = async (pageParam: number, limit: number
   } = await browserClient
     .from("diary")
     .select("*", { count: "exact" })
-    .eq("id", user_id)
+    .eq("user_id", user_id)
     .like("contents", `%${value}%`)
     .order("date", { ascending: false })
     .range(from, to);
@@ -87,7 +87,7 @@ export const getPaginatedDiaries = async (pageParam: number, limit: number, user
 
     .from("diary")
     .select("*", { count: "exact" })
-    .eq("id", user_id)
+    .eq("user_id", user_id)
     .order("date", { ascending: false })
     .range(from, to);
 
