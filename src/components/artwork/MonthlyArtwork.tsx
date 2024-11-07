@@ -67,7 +67,7 @@ const MonthlyArtwork: React.FC<MonthlyArtworkProps> = ({ userId }) => {
               {diary.draw ? (
                 <img
                   src={diary.draw}
-                  className="object-cover w-full h-40 border border-[#D9D9D9] rounded-lg"
+                  className="object-cover w-full h-40 border bg-white border-[#D9D9D9] rounded-lg"
                   alt={`Artwork ${diary.id}`}
                 />
               ) : (

@@ -108,7 +108,7 @@ const MyArtwork: React.FC<MyArtworkProps> = ({ userId }) => {
         className={`pb-4 relative flex items-center justify-center ${loading ? "hidden" : ""}`}
       >
         {diaryEntries.length > 0 ? (
-          <div className="relative w-full h-[490px] overflow-hidden border-2 border-[#D9D99]">
+          <div className="relative w-full h-[490px] overflow-hidden border-2 border-[#D9D99] bg-white">
             {diaryEntries.map((diary: Diary, index: number) => (
               <div
                 key={diary.id}

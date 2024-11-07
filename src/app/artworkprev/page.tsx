@@ -36,8 +36,8 @@ const GalleryPage = () => {
         const { data, error } = await browserClient
           .from("diary")
           .select("*")
-          .eq("user_id", userId) // 로그인한 사용자에 해당하는 다이어리 항목만 가져오기
-          .order("date", { ascending: true }); // 날짜순으로 정렬
+          .eq("user_id", userId)
+          .order("date", { ascending: true });
 
         if (error) {
           console.error("다이어리 항목 가져오기 실패 =>", error);
