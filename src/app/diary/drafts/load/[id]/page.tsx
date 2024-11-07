@@ -29,6 +29,6 @@ const Load = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     getData();
   }, []);
-  return !isLoading && <Form POST_ID={POST_ID} initialData={postData} isModify={true} />;
+  return !isLoading && <Form POST_ID={POST_ID} initialData={postData} />;
 };
 export default Load;
