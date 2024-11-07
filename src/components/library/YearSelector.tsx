@@ -6,7 +6,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
   const [isClicked, setIsClicked] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // 현재 연도를 포함하여 과거 10년 범위로 배열 생성
+  // 현재 연도를 포함하여 10년 범위로 배열 생성
   const years = Array.from({ length: 10 }, (_, i) => currentYear - i);
 
   const handleYearChange = (year: number) => {
@@ -37,8 +37,8 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
   return (
     <div ref={dropdownRef} className="relative">
       <div
-        className={`h-10 inline-flex items-center justify-center p-2.5 gap-2.5 border rounded-lg cursor-pointer 
-                    ${isClicked ? "bg-[#a5a5a5] text-white" : "bg-white border-black text-black"}`}
+        className={`h-[36px] inline-flex items-center justify-center p-2.5 gap-2.5 border rounded-lg cursor-pointer 
+                    ${isClicked ? "bg-[#D84E35] text-white" : "bg-white border-black text-black"}`}
         onClick={toggleDropdown}
       >
         <span className="text-xs font-normal font-['Pretendard'] leading-[18px]">{selectedYear}년</span>
@@ -49,7 +49,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
         <ul
           id="year-list"
           role="listbox"
-          className="absolute z-10 mt-1 w-20 rounded-lg border border-black bg-[#f2f2f2] max-h-48 overflow-y-auto"
+          className="absolute z-10 mt-[10px] w-20 rounded-lg border border-black bg-[#f2f2f2] max-h-48 overflow-y-auto"
         >
           {years.map((year, index) => (
             <li
@@ -58,7 +58,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
               role="option"
               aria-selected={year === selectedYear}
               className={`cursor-pointer px-4 py-2 text-sm text-black ${
-                index < years.length - 1 ? "border-b border-black" : ""
+                index < years.length - 1 ? "border-b border-[#8C8C8C]" : ""
               }`}
             >
               {year}
