@@ -23,10 +23,11 @@ export const useFetchDiaries = (user_id: string) => {
 };
 
 //SECTION - 조회범위 일기 데이터 가져오기 & 셀 클릭 시 일기 데이터 가져오기
-export const getSelectedDiaries = async (startDate: string, endDate: string) => {
+export const getSelectedDiaries = async (startDate: string, endDate: string, user_id: string) => {
   const { data: selectedDiaries } = await browserClient
     .from("diary")
     .select()
+    .eq("id", user_id)
     .gte("date", startDate)
     .lte("date", endDate)
     .order("date", { ascending: false });
@@ -84,7 +85,7 @@ export const getPaginatedDiaries = async (pageParam: number, limit: number, user
   } = await browserClient
 
     .from("diary")
-    .select("*", { count: "exact" }) //REVIEW -  전체 개수(count)를 포함하여 가져오기 ***
+    .select("*", { count: "exact" })
     .eq("id", user_id)
     .order("date", { ascending: false })
     .range(from, to);
@@ -92,9 +93,8 @@ export const getPaginatedDiaries = async (pageParam: number, limit: number, user
   if (error) {
     throw new Error(error.message);
   }
-  //REVIEW -  다음 페이지가 있는지 확인
   const hasNext = to + 1 < (count || 0);
-  return { diariesList, hasNext, nextPage: pageParam + 1, count }; // hasNext와 nextPage 반환
+  return { diariesList, hasNext, nextPage: pageParam + 1, count };
 };
 
 export const useInfiniteQueryDiaries = (user_id: string) => {

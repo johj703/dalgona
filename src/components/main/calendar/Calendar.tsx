@@ -64,18 +64,18 @@ export default function Calendar(): JSX.Element {
   };
 
   //캘린더 셀 클릭
-  const onDateClick = async (day: Date) => {
+  const onDateClick = async (day: Date, user_id: string) => {
     const formatStartDate = format(day, "yyyy년 MM월 dd일");
     const formatEndDate = format(day, "yyyy년 MM월 dd일");
-    const searchList = await getSelectedDiaries(formatStartDate, formatEndDate);
+    const searchList = await getSelectedDiaries(formatStartDate, formatEndDate, user_id);
     setRangeList(searchList);
     setSelectedDate(new Date(day));
   };
 
   //캘린더 조회기간 설정해서 데이터 가져오기
-  const handleSearchDiaries = async (startDate: string, endDate: string) => {
+  const handleSearchDiaries = async (startDate: string, endDate: string, user_id: string) => {
     if (startDate && endDate) {
-      const searchList = await getSelectedDiaries(startDate, endDate);
+      const searchList = await getSelectedDiaries(startDate, endDate, user_id);
       setRangeList(searchList);
     }
   };
