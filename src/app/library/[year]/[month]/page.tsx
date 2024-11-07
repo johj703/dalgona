@@ -3,34 +3,34 @@
 import React, { useEffect, useState } from "react";
 import DiaryContent from "@/components/library/DiaryContent";
 import { useParams, useRouter } from "next/navigation";
-import browserClient from "@/utils/supabase/client";
+import getLoginUser from "@/lib/getLoginUser";
 
 const MonthDiaryPage: React.FC = () => {
-  const { year, month } = useParams(); // useParams로 year와 month 가져오기
+  const { year, month } = useParams();
   const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchUserId = async () => {
-      const { data, error } = await browserClient
-        .from("users")
-        .select("id")
-        .eq("id", "c56a4180-65aa-42ec-a945-5fd21dec0538");
-
-      if (error) {
-        console.error("Error fetching userId:", error.message);
-        setError("유저 정보를 가져오는 데 실패했습니다.");
-      } else if (data && data.length > 0) {
-        setUserId(data[0].id);
+  // 사용자 ID를 가져오는 함수
+  const getUserId = async () => {
+    try {
+      const data = await getLoginUser();
+      if (data) {
+        setUserId(data.id);
       } else {
-        console.log("유저 정보 없음.");
+        setError("사용자 정보를 가져오지 못했습니다.");
       }
+    } catch (error) {
+      console.error("login =>", error);
+      setError("로그인 정보 로드 중 오류가 발생했습니다.");
+    } finally {
       setLoading(false);
-    };
+    }
+  };
 
-    fetchUserId();
+  useEffect(() => {
+    getUserId();
   }, []);
 
   if (loading) {
@@ -42,7 +42,7 @@ const MonthDiaryPage: React.FC = () => {
   }
 
   if (!year || !month || !userId) {
-    return <p>연도와 월 또는 사용자 정보를 가져오는 중...</p>;
+    return <p>유효한 연도와 월 또는 사용자 정보를 확인 중입니다...</p>;
   }
 
   return (

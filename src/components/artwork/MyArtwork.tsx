@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import browserClient from "@/utils/supabase/client";
-import { Diary } from "@/types/library/Diary";
+import { Diary, MyArtworkProps } from "@/types/library/Diary";
 import { useRouter } from "next/navigation";
 
-const MyArtwork: React.FC = () => {
+const MyArtwork: React.FC<MyArtworkProps> = ({ userId }) => {
   const [diaryEntries, setDiaryEntries] = useState<Diary[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -15,7 +15,11 @@ const MyArtwork: React.FC = () => {
 
   useEffect(() => {
     const fetchRandomArtworks = async () => {
-      const { data, error } = await browserClient.from("diary").select("*").not("draw", "is", null);
+      const { data, error } = await browserClient
+        .from("diary")
+        .select("*")
+        .not("draw", "is", null)
+        .eq("user_id", userId);
 
       if (error) {
         console.error("일기 가져오기 실패 =>", error);
@@ -28,8 +32,10 @@ const MyArtwork: React.FC = () => {
       setLoading(false);
     };
 
-    fetchRandomArtworks();
-  }, []);
+    if (userId) {
+      fetchRandomArtworks();
+    }
+  }, [userId]);
 
   const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
     touchStartRef.current = event.touches[0].clientX;
@@ -80,14 +86,9 @@ const MyArtwork: React.FC = () => {
   const handleViewGallery = () => {
     const diaryId = diaryEntries[currentIndex]?.id; // 현재 인덱스에 해당하는 다이어리 ID 가져오기
     if (diaryId) {
-      router.push(`/artworkprev?id=${diaryId}`); // 페이지 이동, ID를 쿼리 파라미터로 전달
+      router.push(`/artworkprev?id=${diaryId}&userId=${userId}`); // userId를 쿼리 파라미터로 전달
     }
   };
-
-  // const handleViewGallery = () => {
-  //   // 보러가기 버튼 클릭 시 갤러리 페이지로 이동
-  //   router.push("/artwork/gallery");
-  // };
 
   return (
     <div className="flex flex-col bg-[#FDF7F4]">
@@ -114,7 +115,7 @@ const MyArtwork: React.FC = () => {
                 className={`absolute inset-0 transition-opacity duration-500 ${index === currentIndex ? "opacity-100" : "opacity-0"}`}
               >
                 {diary.draw ? (
-                  <img src={diary.draw} className=" h-full w-full object-cover" alt={`Artwork ${diary.id}`} />
+                  <img src={diary.draw} className="h-full w-full object-cover" alt={`Artwork ${diary.id}`} />
                 ) : (
                   <span className="text-xl text-white">이미지 없음</span>
                 )}

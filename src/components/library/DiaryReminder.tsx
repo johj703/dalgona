@@ -67,8 +67,8 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
 
   const handleDeleteDiary = async () => {
     try {
-      const { error } = await browserClient.from("diary").delete().eq("id", selectedDiary.id);
-      if (error) throw error;
+      // const { error } = await browserClient.from("diary").delete().eq("id", selectedDiary.id);
+      // if (error) throw error;
 
       // 사용자 데이터의 main_diary를 null로 업데이트
       const { error: userError } = await browserClient.from("users").update({ main_diary: null }).eq("id", userId);

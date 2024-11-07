@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import browserClient from "@/utils/supabase/client";
-import { Diary } from "@/types/library/Diary";
+import { Diary, MonthlyArtworkProps } from "@/types/library/Diary";
 import { useRouter } from "next/navigation";
 
-const MonthlyArtwork: React.FC = () => {
+const MonthlyArtwork: React.FC<MonthlyArtworkProps> = ({ userId }) => {
   const [diaryEntries, setDiaryEntries] = useState<Diary[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -19,6 +19,7 @@ const MonthlyArtwork: React.FC = () => {
       const { data, error } = await browserClient
         .from("diary")
         .select("*")
+        .eq("user_id", userId) // userId로 필터링
         .not("draw", "is", null)
         .like("date", `%${year}년 ${month}월%`) // 현재 월에 해당하는 그림 필터링
         .order("date", { ascending: false });
@@ -34,7 +35,7 @@ const MonthlyArtwork: React.FC = () => {
     };
 
     fetchMonthlyArtworks();
-  }, []);
+  }, [userId]);
 
   // 전체 보기 클릭 핸들러
   const handleViewAllClick = () => {

@@ -6,7 +6,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
   const [isClicked, setIsClicked] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // 현재 연도를 포함하여 과거 10년 범위로 배열 생성
+  // 현재 연도를 포함하여 10년 범위로 배열 생성
   const years = Array.from({ length: 10 }, (_, i) => currentYear - i);
 
   const handleYearChange = (year: number) => {
