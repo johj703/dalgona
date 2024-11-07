@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import Form from "@/components/diary/Form";
 import TopButton from "@/components/main/TopButton";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import getLoginUser from "@/lib/getLoginUser";
 import browserClient from "@/utils/supabase/client";
 
@@ -22,7 +22,7 @@ const initialData = {
 
 const Write = () => {
   const today = format(new Date(), "yyyy년 MM월 dd일");
-  const router = useRouter();
+  // const router = useRouter();
 
   const getUserId = async () => {
     const data = await getLoginUser();
