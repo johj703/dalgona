@@ -1,4 +1,5 @@
 "use client";
+import getLoginUser from "@/lib/getLoginUser";
 import { CalendarModalProps } from "@/types/main/Calendar";
 import { Select } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
@@ -20,13 +21,24 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
   const year = currentDate.getFullYear().toString(); //2024
   const month = (currentDate.getMonth() + 1).toString(); //11
 
+  const [userId, setUserId] = useState<string>("");
+
+  useEffect(() => {
+    // userId를 가져오는 함수 실행
+    const fetchUserId = async () => {
+      const data = await getLoginUser();
+      if (data) setUserId(data.id);
+    };
+    fetchUserId();
+  }, []);
+
   const handleSelect = async () => {
     const startDate =
       startYear + "년 " + String(startMonth).padStart(2, "0") + "월 " + String(startDay).padStart(2, "0") + "일";
     const endDate =
       endYear + "년 " + String(endMonth).padStart(2, "0") + "월 " + String(endDay).padStart(2, "0") + "일";
 
-    handleSearchDiaries(startDate, endDate);
+    handleSearchDiaries(startDate, endDate, userId);
     calenderInput(startDate, endDate);
     clickModal();
   };
