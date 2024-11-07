@@ -10,6 +10,7 @@ import listActive from "../../../public/images/main/list.png";
 import Image from "next/image";
 import { getEmoji } from "@/utils/diary/getEmoji";
 import TopButton from "../TopButton";
+import getLoginUser from "@/lib/getLoginUser";
 
 //TODO - next.js 이미지 최적화
 //TODO - 로그인 한 유저만
@@ -20,9 +21,19 @@ const DiaryList = () => {
   const [sortedDiaries, setSortedDiaries] = useState<SortedDiaries[]>([]);
   const [selectedBox, setSelectedBox] = useState<string>("최신순");
   // const [throttle, setThrottle] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string>("");
 
-  const { data: diaries, hasNextPage, fetchNextPage } = useInfiniteQueryDiaries();
+  const { data: diaries, hasNextPage, fetchNextPage } = useInfiniteQueryDiaries(userId);
   const originList = diaries?.pages.flatMap((page) => page.diariesList) || [];
+
+  useEffect(() => {
+    // userId를 가져오는 함수 실행
+    const fetchUserId = async () => {
+      const data = await getLoginUser();
+      if (data) setUserId(data.id);
+    };
+    fetchUserId();
+  }, []);
 
   useEffect(() => {
     if (diaries) {

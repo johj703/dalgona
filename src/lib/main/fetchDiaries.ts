@@ -4,15 +4,19 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import browserClient from "@/utils/supabase/client";
 
 //SECTION - 일기 데이터 fetch
-export const getInitialDiaries = async () => {
-  const { data: initialDiaries } = await browserClient.from("diary").select().order("date", { ascending: false });
+export const getInitialDiaries = async (user_id: string) => {
+  const { data: initialDiaries } = await browserClient
+    .from("diary")
+    .select()
+    .eq("id", user_id)
+    .order("date", { ascending: false });
   return initialDiaries;
 };
-export const useFetchDiaries = () => {
+export const useFetchDiaries = (user_id: string) => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ["allDiaries"],
+    queryKey: ["allDiaries", user_id],
     queryFn: async () => {
-      return await getInitialDiaries();
+      return await getInitialDiaries(user_id);
     }
   });
   return { data, error, isLoading };
@@ -69,7 +73,7 @@ export const useInfiniteQuerySearchDiaries = (searchKeyword: string) => {
 };
 
 //SECTION - DiaryList.tsx =======================================================================
-export const getPaginatedDiaries = async (pageParam: number, limit: number) => {
+export const getPaginatedDiaries = async (pageParam: number, limit: number, user_id: string) => {
   const from = (pageParam - 1) * limit;
   const to = pageParam * limit - 1;
 
@@ -81,7 +85,7 @@ export const getPaginatedDiaries = async (pageParam: number, limit: number) => {
 
     .from("diary")
     .select("*", { count: "exact" }) //REVIEW -  전체 개수(count)를 포함하여 가져오기 ***
-    // .eq('user_id', user_id)
+    .eq("id", user_id)
     .order("date", { ascending: false })
     .range(from, to);
 
@@ -93,11 +97,11 @@ export const getPaginatedDiaries = async (pageParam: number, limit: number) => {
   return { diariesList, hasNext, nextPage: pageParam + 1, count }; // hasNext와 nextPage 반환
 };
 
-export const useInfiniteQueryDiaries = () => {
+export const useInfiniteQueryDiaries = (user_id: string) => {
   const { data, isError, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ["diaries"],
+    queryKey: ["diaries", user_id],
     initialPageParam: 1,
-    queryFn: ({ pageParam }) => getPaginatedDiaries(pageParam, 5),
+    queryFn: ({ pageParam }) => getPaginatedDiaries(pageParam, 5, user_id),
     getNextPageParam: (lastPage) => {
       return lastPage?.hasNext ? lastPage.nextPage : undefined;
     }

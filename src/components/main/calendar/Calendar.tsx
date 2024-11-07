@@ -10,6 +10,7 @@ import DiarySelectedList from "./DiarySelectedList";
 import CalendarModal from "./CalendarModal";
 import "react-datepicker/dist/react-datepicker.css";
 import { getSimpleFullDate, getSimpleMonth, getSimpleYear } from "@/utils/calendar/dateFormat";
+import getLoginUser from "@/lib/getLoginUser";
 
 export default function Calendar(): JSX.Element {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
@@ -20,8 +21,19 @@ export default function Calendar(): JSX.Element {
   const [firstDate, setFirstDate] = useState<string>("");
   const [secondDate, setSecondDate] = useState<string>("");
 
+  //유저 데이터 담기
+  const [userId, setUserId] = useState<string>("");
   //일기 전체 데이터 가져오기
-  const { data: diaries } = useFetchDiaries();
+  const { data: diaries } = useFetchDiaries(userId);
+
+  useEffect(() => {
+    // userId를 가져오는 함수 실행
+    const fetchUserId = async () => {
+      const data = await getLoginUser();
+      if (data) setUserId(data.id);
+    };
+    fetchUserId();
+  }, []);
 
   //오늘의 일기 setRangeList에 담기 **
   useEffect(() => {
