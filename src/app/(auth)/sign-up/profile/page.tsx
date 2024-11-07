@@ -83,7 +83,6 @@ export default function SaveUserProfilePage() {
       return null;
     }
 
-    console.log(data);
     // 이미지 URL 생성
     const { data: publicData } = supabase.storage.from("profile").getPublicUrl(filePath);
 
