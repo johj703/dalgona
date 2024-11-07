@@ -209,9 +209,11 @@ const DiaryList = () => {
                 </p>
               </div>
               <div>
-                <button className="flex gap-[10px] py-[12px] px-[16px] bg-white rounded-2xl border-[1px] border-black ">
-                  <p>일기 쓰러가기</p> <img src="/icons/pencil.svg" width={24} height={24} alt="pencil" />
-                </button>
+                <Link href={"/diary/write"}>
+                  <button className="flex gap-[10px] py-[12px] px-[16px] bg-white rounded-2xl border-[1px] border-black ">
+                    <p>일기 쓰러가기</p> <img src="/icons/pencil.svg" width={24} height={24} alt="pencil" />
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
