@@ -93,7 +93,7 @@ const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) 
           )}
         </button>
 
-        <button onClick={() => setTool("paint")}>채우기</button>
+        {/* <button onClick={() => setTool("paint")}>채우기</button> */}
 
         <button onClick={() => setTool("pallete")}>
           {tool === "pallete" ? (

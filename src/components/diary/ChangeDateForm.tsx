@@ -12,7 +12,7 @@ export const ChangeDateForm = (date: string) => {
         {Year}. {Month}
       </div>
       <div className="text-[46px] leading-10 text-[#BB433E]">{Day}</div>
-      <div className="text-base leading-5">{GetDate}</div>
+      <div className="text-base leading-5">{GetDate}요일</div>
     </>
   );
 };

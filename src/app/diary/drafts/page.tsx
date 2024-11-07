@@ -15,6 +15,8 @@ const Drafts = () => {
   const [openClose, setOpenClose] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>("");
 
+  const router = useRouter();
+
   const getUserId = async () => {
     const data = await getLoginUser();
     if (data) setUserId(data.id);
@@ -28,8 +30,6 @@ const Drafts = () => {
     getUserId();
     if (userId) getDraft(userId);
   }, [userId]);
-
-  const router = useRouter();
 
   const addCheckList = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     if (e.target.checked) {
@@ -61,26 +61,36 @@ const Drafts = () => {
     router.push(`/diary/drafts/load/${checkList[0]}`);
   };
 
-  if (!drafts) return <div>임시저장된 내용이 없습니다</div>;
-
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <CommonTitle title={"임시저장 목록"} />
-      <ul className="px-4">
-        {drafts?.map((draft) => {
-          return (
-            <li key={draft.id} className="flex items-center gap-[22px] py-2">
-              <input className="w-6" type="checkbox" onChange={(e) => addCheckList(e, draft.id)} />
-              <div className="flex-1 py-[11px] px-4 bg-white border border-black border-solid rounded-lg">
-                <div>{draft.title}</div>
-                <div className="mt-1">
-                  {draft.created_at.split("T")[0]} / {draft.created_at.split("T")[1].slice(0, 8)}
+
+      {drafts?.length !== 0 ? (
+        <ul className="flex flex-col gap-1 px-4">
+          {drafts?.map((draft) => {
+            return (
+              <li key={draft.id} className="relative flex items-center gap-[22px] py-2">
+                <input
+                  className="absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 opacity-0 peer"
+                  type="checkbox"
+                  onChange={(e) => addCheckList(e, draft.id)}
+                />
+                <span className="bg-checkbox-off peer-checked:bg-checkbox-on w-6 h-6"></span>
+                <div className="flex-1 py-[11px] px-4 bg-white border border-black border-solid rounded-lg">
+                  <div>{draft.title}</div>
+                  <div className="mt-1">
+                    {draft.created_at.split("T")[0]} / {draft.created_at.split("T")[1].slice(0, 8)}
+                  </div>
                 </div>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <div className="flex-1 flex items-center justify-center text-lg font-Dovemayo text-[#A6A6A6] ">
+          임시저장된 내용이 없습니다
+        </div>
+      )}
 
       <span className="h-14"></span>
       <div className="fixed bottom-0 left-0 flex w-full h-14 bg-[#FDF7F4] border-t border-[#A6A6A6]">
@@ -96,7 +106,7 @@ const Drafts = () => {
       {openClose && (
         <Modal mainText="삭제하시겠습니까?" setModalState={setOpenClose} isConfirm={true} confirmAction={deleteDraft} />
       )}
-    </>
+    </div>
   );
 };
 export default Drafts;

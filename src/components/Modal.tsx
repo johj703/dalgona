@@ -26,20 +26,22 @@ const Modal = ({ mainText, subText, isConfirm, setModalState, confirmAction }: M
           {subText && <div>{subText}</div>}
         </div>
 
-        <div className="flex justify-center gap-4 py-5">
-          {isConfirm ? (
-            <>
-              <button className="button-144-48" onClick={() => clickCancelButton()}>
-                아니오
-              </button>
-              <button className="button-144-48" onClick={() => clickConfirmButton()}>
-                네
-              </button>
-            </>
-          ) : (
-            <button onClick={() => clickCancelButton()}>확인</button>
-          )}
-        </div>
+        {isConfirm ? (
+          <div className="flex justify-center gap-4 py-5">
+            <button className="button-144-48" onClick={() => clickCancelButton()}>
+              아니오
+            </button>
+            <button className="button-144-48" onClick={() => clickConfirmButton()}>
+              네
+            </button>
+          </div>
+        ) : (
+          <div className="py-[14.5px] px-6">
+            <button className="w-full text-lg leading-[1.35]" onClick={() => clickCancelButton()}>
+              확인
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
