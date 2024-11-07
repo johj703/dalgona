@@ -36,7 +36,7 @@ export const getSelectedDiaries = async (startDate: string, endDate: string, use
 };
 
 //SECTION - search 페이지 =======================================================================
-export const getSearchPaginatedDiaries = async (pageParam: number, limit: number, value: string) => {
+export const getSearchPaginatedDiaries = async (pageParam: number, limit: number, value: string, user_id: string) => {
   const from = (pageParam - 1) * limit;
   const to = pageParam * limit - 1;
 
@@ -47,6 +47,7 @@ export const getSearchPaginatedDiaries = async (pageParam: number, limit: number
   } = await browserClient
     .from("diary")
     .select("*", { count: "exact" })
+    .eq("id", user_id)
     .like("contents", `%${value}%`)
     .order("date", { ascending: false })
     .range(from, to);
@@ -59,12 +60,12 @@ export const getSearchPaginatedDiaries = async (pageParam: number, limit: number
   return { searchPaginatedDiaries, hasNext, nextPage: pageParam + 1, count };
 };
 
-export const useInfiniteQuerySearchDiaries = (searchKeyword: string) => {
+export const useInfiniteQuerySearchDiaries = (searchKeyword: string, user_id: string) => {
   const { data, isError, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ["searchDiaries", searchKeyword],
+    queryKey: ["searchDiaries", searchKeyword, user_id],
     enabled: !!searchKeyword, // searchKeyword가 있을 때만 쿼리 실행
     initialPageParam: 1,
-    queryFn: ({ pageParam }) => getSearchPaginatedDiaries(pageParam, 10, searchKeyword),
+    queryFn: ({ pageParam }) => getSearchPaginatedDiaries(pageParam, 10, searchKeyword, user_id),
     getNextPageParam: (lastPage) => {
       return lastPage?.hasNext ? lastPage.nextPage : undefined;
     }
