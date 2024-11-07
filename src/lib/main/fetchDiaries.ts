@@ -7,7 +7,7 @@ import browserClient from "@/utils/supabase/client";
 export const getInitialDiaries = async (user_id: string) => {
   const { data: initialDiaries } = await browserClient
     .from("diary")
-    .select()
+    .select("*")
     .eq("user_id", user_id)
     .order("date", { ascending: false });
   return initialDiaries;
@@ -26,7 +26,7 @@ export const useFetchDiaries = (user_id: string) => {
 export const getSelectedDiaries = async (startDate: string, endDate: string, user_id: string) => {
   const { data: selectedDiaries } = await browserClient
     .from("diary")
-    .select()
+    .select("*")
     .eq("user_id", user_id)
     .gte("date", startDate)
     .lte("date", endDate)
