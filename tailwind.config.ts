@@ -16,7 +16,10 @@ const config: Config = {
       },
 
       backgroundImage: {
-        "custom-textarea": "repeating-linear-gradient(#fdf7f4, #fdf7f4 31px, #BFBFBF 31px, #BFBFBF 32px, #fdf7f4 32px)"
+        "custom-textarea": "repeating-linear-gradient(#fdf7f4, #fdf7f4 31px, #BFBFBF 31px, #BFBFBF 32px, #fdf7f4 32px)",
+        "detail-content": "repeating-linear-gradient(#fdf7f4, #fdf7f4 47px, #BFBFBF 47px, #BFBFBF 48px, #fdf7f4 48px)",
+        "checkbox-off": "url('/icons/checkbox-off.svg')",
+        "checkbox-on": "url('/icons/checkbox-on.svg')"
       }
     },
     fontFamily: {

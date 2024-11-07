@@ -11,7 +11,7 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
   return (
     <>
       {rangeList && rangeList.length > 0 ? (
-        <div className="my-[8px] mx-[16px] py-[20px] px-[16px] border-2 rounded-2xl border-black bg-[#EFE6DE]">
+        <div className="my-[8px] mx-[16px] py-[20px] px-[16px] border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px]">
           {rangeList.map((list) => (
             <div key={list.id} className="flex flex-col gap-[24px]">
               <div className="flex flex-col justify-center items-center gap-[23px]">
@@ -45,7 +45,7 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
           ))}
         </div>
       ) : selectedDate > today ? (
-        <div className="my-[8px] mx-[16px] py-[159px] px-[60px] border-2 rounded-2xl border-black bg-[#EFE6DE] h-[485px]">
+        <div className="my-[8px] mx-[16px] py-[159px] px-[60px] border-2 rounded-2xl border-black bg-[#EFE6DE] h-[485px] mb-[100px]">
           <div className="flex flex-col justify-center items-center gap-[23px]">
             <div>
               <div className="flex gap-[10px] p-[10px]">
@@ -59,7 +59,7 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
           </div>
         </div>
       ) : (
-        <div className="my-[8px] mx-[16px] py-[159px] px-[67px] border-2 rounded-2xl border-black bg-[#EFE6DE]">
+        <div className="my-[8px] mx-[16px] py-[159px] px-[67px] border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px]">
           <div className="flex flex-col justify-center items-center gap-[23px]">
             <div>
               <div className="flex gap-[10px] p-[10px]">

@@ -23,13 +23,13 @@ export type Dates = {
 export type CellsProps = {
   currentDate: Date;
   selectedDate: Date;
-  onDateClick: (arg0: Date) => void;
+  onDateClick: (arg0: Date, user_id: string) => void;
   filterDiaries: SortedDiaries[];
 };
 
 export type CalendarModalProps = {
   clickModal: () => void;
-  handleSearchDiaries: (startDate: string, endDate: string) => void;
+  handleSearchDiaries: (startDate: string, endDate: string, user_id: string) => void;
   calenderInput: (startDate: string, endDate: string) => void;
   currentDate: Date;
 };

@@ -10,8 +10,8 @@ import undo from "@/lib/undo";
 import { CanvasProps } from "@/types/Canvas";
 import browserClient from "@/utils/supabase/client";
 import { decode } from "base64-arraybuffer";
-import { toast } from "garlic-toast";
 import { RefObject, useEffect, useRef, useState } from "react";
+import Modal from "../Modal";
 
 const Canvas = ({
   canvasWidth,
@@ -34,6 +34,7 @@ const Canvas = ({
   const [pathHistory, setPathHistory] = useState<string[]>([]);
   const [pathStep, setPathStep] = useState<number>(-1);
   const [pos, setPos] = useState<number[]>([]);
+  const [openClose, setOpenClose] = useState<boolean>(false);
 
   // 캔버스 세팅
   useEffect(() => {
@@ -119,25 +120,22 @@ const Canvas = ({
         };
         uploadImage();
       } else if (pathMode === "reset") {
-        toast
-          .confirm("정말 초기화하시겠습니까?", {
-            confirmBtn: "확인",
-            cancleBtn: "취소",
-            confirmBtnColor: "#0000ff",
-            cancleBtnColor: "#ff0000"
-          })
-          .then(async (isConfirm) => {
-            if (isConfirm) {
-              ctx.reset();
-              const canvasCtx = setCanvasContext({ canvas, canvasContext: ctx, canvasWidth, canvasHeight });
-              setCtx(canvasCtx);
-              setPathHistory([]);
-              setPathStep(-1);
-            }
-          });
+        setOpenClose(true);
       }
     }
   }, [pathMode]);
+
+  const resetCanvas = async () => {
+    const canvas = canvasRef.current;
+
+    if (canvas && ctx) {
+      ctx.reset();
+      const canvasCtx = setCanvasContext({ canvas, canvasContext: ctx, canvasWidth, canvasHeight });
+      setCtx(canvasCtx);
+      setPathHistory([]);
+      setPathStep(-1);
+    }
+  };
 
   // 그리기
   const drawFn = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -197,29 +195,40 @@ const Canvas = ({
   };
 
   return (
-    <canvas
-      ref={canvasRef}
-      onPointerDown={(e) => {
-        if (tool === "paint") {
-          paintCanvas(e);
-        } else {
-          setPainting(true);
-          setPos([e.nativeEvent.offsetX, e.nativeEvent.offsetY]);
-        }
-      }}
-      onPointerUp={() => {
-        setPainting(false);
-        saveHistory();
-      }}
-      onPointerMove={(e) => {
-        drawFn(e);
-        drawSquare(e);
-      }}
-      onPointerLeave={() => {
-        setPainting(false);
-      }}
-      className="bg-white touch-none"
-    />
+    <>
+      <canvas
+        ref={canvasRef}
+        onPointerDown={(e) => {
+          if (tool === "paint") {
+            paintCanvas(e);
+          } else {
+            setPainting(true);
+            setPos([e.nativeEvent.offsetX, e.nativeEvent.offsetY]);
+          }
+        }}
+        onPointerUp={() => {
+          setPainting(false);
+          saveHistory();
+        }}
+        onPointerMove={(e) => {
+          drawFn(e);
+          drawSquare(e);
+        }}
+        onPointerLeave={() => {
+          setPainting(false);
+        }}
+        className="bg-white touch-none"
+      />
+
+      {openClose && (
+        <Modal
+          mainText="정말 초기화하시겠습니까?"
+          setModalState={setOpenClose}
+          isConfirm={true}
+          confirmAction={resetCanvas}
+        />
+      )}
+    </>
   );
 };
 export default Canvas;
