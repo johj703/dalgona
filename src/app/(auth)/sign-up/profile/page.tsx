@@ -77,13 +77,13 @@ export default function SaveUserProfilePage() {
     const { data, error } = await supabase.storage
       .from("profile") // 스토리지 버킷 이름
       .upload(filePath, file);
+    console.log(data);
 
     if (error) {
       console.log("프로필 이미지 업로드 오류 : ", error);
       return null;
     }
 
-    console.log(data);
     // 이미지 URL 생성
     const { data: publicData } = supabase.storage.from("profile").getPublicUrl(filePath);
 
