@@ -2,7 +2,7 @@
 
 import drawImage from "@/lib/drawImage";
 import getRatio from "@/lib/getRatio";
-import { convertHexToRgba, floodFill } from "@/lib/paint";
+//import { convertHexToRgba, floodFill } from "@/lib/paint";
 import redo from "@/lib/redo";
 import reDraw from "@/lib/reDraw";
 import setCanvasContext from "@/lib/setCanvasContext";
@@ -21,6 +21,7 @@ const Canvas = ({
   pathMode,
   setPathMode,
   tool,
+  setTool,
   fileRef,
   setFormData,
   formData,
@@ -187,24 +188,24 @@ const Canvas = ({
     setPathStep(pathStep + 1);
   };
 
-  const paintCanvas = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    const curPos = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
-    if (!curPos) return;
-    const currentColor = convertHexToRgba(lineCustom.lineColor);
-    floodFill(curPos.x, curPos.y, currentColor, ctx);
-  };
+  // const paintCanvas = (e: React.PointerEvent<HTMLCanvasElement>) => {
+  //   const curPos = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
+  //   if (!curPos) return;
+  //   const currentColor = convertHexToRgba(lineCustom.lineColor);
+  //   floodFill(curPos.x, curPos.y, currentColor, ctx);
+  // };
 
   return (
     <>
       <canvas
         ref={canvasRef}
         onPointerDown={(e) => {
-          if (tool === "paint") {
-            paintCanvas(e);
-          } else {
-            setPainting(true);
-            setPos([e.nativeEvent.offsetX, e.nativeEvent.offsetY]);
+          if (tool === "pallete") {
+            setTool("pen");
           }
+
+          setPainting(true);
+          setPos([e.nativeEvent.offsetX, e.nativeEvent.offsetY]);
         }}
         onPointerUp={() => {
           setPainting(false);
@@ -222,7 +223,8 @@ const Canvas = ({
 
       {openClose && (
         <Modal
-          mainText="정말 초기화하시겠습니까?"
+          mainText="작업중인 그림을 초기화하시겠습니까?"
+          subText="초기화 후에는 복구할 수 없습니다."
           setModalState={setOpenClose}
           isConfirm={true}
           confirmAction={resetCanvas}

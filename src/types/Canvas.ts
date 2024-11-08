@@ -17,6 +17,7 @@ export type CanvasProps = {
   pathMode: string;
   setPathMode: stringState;
   tool: string;
+  setTool: stringState;
   fileRef: HTMLInputElement | null;
   setFormData: FormState;
   formData: FormData;
