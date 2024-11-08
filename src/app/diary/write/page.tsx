@@ -3,11 +3,11 @@
 import { format } from "date-fns";
 
 import Form from "@/components/diary/Form";
-import TopButton from "@/components/main/TopButton";
 import { useEffect } from "react";
 // import { useRouter } from "next/navigation";
 import getLoginUser from "@/lib/getLoginUser";
 import browserClient from "@/utils/supabase/client";
+import TopButton from "@/components/TopButton";
 
 const POST_ID = crypto.randomUUID();
 const initialData = {

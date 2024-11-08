@@ -13,6 +13,7 @@ import CommonTitle from "../CommonTitle";
 import { TypeModal } from "./TypeModal";
 import { CustomAlert } from "../CustomAlert";
 import getLoginUser from "@/lib/getLoginUser";
+import { iconOnOff } from "@/utils/diary/iconOnOff";
 
 const TYPE_LIST = ["모눈종이", "줄노트", "편지지"];
 
@@ -311,11 +312,21 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
           <ul className="flex gap-4">
             {TYPE_LIST.map((type, idx) => {
               return (
-                <li key={type} className="flex-1" onClick={() => setOpenTypeModal(type)}>
+                <li
+                  key={type}
+                  className="flex-1"
+                  onClick={() => {
+                    if (idx === 2) {
+                      setFormData({ ...formData, type: type });
+                    } else {
+                      setOpenTypeModal(type);
+                    }
+                  }}
+                >
                   {formData.type === type ? (
-                    <img src={`/images/diary-type-on-${idx + 1}.svg`} alt={type} />
+                    <img src={iconOnOff(`diary-type-${idx + 1}`, "on")} alt={type} />
                   ) : (
-                    <img src={`/images/diary-type-${idx + 1}.svg`} alt={type} />
+                    <img src={iconOnOff(`diary-type-${idx + 1}`, "off")} alt={type} />
                   )}
                 </li>
               );
