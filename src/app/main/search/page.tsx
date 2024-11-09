@@ -51,20 +51,18 @@ const SearchPage = () => {
   }, [fetchNextPage, hasNextPage]);
 
   return (
-    <div className="mt-[44px] text-center">
-      <div className="flex py-[16px] justify-center items-center">
-        <div className="flex items-center">
-          <Link href={"/main"}>
-            <img src="/icons/arrow-left-gray.svg" width={34} height={34} alt="arrow" className="mr-[10px]" />
-          </Link>
-          <input
-            type="text"
-            className="border-2 rounded-md w-[344px] h-[40px] bg-white p-2 "
-            placeholder="검색어를 입력하세요"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </div>
+    <div className="mt-[44px] text-center py-[16px] ">
+      <div className="flex justify-center items-center  w-[calc(100%-32px)]">
+        <Link href={"/main"}>
+          <img src="/icons/arrow-left-gray.svg" width={34} height={34} alt="arrow" className="ml-[16px]" />
+        </Link>
+        <input
+          type="text"
+          className="border-2 rounded-md h-[40px] bg-white w-[calc(100%-32px)] p-[10px]"
+          placeholder="검색어를 입력하세요"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
       </div>
       {diariesList && diariesList.length > 0 ? (
         <div className="text-left py-[8px] px-[16px]">
