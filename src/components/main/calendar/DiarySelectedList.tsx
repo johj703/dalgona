@@ -63,22 +63,38 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
                   </p>
                 </div>
               </div>
-              <div className="feed pt-[18px] px-[16px] pb-[19px] h-[364px] flex flex-col justify-center items-center border-[1px] rounded-2xl border-black bg-[#FDF7F4] relative">
-                <p className="title self-stretch text-[18px] not-italic font-[400] leading-[24.3px] mb-[10px]">
-                  {list.title}
-                </p>
-                <img
-                  src={list.draw}
-                  alt="Picture of the author"
-                  className="img border-[1px] rounded-lg border-black h-[238px] w-[100%] bg-white mb-[10px]"
-                />
-                <div className="absolute top-[75px] right-[25px]">
-                  <img src={getEmoji(list.emotion, "on")} alt={list.emotion} className="w-[40px] h-[40px] " />
+
+              {list.draw && (
+                <div className="feed pt-[18px] px-[16px] pb-[19px] h-[364px] flex flex-col justify-center items-center border-[1px] rounded-2xl border-black bg-[#FDF7F4] relative">
+                  <p className="title self-stretch text-[18px] not-italic font-[400] leading-[24.3px] mb-[10px]">
+                    {list.title}
+                  </p>
+                  <img
+                    src={list.draw}
+                    alt="Picture of the author"
+                    className="img border-[1px] rounded-lg border-black h-[238px] w-[100%] bg-white mb-[10px]"
+                  />
+                  <div className="absolute top-[75px] right-[25px]">
+                    <img src={getEmoji(list.emotion, "on")} alt={list.emotion} className="w-[40px] h-[40px] " />
+                  </div>
+
+                  <p className="content self-stretch overflow-hidden text-ellipsis  whitespace-nowrap font-['Dovemayo'] text-[14px] not-italic font-[500] leading-[21px]">
+                    {list.contents}
+                  </p>
                 </div>
-                <p className="content self-stretch overflow-hidden text-ellipsis  whitespace-nowrap font-['Dovemayo'] text-[14px] not-italic font-[500] leading-[21px]">
-                  {list.contents}
-                </p>
-              </div>
+              )}
+
+              {!list.draw && (
+                <div className=" border rounded-lg bg-[#FDF7F4] border-black p-4 mb-[10px]">
+                  <div className="flex justify-between items-start mb-[8px]">
+                    <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px]">{list.title}</p>
+                    <p className="w-12 h-6 text-xs py-1 justify-center items-center inline-flex bg-white border border-black rounded-2xl text-black">
+                      {getMonthKo(list.date)}
+                    </p>
+                  </div>
+                  <p className="text-gray-700 line-clamp-2">{list.contents}</p>
+                </div>
+              )}
             </div>
           ))}
         </div>
