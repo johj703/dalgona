@@ -12,8 +12,8 @@ const getNavigation = (index: string, isOn: string) => {
 };
 
 const Navigation = () => {
-  const params = usePathname();
-  const [formData, setFormData] = useState("");
+  const params = usePathname(); //아이콘 색 유지 위해서
+  const [formData, setFormData] = useState(""); //이동
   console.log("🚀 ~ Navigation ~ formData:", formData);
 
   return (
@@ -25,14 +25,14 @@ const Navigation = () => {
               <li
                 key={navi}
                 className="flex w-[98.5px] h-[52px] pt-[14px] pr-[41.5px] pl-[37px] pb-[18px] items-center border-[1px] border-[#FDF7F4] shrink-0"
-                onClick={() => setFormData(navi)}
+                onClick={() => setFormData(navi)} //이동
               >
-                {params === navi ? (
+                {params === navi ? ( //유지
                   <Image src={getNavigation(navi, "on")} alt={navi} width={24} height={24} />
                 ) : (
                   <Image src={getNavigation(navi, "off")} alt={navi} width={24} height={24} />
                 )}
-              </li>{" "}
+              </li>
             </Link>
           );
         })}

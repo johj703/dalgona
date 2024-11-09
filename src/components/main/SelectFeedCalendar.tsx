@@ -31,11 +31,9 @@ const SelectFeedCalendar = () => {
           </div>
         </TabList>
         <TabPanels>
-          <TabPanel>
-            <div>
-              <EmblaCarousel slides={SLIDES} options={OPTIONS} />
-              <DiaryList />
-            </div>
+          <TabPanel className="flex flex-col items-start gap-[6px] shrink-0">
+            <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+            <DiaryList />
           </TabPanel>
           <TabPanel>
             <Calendar />
