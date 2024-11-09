@@ -1,7 +1,7 @@
 "use client";
 import getLoginUser from "@/lib/getLoginUser";
 import { useInfiniteQuerySearchDiaries } from "@/lib/main/fetchDiaries";
-import { getDayOfTheWeek, getSimpleDate } from "@/utils/calendar/dateFormat";
+import { getDayOfTheWeek, getSimpleFullDate } from "@/utils/calendar/dateFormat";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -15,6 +15,7 @@ const SearchPage = () => {
 
   const { data: diaries, hasNextPage, fetchNextPage } = useInfiniteQuerySearchDiaries(searchDiaries, userId);
   const diariesList = diaries ? diaries.pages.flatMap((page) => page.searchPaginatedDiaries) : [];
+  console.log("🚀 ~ SearchPage ~ diariesList:", diariesList);
 
   useEffect(() => {
     // userId를 가져오는 함수 실행
@@ -50,36 +51,41 @@ const SearchPage = () => {
   }, [fetchNextPage, hasNextPage]);
 
   return (
-    <div className="p-6 mt-4 text-center">
-      <div className="flex gap-4 p-2">
-        <Link href={"/main"}>
-          <div className="pt-2">◀︎</div>
-        </Link>
-        <input
-          type="text"
-          className="border-2 rounded-md w-[300px] h-[40px] bg-zinc-200 p-2"
-          placeholder="일기를 검색해주세요"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
+    <div className="mt-[44px] text-center">
+      <div className="flex py-[16px] justify-center items-center">
+        <div className="flex items-center">
+          <Link href={"/main"}>
+            <img src="/icons/arrow-left-gray.svg" width={34} height={34} alt="arrow" className="mr-[10px]" />
+          </Link>
+          <input
+            type="text"
+            className="border-2 rounded-md w-[344px] h-[40px] bg-white p-2 "
+            placeholder="검색어를 입력하세요"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
       </div>
       {diariesList && diariesList.length > 0 ? (
-        <div className="text-left">
-          <p className="text-sm p-2">검색결과 ({diariesList.length})</p>
+        <div className="text-left py-[8px] px-[16px]">
+          <p className="text-[16px] font-[400] mb-[8px]">검색결과 ({diariesList.length})</p>
           {diariesList.map((diary) => (
-            <div key={diary.id} className="border-2 p-2 rounded-md my-2">
-              <p>{diary.contents}</p>
-              <div className="flex text-sm">
-                <p className="mr-2">{getDayOfTheWeek(diary.date)}</p>
-                <p>{getSimpleDate(diary.date)}</p>
+            <div key={diary.id} className="p-[10px] border-[1px] border-black rounded-lg bg-white mb-[16px]">
+              <p className="text-[16px] font-[400] overflow-hidden text-ellipsis mb-[2px]">{diary.title}</p>
+              <p className="text-[14px] font-[500] overflow-hidden text-ellipsis font-['Dovemayo'] mb-[8px]">
+                {diary.contents}
+              </p>
+              <div className="flex text-[14px] font-[500] text-right">
+                <p className="mr-[2px]">{getSimpleFullDate(diary.date).substring(2)}</p>
+                <p>({getDayOfTheWeek(diary.date).substring(0, 1)})</p>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div>
-          <p className="font-bold m-6">일치하는 검색결과가 없습니다.</p>
-          <p className="text-sm text-gray-400">오늘은 어떤 이야기를 들려주실 건가요?</p>
+        <div className="flex flex-col items-center gap-[10px] mt-[300px]">
+          <p className="text-[18px] font-[400]">일치하는 검색결과가 없습니다.</p>
+          <p className="text-[16px] font-[400] text-gray-400">오늘은 어떤 이야기를 들려주실 건가요?</p>
         </div>
       )}
     </div>
