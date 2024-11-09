@@ -29,7 +29,8 @@ const MonthlyArtwork: React.FC<MonthlyArtworkProps> = ({ userId }) => {
       }
 
       if (data) {
-        setDiaryEntries(data);
+        const shuffledEntries = data.sort(() => 0.5 - Math.random()).slice(0, 3);
+        setDiaryEntries(shuffledEntries);
       }
       setLoading(false);
     };

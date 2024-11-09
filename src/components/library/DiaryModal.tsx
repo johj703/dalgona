@@ -135,9 +135,9 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-      <div className="bg-background02 p-4 rounded-lg w-[342px] relative">
+      <div className="bg-background02 p-4 w-[calc(100vw-32px)] rounded-lg relative">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold flex-grow text-center">일기 등록하기</h2>
+          <h2 className="text-[18px] font-medium flex-grow text-center">일기 등록하기</h2>
           <button className="text-black" onClick={onClose}>
             <img src="/icons/close-small.svg" alt="close" />
           </button>

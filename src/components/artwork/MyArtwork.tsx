@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import browserClient from "@/utils/supabase/client";
 import { Diary, MyArtworkProps } from "@/types/library/Diary";
 import { useRouter } from "next/navigation";
+import CommonTitle from "../CommonTitle";
 
 const MyArtwork: React.FC<MyArtworkProps> = ({ userId }) => {
   const [diaryEntries, setDiaryEntries] = useState<Diary[]>([]);
@@ -92,12 +93,7 @@ const MyArtwork: React.FC<MyArtworkProps> = ({ userId }) => {
 
   return (
     <div className="flex flex-col bg-[#FDF7F4]">
-      <div className="flex p-4">
-        <button>
-          <img src="/icons/arrow-left.svg" alt="Arrow Left" className="w-4 h-4 relative" />
-        </button>
-        <p className="text-lg font-normal leading-[27px] flex-grow text-center">내 그림 모아보기</p>
-      </div>
+      <CommonTitle title="내 그림 모아보기" />
 
       {/* 슬라이더 영역 */}
       <div
