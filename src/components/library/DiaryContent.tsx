@@ -10,7 +10,7 @@ const parseDate = (dateStr: string): Date | null => {
 
   if (match) {
     const year = parseInt(match[1], 10);
-    const month = parseInt(match[2], 10) - 1; // 월은 0부터 시작하므로 1을 뺌
+    const month = parseInt(match[2], 10) - 1;
     const day = parseInt(match[3], 10);
     return new Date(year, month, day);
   }
@@ -57,6 +57,10 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
     router.push("/diary/write");
   };
 
+  const handleDiaryClick = (id: string) => {
+    router.push(`/library/memory/${id}`);
+  };
+
   return (
     <div className="flex flex-1 flex-col p-4 bg-[#FDF7F4]">
       {diaries.length > 0 && (
@@ -74,7 +78,11 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
               : "날짜 정보 없음";
 
             return (
-              <div key={diary.id} className=" border rounded-lg bg-[#FDF7F4] border-black p-4">
+              <div
+                key={diary.id}
+                className="border rounded-lg bg-[#FDF7F4] border-black p-4 cursor-pointer"
+                onClick={() => handleDiaryClick(diary.id)}
+              >
                 {diary.draw && (
                   <div className="relative h-48 border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden">
                     <img src={diary.draw} alt="그림" className="object-cover h-full w-full" />
