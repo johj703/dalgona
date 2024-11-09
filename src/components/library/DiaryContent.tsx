@@ -1,9 +1,8 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { Diary, DiaryContentProps } from "@/types/library/Diary";
 import { getEmoji } from "@/utils/diary/getEmoji";
 import browserClient from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 
 const parseDate = (dateStr: string): Date | null => {
   const regex = /(\d{4})년 (\d{1,2})월 (\d{1,2})일/;
@@ -21,6 +20,7 @@ const parseDate = (dateStr: string): Date | null => {
 const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
   const [diaries, setDiaries] = useState<Diary[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchDiaries = async () => {
@@ -53,11 +53,16 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
 
   if (loading) return <p className="text-center">로딩 중...</p>;
 
+  const handleGoToWritePage = () => {
+    router.push("/diary/write");
+  };
+
   return (
     <div className="flex flex-1 flex-col p-4 bg-[#FDF7F4]">
       {diaries.length > 0 && (
         <div className="border border-black rounded-lg p-4 mb-4 bg-white">
-          <p className="text-center font-bold">나만의 {month}월이 완성되어 가고 있어요! 많은 날들이 일기로 남았어요.</p>
+          <p className="text-center font-bold">나만의 {month}월이 완성되어 가고 있어요!</p>
+          <p className="text-center font-bold">많은 날들이 일기로 남았어요.</p>
         </div>
       )}
       {diaries.length > 0 ? (
@@ -102,16 +107,20 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
         <div className="flex flex-1 flex-col items-center justify-center bg-background01 border rounded-lg border-black p-4">
           <div className="flex items-center mb-2">
             <p className="text-lg font-bold text-center mr-2">이번 달에 작성된 일기가 없어요</p>
-            <img src="/icons/mini-diary.svg" alt="mini-diary" className="w-6 h-6" /> {/* 아이콘 크기 조정 */}
+            <img src="/icons/mini-diary.svg" alt="mini-diary" className="w-6 h-6" />
           </div>
           <p className="text-center text-[#a5a5a5]">하루의 소중한 기록을 남겨보세요.</p>
-          <button className="mt-4 px-4 py-2 bg-white border border-black rounded-lg text-black flex items-center">
+          <button
+            onClick={handleGoToWritePage}
+            className="mt-4 px-4 py-2 bg-white border border-black rounded-lg text-black flex items-center"
+          >
             일기 쓰러 가기
-            <img src="/icons/mini-pencil.svg" alt="mini-pencil" className="ml-2 w-4 h-4" /> {/* 아이콘 크기 조정 */}
+            <img src="/icons/mini-pencil.svg" alt="mini-pencil" className="ml-2 w-4 h-4" />
           </button>
         </div>
       )}
     </div>
   );
 };
+
 export default DiaryContent;

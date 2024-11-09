@@ -4,11 +4,10 @@ import React, { useEffect, useState } from "react";
 import browserClient from "@/utils/supabase/client";
 import { Diary } from "@/types/library/Diary";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import getLoginUser from "@/lib/getLoginUser";
+import CommonTitle from "@/components/CommonTitle";
 
 const ArtworkGallery: React.FC = () => {
-  const router = useRouter();
   const [artworks, setArtworks] = useState<Diary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -51,12 +50,7 @@ const ArtworkGallery: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-[#FDF7F4]">
-      <div className="flex p-4">
-        <button onClick={() => router.back()} className="text-black">
-          <img src="/icons/arrow-left.svg" alt="Arrow Left" className="w-4 h-4 relative" />
-        </button>
-        <p className="text-xl font-bold flex-grow text-center">내 그림 모아보기</p>
-      </div>
+      <CommonTitle title="내 그림 모아보기" />
       <h2 className="text-2xl p-4">전체</h2>
       {loading ? (
         <div className="flex items-center justify-center w-full h-48">

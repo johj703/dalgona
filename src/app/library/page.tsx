@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import CommonTitle from "@/components/CommonTitle";
 import YearSelector from "@/components/library/YearSelector";
 import DiaryReminder from "@/components/library/DiaryReminder";
 import MonthSelector from "@/components/library/MonthSelector";
@@ -69,18 +70,17 @@ const LibraryPage: React.FC = () => {
   }
 
   return (
-    <div className="p-4 flex flex-col min-h-screen bg-[#FDF7F4]">
-      <div className="pb-6 flex items-center">
-        <button className="flex-shrink-0" onClick={() => router.back()}>
-          <img src="/icons/arrow-left.svg" alt="Arrow Left" className="w-4 h-4 relative" />
-        </button>
-        <h1 className="flex-grow text-center text-black text-base font-semibold font-['Pretendard'] leading-normal">
-          기록의 방
-        </h1>
+    <div className="min-h-screen bg-background02">
+      <CommonTitle title="기록의 방" />
+      <div className="p-4 flex flex-col">
+        <YearSelector currentYear={currentYear} selectedYear={selectedYear} onYearChange={handleYearChange} />
+        {userId ? (
+          <DiaryReminder userId={userId} selectedYear={selectedYear} />
+        ) : (
+          <p>유저 정보를 불러오지 못했습니다.</p>
+        )}
+        <MonthSelector year={selectedYear} />
       </div>
-      <YearSelector currentYear={currentYear} selectedYear={selectedYear} onYearChange={handleYearChange} />
-      {userId ? <DiaryReminder userId={userId} selectedYear={selectedYear} /> : <p>유저 정보를 불러오지 못했습니다.</p>}
-      <MonthSelector year={selectedYear} />
     </div>
   );
 };
