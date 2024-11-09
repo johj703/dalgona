@@ -108,7 +108,7 @@ const Mypage = () => {
         </div>
 
         <button
-          className="flex items-center justify-center mt-[21px] mx-auto w-[130px] h-10 border border-[#D84E35] text-[#D84E35] rounded-lg bg-white text-sm leading-none"
+          className="flex items-center justify-center mt-[21px] mx-auto w-[130px] h-10 border border-primary text-primary rounded-lg bg-white text-sm leading-none"
           onClick={async () => {
             await supabase.auth.signOut();
 

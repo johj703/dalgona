@@ -345,7 +345,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
           {!formData.draw ? (
             <div
-              className="group-[.open]/draw:block hidden text-center text-base text-[#D84E35] leading-none py-4 rounded-br-2xl rounded-bl-2xl border border-solid border-[#D84E35] bg-white"
+              className="group-[.open]/draw:block hidden text-center text-base text-primary leading-none py-4 rounded-br-2xl rounded-bl-2xl border border-solid border-primary bg-white"
               onClick={() => setGoDraw(true)}
             >
               탭하여 그림그리기 페이지로 이동
@@ -382,7 +382,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
         )}
 
         <span className="h-14"></span>
-        <div className="fixed bottom-0 left-0 flex w-full h-14 bg-[#EFE6DE] border-t border-[#A6A6A6] rounded-tr-2xl rounded-tl-2xl overflow-hidden">
+        <div className="fixed bottom-0 left-0 flex w-full h-14 bg-background01 border-t border-[#A6A6A6] rounded-tr-2xl rounded-tl-2xl overflow-hidden">
           <button
             className="flex-1 text-center text-xl leading-[1.35] py-4"
             type="button"
