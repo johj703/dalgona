@@ -6,10 +6,11 @@ type TitleProps = {
   title: string;
   post_id?: string;
   draft?: boolean;
+  draftLength?: number;
   setOpenClose?: booleanState;
 };
 
-const CommonTitle = ({ title, post_id, draft, setOpenClose }: TitleProps) => {
+const CommonTitle = ({ title, post_id, draft, draftLength, setOpenClose }: TitleProps) => {
   const router = useRouter();
   return (
     <div className="relative flex items-center justify-center h-[52px]">
@@ -39,7 +40,7 @@ const CommonTitle = ({ title, post_id, draft, setOpenClose }: TitleProps) => {
           href={`/diary/drafts`}
           className="absolute top-1/2 -translate-y-1/2 right-[10px] text-[18px] leading-normal"
         >
-          보관
+          보관({draftLength})
         </Link>
       )}
     </div>

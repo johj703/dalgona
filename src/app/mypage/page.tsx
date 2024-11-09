@@ -47,7 +47,7 @@ const Mypage = () => {
 
   return (
     <>
-      <CommonTitle title={"마이페이지"} />
+      <CommonTitle title={"마이 페이지"} />
       <div className="py-6">
         <div className="flex gap-[14px] px-4">
           <Image

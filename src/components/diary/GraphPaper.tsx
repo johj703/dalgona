@@ -1,5 +1,8 @@
 export const GraphPaper = (contents: string) => {
   const content = contents.split("");
+  for (let i = 0; i < content.length % 7; i++) {
+    content.push("");
+  }
 
   return content.map((word, idx) => (
     <div
