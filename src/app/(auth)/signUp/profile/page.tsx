@@ -142,21 +142,21 @@ export default function SaveUserProfilePage() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       {/* 페이지 안내 텍스트 */}
-      <h1 className="">환영해요.</h1>
-      <p className="">사용하실 프로필을 작성해 주세요.</p>
+      <h1 className="text-xl mb-6">환영해요.</h1>
+      <p className="text-xl mb-6">사용하실 프로필을 작성해 주세요.</p>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-11/12 max-w-md bg-white p-6 rounded-lg shadow-md">
         {/* 프로필 사진 */}
-        <div className="">
-          <label className="">프로필 사진</label>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">프로필 사진</label>
           {profileImage ? (
-            <Image src={URL.createObjectURL(profileImage)} alt="프로필 사진" width={100} height={100} className="" />
+            <Image src={URL.createObjectURL(profileImage)} alt="프로필 사진" width={100} height={100} className="rounded-full mb-2" />
           ) : (
-            <div className=""></div>
+            <div className="w-24 h-24 bg-gray-200 rounded-full mb-2"></div>
           )}
-          <input type="file" onChange={handleImageUpload} className="" />
+          <input type="file" onChange={handleImageUpload} className="w-full text-sm text-gray-500" />
         </div>
 
         {/* 생년월일 입력 */}
