@@ -8,7 +8,7 @@ type CustomAlertProps = {
 export const CustomAlert = ({ type, text, position }: CustomAlertProps) => {
   return (
     <div
-      className={`flex items-center gap-[10px] w-max max-w-full py-2 px-4 rounded-lg text-sm leading-normal border ${position} ${
+      className={`animate-alert-blink opacity-0 flex items-center gap-[10px] w-max max-w-full py-2 px-4 rounded-lg text-sm leading-normal border ${position} ${
         type === "success" ? "border-utility03 text-utility03 bg-[#ECFFF6]" : "border-primary text-primary bg-[#FFEFEF]"
       }`}
     >

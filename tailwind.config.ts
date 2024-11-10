@@ -30,6 +30,19 @@ const config: Config = {
         "detail-content": "repeating-linear-gradient(#fdf7f4, #fdf7f4 47px, #BFBFBF 47px, #BFBFBF 48px, #fdf7f4 48px)",
         "checkbox-off": "url('/icons/checkbox-off.svg')",
         "checkbox-on": "url('/icons/checkbox-on.svg')"
+      },
+
+      keyframes: {
+        alert: {
+          "0%": { opacity: "0" },
+          "5%": { opacity: "1" },
+          "95%": { opacity: "1" },
+          "100%": { opacity: "0" }
+        }
+      },
+
+      animation: {
+        "alert-blink": "alert 3s linear forwards"
       }
     },
     fontFamily: {
