@@ -324,9 +324,9 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
                   }}
                 >
                   {formData.type === type ? (
-                    <img src={iconOnOff(`diary-type-${idx + 1}`, "on")} alt={type} />
+                    <img src={iconOnOff(`diary-type-${idx + 1}`, "on")} alt={type} className="w-full" />
                   ) : (
-                    <img src={iconOnOff(`diary-type-${idx + 1}`, "off")} alt={type} />
+                    <img src={iconOnOff(`diary-type-${idx + 1}`, "off")} alt={type} className="w-full" />
                   )}
                 </li>
               );

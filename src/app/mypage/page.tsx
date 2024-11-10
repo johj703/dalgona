@@ -19,6 +19,7 @@ const Mypage = () => {
   const [userData, setUserData] = useState<UserData>();
   const [monthlyData, setMonthlyData] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0]);
   const [myDrawing, setMyDrawing] = useState<{ draw: string }[]>();
+  const [myDrawingCount, setMyDrawingCount] = useState<number>(0);
   const [userId, setUserId] = useState<string>("");
   const router = useRouter();
 
@@ -39,7 +40,10 @@ const Mypage = () => {
     setUserData(UserData);
 
     if (MonthlyData) setMonthlyData(MonthlyData);
-    if (MyDrawing) setMyDrawing(MyDrawing);
+    if (MyDrawing) {
+      setMyDrawing(MyDrawing.data!);
+      setMyDrawingCount(MyDrawing.count!);
+    }
   };
   useEffect(() => {
     getData();
@@ -93,14 +97,26 @@ const Mypage = () => {
 
         <div className="py-2 px-4">
           <div className="text-base leading-5">내 그림 모아보기</div>
-          <Link href="/mypage/artwork"></Link>
           <ul className="flex gap-4 mt-[11px]">
             {myDrawing?.map((draw, idx) => {
               return (
-                <li key={idx} className="w-1/3 border border-[#D9D9D9] rounded-2xl overflow-hidden">
+                <li key={idx} className="relative w-1/3 border border-[#D9D9D9] rounded-2xl overflow-hidden">
                   <span className="flex items-center justify-center w-full h-0 py-[50%] bg-white">
                     <img src={draw.draw} alt={`그림${idx}`} className="object-contain" />
                   </span>
+                  {idx === myDrawing.length - 1 && (
+                    <Link
+                      href="/mypage/artwork"
+                      className="absolute top-0 left-0 flex items-end justify-end w-full h-full bg-gray01 bg-opacity-[0.63] px-[10px] py-[2px] text-sm leading-normal text-[#999999]"
+                    >
+                      {myDrawingCount > myDrawing.length && (
+                        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-base leading-normal">
+                          +{myDrawingCount - myDrawing.length}
+                        </span>
+                      )}
+                      더보기
+                    </Link>
+                  )}
                 </li>
               );
             })}
