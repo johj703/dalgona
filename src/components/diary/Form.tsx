@@ -46,9 +46,13 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
     const { data: getById, error: byIdError } = await browserClient.from("drafts").select("id").eq("user_id", userId);
     if (!byIdError) setDraftLength(getById.length);
   };
-  // 로그인 한 유저 아이디 저장
+
   useEffect(() => {
+    // 로그인 한 유저 아이디 저장
     getUserId();
+
+    // 날짜 선택시 달력 off
+    if (openCalender) setOpenCalender(false);
   }, []);
 
   // 임시 저장
@@ -220,11 +224,6 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
     router.replace(`/diary/read/${POST_ID}`);
   };
-
-  // 날짜 선택시 달력 off
-  useEffect(() => {
-    if (openCalender) setOpenCalender(false);
-  }, []);
 
   // 탭 토글
   const toggleTab = (ref: RefObject<HTMLDivElement>) => {
