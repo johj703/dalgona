@@ -23,7 +23,8 @@ const profileSchema = z.object({
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().min(1, "일은 1일부터 시작합니다.").max(31, "일은 31일까지 가능합니다.")),
-  gender: z.enum(["남성", "여성"])
+  gender: z.enum(["남성", "여성"]),
+  bloodType: z.enum(["A", "B", "O", "AB"]).optional(),
 });
 
 // zod 스키마의 타입을 추론해서 ProfileData 타입을 정의
@@ -43,6 +44,7 @@ export default function SaveUserProfilePage() {
   // ** 그 후 users 테이블에 한꺼번에 업데이트 하면 됨!
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [selectedBloodType, setSelectedBloodType] = useState<"A" | "B" | "O" | "AB" | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   console.log(errorMessage);
@@ -95,6 +97,12 @@ export default function SaveUserProfilePage() {
     const file = e.target.files?.[0];
     if (file) setProfileImage(file);
     clearErrors();
+  };
+
+  // 클릭시 스타일 변경 로직
+  const handleBloodTypeSelect = (type: "A" | "B" | "O" | "AB" ) => {
+    setSelectedBloodType(type);
+    clearErrors("bloodType");
   };
 
   // 폼 제출 핸들러
@@ -212,6 +220,22 @@ export default function SaveUserProfilePage() {
           {errors.gender && <p className="text-xs text-red-500 mt-1">{errors.gender.message}</p>}
         </div>
 
+        {/* 혈액형 선택 */}
+        <div>
+          <label>혈액형</label>
+          <div>
+            {["A", "B", "O", "AB"].map((type) => (
+              <button
+                key={type}
+                type="button"
+                onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")}
+                className=""
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+        </div>
         {/* 에러 메세지 */}
         {/* {errorMessage && <p className="">{errorMessage}</p>} */}
 
