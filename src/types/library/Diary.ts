@@ -52,3 +52,15 @@ export interface DiaryContentProps {
   year: number;
   month: number;
 }
+
+export interface MyArtworkProps {
+  userId: string;
+}
+
+export interface MonthlyArtworkProps {
+  userId: string;
+}
+
+export interface MemoryCollectionProps {
+  userId: string;
+}

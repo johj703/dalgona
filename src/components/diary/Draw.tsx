@@ -5,20 +5,20 @@ import Canvas from "./Canvas";
 import useClientSize from "@/hooks/useClientSize";
 import { LineCustom } from "@/types/LineCustom";
 import { DrawProps } from "@/types/Canvas";
+import Pallete from "./Pallete";
+import { iconOnOff } from "@/utils/diary/iconOnOff";
 
 const initialCustom = {
-  lineWidth: "4",
-  lineColor: "#212121"
+  lineWidth: "7",
+  lineColor: "#000000"
 };
 
 const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) => {
   const wrapRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const [lineCustom, setLineCustom] = useState<LineCustom>(initialCustom);
   const [getImage, setGetImage] = useState<FileList | null>(null);
-  const [isEraser, setIsEraser] = useState<boolean>(false);
   const [pathMode, setPathMode] = useState<string>("");
   const [tool, setTool] = useState<string>("pen");
-  const [showPallete, setShowPallete] = useState<boolean>(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const clientRect = useClientSize(wrapRef);
@@ -31,23 +31,41 @@ const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) 
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full z-10 bg-white">
-      <div className="fixed top-0 left-0 w-full z-10">
-        <div onClick={() => setGoDraw(false)}>닫기</div>
-        <button onClick={() => setPathMode("save")}>save</button>
-        <button onClick={() => setPathMode("undo")}>undo</button>
-        <button onClick={() => setPathMode("redo")}>redo</button>
+    <div className="fixed top-0 left-0 flex flex-col h-dvh w-full z-10 bg-white">
+      <div className="h-[100px] bg-background01 rounded-br-2xl rounded-bl-2xl overflow-hidden">
+        <div className="flex items-center justify-between text-base py-1 px-4">
+          <div onClick={() => setGoDraw(false)} className="flex items-center w-11 h-11">
+            <img src="/icons/close-small.svg" alt="닫기" />
+          </div>
+          그림 그리기
+          <span className="w-11 h-11"></span>
+        </div>
+        <div className="flex gap-2">
+          <button className="mr-auto" onClick={() => setPathMode("save")}>
+            <img src="/icons/save.svg" alt="저장" />
+          </button>
+
+          <button onClick={() => setPathMode("reset")}>
+            <img src="/icons/reset.svg" alt="reset" />
+          </button>
+          <button onClick={() => setPathMode("undo")}>
+            <img src="/icons/undo.svg" alt="undo" />
+          </button>
+          <button onClick={() => setPathMode("redo")}>
+            <img src="/icons/redo.svg" alt="redo" />
+          </button>
+        </div>
       </div>
-      <div ref={wrapRef} className="w-full h-dvh">
+      <div ref={wrapRef} className="w-full flex-1">
         <Canvas
           canvasWidth={canvasWidth}
           canvasHeight={canvasHeight}
           lineCustom={lineCustom}
-          isEraser={isEraser}
           getImage={getImage}
           pathMode={pathMode}
           setPathMode={setPathMode}
           tool={tool}
+          setTool={setTool}
           fileRef={fileRef.current}
           setFormData={setFormData}
           setGoDraw={setGoDraw}
@@ -56,27 +74,41 @@ const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) 
           POST_ID={POST_ID}
         />
       </div>
-      <div className="fixed bottom-0 left-0 w-full z-10">
-        <button onClick={() => setShowPallete(true)}>컬러팔레트</button>
+      <div className="relative flex items-center justify-center gap-3 w-full h-[52px] bg-background01">
         <button
           onClick={() => {
             setTool("pen");
-            setIsEraser(false);
           }}
         >
-          펜
+          {tool === "pen" ? (
+            <img src={iconOnOff("pen", "on")} alt="펜 on" />
+          ) : (
+            <img src={iconOnOff("pen", "off")} alt="펜 off" />
+          )}
         </button>
 
         <button
           onClick={() => {
-            setIsEraser(true);
-            setTool("pen");
+            setTool("eraser");
           }}
         >
-          지우개
+          {tool === "eraser" ? (
+            <img src={iconOnOff("eraser", "on")} alt="지우개 on" />
+          ) : (
+            <img src={iconOnOff("eraser", "off")} alt="지우개 off" />
+          )}
         </button>
 
         {/* <button onClick={() => setTool("paint")}>채우기</button> */}
+
+        <button onClick={() => setTool("pallete")}>
+          {tool === "pallete" ? (
+            <img src={iconOnOff("pallete", "on")} alt="팔레트 on" />
+          ) : (
+            <img src={iconOnOff("pallete", "off")} alt="팔레트 off" />
+          )}
+        </button>
+
         {tool === "pen" && (
           <input
             type="range"
@@ -87,25 +119,11 @@ const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) 
             value={lineCustom.lineWidth}
             step={1}
             onChange={(e) => handleChangeCustom(e)}
+            className="hidden"
           />
         )}
-        {showPallete && (
-          <div>
-            <div className="w-5 h-5 bg-red-600" onClick={() => setLineCustom({ ...lineCustom, lineColor: "#dc2626" })}>
-              red
-            </div>
-
-            <input
-              type="color"
-              name="lineColor"
-              id="lineColor"
-              value={lineCustom.lineColor}
-              onChange={(e) => {
-                handleChangeCustom(e);
-                setIsEraser(false);
-              }}
-            />
-          </div>
+        {tool === "pallete" && (
+          <Pallete lineCustom={lineCustom} setLineCustom={setLineCustom} handleChangeCustom={handleChangeCustom} />
         )}
 
         {/* 네모 그리기 보류 */}
@@ -122,6 +140,7 @@ const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) 
           onChange={(e) => {
             setGetImage(e.target.files);
           }}
+          className="hidden"
         />
       </div>
     </div>

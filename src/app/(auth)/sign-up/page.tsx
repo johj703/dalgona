@@ -57,6 +57,7 @@ export default function SignUpPage() {
           email,
           nickname,
           name
+
         });
 
         // 데이터 베이스 삽입 중 오류가 발생한 경우 오류 메시지 설정 후 종료
@@ -69,7 +70,7 @@ export default function SignUpPage() {
         await browserClient.auth.signInWithPassword({ email, password });
 
         // **페이지 이동하기 로직 추가
-        router.push("/signUp/profile");
+        router.push("/sign-up/profile");
       }
 
       if (error) {

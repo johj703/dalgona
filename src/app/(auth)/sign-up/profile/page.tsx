@@ -25,6 +25,7 @@ const profileSchema = z.object({
     .pipe(z.number().min(1, "일은 1일부터 시작합니다.").max(31, "일은 31일까지 가능합니다.")),
   gender: z.enum(["남성", "여성"]),
   bloodType: z.enum(["A", "B", "O", "AB"]).optional(),
+
 });
 
 // zod 스키마의 타입을 추론해서 ProfileData 타입을 정의
@@ -86,7 +87,6 @@ export default function SaveUserProfilePage() {
       return null;
     }
 
-    console.log(data);
     // 이미지 URL 생성
     const { data: publicData } = supabase.storage.from("profile").getPublicUrl(filePath);
 
@@ -196,6 +196,7 @@ export default function SaveUserProfilePage() {
           </select>
           <p>년</p>
           <select {...register("birthMonth")} className="p-2 border border-gray-300 rounded-md w-full">
+
             <option value=""></option>
             {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
               <option key={month} value={month}>
@@ -246,7 +247,7 @@ export default function SaveUserProfilePage() {
           <p className="text-red-500 text-sm mt-2">{errors.gender.message}</p>
         )}
       </div>
-
+        
         {/* 혈액형 선택 */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-2">혈액형</label>
