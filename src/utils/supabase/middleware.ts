@@ -51,7 +51,7 @@ export const updateSession = async (request: NextRequest) => {
       (request.nextUrl.pathname.startsWith("/sign-in") || request.nextUrl.pathname.startsWith("/sign-up")) &&
       user.data.user
     ) {
-      return NextResponse.redirect(new URL("/main", request.url));
+      return NextResponse.redirect(new URL("/sign-up/profile", request.url));
     }
 
     return response;
