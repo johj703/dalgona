@@ -2,35 +2,36 @@
 
 import React, { useEffect, useState } from "react";
 import DiaryContent from "@/components/library/DiaryContent";
-import { useParams, useRouter } from "next/navigation";
-import browserClient from "@/utils/supabase/client";
+import { useParams } from "next/navigation";
+import getLoginUser from "@/lib/getLoginUser";
+import CommonTitle from "@/components/CommonTitle";
 
 const MonthDiaryPage: React.FC = () => {
-  const { year, month } = useParams(); // useParams로 year와 month 가져오기
-  const router = useRouter();
+  const { year, month } = useParams();
+  // const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchUserId = async () => {
-      const { data, error } = await browserClient
-        .from("users")
-        .select("id")
-        .eq("id", "c56a4180-65aa-42ec-a945-5fd21dec0538");
-
-      if (error) {
-        console.error("Error fetching userId:", error.message);
-        setError("유저 정보를 가져오는 데 실패했습니다.");
-      } else if (data && data.length > 0) {
-        setUserId(data[0].id);
+  // 사용자 ID를 가져오는 함수
+  const getUserId = async () => {
+    try {
+      const data = await getLoginUser();
+      if (data) {
+        setUserId(data.id);
       } else {
-        console.log("유저 정보 없음.");
+        setError("사용자 정보를 가져오지 못했습니다.");
       }
+    } catch (error) {
+      console.error("login =>", error);
+      setError("로그인 정보 로드 중 오류가 발생했습니다.");
+    } finally {
       setLoading(false);
-    };
+    }
+  };
 
-    fetchUserId();
+  useEffect(() => {
+    getUserId();
   }, []);
 
   if (loading) {
@@ -42,17 +43,12 @@ const MonthDiaryPage: React.FC = () => {
   }
 
   if (!year || !month || !userId) {
-    return <p>연도와 월 또는 사용자 정보를 가져오는 중...</p>;
+    return <p>유효한 연도와 월 또는 사용자 정보를 확인 중입니다...</p>;
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <button onClick={() => router.back()} className="mr-2 text-blue-500 hover:text-blue-700">
-        ◀
-      </button>
-      <h1 className="text-2xl font-semibold mb-4 text-center">{month}월</h1>
-      <p className="text-center mb-2">이곳은 {month}월의 나를 담은 방이에요.</p>
-      <p className="text-center mb-6">이렇게 많은 순간들을 기억에 남겼어요!</p>
+    <div className="flex flex-col bg-[#FDF7F4] min-h-screen">
+      <CommonTitle title={`${month}월`} />
       <DiaryContent userId={userId} year={Number(year)} month={Number(month)} />
     </div>
   );

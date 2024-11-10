@@ -4,6 +4,8 @@
 
 :root {
   --background: #ffffff;
+  --background01: #efe6de;
+  --background02: #fdf7f4;
   --foreground: #171717;
 }
 
@@ -13,9 +15,44 @@
     --foreground: #ededed;
   }
 } */
+@font-face {
+  font-family: "Dovemayo";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/Dovemayo-Medium.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Dovemayo_gothic";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "LeferiBaseType-RegularA";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiBaseType-RegularA.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
 
 body {
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background02);
+  font-family: "Dovemayo_gothic", Arial, Helvetica, sans-serif;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+@layer components {
+  .button-144-48 {
+    @apply flex items-center justify-center w-36 h-12 rounded-lg bg-pribary text-base leading-normal text-white;
+  }
 }

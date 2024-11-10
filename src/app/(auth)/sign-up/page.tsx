@@ -57,6 +57,7 @@ export default function SignUpPage() {
           email,
           nickname,
           name
+
         });
 
         // 데이터 베이스 삽입 중 오류가 발생한 경우 오류 메시지 설정 후 종료

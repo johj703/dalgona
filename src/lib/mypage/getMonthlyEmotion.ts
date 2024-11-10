@@ -14,13 +14,16 @@ export const getMonthlyEmotion = async (user_id: string) => {
 
     if (result.data) {
       const monthlyData = result.data;
-      const emotionData = {
-        happy: monthlyData?.filter((emotion) => emotion.emotion === "기쁨").length, //기쁨 텍스트 수정 필요
-        good: monthlyData?.filter((emotion) => emotion.emotion === "좋아요").length,
-        soso: monthlyData?.filter((emotion) => emotion.emotion === "그냥 그래요").length,
-        bad: monthlyData?.filter((emotion) => emotion.emotion === "별로에요").length,
-        tired: monthlyData?.filter((emotion) => emotion.emotion === "힘들어요").length
-      };
+      const emotionData = [
+        monthlyData?.filter((emotion) => emotion.emotion === "행복해요").length, //기쁨 텍스트 수정 필요
+        monthlyData?.filter((emotion) => emotion.emotion === "편안해요").length,
+        monthlyData?.filter((emotion) => emotion.emotion === "설레요").length,
+        monthlyData?.filter((emotion) => emotion.emotion === "뿌듯해요").length,
+        monthlyData?.filter((emotion) => emotion.emotion === "힘들어요").length,
+        monthlyData?.filter((emotion) => emotion.emotion === "우울해요").length,
+        monthlyData?.filter((emotion) => emotion.emotion === "슬퍼요").length,
+        monthlyData?.filter((emotion) => emotion.emotion === "화나요").length
+      ];
 
       return emotionData;
     }

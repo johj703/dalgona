@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 interface SortDropdownProps {
   currentSort: "newest" | "oldest";
@@ -7,6 +7,21 @@ interface SortDropdownProps {
 
 const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortChange }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null); // 드롭다운 영역을 참조하기 위한 ref
+
+  // 드롭다운 외부를 클릭했을 때 드롭다운 닫기
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false); // 드롭다운 외부 클릭 시 닫기
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside); // 마우스 클릭 이벤트 리스너 추가
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside); // 컴포넌트 언마운트 시 리스너 제거
+    };
+  }, []);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
@@ -14,26 +29,30 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortChange }
 
   const handleSortChange = (value: "newest" | "oldest") => {
     onSortChange(value);
-    setIsOpen(false);
+    setIsOpen(false); // 선택 후 드롭다운 닫기
   };
 
   return (
-    <div className="relative my-4 flex justify-end">
-      <button onClick={toggleDropdown} className="px-4 py-2 border rounded bg-white">
-        {currentSort === "newest" ? "최신순" : "오래된순"} ▼
+    <div className="relative mt-[10px] flex justify-end" ref={dropdownRef}>
+      <button onClick={toggleDropdown} className="pt-[10px] flex items-center gap-2 justify-end">
+        <span>{currentSort === "newest" ? "최신순" : "오래된순"}</span>
+        <img src={isOpen ? "/icons/arrow-up(B).svg" : "/icons/arrow-down.svg"} alt="arrow-icon" className="ml-2" />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 z-10 mt-2 w-48 bg-white border border-gray-300 rounded shadow-lg">
-          <ul className="py-1">
-            <li onClick={() => handleSortChange("newest")} className="cursor-pointer px-4 py-2 hover:bg-gray-100">
-              최신순
+        <ul className="absolute z-10 right-0 top-full mt-[10px] overflow-y-auto bg-white border border-[#BFBFBF] rounded-lg">
+          {["newest", "oldest"].map((sortType, index) => (
+            <li
+              key={sortType}
+              onClick={() => handleSortChange(sortType as "newest" | "oldest")}
+              className={`cursor-pointer px-4 py-2 text-sm text-black ${
+                index === 0 ? "border-b border-[#BFBFBF]" : ""
+              } hover:bg-gray-100`}
+            >
+              {sortType === "newest" ? "최신순" : "오래된순"}
             </li>
-            <li onClick={() => handleSortChange("oldest")} className="cursor-pointer px-4 py-2 hover:bg-gray-100">
-              오래된순
-            </li>
-          </ul>
-        </div>
+          ))}
+        </ul>
       )}
     </div>
   );
