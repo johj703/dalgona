@@ -9,6 +9,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
+  const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
@@ -54,7 +55,8 @@ export default function SignUpPage() {
         // 별명(nickname)을 포함한 데이터를 users 테이블에 추가
         const { error: dbError } = await browserClient.from("users").insert({
           email,
-          nickname
+          nickname,
+          name
         });
 
         // 데이터 베이스 삽입 중 오류가 발생한 경우 오류 메시지 설정 후 종료
@@ -136,6 +138,22 @@ export default function SignUpPage() {
             className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <p className="text-xs text-gray-300">비밀번호를 다시 입력해주세요.</p>
+        </div>
+
+        {/* 이름 입력 */}
+        <div className="mb-4">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+            이름
+          </label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)} // 입력시 상태 업데이트
+            required
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <p className="text-xs text-gray-300">이름을 입력해 주세요.</p>
         </div>
 
         {/* 별명 입력 */}
