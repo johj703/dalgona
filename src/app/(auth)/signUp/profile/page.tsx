@@ -162,22 +162,24 @@ export default function SaveUserProfilePage() {
       <p className="text-xl mb-6">사용하실 프로필을 작성해 주세요.</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="w-11/12 max-w-md bg-white p-6 rounded-lg shadow-md">
-        {/* 프로필 사진 */}
-        <div className="relative flex justify-center mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">프로필 사진</label>
-          <div className="relative flex justify-center mb-6">
-          {profileImage ? (
-            <Image src={URL.createObjectURL(profileImage)} alt="프로필 사진" width={100} height={100} className="w-24 h-24 rounded-full" />
-          ) : (
-            <div className="w-24 h-24 rounded-full bg-gray-200"></div>
-          )}
-          <label htmlFor="profileImageUpload" className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md cursor-pointer hover:bg-gray-100">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553 4.553a1.5 1.5 0 01-.353 2.4 1.5 1.5 0 01-.6.147H5.4a1.5 1.5 0 01-1.5-1.5V7.4a1.5 1.5 0 01.353-2.4A1.5 1.5 0 014.4 5h5l1-2h6l1 2h5a1.5 1.5 0 011.5 1.5v5l-2-2h-5a1.5 1.5 0 00-1.5 1.5v5l-2-2z" />
-            </svg>
-          </label>
-          <input type="file" id="profileImageUpload" onChange={handleImageUpload} className="hidden" />
-        </div>
+        {/* 프로필 사진 선택 */}
+        <div className="mb-6">
+          <label className="text-sm font-medium text-gray-700 mb-2 block">프로필 사진</label>
+          <div className="flex justify-center">
+            <div className="relative">
+              {profileImage ? (
+                <Image src={URL.createObjectURL(profileImage)} alt="프로필 사진" width={100} height={100} className="w-24 h-24 rounded-full" />
+              ) : (
+                <div className="w-24 h-24 rounded-full bg-gray-200"></div>
+              )}
+              <label htmlFor="profileImageUpload" className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md cursor-pointer hover:bg-gray-100">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553 4.553a1.5 1.5 0 01-.353 2.4 1.5 1.5 0 01-.6.147H5.4a1.5 1.5 0 01-1.5-1.5V7.4a1.5 1.5 0 01.353-2.4A1.5 1.5 0 014.4 5h5l1-2h6l1 2h5a1.5 1.5 0 011.5 1.5v5l-2-2h-5a1.5 1.5 0 00-1.5 1.5v5l-2-2z" />
+                </svg>
+              </label>
+              <input type="file" id="profileImageUpload" onChange={handleImageUpload} className="hidden" />
+            </div>
+          </div>
         </div>
 
         {/* 생년월일 입력 */}
