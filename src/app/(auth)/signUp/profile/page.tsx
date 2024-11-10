@@ -220,30 +220,32 @@ export default function SaveUserProfilePage() {
         </div>
 
         {/* 성별 선택 */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">성별</label>
-          <div className="flex gap-4">
-            <button 
-              type="button"
-              onClick={() => handleGenderSelect("남성")}
-              className={`w-full p-2 rounded-full ${
-                selectedGender === "남성" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-              }`}
-            >
-              남성
-            </button>
-            <button 
-              type="button"
-              onClick={() => handleGenderSelect("여성")}
-              className={`w-full p-2 rounded-full ${
-                selectedGender === "여성" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-              }`}
-            >
-              여성
-            </button>
-          </div>
-          {errors.gender && <p className="text-xs text-red-500 mt-1">{errors.gender.message}</p>}
+      <div>
+        <label className="text-sm font-medium text-gray-700 mb-2 block">성별</label>
+        <div className="flex space-x-4 justify-center">
+          <button
+            type="button"
+            onClick={() => handleGenderSelect("남성")}
+            className={`px-4 py-2 rounded-full border ${
+              selectedGender === "남성" ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
+            }`}
+          >
+            남성
+          </button>
+          <button
+            type="button"
+            onClick={() => handleGenderSelect("여성")}
+            className={`px-4 py-2 rounded-full border ${
+              selectedGender === "여성" ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
+            }`}
+          >
+            여성
+          </button>
         </div>
+        {errors.gender && (
+          <p className="text-red-500 text-sm mt-2">{errors.gender.message}</p>
+        )}
+      </div>
 
         {/* 혈액형 선택 */}
         <div className="mb-4">
@@ -254,8 +256,8 @@ export default function SaveUserProfilePage() {
                 key={type}
                 type="button"
                 onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")}
-                className={`w-full p-2 rounded-full ${
-                  selectedBloodType === type ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+                className={`w-full p-2 rounded-full border ${
+                  selectedBloodType === type ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
                 }`}
               >
                 {type}
