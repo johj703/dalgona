@@ -216,11 +216,11 @@ export default function SaveUserProfilePage() {
         {/* {errorMessage && <p className="">{errorMessage}</p>} */}
 
         {/* 건너뛰기 및 시작하기 버튼 */}
-        <div className="">
-          <button type="button" onClick={() => router.push("/main")} className="">
+        <div className="flex justify-between mt-6">
+          <button type="button" onClick={() => router.push("/main")} className="w-1/2 p-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
             건너뛰기
           </button>
-          <button type="submit" className="">
+          <button type="submit" className="w-1/2 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 ml-2">
             시작하기
           </button>
         </div>
