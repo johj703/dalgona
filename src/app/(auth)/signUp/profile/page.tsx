@@ -197,19 +197,19 @@ export default function SaveUserProfilePage() {
         </div>
 
         {/* 성별 선택 */}
-        <div className="">
-          <label className="">성별</label>
-          <div className="">
-            <label>
-              <input type="radio" value="남성" {...register("gender")} className="" />
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">성별</label>
+          <div className="flex gap-4">
+            <label className="flex items-center">
+              <input type="radio" value="남성" {...register("gender")} className="mr-2" />
               남성
             </label>
-            <label>
-              <input type="radio" value="여성" {...register("gender")} className="" />
+            <label className="flex items-center">
+              <input type="radio" value="여성" {...register("gender")} className="mr-2" />
               여성
             </label>
           </div>
-          {errors.gender && <p className="">{errors.gender.message}</p>}
+          {errors.gender && <p className="text-xs text-red-500 mt-1">{errors.gender.message}</p>}
         </div>
 
         {/* 에러 메세지 */}
