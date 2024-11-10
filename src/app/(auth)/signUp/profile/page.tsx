@@ -167,7 +167,7 @@ export default function SaveUserProfilePage() {
           <label className="block text-sm font-medium text-gray-700 mb-2">프로필 사진</label>
           <div className="relative flex justify-center mb-6">
           {profileImage ? (
-            <Image src={URL.createObjectURL(profileImage)} alt="프로필 사진" width={100} height={100} className="rounded-full" />
+            <Image src={URL.createObjectURL(profileImage)} alt="프로필 사진" width={100} height={100} className="w-24 h-24 rounded-full" />
           ) : (
             <div className="w-24 h-24 rounded-full bg-gray-200"></div>
           )}
@@ -224,7 +224,7 @@ export default function SaveUserProfilePage() {
             <button 
               type="button"
               onClick={() => handleGenderSelect("남성")}
-              className={`w-full p-2 rounded-md ${
+              className={`w-full p-2 rounded-full ${
                 selectedGender === "남성" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
               }`}
             >
@@ -233,7 +233,7 @@ export default function SaveUserProfilePage() {
             <button 
               type="button"
               onClick={() => handleGenderSelect("여성")}
-              className={`w-full p-2 rounded-md ${
+              className={`w-full p-2 rounded-full ${
                 selectedGender === "여성" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
               }`}
             >
@@ -252,7 +252,7 @@ export default function SaveUserProfilePage() {
                 key={type}
                 type="button"
                 onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")}
-                className={`w-full p-2 rounded-lg ${
+                className={`w-full p-2 rounded-full ${
                   selectedBloodType === type ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
                 }`}
               >
