@@ -44,6 +44,7 @@ export default function SaveUserProfilePage() {
   // ** 그 후 users 테이블에 한꺼번에 업데이트 하면 됨!
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [selectedGender, setSelectedGender] = useState<"남성" | "여성" | null>(null);
   const [selectedBloodType, setSelectedBloodType] = useState<"A" | "B" | "O" | "AB" | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
@@ -100,6 +101,11 @@ export default function SaveUserProfilePage() {
   };
 
   // 클릭시 스타일 변경 로직
+  const handleGenderSelect = (gender: "남성" | "여성") => {
+    setSelectedGender(gender);
+    clearErrors("gender");
+  }
+
   const handleBloodTypeSelect = (type: "A" | "B" | "O" | "AB" ) => {
     setSelectedBloodType(type);
     clearErrors("bloodType");
@@ -208,14 +214,24 @@ export default function SaveUserProfilePage() {
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-2">성별</label>
           <div className="flex gap-4">
-            <label className="flex items-center">
-              <input type="radio" value="남성" {...register("gender")} className="mr-2" />
+            <button 
+              type="button"
+              onClick={() => handleGenderSelect("남성")}
+              className={`w-full p-2 rounded-md ${
+                selectedGender === "남성" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+              }`}
+            >
               남성
-            </label>
-            <label className="flex items-center">
-              <input type="radio" value="여성" {...register("gender")} className="mr-2" />
+            </button>
+            <button 
+              type="button"
+              onClick={() => handleGenderSelect("여성")}
+              className={`w-full p-2 rounded-md ${
+                selectedGender === "여성" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+              }`}
+            >
               여성
-            </label>
+            </button>
           </div>
           {errors.gender && <p className="text-xs text-red-500 mt-1">{errors.gender.message}</p>}
         </div>
