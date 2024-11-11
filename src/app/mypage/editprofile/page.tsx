@@ -33,11 +33,11 @@ const EditProfilePage = () => {
         }
 
         if (profileData) {
-          setNickname(user.nickname || "");
-          setProfileImage(user.profile_image || DEFAULT_IMAGE);
-          setBirthday(user.birthday || "");
-          setGender(user.gender || "");
-          setBloodType(user.bloodtype || "");
+          setNickname(profileData.nickname || "");
+          setProfileImage(profileData.profile_image || DEFAULT_IMAGE);
+          setBirthday(profileData.birthday || "");
+          setGender(profileData.gender || "");
+          setBloodType(profileData.bloodtype || "");
         }
       }
     };
