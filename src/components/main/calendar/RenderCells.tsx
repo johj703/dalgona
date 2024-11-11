@@ -89,7 +89,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
 
     //일주일 단위로 날짜 셀(days)을 하나의 행(row)으로 묶어 추가
     rows.push(
-      <div className="flex w-[325px] justify-center items-center gap-[12px]" key={day.toString()}>
+      <div className="flex justify-between items-center w-[100%] px-[5px]" key={day.toString()}>
         {days}
       </div>
     );
@@ -97,7 +97,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
     days = [];
   }
 
-  return <div className="body">{rows}</div>;
+  return <div className="body w-[100%]">{rows}</div>;
 };
 
 export default RenderCells;
