@@ -245,21 +245,33 @@ export default function SaveUserProfilePage() {
             <button
               type="button"
               onClick={() => handleGenderSelect("여성")}
-              className={`px-4 py-2 rounded-full border ${
-                selectedGender === "여성" ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
+              className={`flex items-center px-4 py-2 rounded-full border ${
+                selectedGender === "여성" ? "bg-red-500 text-white" : "bg-white text-red-500 border-red-500 "
               }`}
             >
-              <Image src="/icons/female.svg" alt="여성 아이콘" width={20} height={20} />
+              <Image
+                src={selectedGender === "여성" ? "/icons/female_white.svg" : "/icons/female_red.svg"}
+                alt="여성 아이콘"
+                width={20}
+                height={20}
+                className="mr-2"
+              />
               <span>여성</span>
             </button>
             <button
               type="button"
               onClick={() => handleGenderSelect("남성")}
-              className={`px-4 py-2 rounded-full border ${
-                selectedGender === "남성" ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
+              className={`flex items-center px-4 py-2 rounded-full border ${
+                selectedGender === "남성" ? "bg-red-500 text-white" : "bg-white text-red-500 border-red-500"
               }`}
             >
-              <Image src="/icons/male.svg" alt="남성 아이콘" width={20} height={20} />
+              <Image
+                src={selectedGender === "남성" ? "/icons/male_white.svg" : "/icons/male_red.svg"}
+                alt="남성 아이콘"
+                width={20}
+                height={20}
+                className="mr-2"
+              />
               <p>남성</p>
             </button>
           </div>
