@@ -21,22 +21,14 @@ const Mypage = () => {
   const [monthlyData, setMonthlyData] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0]);
   const [myDrawing, setMyDrawing] = useState<{ draw: string }[]>();
   const [myDrawingCount, setMyDrawingCount] = useState<number>(0);
-  const [userId, setUserId] = useState<string>("");
+
   const router = useRouter();
 
-  const getUserId = async () => {
-    const data = await getLoginUser();
-    if (data) setUserId(data.id);
-  };
-
-  useEffect(() => {
-    getUserId();
-  }, []);
-
   const getData = async () => {
-    const UserData = await getUserData(userId);
-    const MonthlyData = await getMonthlyEmotion(userId);
-    const MyDrawing = await getMyDrawing(userId);
+    const userData = await getLoginUser();
+    const UserData = await getUserData(userData!.id);
+    const MonthlyData = await getMonthlyEmotion(userData!.id);
+    const MyDrawing = await getMyDrawing(userData!.id);
 
     setUserData(UserData);
 
@@ -46,12 +38,13 @@ const Mypage = () => {
       setMyDrawingCount(MyDrawing.count!);
     }
   };
+
   useEffect(() => {
     getData();
-  }, [userId]);
+  }, []);
 
   return (
-    <>
+    <div>
       <CommonTitle title={"마이 페이지"} />
       <div className="py-6">
         <div className="flex gap-[14px] px-4">
@@ -141,7 +134,7 @@ const Mypage = () => {
       </div>
 
       <Navigation />
-    </>
+    </div>
   );
 };
 export default Mypage;
