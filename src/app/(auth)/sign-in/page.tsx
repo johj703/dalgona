@@ -135,19 +135,24 @@ export default function SignInPage() {
           </button>
         </div>
 
-        <div className="my-4 border-t border-gray-300"></div>
-        <p className="text-center text-sm">간편 로그인</p>
+        <div className="mt-16">
+          <div className="flex items-center my-4">
+            <div className="flex-grow border-t border-gray-300"></div>
+            <span className="px-4 text-sm">간편 로그인</span>
+            <div className="flex-grow border-t border-gray-300"></div>
+          </div>
 
-        <div className="flex justify-center mt-4 gap-1">
-          <button className="p-2 border-gray-200 rounded">
-            <Image src="/icons/Icon-Github.png" alt="깃허브 로그인" width={40} height={40} />
-          </button>
-          <button className="p-2 border-gray-200 rounded">
-            <Image src="/icons/Icon-Google.png" alt="구글 로그인" width={40} height={40} />
-          </button>
-          <button className="p-2 border-gray-200 rounded">
-            <Image src="/icons/Icon-Kakaotalk.png" alt="카카오 로그인" width={40} height={40} />
-          </button>
+          <div className="flex justify-center mt-4 gap-1">
+            <button className="p-2 border-gray-200 rounded">
+              <Image src="/icons/Icon-Github.png" alt="깃허브 로그인" width={40} height={40} />
+            </button>
+            <button className="p-2 border-gray-200 rounded">
+              <Image src="/icons/Icon-Google.png" alt="구글 로그인" width={40} height={40} />
+            </button>
+            <button className="p-2 border-gray-200 rounded">
+              <Image src="/icons/Icon-Kakaotalk.png" alt="카카오 로그인" width={40} height={40} />
+            </button>
+          </div>
         </div>
       </div>
     </div>
