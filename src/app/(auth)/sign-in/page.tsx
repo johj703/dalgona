@@ -1,6 +1,7 @@
 "use client";
 
 import browserClient from "@/utils/supabase/client";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -55,7 +56,15 @@ export default function SignInPage() {
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="w-full max-w-sm p-4 bg-white shadow-md rounded-md">
-        <h1 className="text-center text-2xl font-bold mb-6">감정일기</h1>
+        <div className="flex justify-center items-center">
+          <Image
+            src="/icons/Header.jpg"
+            alt="달고나 타이틀 이미지"
+            width={150}
+            height={50}
+            priority // 타이틀 이미지를 페이지 로딩 시 최우선으로 가져오는 속성
+          />
+        </div>
 
         {/* 에러 메세지 출력 */}
         {errorMessage && <p className="text-center text-red-500 mb-4">{errorMessage}</p>}
