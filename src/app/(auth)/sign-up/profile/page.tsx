@@ -202,7 +202,7 @@ export default function SaveUserProfilePage() {
         </div>
 
         {/* 생년월일 입력 */}
-        <div className="mb-4">
+        <div className="mb-4 text-left">
           <label className="block text-sm font-medium text-gray-700 mb-2">생년월일</label>
           <div className="flex gap-2">
             <select {...register("birthYear")} className="p-2 border border-gray-300 rounded-md w-full">
@@ -213,7 +213,7 @@ export default function SaveUserProfilePage() {
                 </option>
               ))}
             </select>
-            <p>년</p>
+            <p className="self-center">년</p>
             <select {...register("birthMonth")} className="p-2 border border-gray-300 rounded-md w-full">
               <option value=""></option>
               {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
@@ -222,7 +222,7 @@ export default function SaveUserProfilePage() {
                 </option>
               ))}
             </select>
-            <p>월</p>
+            <p className="self-center">월</p>
             <select {...register("birthDay")} className="p-2 border border-gray-300 rounded-md w-full">
               <option value=""></option>
               {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
@@ -231,7 +231,7 @@ export default function SaveUserProfilePage() {
                 </option>
               ))}
             </select>
-            <p>일</p>
+            <p className="self-center">일</p>
           </div>
           {errors.birthYear && <p className="text-xs text-red-500 mt-1">{errors.birthYear.message}</p>}
           {errors.birthMonth && <p className="text-xs text-red-500 mt-1">{errors.birthMonth.message}</p>}
@@ -239,18 +239,9 @@ export default function SaveUserProfilePage() {
         </div>
 
         {/* 성별 선택 */}
-        <div>
+        <div className="text-left mb-4">
           <label className="text-sm font-medium text-gray-700 mb-2 block">성별</label>
-          <div className="flex space-x-4 justify-center">
-            <button
-              type="button"
-              onClick={() => handleGenderSelect("남성")}
-              className={`px-4 py-2 rounded-full border ${
-                selectedGender === "남성" ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
-              }`}
-            >
-              남성
-            </button>
+          <div className="flex space-x-4 justify-start">
             <button
               type="button"
               onClick={() => handleGenderSelect("여성")}
@@ -258,22 +249,33 @@ export default function SaveUserProfilePage() {
                 selectedGender === "여성" ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
               }`}
             >
-              여성
+              <Image src="/icons/female.svg" alt="여성 아이콘" width={20} height={20} />
+              <span>여성</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleGenderSelect("남성")}
+              className={`px-4 py-2 rounded-full border ${
+                selectedGender === "남성" ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
+              }`}
+            >
+              <Image src="/icons/male.svg" alt="남성 아이콘" width={20} height={20} />
+              <p>남성</p>
             </button>
           </div>
           {errors.gender && <p className="text-red-500 text-sm mt-2">{errors.gender.message}</p>}
         </div>
 
         {/* 혈액형 선택 */}
-        <div className="mb-4">
+        <div className="text-left mb-4 gap-2">
           <label className="block text-sm font-medium text-gray-700 mb-2">혈액형</label>
-          <div className="flex gap-4">
+          <div className="flex gap-4 justify-start">
             {["A", "B", "O", "AB"].map((type) => (
               <button
                 key={type}
                 type="button"
                 onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")}
-                className={`w-full p-2 rounded-full border ${
+                className={`w-14 p-1 rounded-full border ${
                   selectedBloodType === type ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
                 }`}
               >
@@ -282,6 +284,7 @@ export default function SaveUserProfilePage() {
             ))}
           </div>
         </div>
+        <p className="text-xs text-gray-300">위 항목들은 선택사항이며, 언제든지 나중에 수정할 수 있습니다.</p>
         {/* 에러 메세지 */}
         {/* {errorMessage && <p className="">{errorMessage}</p>} */}
 
