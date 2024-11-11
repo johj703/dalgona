@@ -235,7 +235,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
           e.preventDefault();
           onSubmit();
         }}
-        className="flex flex-col gap-6"
+        className="flex flex-col gap-6 pb-14"
       >
         {/* 타이틀 */}
         <div className="flex flex-col gap-2 mx-4 ">

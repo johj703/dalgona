@@ -101,10 +101,12 @@ const Mypage = () => {
           <ul className="flex gap-4 mt-[11px]">
             {myDrawing?.map((draw, idx) => {
               return (
-                <li key={idx} className="relative w-1/3 border border-[#D9D9D9] rounded-2xl overflow-hidden">
-                  <span className="flex items-center justify-center w-full h-0 py-[50%] bg-white">
-                    <img src={draw.draw} alt={`그림${idx}`} className="object-contain" />
-                  </span>
+                <li
+                  key={idx}
+                  className="relative flex items-center justify-center w-1/3 aspect-square border border-[#D9D9D9] rounded-2xl overflow-hidden"
+                >
+                  <img src={draw.draw} alt={`그림${idx}`} className="object-contain" />
+
                   {idx === myDrawing.length - 1 && (
                     <Link
                       href="/mypage/artwork"
