@@ -38,7 +38,7 @@ const Modal = ({ mainText, subText, isConfirm, setModalState, confirmAction }: M
             </>
           ) : (
             <button
-              className="w-full text-lg leading-[1.35] text-white rounded-lg bg-pribary "
+              className="w-full text-lg leading-[1.35] text-white rounded-lg bg-primary "
               onClick={() => clickCancelButton()}
             >
               확인

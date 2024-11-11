@@ -37,37 +37,35 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
   return (
     <div ref={dropdownRef} className="relative">
       <div
-        className={`h-[36px] inline-flex items-center justify-center p-2.5 gap-2.5 border rounded-lg cursor-pointer 
-                    ${isClicked ? "bg-[#D84E35] text-white" : "bg-white border-black text-black"}`}
+        className="relative flex justify-between items-center inline-flex gap-1 rounded-lg bg-white border border-[#BFBFBF] h-9 px-3"
         onClick={toggleDropdown}
       >
-        <span className="text-xs font-normal font-['Pretendard'] leading-[18px]">{selectedYear}년</span>
-        <img src={isOpen ? "/icons/arrow-up(W).svg" : "/icons/arrow-down.svg"} alt="Arrow Icon" className="relative" />
-      </div>
+        <span className="text-xs font-normal leading-[18px]">{selectedYear}년</span>
+        <img src={isOpen ? "/icons/arrow-up(B).svg" : "/icons/arrow-down.svg"} alt="Arrow Icon" className="relative" />
 
-      {isOpen && (
-        <ul
-          id="year-list"
-          role="listbox"
-          className="absolute z-10 mt-[10px] w-20 rounded-lg border border-black bg-[#f2f2f2] max-h-48 overflow-y-auto"
-        >
-          {years.map((year, index) => (
-            <li
-              key={year}
-              onClick={() => handleYearChange(year)}
-              role="option"
-              aria-selected={year === selectedYear}
-              className={`cursor-pointer px-4 py-2 text-sm text-black ${
-                index < years.length - 1 ? "border-b border-[#8C8C8C]" : ""
-              }`}
-            >
-              {year}
-            </li>
-          ))}
-        </ul>
-      )}
+        {isOpen && (
+          <ul
+            id="year-list"
+            role="listbox"
+            className="absolute z-10 rounded-lg border border-[#BFBFBF] bg-white max-h-40 w-full left-0 top-full mt-[10px] overflow-y-auto"
+          >
+            {years.map((year, index) => (
+              <li
+                key={year}
+                onClick={() => handleYearChange(year)}
+                role="option"
+                aria-selected={year === selectedYear}
+                className={`cursor-pointer px-4 py-2 text-sm text-black ${
+                  index < years.length - 1 ? "border-b border-[#8C8C8C]" : ""
+                }`}
+              >
+                {year}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };
-
 export default YearSelector;

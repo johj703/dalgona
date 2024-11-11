@@ -2,12 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import DiaryContent from "@/components/library/DiaryContent";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import getLoginUser from "@/lib/getLoginUser";
+import CommonTitle from "@/components/CommonTitle";
 
 const MonthDiaryPage: React.FC = () => {
   const { year, month } = useParams();
-  const router = useRouter();
+  // const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -47,12 +48,7 @@ const MonthDiaryPage: React.FC = () => {
 
   return (
     <div className="flex flex-col bg-[#FDF7F4] min-h-screen">
-      <div className="flex p-4 h-[52px]">
-        <button onClick={() => router.back()}>
-          <img src="/icons/arrow-left.svg" alt="Arrow Left" className="w-4 h-4 relative" />
-        </button>
-        <p className="text-lg font-normal leading-[27px] flex-grow text-center">{month}월</p>
-      </div>
+      <CommonTitle title={`${month}월`} />
       <DiaryContent userId={userId} year={Number(year)} month={Number(month)} />
     </div>
   );

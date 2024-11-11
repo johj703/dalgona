@@ -51,6 +51,11 @@ const Canvas = ({
 
     setCanvas();
 
+    if (pathHistory.length === 0 && ctx) {
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    }
+
     if (pathHistory.length !== 0 && canvas && canvasContext) {
       reDraw({ pathHistory, canvas, canvasContext, pathStep });
     }
@@ -133,6 +138,8 @@ const Canvas = ({
       ctx.reset();
       const canvasCtx = setCanvasContext({ canvas, canvasContext: ctx, canvasWidth, canvasHeight });
       setCtx(canvasCtx);
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
       setPathHistory([]);
       setPathStep(-1);
     }

@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import browserClient from "@/utils/supabase/client";
 import { Diary } from "@/types/library/Diary";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import getLoginUser from "@/lib/getLoginUser";
+import CommonTitle from "@/components/CommonTitle";
 
 // Params 타입
 interface Params {
@@ -14,7 +14,6 @@ interface Params {
 
 const MonthlyGallery = ({ params }: { params: Params }) => {
   const { month } = params; // URL의 month 매개변수 추출
-  const router = useRouter();
   const [artworks, setArtworks] = useState<Diary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -61,12 +60,7 @@ const MonthlyGallery = ({ params }: { params: Params }) => {
 
   return (
     <div className="flex flex-col h-screen bg-[#FDF7F4]">
-      <div className="flex p-4">
-        <button onClick={() => router.back()} className="text-black">
-          <img src="/icons/arrow-left.svg" alt="Arrow Left" className="w-4 h-4 relative" />
-        </button>
-        <p className="text-xl font-bold flex-grow text-center">내 그림 모아보기</p>
-      </div>
+      <CommonTitle title="내 그림 모아보기" />
       <h2 className="text-2xl p-4">{month}월</h2>
       {loading ? (
         <div className="text-center">로딩 중...</div>
