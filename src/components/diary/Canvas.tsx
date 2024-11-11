@@ -1,12 +1,12 @@
 "use client";
 
-import drawImage from "@/lib/drawImage";
-import getRatio from "@/lib/getRatio";
+import drawImage from "@/lib/diary/drawImage";
+import getRatio from "@/lib/diary/getRatio";
 //import { convertHexToRgba, floodFill } from "@/lib/paint";
-import redo from "@/lib/redo";
-import reDraw from "@/lib/reDraw";
-import setCanvasContext from "@/lib/setCanvasContext";
-import undo from "@/lib/undo";
+import redo from "@/lib/diary/redo";
+import reDraw from "@/lib/diary/reDraw";
+import setCanvasContext from "@/lib/diary/setCanvasContext";
+import undo from "@/lib/diary/undo";
 import { CanvasProps } from "@/types/Canvas";
 import browserClient from "@/utils/supabase/client";
 import { decode } from "base64-arraybuffer";

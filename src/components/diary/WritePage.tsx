@@ -9,18 +9,18 @@ import getLoginUser from "@/lib/getLoginUser";
 import browserClient from "@/utils/supabase/client";
 import TopButton from "@/components/TopButton";
 
-const POST_ID = crypto.randomUUID();
-const initialData = {
-  id: POST_ID,
-  title: "",
-  date: format(new Date(), "yyyy년 MM월 dd일"),
-  emotion: "",
-  type: "",
-  contents: "",
-  draw: null
-};
-
 const WritePage = () => {
+  const POST_ID = crypto.randomUUID();
+  const initialData = {
+    id: POST_ID,
+    title: "",
+    date: format(new Date(), "yyyy년 MM월 dd일"),
+    emotion: "",
+    type: "",
+    contents: "",
+    draw: null
+  };
+
   const today = format(new Date(), "yyyy년 MM월 dd일");
   // const router = useRouter();
 

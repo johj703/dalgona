@@ -1,11 +1,12 @@
 "use client";
 import CommonTitle from "@/components/CommonTitle";
+import { CustomAlert } from "@/components/CustomAlert";
 import Modal from "@/components/Modal";
+import callCustomAlert from "@/lib/callCustomAlert";
 import { delDrafts } from "@/lib/drafts/delDrafts";
 import { fetchDrafts } from "@/lib/drafts/fetchDrafts";
 import getLoginUser from "@/lib/getLoginUser";
 import { Diary } from "@/types/library/Diary";
-import { toast } from "garlic-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -14,6 +15,7 @@ const Drafts = () => {
   const [checkList, setCheckList] = useState<string[]>([]);
   const [openClose, setOpenClose] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>("");
+  const [customAlert, setCustomAlert] = useState<{ type: string; text: string; position: string } | null>(null);
 
   const router = useRouter();
 
@@ -41,7 +43,11 @@ const Drafts = () => {
 
   const clickDelete = async () => {
     if (checkList.length === 0) {
-      return toast.alert("불러올 글을 선택해주세요.");
+      return callCustomAlert(customAlert, setCustomAlert, {
+        type: "fail",
+        text: "삭제 할 글을 선택해주세요.",
+        position: "fixed left-1/2 -translate-x-1/2 top-[62px]"
+      });
     }
     setOpenClose(true);
   };
@@ -53,9 +59,17 @@ const Drafts = () => {
 
   const clickLoad = async () => {
     if (checkList.length === 0) {
-      return toast.alert("불러올 글을 선택해주세요.");
+      return callCustomAlert(customAlert, setCustomAlert, {
+        type: "fail",
+        text: "불러올 글을 선택해주세요.",
+        position: "fixed left-1/2 -translate-x-1/2 top-[62px]"
+      });
     } else if (checkList.length > 1) {
-      return toast.alert("하나의 글만 선택해주세요.");
+      return callCustomAlert(customAlert, setCustomAlert, {
+        type: "fail",
+        text: "하나의 글만 선택해주세요.",
+        position: "fixed left-1/2 -translate-x-1/2 top-[62px]"
+      });
     }
 
     router.push(`/diary/drafts/load/${checkList[0]}`);
@@ -106,6 +120,9 @@ const Drafts = () => {
       {openClose && (
         <Modal mainText="삭제하시겠습니까?" setModalState={setOpenClose} isConfirm={true} confirmAction={deleteDraft} />
       )}
+
+      {/* 커스텀 알럿 */}
+      {customAlert! && CustomAlert(customAlert)}
     </div>
   );
 };
