@@ -92,11 +92,25 @@ const Mypage = () => {
         <div className="py-2 px-4">
           <div className="text-base leading-5">내 그림 모아보기</div>
           <ul className="flex gap-4 mt-[11px]">
+            {myDrawing?.length === 0 && (
+              <div className="flex flex-col items-center text-center w-full">
+                <div className="flex items-center justify-center gap-[10px] p-[10px] text-base leading-5">
+                  아직 그림이 없네요! <img src="/icons/facial-expressions.svg" alt="우는 얼굴" />
+                </div>
+                <span className="text-sm leading-normal text-gray04">캔버스가 당신의 하루를 기다리고 있어요!</span>
+                <Link
+                  href={"/diary/write"}
+                  className="flex items-center gap-[10px] mt-[34px] w-fit py-2 px-4 border-black border border-solid rounded-lg bg-white"
+                >
+                  그림 그리러 가기 <img src="/icons/pencil.svg" alt="연필" />
+                </Link>
+              </div>
+            )}
             {myDrawing?.map((draw, idx) => {
               return (
                 <li
                   key={idx}
-                  className="relative flex items-center justify-center w-1/3 aspect-square border border-[#D9D9D9] rounded-2xl overflow-hidden"
+                  className="relative flex items-center justify-center w-1/3 aspect-square border border-[#D9D9D9] rounded-2xl bg-white overflow-hidden"
                 >
                   <img src={draw.draw} alt={`그림${idx}`} className="object-contain" />
 
