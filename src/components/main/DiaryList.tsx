@@ -133,52 +133,56 @@ const DiaryList = () => {
                 <TabPanel>
                   {sortedDiaries?.map((diary) =>
                     diary.draw ? (
-                      <div key={diary.id} className=" border rounded-lg bg-[#FDF7F4] border-black p-4 mb-[10px]">
-                        {diary.draw && (
-                          <>
-                            <h3 className="title self-stretch text-[18px] not-italic font-[400] leading-[24.3px]">
-                              {diary.title}
-                            </h3>
-                            <div className="relative h-[238px] border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden  my-[10px]">
-                              <img src={diary.draw} alt="그림" className="object-cover h-full w-full bg-white" />
-                              <div className="absolute top-[10px] left-[10px] right-[10px] flex justify-between items-center">
-                                <div className="w-[50px] text-sm">
-                                  <p className="today text-center border-b-2">{getDayOfTheWeek(diary.date)}</p>
-                                  <p className="simple-date text-center">
-                                    {getSimpleFullDate(diary.date).substring(2)}
-                                  </p>
-                                </div>
-                                <div>
-                                  <img
-                                    src={getEmoji(diary.emotion, "on")}
-                                    alt={diary.emotion}
-                                    className="w-10 h-10 mt-1"
-                                  />
+                      <Link href={`/diary/read/${diary.id}`} key={diary.id}>
+                        <div key={diary.id} className=" border rounded-lg bg-[#FDF7F4] border-black p-4 mb-[10px]">
+                          {diary.draw && (
+                            <>
+                              <h3 className="title self-stretch text-[18px] not-italic font-[400] leading-[24.3px]">
+                                {diary.title}
+                              </h3>
+                              <div className="relative h-[238px] border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden  my-[10px]">
+                                <img src={diary.draw} alt="그림" className="object-cover h-full w-full bg-white" />
+                                <div className="absolute top-[10px] left-[10px] right-[10px] flex justify-between items-center">
+                                  <div className="w-[50px] text-sm">
+                                    <p className="today text-center border-b-2">{getDayOfTheWeek(diary.date)}</p>
+                                    <p className="simple-date text-center">
+                                      {getSimpleFullDate(diary.date).substring(2)}
+                                    </p>
+                                  </div>
+                                  <div>
+                                    <img
+                                      src={getEmoji(diary.emotion, "on")}
+                                      alt={diary.emotion}
+                                      className="w-10 h-10 mt-1"
+                                    />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </>
-                        )}
+                            </>
+                          )}
 
-                        <p className="text-gray-700 line-clamp-2">{diary.contents}</p>
-                      </div>
+                          <p className="text-gray-700 line-clamp-2">{diary.contents}</p>
+                        </div>
+                      </Link>
                     ) : (
-                      <div
-                        key={diary.id}
-                        className="h-[88px] py-[11px] px-[14px] mb-[16px] border-[1px] rounded-lg border-black bg-[#FDF7F4]"
-                      >
-                        <div className="flex justify-between items-start">
-                          <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px]">
-                            {diary.title}
-                          </p>
-                          <p className="w-12 h-6 text-xs py-1 justify-center items-center inline-flex bg-white border border-black rounded-2xl text-black">
-                            {getMonthKo(diary.date)}
+                      <Link href={`/diary/read/${diary.id}`} key={diary.id}>
+                        <div
+                          key={diary.id}
+                          className="h-[88px] py-[11px] px-[14px] mb-[16px] border-[1px] rounded-lg border-black bg-[#FDF7F4]"
+                        >
+                          <div className="flex justify-between items-start">
+                            <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px]">
+                              {diary.title}
+                            </p>
+                            <p className="w-12 h-6 text-xs py-1 justify-center items-center inline-flex bg-white border border-black rounded-2xl text-black">
+                              {getMonthKo(diary.date)}
+                            </p>
+                          </div>
+                          <p className="mt-[8px] h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[14px] not-italic font-['Dovemayo'] font-medium leading-[21px]">
+                            {diary.contents}
                           </p>
                         </div>
-                        <p className="mt-[8px] h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[14px] not-italic font-['Dovemayo'] font-medium leading-[21px]">
-                          {diary.contents}
-                        </p>
-                      </div>
+                      </Link>
                     )
                   )}
                 </TabPanel>
@@ -186,46 +190,50 @@ const DiaryList = () => {
                 <TabPanel>
                   {sortedDiaries?.map((diary) =>
                     diary.draw ? (
-                      <div
-                        key={diary.id}
-                        className="h-[88px] py-[11px] px-[14px] mb-[16px] border-[1px] rounded-lg border-black flex bg-[#FDF7F4]"
-                      >
-                        <img
-                          src={diary.draw}
-                          width={60}
-                          height={60}
-                          alt="Picture of the author"
-                          className="border-[1px] rounded-lg border-black mr-[16px] bg-white"
-                        />
-                        <div className="w-[222px]">
-                          <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px]">
-                            {diary.title}
-                          </p>
-                          <p className="h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[14px] not-italic font-medium leading-[21px]">
+                      <Link href={`/diary/read/${diary.id}`} key={diary.id}>
+                        <div
+                          key={diary.id}
+                          className="h-[88px] py-[11px] px-[14px] mb-[16px] border-[1px] rounded-lg border-black flex bg-[#FDF7F4]"
+                        >
+                          <img
+                            src={diary.draw}
+                            width={60}
+                            height={60}
+                            alt="Picture of the author"
+                            className="border-[1px] rounded-lg border-black mr-[16px] bg-white"
+                          />
+                          <div className="w-[222px]">
+                            <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px]">
+                              {diary.title}
+                            </p>
+                            <p className="h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[14px] not-italic font-medium leading-[21px]">
+                              {diary.contents}
+                            </p>
+                            <p className="self-stretch text-[12px] not-italic font-medium leading-[18px]">
+                              {getSimpleFullDate(diary.date)}
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    ) : (
+                      <Link href={`/diary/read/${diary.id}`} key={diary.id}>
+                        <div
+                          key={diary.id}
+                          className="h-[88px] py-[11px] px-[14px] mb-[16px] border-[1px] rounded-lg border-black bg-[#FDF7F4]"
+                        >
+                          <div className="flex justify-between items-start">
+                            <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px]">
+                              {diary.title}
+                            </p>
+                            <p className="w-12 h-6 text-xs py-1 justify-center items-center inline-flex bg-white border border-black rounded-2xl text-black">
+                              {getMonthKo(diary.date)}
+                            </p>
+                          </div>
+                          <p className="mt-[8px] h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[14px] not-italic font-medium leading-[21px]">
                             {diary.contents}
                           </p>
-                          <p className="self-stretch text-[12px] not-italic font-medium leading-[18px]">
-                            {getSimpleFullDate(diary.date)}
-                          </p>
                         </div>
-                      </div>
-                    ) : (
-                      <div
-                        key={diary.id}
-                        className="h-[88px] py-[11px] px-[14px] mb-[16px] border-[1px] rounded-lg border-black bg-[#FDF7F4]"
-                      >
-                        <div className="flex justify-between items-start">
-                          <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px]">
-                            {diary.title}
-                          </p>
-                          <p className="w-12 h-6 text-xs py-1 justify-center items-center inline-flex bg-white border border-black rounded-2xl text-black">
-                            {getMonthKo(diary.date)}
-                          </p>
-                        </div>
-                        <p className="mt-[8px] h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[14px] not-italic font-medium leading-[21px]">
-                          {diary.contents}
-                        </p>
-                      </div>
+                      </Link>
                     )
                   )}
                 </TabPanel>
