@@ -47,7 +47,7 @@ export const RenderCells = ({ currentDate, selectedDate, onDateClick }: CellsPro
           onClick={() => onDateClick(cloneDay, userId)}
         >
           <span
-            className={`relative text-sm leading-normal content-none before:content-none group-[.selected]:before:content-[''] before:w-[30px] before:h-[2px] before:bg-[#D84E35] before:absolute before:left-1/2 before:bottom-0 before:-translate-x-1/2 ${
+            className={`relative text-sm leading-normal content-none before:content-none group-[.selected]:before:content-[''] before:w-[30px] before:h-[2px] before:bg-primary before:absolute before:left-1/2 before:bottom-0 before:-translate-x-1/2 ${
               format(currentDate, "M") !== format(day, "M") ? "text not-valid text-[#A6A6A6]" : ""
             }`}
           >
