@@ -99,21 +99,41 @@ const EditProfilePage = () => {
   return (
     <div>
       <h2>내 정보 수정</h2>
+
+      {/* 프로필 이미지와 변경 버튼 */}
       <div>
         <Image src={profileImage} alt="프로필 이미지" width={80} height={80} />
-        <button onClick={() => setProfileImage("/path/to/new/image.png")}>프로필 사진 변경</button>
+
+        {/* 프로필 사진 변경 버튼 */}
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange} // 파일 선택시 상태 업데이트
+          className="mt-2"
+        />
       </div>
 
+      {/* 닉네임 입력 필드 */}
       <div>
         <label>닉네임</label>
-        <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} />
+        <input
+          type="text"
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)} // 입력값 변경시 상태 업데이트
+        />
       </div>
 
+      {/* 생일 입력 필드 */}
       <div>
-        <label>생일</label>
-        <input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
+        <label>생년월일</label>
+        <input
+          type="date"
+          value={birthday}
+          onChange={(e) => setBirthday(e.target.value)} // 입력값 변경시 상태 업데이트
+        />
       </div>
 
+      {/* 성별 선택 버튼 */}
       <div>
         <label>성별</label>
         <div>
@@ -129,6 +149,7 @@ const EditProfilePage = () => {
         </div>
       </div>
 
+      {/* 혈액형 선택 버튼 */}
       <div>
         <label>혈액형</label>
         <div>
@@ -136,7 +157,7 @@ const EditProfilePage = () => {
             <button
               key={type}
               className={`blood-type-button ${bloodType === type ? "selected" : ""}`}
-              onClick={() => setBloodType(type)}
+              onClick={() => setBloodType(type)} // 선택된 혈액형을 설정
             >
               {type}형
             </button>
