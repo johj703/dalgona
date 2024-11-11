@@ -12,6 +12,7 @@ import Navigation from "@/components/Navigation";
 import CommonTitle from "@/components/CommonTitle";
 import { EMOTION_LIST, getEmoji } from "@/utils/diary/getEmoji";
 import getLoginUser from "@/lib/getLoginUser";
+import getGenderIcon from "@/utils/mypage/getGenderIcon";
 
 const DEFAULT_IMAGE = "https://spimvuqwvknjuepojplk.supabase.co/storage/v1/object/public/profile/default_profile.svg";
 
@@ -69,8 +70,8 @@ const Mypage = () => {
             <div className="text-sm leading-tight text-[#AEAEAE]">{userData?.email}</div>
             <div className="flex items-center gap-[10px] p-[2px] font-Dovemayo text-sm leading-normal empty:hidden">
               {userData?.birthday && <span>{userData.birthday}</span>}
-              {userData?.gender && <span>{userData.gender}</span>}
-              {userData?.bloodtype && <span>{userData.bloodtype}</span>}
+              {userData?.gender && <img src={getGenderIcon(userData.gender)} alt={userData.gender} />}
+              {userData?.bloodtype && <span>{userData.bloodtype}형</span>}
             </div>
           </div>
 
