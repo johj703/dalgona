@@ -5,6 +5,7 @@ import DiaryContent from "@/components/library/DiaryContent";
 import { useParams } from "next/navigation";
 import getLoginUser from "@/lib/getLoginUser";
 import CommonTitle from "@/components/CommonTitle";
+import Navigation from "@/components/Navigation";
 
 const MonthDiaryPage: React.FC = () => {
   const { year, month } = useParams();
@@ -47,9 +48,10 @@ const MonthDiaryPage: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col bg-[#FDF7F4] min-h-screen">
+    <div className="flex flex-col bg-[#FDF7F4]">
       <CommonTitle title={`${month}월`} />
       <DiaryContent userId={userId} year={Number(year)} month={Number(month)} />
+      <Navigation />
     </div>
   );
 };

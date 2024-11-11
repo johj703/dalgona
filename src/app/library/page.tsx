@@ -7,6 +7,7 @@ import YearSelector from "@/components/library/YearSelector";
 import DiaryReminder from "@/components/library/DiaryReminder";
 import MonthSelector from "@/components/library/MonthSelector";
 import getLoginUser from "@/lib/getLoginUser";
+import Navigation from "@/components/Navigation";
 
 const LibraryPage: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -81,6 +82,7 @@ const LibraryPage: React.FC = () => {
         )}
         <MonthSelector year={selectedYear} />
       </div>
+      <Navigation />
     </div>
   );
 };
