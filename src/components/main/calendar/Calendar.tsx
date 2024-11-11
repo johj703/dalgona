@@ -141,7 +141,7 @@ export default function Calendar(): JSX.Element {
             전체기간
           </button>
         </div>
-        <div className="calendar w-[356px] h-[420px] my-[8px] mx-[16px] px-[16px] pb-[4px] border-[1px] border-black rounded-lg bg-[#EFE6DE] flex flex-col justify-center items-center gap-[2px]">
+        <div className="calendar w-[calc(100%-32px)] h-[420px] my-[8px] mx-[16px] px-[16px] pb-[4px] border-[1px] border-black rounded-lg bg-[#EFE6DE] flex flex-col justify-center items-center gap-[2px]">
           <RenderHeader currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
           <RenderDays />
           <RenderCells

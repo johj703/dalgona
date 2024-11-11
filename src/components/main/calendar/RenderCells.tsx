@@ -57,12 +57,18 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
           onClick={() => onDateClick(cloneDay, userId)}
         >
           {emotionDate ? (
-            <div className="emotion flex flex-col justify-center items-center self-stretch">
+            <div
+              className={
+                format(day, "M") === todayMonth && format(day, "d") === todayDate
+                  ? "emotion flex flex-col justify-center items-center self-stretch border-[2px] border-[#D84E35] rounded-full"
+                  : "emotion flex flex-col justify-center items-center self-stretch"
+              }
+            >
               <img src={getEmoji(emotionDate.emotion, "on")} alt={emotionDate.emotion} className="h-[30px]" />
             </div>
           ) : (
             <div>
-              <Image src={defaultEmotion} width={30} height={30} alt="Picture of the author" />
+              <Image src={defaultEmotion} width={30} height={30} alt="defaultEmotion" />
             </div>
           )}
           <div
@@ -70,7 +76,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
               format(currentDate, "M") !== format(day, "M")
                 ? "text not-valid h-[30px] p-[10px] flex flex-col justify-center items-center gap-[10px] self-stretch"
                 : format(day, "M") === todayMonth && format(day, "d") === todayDate
-                ? "today  h-[30px] p-[10px]  flex flex-col justify-center items-center gap-[10px] self-stretch"
+                ? "today h-[30px] p-[10px]  flex flex-col justify-center items-center gap-[10px] self-stretch text-[#D84E35]"
                 : "h-[30px] p-[10px] flex flex-col justify-center items-center gap-[10px] self-stretch"
             }
           >

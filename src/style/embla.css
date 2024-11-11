@@ -35,7 +35,7 @@
 .embla__controls {
   position: absolute;
   bottom: 10px;
-  left: 170px;
+  left: 43%;
   display: grid;
   justify-items: center;
   gap: 1.2rem;
