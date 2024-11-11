@@ -4,34 +4,55 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import browserClient from "@/utils/supabase/client";
 import { Diary } from "@/types/library/Diary";
-import { useRouter } from "next/navigation";
+import getLoginUser from "@/lib/getLoginUser"; // 로그인한 사용자 정보를 가져오는 함수
+import CommonTitle from "@/components/CommonTitle";
 
 const GalleryPage = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const diaryId = searchParams ? searchParams.get("id") : null; // URL에서 ID 가져오기
   const [diaryEntries, setDiaryEntries] = useState<Diary[]>([]);
   const [mainEntry, setMainEntry] = useState<Diary | null>(null);
   const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState<string>("");
+
+  // 로그인한 사용자의 ID를 가져오는 함수
+  const getUserId = async () => {
+    const data = await getLoginUser();
+    if (data) {
+      setUserId(data.id); // 로그인한 사용자 ID를 상태에 설정
+    } else {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getUserId(); // getUserId 실행 후 userId 상태 업데이트
+  }, []);
 
   useEffect(() => {
     const fetchDiaries = async () => {
-      const { data, error } = await browserClient.from("diary").select("*").order("date", { ascending: true }); // 날짜순으로 정렬
+      if (userId) {
+        const { data, error } = await browserClient
+          .from("diary")
+          .select("*")
+          .eq("user_id", userId)
+          .order("date", { ascending: true });
 
-      if (error) {
-        console.error("다이어리 항목 가져오기 실패 =>", error);
-      } else if (data) {
-        setDiaryEntries(data);
-        if (diaryId) {
-          const currentEntry = data.find((entry) => entry.id === diaryId);
-          setMainEntry(currentEntry || null);
+        if (error) {
+          console.error("다이어리 항목 가져오기 실패 =>", error);
+        } else if (data) {
+          setDiaryEntries(data);
+          if (diaryId) {
+            const currentEntry = data.find((entry) => entry.id === diaryId);
+            setMainEntry(currentEntry || null);
+          }
         }
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchDiaries();
-  }, [diaryId]);
+  }, [diaryId, userId]); // userId가 변경될 때마다 실행
 
   const handleSwipeSelect = (entry: Diary) => {
     setMainEntry(entry); // 이미지를 클릭했을 때 메인 이미지로 설정
@@ -39,12 +60,7 @@ const GalleryPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#FDF7F4]">
-      <div className="flex p-4">
-        <button onClick={() => router.back()} className="text-black">
-          <img src="/icons/arrow-left.svg" alt="Arrow Left" className="w-4 h-4 relative" />
-        </button>
-        <p className="text-xl font-bold flex-grow text-center">내 그림 모아보기</p>
-      </div>
+      <CommonTitle title="내 그림 모아보기" />
 
       {loading ? (
         <span>로딩 중...</span>

@@ -6,6 +6,7 @@ import useClientSize from "@/hooks/useClientSize";
 import { LineCustom } from "@/types/LineCustom";
 import { DrawProps } from "@/types/Canvas";
 import Pallete from "./Pallete";
+import { iconOnOff } from "@/utils/diary/iconOnOff";
 
 const initialCustom = {
   lineWidth: "7",
@@ -30,7 +31,7 @@ const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) 
   };
 
   return (
-    <div className="fixed top-0 left-0 flex flex-col h-screen w-full z-10 bg-white">
+    <div className="fixed top-0 left-0 flex flex-col h-dvh w-full z-10 bg-white">
       <div className="h-[100px] bg-background01 rounded-br-2xl rounded-bl-2xl overflow-hidden">
         <div className="flex items-center justify-between text-base py-1 px-4">
           <div onClick={() => setGoDraw(false)} className="flex items-center w-11 h-11">
@@ -64,6 +65,7 @@ const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) 
           pathMode={pathMode}
           setPathMode={setPathMode}
           tool={tool}
+          setTool={setTool}
           fileRef={fileRef.current}
           setFormData={setFormData}
           setGoDraw={setGoDraw}
@@ -78,7 +80,11 @@ const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) 
             setTool("pen");
           }}
         >
-          {tool === "pen" ? <img src="/icons/pen-on.svg" alt="펜 on" /> : <img src="/icons/pen-off.svg" alt="펜 off" />}
+          {tool === "pen" ? (
+            <img src={iconOnOff("pen", "on")} alt="펜 on" />
+          ) : (
+            <img src={iconOnOff("pen", "off")} alt="펜 off" />
+          )}
         </button>
 
         <button
@@ -87,19 +93,19 @@ const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) 
           }}
         >
           {tool === "eraser" ? (
-            <img src="/icons/eraser-on.svg" alt="지우개 on" />
+            <img src={iconOnOff("eraser", "on")} alt="지우개 on" />
           ) : (
-            <img src="/icons/eraser-off.svg" alt="지우개 off" />
+            <img src={iconOnOff("eraser", "off")} alt="지우개 off" />
           )}
         </button>
 
-        <button onClick={() => setTool("paint")}>채우기</button>
+        {/* <button onClick={() => setTool("paint")}>채우기</button> */}
 
         <button onClick={() => setTool("pallete")}>
           {tool === "pallete" ? (
-            <img src="/icons/pallete-on.svg" alt="팔레트 on" />
+            <img src={iconOnOff("pallete", "on")} alt="팔레트 on" />
           ) : (
-            <img src="/icons/pallete-off.svg" alt="팔레트 off" />
+            <img src={iconOnOff("pallete", "off")} alt="팔레트 off" />
           )}
         </button>
 

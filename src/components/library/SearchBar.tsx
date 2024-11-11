@@ -3,7 +3,7 @@ import React from "react";
 import { SearchBarProps } from "@/types/library/Diary";
 
 const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, setSearchTerm }) => (
-  <div className="relative mb-4">
+  <div className="relative">
     <img
       src="/icons/search-icon.svg"
       alt="Search Icon"
@@ -14,7 +14,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, setSearchTerm }) => (
       placeholder="일기를 검색해주세요"
       value={searchTerm}
       onChange={(e) => setSearchTerm(e.target.value)}
-      className="border rounded-lg p-2 pl-10 w-full bg-[#f2f2f2] text-gray-600 placeholder-gray-400"
+      className="border border-[#A6A6A6] rounded-lg p-2 pl-10 w-full bg-white text-[#A6A6A6] placeholder-gray-400"
     />
   </div>
 );

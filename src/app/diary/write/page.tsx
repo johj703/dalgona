@@ -1,27 +1,12 @@
-"use client";
+import WritePage from "@/components/diary/WritePage";
+import { Metadata } from "next";
 
-import { format } from "date-fns";
-
-import Form from "@/components/diary/Form";
-import TopButton from "@/components/main/TopButton";
-
-const POST_ID = crypto.randomUUID();
+export const metadata: Metadata = {
+  title: "글작성 페이지",
+  description: "달별로 모아보는 고즈넉한 나의 일기"
+};
 
 const Write = () => {
-  const initialData = {
-    id: POST_ID,
-    title: "",
-    date: format(new Date(), "yyyy년 MM월 dd일"),
-    emotion: "",
-    type: "",
-    contents: "",
-    draw: null
-  };
-  return (
-    <>
-      <TopButton />
-      <Form POST_ID={POST_ID} initialData={initialData} />
-    </>
-  );
+  return <WritePage />;
 };
 export default Write;

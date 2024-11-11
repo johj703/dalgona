@@ -27,6 +27,19 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "LeferiBaseType-RegularA";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiBaseType-RegularA.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
 
 body {
   color: var(--foreground);
@@ -40,6 +53,12 @@ body {
 
 @layer components {
   .button-144-48 {
-    @apply flex items-center justify-center w-36 h-12 rounded-lg bg-[#BF452F] text-[14px] font-semibold text-white;
+    @apply flex items-center justify-center w-36 h-12 rounded-lg bg-primary text-base leading-normal text-white;
+  }
+  .label {
+    @apply text-sm leading-[1.35] text-gray05;
+  }
+  .input {
+    @apply w-full h-14 p-4 text-base text-gray05 placeholder:text-gray04 rounded-lg border-2 border-solid border-gray04;
   }
 }

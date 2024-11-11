@@ -2,7 +2,7 @@
 
 import drawImage from "@/lib/drawImage";
 import getRatio from "@/lib/getRatio";
-import { convertHexToRgba, floodFill } from "@/lib/paint";
+//import { convertHexToRgba, floodFill } from "@/lib/paint";
 import redo from "@/lib/redo";
 import reDraw from "@/lib/reDraw";
 import setCanvasContext from "@/lib/setCanvasContext";
@@ -10,8 +10,8 @@ import undo from "@/lib/undo";
 import { CanvasProps } from "@/types/Canvas";
 import browserClient from "@/utils/supabase/client";
 import { decode } from "base64-arraybuffer";
-import { toast } from "garlic-toast";
 import { RefObject, useEffect, useRef, useState } from "react";
+import Modal from "../Modal";
 
 const Canvas = ({
   canvasWidth,
@@ -21,6 +21,7 @@ const Canvas = ({
   pathMode,
   setPathMode,
   tool,
+  setTool,
   fileRef,
   setFormData,
   formData,
@@ -34,6 +35,7 @@ const Canvas = ({
   const [pathHistory, setPathHistory] = useState<string[]>([]);
   const [pathStep, setPathStep] = useState<number>(-1);
   const [pos, setPos] = useState<number[]>([]);
+  const [openClose, setOpenClose] = useState<boolean>(false);
 
   // 캔버스 세팅
   useEffect(() => {
@@ -48,6 +50,11 @@ const Canvas = ({
     };
 
     setCanvas();
+
+    if (pathHistory.length === 0 && ctx) {
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    }
 
     if (pathHistory.length !== 0 && canvas && canvasContext) {
       reDraw({ pathHistory, canvas, canvasContext, pathStep });
@@ -119,25 +126,24 @@ const Canvas = ({
         };
         uploadImage();
       } else if (pathMode === "reset") {
-        toast
-          .confirm("정말 초기화하시겠습니까?", {
-            confirmBtn: "확인",
-            cancleBtn: "취소",
-            confirmBtnColor: "#0000ff",
-            cancleBtnColor: "#ff0000"
-          })
-          .then(async (isConfirm) => {
-            if (isConfirm) {
-              ctx.reset();
-              const canvasCtx = setCanvasContext({ canvas, canvasContext: ctx, canvasWidth, canvasHeight });
-              setCtx(canvasCtx);
-              setPathHistory([]);
-              setPathStep(-1);
-            }
-          });
+        setOpenClose(true);
       }
     }
   }, [pathMode]);
+
+  const resetCanvas = async () => {
+    const canvas = canvasRef.current;
+
+    if (canvas && ctx) {
+      ctx.reset();
+      const canvasCtx = setCanvasContext({ canvas, canvasContext: ctx, canvasWidth, canvasHeight });
+      setCtx(canvasCtx);
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+      setPathHistory([]);
+      setPathStep(-1);
+    }
+  };
 
   // 그리기
   const drawFn = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -189,37 +195,49 @@ const Canvas = ({
     setPathStep(pathStep + 1);
   };
 
-  const paintCanvas = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    const curPos = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
-    if (!curPos) return;
-    const currentColor = convertHexToRgba(lineCustom.lineColor);
-    floodFill(curPos.x, curPos.y, currentColor, ctx);
-  };
+  // const paintCanvas = (e: React.PointerEvent<HTMLCanvasElement>) => {
+  //   const curPos = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
+  //   if (!curPos) return;
+  //   const currentColor = convertHexToRgba(lineCustom.lineColor);
+  //   floodFill(curPos.x, curPos.y, currentColor, ctx);
+  // };
 
   return (
-    <canvas
-      ref={canvasRef}
-      onPointerDown={(e) => {
-        if (tool === "paint") {
-          paintCanvas(e);
-        } else {
+    <>
+      <canvas
+        ref={canvasRef}
+        onPointerDown={(e) => {
+          if (tool === "pallete") {
+            setTool("pen");
+          }
+
           setPainting(true);
           setPos([e.nativeEvent.offsetX, e.nativeEvent.offsetY]);
-        }
-      }}
-      onPointerUp={() => {
-        setPainting(false);
-        saveHistory();
-      }}
-      onPointerMove={(e) => {
-        drawFn(e);
-        drawSquare(e);
-      }}
-      onPointerLeave={() => {
-        setPainting(false);
-      }}
-      className="bg-white touch-none"
-    />
+        }}
+        onPointerUp={() => {
+          setPainting(false);
+          saveHistory();
+        }}
+        onPointerMove={(e) => {
+          drawFn(e);
+          drawSquare(e);
+        }}
+        onPointerLeave={() => {
+          setPainting(false);
+        }}
+        className="bg-white touch-none"
+      />
+
+      {openClose && (
+        <Modal
+          mainText="작업중인 그림을 초기화하시겠습니까?"
+          subText="초기화 후에는 복구할 수 없습니다."
+          setModalState={setOpenClose}
+          isConfirm={true}
+          confirmAction={resetCanvas}
+        />
+      )}
+    </>
   );
 };
 export default Canvas;

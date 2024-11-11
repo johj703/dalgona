@@ -1,11 +1,11 @@
 .embla {
+  position: relative;
+  padding: 8px 16px;
   max-width: 48rem;
   margin: auto;
   --slide-height: 5rem;
   --slide-spacing: 1rem;
   --slide-size: 100%;
-  border: 1px solid #cccbc8;
-  margin-bottom: 20px;
 }
 .embla__viewport {
   overflow: hidden;
@@ -29,15 +29,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: var(--slide-height);
+  height: 110px;
   user-select: none;
 }
 .embla__controls {
+  position: absolute;
+  bottom: 10px;
+  left: 170px;
   display: grid;
-  grid-template-columns: auto 1fr;
-  justify-content: space-between;
+  justify-items: center;
   gap: 1.2rem;
-  margin-top: 1.8rem;
 }
 .embla__dots {
   display: flex;
@@ -58,18 +59,18 @@
   border: 0;
   padding: 0;
   margin: 10px;
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 8px;
+  height: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 1px solid #cccbc8;
+  border: 1px solid #a63c29;
 }
 .embla__dot:after {
   box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
-  width: 1.4rem;
-  height: 1.4rem;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -77,4 +78,5 @@
 }
 .embla__dot--selected:after {
   box-shadow: inset 0 0 0 0.2rem var(--text-body);
+  background-color: #a63c29;
 }

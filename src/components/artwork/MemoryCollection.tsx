@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import browserClient from "@/utils/supabase/client";
-import { Diary } from "@/types/library/Diary";
+import { Diary, MemoryCollectionProps } from "@/types/library/Diary";
 import { useRouter } from "next/navigation";
 
-const MemoryCollection: React.FC = () => {
+const MemoryCollection: React.FC<MemoryCollectionProps> = ({ userId }) => {
   const [selectedEntries, setSelectedEntries] = useState<Diary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +14,11 @@ const MemoryCollection: React.FC = () => {
   useEffect(() => {
     const fetchAllArtworks = async () => {
       try {
-        const { data, error } = await browserClient.from("diary").select("*").not("draw", "is", null);
+        const { data, error } = await browserClient
+          .from("diary")
+          .select("*")
+          .not("draw", "is", null)
+          .eq("user_id", userId); // 로그인한 사용자 ID에 맞는 데이터만 필터링
 
         if (error) {
           throw new Error("그림 가져오기 실패");
@@ -34,7 +38,7 @@ const MemoryCollection: React.FC = () => {
     };
 
     fetchAllArtworks();
-  }, []);
+  }, [userId]); // userId가 변경될 때마다 호출
 
   return (
     <div className="bg-[#FDF7F4] rounded-lg shadow-md p-4">
@@ -62,7 +66,7 @@ const MemoryCollection: React.FC = () => {
               {diary.draw ? (
                 <img
                   src={diary.draw}
-                  className="object-cover w-full h-40 border border-[#D9D9D9] rounded-lg"
+                  className="object-cover w-full h-40 border bg-white border-[#D9D9D9] rounded-lg"
                   alt={`Artwork ${diary.id}`}
                 />
               ) : (
