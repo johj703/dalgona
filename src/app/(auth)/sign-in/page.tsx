@@ -71,15 +71,13 @@ export default function SignInPage() {
         {errorMessage && <p className="text-center text-red-500 mb-4">{errorMessage}</p>}
 
         {/* 로그인 폼 */}
-        <form onSubmit={handleSignIn} className="space-y-4">
+        <form onSubmit={handleSignIn} className="space-y-4 mt-5">
           {/* 이메일 입력 */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium">
-              이메일:
-            </label>
             <input
               type="email"
               id="email"
+              placeholder="이메일"
               value={email}
               onChange={(e) => setEamil(e.target.value)}
               required
@@ -89,12 +87,10 @@ export default function SignInPage() {
 
           {/* 비밀번호 입력 */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium">
-              비밀번호:
-            </label>
             <input
               type="password"
               id="password"
+              placeholder="비밀번호"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
