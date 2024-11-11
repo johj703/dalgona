@@ -109,7 +109,7 @@ export default function SignInPage() {
           </div>
         </form>
 
-        <div className="flex justify-between text-sm mt-4">
+        <div className="flex justify-center text-sm mt-4">
           {/* <a href="#" className="hover:underline">
             아이디 찾기
           </a>
