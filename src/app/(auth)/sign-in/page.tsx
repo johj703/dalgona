@@ -49,6 +49,7 @@ export default function SignInPage() {
     }
   };
 
+  // sign-up 페이지로 이동하는 함수
   const handleSignUp = () => {
     router.push("/sign-up");
   };
