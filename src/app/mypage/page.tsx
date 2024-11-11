@@ -12,6 +12,7 @@ import Navigation from "@/components/Navigation";
 import CommonTitle from "@/components/CommonTitle";
 import { EMOTION_LIST, getEmoji } from "@/utils/diary/getEmoji";
 import getLoginUser from "@/lib/getLoginUser";
+import getGenderIcon from "@/utils/mypage/getGenderIcon";
 
 const DEFAULT_IMAGE = "https://spimvuqwvknjuepojplk.supabase.co/storage/v1/object/public/profile/default_profile.svg";
 
@@ -19,6 +20,7 @@ const Mypage = () => {
   const [userData, setUserData] = useState<UserData>();
   const [monthlyData, setMonthlyData] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0]);
   const [myDrawing, setMyDrawing] = useState<{ draw: string }[]>();
+  const [myDrawingCount, setMyDrawingCount] = useState<number>(0);
   const [userId, setUserId] = useState<string>("");
   const router = useRouter();
 
@@ -39,7 +41,10 @@ const Mypage = () => {
     setUserData(UserData);
 
     if (MonthlyData) setMonthlyData(MonthlyData);
-    if (MyDrawing) setMyDrawing(MyDrawing);
+    if (MyDrawing) {
+      setMyDrawing(MyDrawing.data!);
+      setMyDrawingCount(MyDrawing.count!);
+    }
   };
   useEffect(() => {
     getData();
@@ -65,8 +70,8 @@ const Mypage = () => {
             <div className="text-sm leading-tight text-[#AEAEAE]">{userData?.email}</div>
             <div className="flex items-center gap-[10px] p-[2px] font-Dovemayo text-sm leading-normal empty:hidden">
               {userData?.birthday && <span>{userData.birthday}</span>}
-              {userData?.gender && <span>{userData.gender}</span>}
-              {userData?.bloodtype && <span>{userData.bloodtype}</span>}
+              {userData?.gender && <img src={getGenderIcon(userData.gender)} alt={userData.gender} />}
+              {userData?.bloodtype && <span>{userData.bloodtype}형</span>}
             </div>
           </div>
 
@@ -93,14 +98,28 @@ const Mypage = () => {
 
         <div className="py-2 px-4">
           <div className="text-base leading-5">내 그림 모아보기</div>
-          <Link href="/mypage/artwork"></Link>
           <ul className="flex gap-4 mt-[11px]">
             {myDrawing?.map((draw, idx) => {
               return (
-                <li key={idx} className="w-1/3 border border-[#D9D9D9] rounded-2xl overflow-hidden">
-                  <span className="flex items-center justify-center w-full h-0 py-[50%] bg-white">
-                    <img src={draw.draw} alt={`그림${idx}`} className="object-contain" />
-                  </span>
+                <li
+                  key={idx}
+                  className="relative flex items-center justify-center w-1/3 aspect-square border border-[#D9D9D9] rounded-2xl overflow-hidden"
+                >
+                  <img src={draw.draw} alt={`그림${idx}`} className="object-contain" />
+
+                  {idx === myDrawing.length - 1 && (
+                    <Link
+                      href="/mypage/artwork"
+                      className="absolute top-0 left-0 flex items-end justify-end w-full h-full bg-gray01 bg-opacity-[0.63] px-[10px] py-[2px] text-sm leading-normal text-[#999999]"
+                    >
+                      {myDrawingCount > myDrawing.length && (
+                        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-base leading-normal">
+                          +{myDrawingCount - myDrawing.length}
+                        </span>
+                      )}
+                      더보기
+                    </Link>
+                  )}
                 </li>
               );
             })}
@@ -108,7 +127,7 @@ const Mypage = () => {
         </div>
 
         <button
-          className="flex items-center justify-center mt-[21px] mx-auto w-[130px] h-10 border border-[#D84E35] text-[#D84E35] rounded-lg bg-white text-sm leading-none"
+          className="flex items-center justify-center mt-[21px] mx-auto w-[130px] h-10 border border-primary text-primary rounded-lg bg-white text-sm leading-none"
           onClick={async () => {
             await supabase.auth.signOut();
 

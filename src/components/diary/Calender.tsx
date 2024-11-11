@@ -61,7 +61,7 @@ const Calender = ({ formData, setFormData, setOpenCalender }: CalenderProps) => 
   return (
     <>
       <div className="fixed top-0 bottom-0 right-0 left-0 bg-black opacity-70"></div>
-      <div className="fixed top-1/2 left-0 -translate-y-1/2 w-full p-[18px] pb-6 bg-white rounded-lg border border-black">
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[390px] w-full p-[18px] pb-6 bg-white rounded-lg border border-black">
         <div className="p-[10px] text-center text-base leading-[1.35] mb-[6px]">날짜 선택</div>
         <div className="p-4 pb-12 border border-black rounded-lg bg-background01">
           <RenderHeader currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
@@ -76,13 +76,13 @@ const Calender = ({ formData, setFormData, setOpenCalender }: CalenderProps) => 
 
         <div className="mt-[26px] flex justify-center gap-4">
           <button
-            className="flex items-center justify-center w-[144px] h-[53px] border border-[#D84E35] rounded-lg text-base leading-normal bg-white text-[#D84E35]"
+            className="flex items-center justify-center w-[144px] h-[53px] border border-primary rounded-lg text-base leading-normal bg-white text-primary"
             onClick={() => setOpenCalender(false)}
           >
             뒤로가기
           </button>
           <button
-            className="flex items-center justify-center w-[144px] h-[53px] border border-[#D84E35] rounded-lg text-base leading-normal bg-[#D84E35] text-white"
+            className="flex items-center justify-center w-[144px] h-[53px] border border-primary rounded-lg text-base leading-normal bg-primary text-white"
             onClick={() => {
               if (formatClickDate) setFormData({ ...formData, date: formatClickDate });
               setOpenCalender(false);

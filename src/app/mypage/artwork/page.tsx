@@ -5,6 +5,7 @@ import MyArtwork from "@/components/artwork/MyArtwork";
 import MonthlyArtwork from "@/components/artwork/MonthlyArtwork";
 import MemoryCollection from "@/components/artwork/MemoryCollection";
 import getLoginUser from "@/lib/getLoginUser";
+import Navigation from "@/components/Navigation";
 
 const ArtworkPage: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -29,6 +30,7 @@ const ArtworkPage: React.FC = () => {
       <MyArtwork userId={userId} />
       <MonthlyArtwork userId={userId} />
       <MemoryCollection userId={userId} />
+      <Navigation />
     </div>
   );
 };

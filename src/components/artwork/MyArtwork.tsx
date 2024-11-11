@@ -129,13 +129,15 @@ const MyArtwork: React.FC<MyArtworkProps> = ({ userId }) => {
             </div>
           </div>
         ) : (
-          !loading && <span className="text-2xl text-white">슬라이더 콘텐츠</span>
+          !loading && (
+            <span className="flex items-center justify-center w-full h-48 text-gray-500">슬라이더 콘텐츠</span>
+          )
         )}
 
         {/* 보러가기 버튼 */}
         <button
           onClick={handleViewGallery}
-          className="absolute bottom-12 right-4 bg-[#D9D9D9] text-black text-sm px-4 py-2 rounded-full"
+          className="absolute bottom-12 right-4  bg-background02 border border-gray02 text-black text-sm px-4 py-2 rounded-full"
         >
           보러가기
         </button>

@@ -1,55 +1,12 @@
-"use client";
+import WritePage from "@/components/diary/WritePage";
+import { Metadata } from "next";
 
-import { format } from "date-fns";
-
-import Form from "@/components/diary/Form";
-import { useEffect } from "react";
-// import { useRouter } from "next/navigation";
-import getLoginUser from "@/lib/getLoginUser";
-import browserClient from "@/utils/supabase/client";
-import TopButton from "@/components/TopButton";
-
-const POST_ID = crypto.randomUUID();
-const initialData = {
-  id: POST_ID,
-  title: "",
-  date: format(new Date(), "yyyy년 MM월 dd일"),
-  emotion: "",
-  type: "",
-  contents: "",
-  draw: null
+export const metadata: Metadata = {
+  title: "글작성 페이지",
+  description: "달별로 모아보는 고즈넉한 나의 일기"
 };
 
 const Write = () => {
-  const today = format(new Date(), "yyyy년 MM월 dd일");
-  // const router = useRouter();
-
-  const getUserId = async () => {
-    const data = await getLoginUser();
-    if (!data) return false;
-
-    const { count, error } = await browserClient
-      .from("diary")
-      .select("*", { count: "exact" })
-      .match({ user_id: data.id, date: today });
-
-    if (error) return console.error(error);
-
-    if (count !== 0) {
-      // alert("이미 오늘 일기를 작성하셨습니다");
-      // return router.push("/main");
-    }
-  };
-
-  useEffect(() => {
-    getUserId();
-  }, []);
-
-  return (
-    <>
-      <TopButton />
-      <Form POST_ID={POST_ID} initialData={initialData} />
-    </>
-  );
+  return <WritePage />;
 };
 export default Write;

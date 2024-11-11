@@ -4,7 +4,7 @@ import React from "react";
 
 const RenderHeader = ({ currentDate, prevMonth, nextMonth }: HeaderProps) => {
   return (
-    <div className="flex justify-between gap-[98px]">
+    <div className="flex justify-between w-[100%]">
       <img
         src="/icons/keyboard-arrow-left.svg"
         width={17}

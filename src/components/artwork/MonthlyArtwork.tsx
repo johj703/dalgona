@@ -47,10 +47,12 @@ const MonthlyArtwork: React.FC<MonthlyArtworkProps> = ({ userId }) => {
   return (
     <div className="bg-[#FDF7F4] p-4">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-normal font-['Dovemayo_gothic]">이번 달 모음</h2>
-        <button onClick={handleViewAllClick} className="text-lg text-[#18778c] hover:underline">
-          전체 보기
-        </button>
+        <h2 className="text-xl font-normal">이번 달 모음</h2>
+        {diaryEntries.length >= 3 && (
+          <button onClick={handleViewAllClick} className="text-lg text-[#18778c] hover:underline">
+            전체 보기
+          </button>
+        )}
       </div>
 
       <div className="relative overflow-x-auto flex rounded-lg">

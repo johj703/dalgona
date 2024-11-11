@@ -8,7 +8,7 @@ export const ChangeDateForm = (date: string) => {
 
   return (
     <>
-      <div className="text-[22px] leading-5">
+      <div className="text-[22px] leading-5 text-utility03">
         {Year}. {Month}
       </div>
       <div className="text-[46px] leading-10 text-[#BB433E]">{Day}</div>

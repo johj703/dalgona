@@ -1,12 +1,12 @@
 "use client";
 
-import drawImage from "@/lib/drawImage";
-import getRatio from "@/lib/getRatio";
+import drawImage from "@/lib/diary/drawImage";
+import getRatio from "@/lib/diary/getRatio";
 //import { convertHexToRgba, floodFill } from "@/lib/paint";
-import redo from "@/lib/redo";
-import reDraw from "@/lib/reDraw";
-import setCanvasContext from "@/lib/setCanvasContext";
-import undo from "@/lib/undo";
+import redo from "@/lib/diary/redo";
+import reDraw from "@/lib/diary/reDraw";
+import setCanvasContext from "@/lib/diary/setCanvasContext";
+import undo from "@/lib/diary/undo";
 import { CanvasProps } from "@/types/Canvas";
 import browserClient from "@/utils/supabase/client";
 import { decode } from "base64-arraybuffer";
@@ -50,6 +50,11 @@ const Canvas = ({
     };
 
     setCanvas();
+
+    if (pathHistory.length === 0 && ctx) {
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    }
 
     if (pathHistory.length !== 0 && canvas && canvasContext) {
       reDraw({ pathHistory, canvas, canvasContext, pathStep });
@@ -133,6 +138,8 @@ const Canvas = ({
       ctx.reset();
       const canvasCtx = setCanvasContext({ canvas, canvasContext: ctx, canvasWidth, canvasHeight });
       setCtx(canvasCtx);
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
       setPathHistory([]);
       setPathStep(-1);
     }

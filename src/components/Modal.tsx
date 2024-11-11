@@ -20,7 +20,7 @@ const Modal = ({ mainText, subText, isConfirm, setModalState, confirmAction }: M
   return (
     <>
       <div className="fixed top-0 bottom-0 right-0 left-0 bg-black opacity-70"></div>
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-48px)] bg-white rounded-lg">
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[316px] w-[calc(100%-48px)] bg-white rounded-lg">
         <div className="flex flex-col items-center gap-2 text-center p-4">
           <div className="text-lg leading-[1.35]">{mainText}</div>
           {subText && <div className="font-Dovemayo text-base leading-normal break-keep">{subText}</div>}
@@ -38,7 +38,7 @@ const Modal = ({ mainText, subText, isConfirm, setModalState, confirmAction }: M
             </>
           ) : (
             <button
-              className="w-full text-lg leading-[1.35] text-white rounded-lg bg-pribary "
+              className="w-full text-lg leading-[1.35] text-white rounded-lg bg-primary "
               onClick={() => clickCancelButton()}
             >
               확인

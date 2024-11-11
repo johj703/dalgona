@@ -57,12 +57,18 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
           onClick={() => onDateClick(cloneDay, userId)}
         >
           {emotionDate ? (
-            <div className="emotion flex flex-col justify-center items-center self-stretch">
+            <div
+              className={
+                format(day, "M") === todayMonth && format(day, "d") === todayDate
+                  ? "emotion flex flex-col justify-center items-center self-stretch border-[2px] border-[#D84E35] rounded-full"
+                  : "emotion flex flex-col justify-center items-center self-stretch"
+              }
+            >
               <img src={getEmoji(emotionDate.emotion, "on")} alt={emotionDate.emotion} className="h-[30px]" />
             </div>
           ) : (
             <div>
-              <Image src={defaultEmotion} width={30} height={30} alt="Picture of the author" />
+              <Image src={defaultEmotion} width={30} height={30} alt="defaultEmotion" />
             </div>
           )}
           <div
@@ -70,7 +76,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
               format(currentDate, "M") !== format(day, "M")
                 ? "text not-valid h-[30px] p-[10px] flex flex-col justify-center items-center gap-[10px] self-stretch"
                 : format(day, "M") === todayMonth && format(day, "d") === todayDate
-                ? "today  h-[30px] p-[10px]  flex flex-col justify-center items-center gap-[10px] self-stretch"
+                ? "today h-[30px] p-[10px]  flex flex-col justify-center items-center gap-[10px] self-stretch text-[#D84E35]"
                 : "h-[30px] p-[10px] flex flex-col justify-center items-center gap-[10px] self-stretch"
             }
           >
@@ -83,7 +89,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
 
     //일주일 단위로 날짜 셀(days)을 하나의 행(row)으로 묶어 추가
     rows.push(
-      <div className="flex w-[325px] justify-center items-center gap-[12px]" key={day.toString()}>
+      <div className="flex justify-between items-center w-[100%] px-[5px]" key={day.toString()}>
         {days}
       </div>
     );
@@ -91,7 +97,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
     days = [];
   }
 
-  return <div className="body">{rows}</div>;
+  return <div className="body w-[100%]">{rows}</div>;
 };
 
 export default RenderCells;
