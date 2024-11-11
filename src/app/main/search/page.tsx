@@ -5,7 +5,6 @@ import { getDayOfTheWeek, getSimpleFullDate } from "@/utils/calendar/dateFormat"
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-//TODO - 일기 클릭하면 상세로 이동
 //TODO - 최근검색어..?
 
 const SearchPage = () => {

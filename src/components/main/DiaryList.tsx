@@ -134,7 +134,7 @@ const DiaryList = () => {
                   {sortedDiaries?.map((diary) =>
                     diary.draw ? (
                       <Link href={`/diary/read/${diary.id}`} key={diary.id}>
-                        <div key={diary.id} className=" border rounded-lg bg-[#FDF7F4] border-black p-4 mb-[10px]">
+                        <div key={diary.id} className=" border rounded-lg bg-[#FDF7F4] border-black p-4 mb-[16px]">
                           {diary.draw && (
                             <>
                               <h3 className="title self-stretch text-[18px] not-italic font-[400] leading-[24.3px]">
@@ -244,7 +244,7 @@ const DiaryList = () => {
         </div>
       ) : (
         <div className="flex py-[8px] px-[16px] items-center gap-[10px] self-stretch">
-          <div className="flex w-full h-[468px] py-[159px] px-[67px] flex-col items-center gap-[10px] border-2 rounded-2xl border-black bg-[#EFE6DE]">
+          <div className="flex w-full h-[468px] py-[159px] flex-col items-center gap-[10px] border-2 rounded-2xl border-black bg-[#EFE6DE]">
             <div className="flex flex-col justify-center items-center gap-[23px]">
               <div>
                 <Link href={"/diary/write"}>
