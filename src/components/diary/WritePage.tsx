@@ -20,7 +20,7 @@ const WritePage = () => {
     contents: "",
     draw: null
   };
-  console.log("POST_ID => ", POST_ID);
+
   const today = format(new Date(), "yyyy년 MM월 dd일");
   // const router = useRouter();
 
