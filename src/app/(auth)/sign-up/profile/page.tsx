@@ -279,16 +279,16 @@ export default function SaveUserProfilePage() {
         </div>
 
         {/* 혈액형 선택 */}
-        <div className="text-left mb-4 gap-2">
-          <label className="block text-sm font-medium text-gray-700 mb-2">혈액형</label>
+        <div className="mb-4 text-left">
+          <label className="text-sm font-medium text-gray-700 mb-2">혈액형</label>
           <div className="flex gap-4 justify-start">
             {["A", "B", "O", "AB"].map((type) => (
               <button
                 key={type}
                 type="button"
                 onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")}
-                className={`w-14 p-1 rounded-full border ${
-                  selectedBloodType === type ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
+                className={`w-full p-2 rounded-full border ${
+                  selectedBloodType === type ? "bg-red-500 text-white" : "bg-white text-red-500 border-red-500"
                 }`}
               >
                 {type}
