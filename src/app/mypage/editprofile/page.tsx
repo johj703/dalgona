@@ -12,6 +12,7 @@ const EditProfilePage = () => {
   const [birthday, setBirthday] = useState("");
   const [gender, setGender] = useState("");
   const [bloodType, setBloodType] = useState("");
+  const [file, setFile] = useState<File | null>(null);
   const router = useRouter();
   const DEFAULT_IMAGE = "/icons/default-profile.png";
 
@@ -48,10 +49,30 @@ const EditProfilePage = () => {
     const {
       data: { user }
     } = await supabase.auth.getUser();
+
     if (user) {
+      // 만약 파일이 선택되었으면 업로드
+      let uploadedImageUrl = profileImage;
+
+      if (file) {
+        // 새로운 프로필 이미지를 supabase 스토리지에 업로드
+        const fileExt = file.name.split(".").pop();
+        const fileName = `${user.id}_${Date.now()}.${fileExt}`;
+        const { data, error } = await supabase.storage.from("profile_image").upload(fileName, file);
+
+        if (error) {
+          alert("프로필 이미지 업로드에 실패했습니다.");
+          console.log(error);
+          return;
+        }
+
+        // 업로드가 성공하면 파일의 공개 URL을 얻어 프로필 이미지 URL로 설정
+        uploadedImageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile_images/${fileName}`;
+      }
+
       const { error } = await supabase.from("users").update({
         nickname,
-        profile_image: profileImage,
+        profile_image: uploadedImageUrl,
         birthday,
         gender,
         bloodtype: bloodType
@@ -60,9 +81,18 @@ const EditProfilePage = () => {
       if (error) {
         alert("프로필 업데이트에 실패했습니다.");
       } else {
-        alert("프로필이 업데이트가 완료되었습니다.");
+        alert("프로필이 업데이트 되었습니다.");
         router.push("/mypage"); // 수정 후 mypage로 이동
       }
+    }
+  };
+
+  // 파일 선택시 상태 업데이트
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+    if (file) {
+      setFile(file); // 파일 상태 업데이트
+      setProfileImage(URL.createObjectURL(file)); // 파일을 미리보기 이미지로 설정
     }
   };
 
