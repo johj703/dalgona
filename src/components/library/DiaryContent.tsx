@@ -62,7 +62,7 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
   };
 
   return (
-    <div className="flex flex-1 flex-col p-4 bg-[#FDF7F4]">
+    <div className="flex flex-col p-4 bg-[#FDF7F4]">
       {diaries.length > 0 && (
         <div className="border border-black rounded-lg p-4 mb-4 bg-white">
           <p className="text-center font-bold">나만의 {month}월이 완성되어 가고 있어요!</p>
@@ -70,7 +70,7 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
         </div>
       )}
       {diaries.length > 0 ? (
-        <div className="space-y-4 border rounded-lg p-4 bg-[#EFE6DE]">
+        <div className="space-y-4 border rounded-lg p-4 mb-12 bg-[#EFE6DE]">
           {diaries.map((diary: Diary) => {
             const diaryDate = parseDate(diary.date);
             const formattedDate = diaryDate
@@ -112,7 +112,7 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
           })}
         </div>
       ) : (
-        <div className="flex flex-1 flex-col items-center justify-center bg-background01 border rounded-lg border-black p-4">
+        <div className="flex h-[656px] flex-col items-center justify-center bg-background01 border rounded-lg border-black p-4">
           <div className="flex items-center mb-2">
             <p className="text-lg font-bold text-center mr-2">이번 달에 작성된 일기가 없어요</p>
             <img src="/icons/mini-diary.svg" alt="mini-diary" className="w-6 h-6" />

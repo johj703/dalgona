@@ -62,3 +62,9 @@ body {
     @apply w-full h-14 p-4 text-base text-gray05 placeholder:text-gray04 rounded-lg border-2 border-solid border-gray04;
   }
 }
+
+@layer utilities {
+  .artworkprev-content-height {
+    height: calc(100vh - 240px);
+  }
+}
