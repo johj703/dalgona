@@ -231,7 +231,7 @@ export default function SaveUserProfilePage() {
                 </option>
               ))}
             </select>
-            <p>월</p>
+            <p>일</p>
           </div>
           {errors.birthYear && <p className="text-xs text-red-500 mt-1">{errors.birthYear.message}</p>}
           {errors.birthMonth && <p className="text-xs text-red-500 mt-1">{errors.birthMonth.message}</p>}
