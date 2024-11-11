@@ -4,6 +4,7 @@ import CommonTitle from "@/components/CommonTitle";
 import DetailComponent from "@/components/diary/DetailComponent";
 import Modal from "@/components/Modal";
 import Navigation from "@/components/Navigation";
+import TopButton from "@/components/TopButton";
 import { FormData } from "@/types/Canvas";
 import { fetchData } from "@/utils/diary/fetchData";
 import browserClient from "@/utils/supabase/client";
@@ -27,6 +28,8 @@ const Read = ({ params }: { params: { id: string } }) => {
 
   const onClickDelete = async () => {
     await browserClient.from("diary").delete().eq("id", params.id);
+    const { error } = await browserClient.storage.from("posts").remove(["drawing/" + params.id]);
+    if (error) console.error(error);
 
     router.replace("/main");
   };
@@ -34,7 +37,7 @@ const Read = ({ params }: { params: { id: string } }) => {
   return (
     <>
       {!isLoading && (
-        <>
+        <div className="flex flex-col min-h-dvh">
           <CommonTitle title={"일기장"} post_id={params.id} setOpenClose={setOpenClose} />
           {postData ? (
             <>
@@ -52,10 +55,13 @@ const Read = ({ params }: { params: { id: string } }) => {
               )}
             </>
           ) : (
-            <div>게시글을 불러오지 못 했습니다.</div>
+            <div className="flex-1 flex items-center justify-center text-center pt-2 pb-[60px] px-4 text-lg leading-[1.35] text-gray04">
+              게시글을 불러오지 못 했습니다.
+            </div>
           )}
+          <TopButton />
           <Navigation />
-        </>
+        </div>
       )}
     </>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import Form from "@/components/diary/Form";
+import TopButton from "@/components/TopButton";
 import { fetchData } from "@/utils/diary/fetchData";
 import { useEffect, useState } from "react";
 
@@ -29,6 +30,13 @@ const Modify = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     getData();
   }, []);
-  return !isLoading && <Form POST_ID={POST_ID} initialData={postData} isModify={true} />;
+  return (
+    !isLoading && (
+      <>
+        <TopButton />
+        <Form POST_ID={POST_ID} initialData={postData} isModify={true} />
+      </>
+    )
+  );
 };
 export default Modify;

@@ -155,7 +155,7 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
           />
         </div>
         <div className="flex items-center justify-center mt-4 flex-shrink-0">
-          <button className="bg-[#D84E35] w-full rounded-lg py-2 px-8 text-white" onClick={handleComplete}>
+          <button className="bg-primary w-full rounded-lg py-2 px-8 text-white" onClick={handleComplete}>
             완료
           </button>
         </div>

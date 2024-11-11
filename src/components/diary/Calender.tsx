@@ -76,13 +76,13 @@ const Calender = ({ formData, setFormData, setOpenCalender }: CalenderProps) => 
 
         <div className="mt-[26px] flex justify-center gap-4">
           <button
-            className="flex items-center justify-center w-[144px] h-[53px] border border-[#D84E35] rounded-lg text-base leading-normal bg-white text-[#D84E35]"
+            className="flex items-center justify-center w-[144px] h-[53px] border border-primary rounded-lg text-base leading-normal bg-white text-primary"
             onClick={() => setOpenCalender(false)}
           >
             뒤로가기
           </button>
           <button
-            className="flex items-center justify-center w-[144px] h-[53px] border border-[#D84E35] rounded-lg text-base leading-normal bg-[#D84E35] text-white"
+            className="flex items-center justify-center w-[144px] h-[53px] border border-primary rounded-lg text-base leading-normal bg-primary text-white"
             onClick={() => {
               if (formatClickDate) setFormData({ ...formData, date: formatClickDate });
               setOpenCalender(false);
