@@ -48,6 +48,10 @@ export default function SignInPage() {
     }
   };
 
+  const handleSignUp = () => {
+    router.push("/sign-up");
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="w-full max-w-sm p-4 bg-white shadow-md rounded-md">
@@ -116,9 +120,9 @@ export default function SignInPage() {
           <a href="#" className="hover:underline">
             비밀번호 찾기
           </a> */}
-          <a href="#" className="hover:underline">
+          <button onClick={handleSignUp} className="hover:underline">
             회원가입
-          </a>
+          </button>
         </div>
 
         <div className="my-4 border-t border-gray-300"></div>
