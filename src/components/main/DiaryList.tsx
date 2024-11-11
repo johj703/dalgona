@@ -79,7 +79,7 @@ const DiaryList = () => {
       {sortedDiaries && sortedDiaries.length > 0 ? (
         <div className="flex py-[8px] px-[16px] items-center gap-[10px] self-stretch">
           <div className="all-feed flex w-full py-[20px] px-[16px] mb-[70px] flex-col items-center gap-[10px] border-2 rounded-2xl border-black bg-[#EFE6DE]">
-            <TabGroup>
+            <TabGroup className="w-full">
               <div className="flex mb-[16px] justify-between">
                 <div className="w-[75px] h-[36px] p-[10px]">
                   <Select
@@ -133,35 +133,34 @@ const DiaryList = () => {
                 <TabPanel>
                   {sortedDiaries?.map((diary) =>
                     diary.draw ? (
-                      <div
-                        key={diary.id}
-                        className="feed pt-[18px] px-[16px] pb-[19px] w-[326px] h-[364px] flex flex-col justify-center items-center border-[1px] rounded-2xl border-black mb-[16px] bg-[#FDF7F4]"
-                      >
-                        <div className="feed-inner relative w-[294px]">
-                          <p className="title self-stretch text-[18px] not-italic font-[400] leading-[24.3px]">
-                            {diary.title}
-                          </p>
-                          <img
-                            src={diary.draw}
-                            width={700}
-                            height={700}
-                            alt="Picture of the author"
-                            className="img border-[1px] rounded-lg border-black h-[238px] my-[10px] bg-white "
-                          />
-                          <div className="absolute w-[269px] top-[45px] flex justify-between items-center mx-[15px]">
-                            <div className="w-[50px] text-sm">
-                              <p className="today text-center border-b-2">{getDayOfTheWeek(diary.date)}</p>
-                              <p className="simple-date text-center">{getSimpleFullDate(diary.date).substring(2)}</p>
+                      <div key={diary.id} className=" border rounded-lg bg-[#FDF7F4] border-black p-4 mb-[10px]">
+                        {diary.draw && (
+                          <>
+                            <h3 className="title self-stretch text-[18px] not-italic font-[400] leading-[24.3px]">
+                              {diary.title}
+                            </h3>
+                            <div className="relative h-[238px] border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden  my-[10px]">
+                              <img src={diary.draw} alt="그림" className="object-cover h-full w-full bg-white" />
+                              <div className="absolute top-[10px] left-[10px] right-[10px] flex justify-between items-center">
+                                <div className="w-[50px] text-sm">
+                                  <p className="today text-center border-b-2">{getDayOfTheWeek(diary.date)}</p>
+                                  <p className="simple-date text-center">
+                                    {getSimpleFullDate(diary.date).substring(2)}
+                                  </p>
+                                </div>
+                                <div>
+                                  <img
+                                    src={getEmoji(diary.emotion, "on")}
+                                    alt={diary.emotion}
+                                    className="w-10 h-10 mt-1"
+                                  />
+                                </div>
+                              </div>
                             </div>
-                            <div>
-                              <img src={getEmoji(diary.emotion, "on")} alt={diary.emotion} className="w-10 h-10 mt-1" />
-                            </div>
-                          </div>
+                          </>
+                        )}
 
-                          <p className="content h-[45px] self-stretch overflow-hidden text-ellipsis  whitespace-nowrap font-['Dovemayo'] text-[14px] not-italic font-[500] leading-[21px]">
-                            {diary.contents}
-                          </p>
-                        </div>
+                        <p className="text-gray-700 line-clamp-2">{diary.contents}</p>
                       </div>
                     ) : (
                       <div
