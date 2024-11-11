@@ -81,7 +81,7 @@ export default function SignInPage() {
               value={email}
               onChange={(e) => setEamil(e.target.value)}
               required
-              className="block w-full p-2 border border-gray-300 rounded"
+              className="input-style"
             />
           </div>
 
@@ -94,7 +94,7 @@ export default function SignInPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="block w-full p-2 border border-gray-300 rounded"
+              className="input-style"
             />
           </div>
 
@@ -113,7 +113,7 @@ export default function SignInPage() {
           </div>
 
           <div>
-            <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">
+            <button type="submit" className="w-full p-2 bg-primary text-white rounded">
               로그인
             </button>
           </div>
