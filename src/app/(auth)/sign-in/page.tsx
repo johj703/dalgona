@@ -110,12 +110,12 @@ export default function SignInPage() {
         </form>
 
         <div className="flex justify-between text-sm mt-4">
-          <a href="#" className="hover:underline">
+          {/* <a href="#" className="hover:underline">
             아이디 찾기
           </a>
           <a href="#" className="hover:underline">
             비밀번호 찾기
-          </a>
+          </a> */}
           <a href="#" className="hover:underline">
             회원가입
           </a>
