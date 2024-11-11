@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import supabase from "@/utils/supabase/client";
+import CommonTitle from "@/components/CommonTitle";
 
 // 입력 유효성 검사를 위해서 Zod 스키마 정의
 const profileSchema = z.object({
@@ -155,165 +156,173 @@ export default function SaveUserProfilePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      {/* 페이지 안내 텍스트 */}
-      <h1 className="text-xl mb-6">환영해요.</h1>
-      <p className="text-xl mb-6">사용하실 프로필을 작성해 주세요.</p>
+    <div className="flex flex-col min-h-dvh">
+      <CommonTitle title="회원가입" />
 
-      <form onSubmit={handleSubmit(onSubmit)} className="w-11/12 max-w-md bg-white p-6 rounded-lg shadow-md">
-        {/* 프로필 사진 선택 */}
-        <div className="mb-6">
-          <label className="text-sm font-medium text-gray-700 mb-2 block">프로필 사진</label>
-          <div className="flex justify-center">
-            <div className="relative">
-              {profileImage ? (
-                <Image
-                  src={URL.createObjectURL(profileImage)}
-                  alt="프로필 사진"
-                  width={100}
-                  height={100}
-                  className="w-24 h-24 rounded-full"
-                />
-              ) : (
-                <div className="w-24 h-24 rounded-full bg-gray-200"></div>
-              )}
-              <label
-                htmlFor="profileImageUpload"
-                className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md cursor-pointer hover:bg-gray-100"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-gray-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15 10l4.553 4.553a1.5 1.5 0 01-.353 2.4 1.5 1.5 0 01-.6.147H5.4a1.5 1.5 0 01-1.5-1.5V7.4a1.5 1.5 0 01.353-2.4A1.5 1.5 0 014.4 5h5l1-2h6l1 2h5a1.5 1.5 0 011.5 1.5v5l-2-2h-5a1.5 1.5 0 00-1.5 1.5v5l-2-2z"
+      <div className="flex-1 flex flex-col px-4 pt-[18px] pb-[10px]">
+        {/* 페이지 안내 텍스트 */}
+        <div className="text-lg leading-[1.35]">
+          환영해요. <br /> 사용하실 프로필을 작성해 주세요.
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex flex-col mt-4">
+          {/* 프로필 사진 선택 */}
+          <div className="mb-10">
+            <label className="block text-sm leading-normal mb-4">프로필 사진</label>
+            <div className="flex justify-center">
+              <div className="relative">
+                {profileImage ? (
+                  <Image
+                    src={URL.createObjectURL(profileImage)}
+                    alt="프로필 사진"
+                    width={100}
+                    height={100}
+                    className="w-24 h-24 rounded-full"
                   />
-                </svg>
-              </label>
-              <input type="file" id="profileImageUpload" onChange={handleImageUpload} className="hidden" />
+                ) : (
+                  <div className="w-24 h-24 rounded-full bg-gray-200"></div>
+                )}
+                <label
+                  htmlFor="profileImageUpload"
+                  className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md cursor-pointer hover:bg-gray-100"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-gray-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M15 10l4.553 4.553a1.5 1.5 0 01-.353 2.4 1.5 1.5 0 01-.6.147H5.4a1.5 1.5 0 01-1.5-1.5V7.4a1.5 1.5 0 01.353-2.4A1.5 1.5 0 014.4 5h5l1-2h6l1 2h5a1.5 1.5 0 011.5 1.5v5l-2-2h-5a1.5 1.5 0 00-1.5 1.5v5l-2-2z"
+                    />
+                  </svg>
+                </label>
+                <input type="file" id="profileImageUpload" onChange={handleImageUpload} className="hidden" />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* 생년월일 입력 */}
-        <div className="mb-4 text-left">
-          <label className="block text-sm font-medium text-gray-700 mb-2">생년월일</label>
-          <div className="flex space-x-4 justify-start">
-            <select {...register("birthYear")} className="p-2 border border-gray-300 rounded-md w-full">
-              <option value=""></option>
-              {Array.from({ length: 124 }, (_, i) => 1900 + i).map((year) => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
-            <p className="self-center justify-start">년</p>
-            <select {...register("birthMonth")} className="p-2 border border-gray-300 rounded-md w-full">
-              <option value=""></option>
-              {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-                <option key={month} value={month}>
-                  {month}
-                </option>
-              ))}
-            </select>
-            <p className="self-center justify-start">월</p>
-            <select {...register("birthDay")} className="p-2 border border-gray-300 rounded-md w-full">
-              <option value=""></option>
-              {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
-                <option key={day} value={day}>
-                  {day}
-                </option>
-              ))}
-            </select>
-            <p className="self-center justify-start">일</p>
+          {/* 생년월일 입력 */}
+          <div className="mb-[14px] text-left">
+            <label className="block text-sm font-medium text-gray-700 mb-2">생년월일</label>
+            <div className="flex space-x-4 justify-start">
+              <select {...register("birthYear")} className="p-2 border border-gray-300 rounded-md w-full">
+                <option value="">선택</option>
+                {Array.from({ length: 124 }, (_, i) => 1900 + i).map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+              <p className="self-center justify-start">년</p>
+              <select {...register("birthMonth")} className="p-2 border border-gray-300 rounded-md w-full">
+                <option value="">선택</option>
+                {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+                  <option key={month} value={month}>
+                    {month}
+                  </option>
+                ))}
+              </select>
+              <p className="self-center justify-start">월</p>
+              <select {...register("birthDay")} className="p-2 border border-gray-300 rounded-md w-full">
+                <option value="">선택</option>
+                {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
+                  <option key={day} value={day}>
+                    {day}
+                  </option>
+                ))}
+              </select>
+              <p className="self-center justify-start">일</p>
+            </div>
+            {errors.birthYear && <p className="text-xs text-red-500 mt-1">{errors.birthYear.message}</p>}
+            {errors.birthMonth && <p className="text-xs text-red-500 mt-1">{errors.birthMonth.message}</p>}
+            {errors.birthDay && <p className="text-xs text-red-500 mt-1">{errors.birthDay.message}</p>}
           </div>
-          {errors.birthYear && <p className="text-xs text-red-500 mt-1">{errors.birthYear.message}</p>}
-          {errors.birthMonth && <p className="text-xs text-red-500 mt-1">{errors.birthMonth.message}</p>}
-          {errors.birthDay && <p className="text-xs text-red-500 mt-1">{errors.birthDay.message}</p>}
-        </div>
 
-        {/* 성별 선택 */}
-        <div className="text-left mb-4">
-          <label className="text-sm font-medium text-gray-700 mb-2 block">성별</label>
-          <div className="flex space-x-4 justify-start">
-            <button
-              type="button"
-              onClick={() => handleGenderSelect("여성")}
-              className={`flex items-center px-4 py-2 rounded-full border ${
-                selectedGender === "여성" ? "bg-primary text-white" : "bg-white text-primary border-primary "
-              }`}
-            >
-              <Image
-                src={selectedGender === "여성" ? "/icons/female_white.svg" : "/icons/female_red.svg"}
-                alt="여성 아이콘"
-                width={20}
-                height={20}
-                className="mr-2"
-              />
-              <span>여성</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleGenderSelect("남성")}
-              className={`flex items-center px-4 py-2 rounded-full border ${
-                selectedGender === "남성" ? "bg-primary text-white" : "bg-white text-primary border-primary"
-              }`}
-            >
-              <Image
-                src={selectedGender === "남성" ? "/icons/male_white.svg" : "/icons/male_red.svg"}
-                alt="남성 아이콘"
-                width={20}
-                height={20}
-                className="mr-2"
-              />
-              <p>남성</p>
-            </button>
-          </div>
-          {errors.gender && <p className="text-primary text-sm mt-2">{errors.gender.message}</p>}
-        </div>
-
-        {/* 혈액형 선택 */}
-        <div className="mb-4 text-left">
-          <label className="text-sm font-medium text-gray-700 mb-2">혈액형</label>
-          <div className="flex gap-4 justify-start">
-            {["A", "B", "O", "AB"].map((type) => (
+          {/* 성별 선택 */}
+          <div className="text-left mb-4">
+            <label className="text-sm font-medium text-gray-700 mb-2 block">성별</label>
+            <div className="flex space-x-4 justify-start">
               <button
-                key={type}
                 type="button"
-                onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")}
-                className={`w-full p-2 rounded-full border ${
-                  selectedBloodType === type ? "bg-primary text-white" : "bg-white text-primary border-primary"
+                onClick={() => handleGenderSelect("여성")}
+                className={`flex items-center px-4 py-2 rounded-full border ${
+                  selectedGender === "여성" ? "bg-primary text-white" : "bg-white text-primary border-primary "
                 }`}
               >
-                {type}
+                <Image
+                  src={selectedGender === "여성" ? "/icons/female_white.svg" : "/icons/female_red.svg"}
+                  alt="여성 아이콘"
+                  width={18}
+                  height={18}
+                  className="mr-2"
+                />
+                <span>여성</span>
               </button>
-            ))}
+              <button
+                type="button"
+                onClick={() => handleGenderSelect("남성")}
+                className={`flex items-center px-4 py-2 rounded-full border ${
+                  selectedGender === "남성" ? "bg-primary text-white" : "bg-white text-primary border-primary"
+                }`}
+              >
+                <Image
+                  src={selectedGender === "남성" ? "/icons/male_white.svg" : "/icons/male_red.svg"}
+                  alt="남성 아이콘"
+                  width={18}
+                  height={18}
+                  className="mr-2"
+                />
+                <p>남성</p>
+              </button>
+            </div>
+            {errors.gender && <p className="text-primary text-sm mt-2">{errors.gender.message}</p>}
           </div>
-        </div>
-        <p className="text-xs text-gray-300">위 항목들은 선택사항이며, 언제든지 나중에 수정할 수 있습니다.</p>
-        {/* 에러 메세지 */}
-        {/* {errorMessage && <p className="">{errorMessage}</p>} */}
 
-        {/* 건너뛰기 및 시작하기 버튼 */}
-        <div className="flex justify-between mt-6">
-          <button
-            type="button"
-            onClick={() => router.push("/main")}
-            className="w-1/2 p-2 bg-primary text-white rounded-md hover:bg-primary"
-          >
-            건너뛰기
-          </button>
-          <button type="submit" className="w-1/2 p-2 bg-primary text-white rounded-md hover:bg-primary ml-2">
-            시작하기
-          </button>
-        </div>
-      </form>
+          {/* 혈액형 선택 */}
+          <div className="text-left">
+            <label className="text-sm font-medium text-gray-700 mb-2">혈액형</label>
+            <div className="flex gap-4 justify-start">
+              {["A", "B", "O", "AB"].map((type) => (
+                <button
+                  key={type}
+                  type="button"
+                  onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")}
+                  className={`w-full p-2 rounded-full border ${
+                    selectedBloodType === type ? "bg-primary text-white" : "bg-white text-primary border-primary"
+                  }`}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+          </div>
+          <p className="text-xs text-gray-300">위 항목들은 선택사항이며, 언제든지 나중에 수정할 수 있습니다.</p>
+          {/* 에러 메세지 */}
+          {/* {errorMessage && <p className="">{errorMessage}</p>} */}
+
+          {/* 건너뛰기 및 시작하기 버튼 */}
+          <div className="flex gap-4 mt-auto">
+            <button
+              type="button"
+              onClick={() => router.push("/main")}
+              className="w-1/2 py-3 bg-primary text-lg leading-normal text-white rounded-lg hover:bg-primary"
+            >
+              건너뛰기
+            </button>
+            <button
+              type="submit"
+              className="w-1/2 py-3 bg-primary text-lg leading-normal text-white rounded-lg hover:bg-primary"
+            >
+              완료
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
