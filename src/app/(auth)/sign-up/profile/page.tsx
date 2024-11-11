@@ -204,7 +204,7 @@ export default function SaveUserProfilePage() {
         {/* 생년월일 입력 */}
         <div className="mb-4 text-left">
           <label className="block text-sm font-medium text-gray-700 mb-2">생년월일</label>
-          <div className="flex gap-2">
+          <div className="flex space-x-4 justify-start">
             <select {...register("birthYear")} className="p-2 border border-gray-300 rounded-md w-full">
               <option value=""></option>
               {Array.from({ length: 124 }, (_, i) => 1900 + i).map((year) => (
@@ -213,7 +213,7 @@ export default function SaveUserProfilePage() {
                 </option>
               ))}
             </select>
-            <p className="self-center">년</p>
+            <p className="self-center justify-start">년</p>
             <select {...register("birthMonth")} className="p-2 border border-gray-300 rounded-md w-full">
               <option value=""></option>
               {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
@@ -222,7 +222,7 @@ export default function SaveUserProfilePage() {
                 </option>
               ))}
             </select>
-            <p className="self-center">월</p>
+            <p className="self-center justify-start">월</p>
             <select {...register("birthDay")} className="p-2 border border-gray-300 rounded-md w-full">
               <option value=""></option>
               {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
@@ -231,7 +231,7 @@ export default function SaveUserProfilePage() {
                 </option>
               ))}
             </select>
-            <p className="self-center">일</p>
+            <p className="self-center justify-start">일</p>
           </div>
           {errors.birthYear && <p className="text-xs text-red-500 mt-1">{errors.birthYear.message}</p>}
           {errors.birthMonth && <p className="text-xs text-red-500 mt-1">{errors.birthMonth.message}</p>}
@@ -246,7 +246,7 @@ export default function SaveUserProfilePage() {
               type="button"
               onClick={() => handleGenderSelect("여성")}
               className={`flex items-center px-4 py-2 rounded-full border ${
-                selectedGender === "여성" ? "bg-red-500 text-white" : "bg-white text-red-500 border-red-500 "
+                selectedGender === "여성" ? "bg-primary text-white" : "bg-white text-primary border-primary "
               }`}
             >
               <Image
@@ -262,7 +262,7 @@ export default function SaveUserProfilePage() {
               type="button"
               onClick={() => handleGenderSelect("남성")}
               className={`flex items-center px-4 py-2 rounded-full border ${
-                selectedGender === "남성" ? "bg-red-500 text-white" : "bg-white text-red-500 border-red-500"
+                selectedGender === "남성" ? "bg-primary text-white" : "bg-white text-primary border-primary"
               }`}
             >
               <Image
@@ -275,7 +275,7 @@ export default function SaveUserProfilePage() {
               <p>남성</p>
             </button>
           </div>
-          {errors.gender && <p className="text-red-500 text-sm mt-2">{errors.gender.message}</p>}
+          {errors.gender && <p className="text-primary text-sm mt-2">{errors.gender.message}</p>}
         </div>
 
         {/* 혈액형 선택 */}
@@ -288,7 +288,7 @@ export default function SaveUserProfilePage() {
                 type="button"
                 onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")}
                 className={`w-full p-2 rounded-full border ${
-                  selectedBloodType === type ? "bg-red-500 text-white" : "bg-white text-red-500 border-red-500"
+                  selectedBloodType === type ? "bg-primary text-white" : "bg-white text-primary border-primary"
                 }`}
               >
                 {type}
@@ -305,11 +305,11 @@ export default function SaveUserProfilePage() {
           <button
             type="button"
             onClick={() => router.push("/main")}
-            className="w-1/2 p-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+            className="w-1/2 p-2 bg-primary text-white rounded-md hover:bg-primary"
           >
             건너뛰기
           </button>
-          <button type="submit" className="w-1/2 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 ml-2">
+          <button type="submit" className="w-1/2 p-2 bg-primary text-white rounded-md hover:bg-primary ml-2">
             시작하기
           </button>
         </div>
