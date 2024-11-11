@@ -5,7 +5,6 @@ import { getDayOfTheWeek, getSimpleFullDate } from "@/utils/calendar/dateFormat"
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-//TODO - 일기 클릭하면 상세로 이동
 //TODO - 최근검색어..?
 
 const SearchPage = () => {
@@ -68,16 +67,18 @@ const SearchPage = () => {
         <div className="text-left py-[8px] px-[16px]">
           <p className="text-[16px] font-[400] mb-[8px]">검색결과 ({diariesList.length})</p>
           {diariesList.map((diary) => (
-            <div key={diary.id} className="p-[10px] border-[1px] border-black rounded-lg bg-white mb-[16px]">
-              <p className="text-[16px] font-[400] overflow-hidden text-ellipsis mb-[2px]">{diary.title}</p>
-              <p className="text-[14px] font-[500] overflow-hidden text-ellipsis font-['Dovemayo'] mb-[8px]">
-                {diary.contents}
-              </p>
-              <div className="flex text-[14px] font-[500] text-right">
-                <p className="mr-[2px]">{getSimpleFullDate(diary.date).substring(2)}</p>
-                <p>({getDayOfTheWeek(diary.date).substring(0, 1)})</p>
+            <Link href={`/diary/read/${diary.id}`} key={diary.id}>
+              <div key={diary.id} className="p-[10px] border-[1px] border-black rounded-lg bg-white mb-[16px]">
+                <p className="text-[16px] font-[400] overflow-hidden text-ellipsis mb-[2px]">{diary.title}</p>
+                <p className="text-[14px] font-[500] overflow-hidden text-ellipsis font-['Dovemayo'] mb-[8px]">
+                  {diary.contents}
+                </p>
+                <div className="flex text-[14px] font-[500] text-right">
+                  <p className="mr-[2px]">{getSimpleFullDate(diary.date).substring(2)}</p>
+                  <p>({getDayOfTheWeek(diary.date).substring(0, 1)})</p>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       ) : (

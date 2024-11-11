@@ -45,10 +45,3 @@ const SelectFeedCalendar = () => {
 };
 
 export default SelectFeedCalendar;
-
-{
-  /* <div className="flex gap-[16px] items-center">
-<Tab className="text-[20px] not-italic font-[400] leading-[27px]">피드</Tab>
-<Tab className="text-[20px] not-italic font-[400] leading-[27px]">달력보기</Tab>
-</div> */
-}
