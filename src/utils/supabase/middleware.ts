@@ -47,12 +47,13 @@ export const updateSession = async (request: NextRequest) => {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
-    if (
-      (request.nextUrl.pathname.startsWith("/sign-in") || request.nextUrl.pathname.startsWith("/sign-up")) &&
-      user.data.user
-    ) {
-      return NextResponse.redirect(new URL("/main", request.url));
-    }
+    // 이 코드 때문에 회원가입1에서 다음으로 버튼을 클릭하면 바로 회원가입이 실행되고 main페이지로 넘어갔던 이유였음.
+    // if (
+    //   (request.nextUrl.pathname.startsWith("/sign-in") || request.nextUrl.pathname.startsWith("/sign-up")) &&
+    //   user.data.user
+    // ) {
+    //   return NextResponse.redirect(new URL("/main", request.url));
+    // }
 
     return response;
   } catch (error) {
