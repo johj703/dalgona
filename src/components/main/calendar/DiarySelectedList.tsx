@@ -99,7 +99,7 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
           ))}
         </div>
       ) : (
-        <div className="my-[8px] mx-[16px] py-[159px] px-[67px] border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px]">
+        <div className="my-[8px] mx-[16px] py-[159px]  border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px]">
           <div className="flex flex-col justify-center items-center gap-[23px]">
             {selectedDate > today ? (
               <div>

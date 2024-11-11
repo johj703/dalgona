@@ -3,7 +3,7 @@ import React from "react";
 const RenderDays = () => {
   const DAY_LIST: string[] = ["일", "월", "화", "수", "목", "금", "토"];
   return (
-    <div className="flex justify-center items-center gap-[6px] w-[325px]">
+    <div className="flex justify-between items-center w-[100%]">
       {DAY_LIST.map((day, index) => {
         return (
           <div
