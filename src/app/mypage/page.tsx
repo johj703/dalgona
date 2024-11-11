@@ -68,7 +68,7 @@ const Mypage = () => {
             </div>
           </div>
 
-          <button className="mb-auto">
+          <button className="mb-auto" onClick={() => router.push("/mypage/editprofile")}>
             <img src="/icons/setting.svg" alt="마이페이지 수정" />
           </button>
         </div>
