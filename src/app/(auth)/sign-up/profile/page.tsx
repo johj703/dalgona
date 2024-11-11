@@ -23,7 +23,9 @@ const profileSchema = z.object({
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().min(1, "일은 1일부터 시작합니다.").max(31, "일은 31일까지 가능합니다.")),
-  gender: z.enum(["남성", "여성"])
+  gender: z.enum(["남성", "여성"]),
+  bloodType: z.enum(["A", "B", "O", "AB"]).optional(),
+
 });
 
 // zod 스키마의 타입을 추론해서 ProfileData 타입을 정의
@@ -43,6 +45,8 @@ export default function SaveUserProfilePage() {
   // ** 그 후 users 테이블에 한꺼번에 업데이트 하면 됨!
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [selectedGender, setSelectedGender] = useState<"남성" | "여성" | null>(null);
+  const [selectedBloodType, setSelectedBloodType] = useState<"A" | "B" | "O" | "AB" | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   console.log(errorMessage);
@@ -77,7 +81,6 @@ export default function SaveUserProfilePage() {
     const { data, error } = await supabase.storage
       .from("profile") // 스토리지 버킷 이름
       .upload(filePath, file);
-    console.log(data);
 
     if (error) {
       console.log("프로필 이미지 업로드 오류 : ", error);
@@ -95,6 +98,17 @@ export default function SaveUserProfilePage() {
     const file = e.target.files?.[0];
     if (file) setProfileImage(file);
     clearErrors();
+  };
+
+  // 클릭시 스타일 변경 로직
+  const handleGenderSelect = (gender: "남성" | "여성") => {
+    setSelectedGender(gender);
+    clearErrors("gender");
+  }
+
+  const handleBloodTypeSelect = (type: "A" | "B" | "O" | "AB" ) => {
+    setSelectedBloodType(type);
+    clearErrors("bloodType");
   };
 
   // 폼 제출 핸들러
@@ -142,27 +156,37 @@ export default function SaveUserProfilePage() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       {/* 페이지 안내 텍스트 */}
-      <h1 className="">환영해요.</h1>
-      <p className="">사용하실 프로필을 작성해 주세요.</p>
+      <h1 className="text-xl mb-6">환영해요.</h1>
+      <p className="text-xl mb-6">사용하실 프로필을 작성해 주세요.</p>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="">
-        {/* 프로필 사진 */}
-        <div className="">
-          <label className="">프로필 사진</label>
-          {profileImage ? (
-            <Image src={URL.createObjectURL(profileImage)} alt="프로필 사진" width={100} height={100} className="" />
-          ) : (
-            <div className=""></div>
-          )}
-          <input type="file" onChange={handleImageUpload} className="" />
+      <form onSubmit={handleSubmit(onSubmit)} className="w-11/12 max-w-md bg-white p-6 rounded-lg shadow-md">
+        {/* 프로필 사진 선택 */}
+        <div className="mb-6">
+          <label className="text-sm font-medium text-gray-700 mb-2 block">프로필 사진</label>
+          <div className="flex justify-center">
+            <div className="relative">
+              {profileImage ? (
+                <Image src={URL.createObjectURL(profileImage)} alt="프로필 사진" width={100} height={100} className="w-24 h-24 rounded-full" />
+              ) : (
+                <div className="w-24 h-24 rounded-full bg-gray-200"></div>
+              )}
+              <label htmlFor="profileImageUpload" className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md cursor-pointer hover:bg-gray-100">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553 4.553a1.5 1.5 0 01-.353 2.4 1.5 1.5 0 01-.6.147H5.4a1.5 1.5 0 01-1.5-1.5V7.4a1.5 1.5 0 01.353-2.4A1.5 1.5 0 014.4 5h5l1-2h6l1 2h5a1.5 1.5 0 011.5 1.5v5l-2-2h-5a1.5 1.5 0 00-1.5 1.5v5l-2-2z" />
+                </svg>
+              </label>
+              <input type="file" id="profileImageUpload" onChange={handleImageUpload} className="hidden" />
+            </div>
+          </div>
         </div>
 
         {/* 생년월일 입력 */}
-        <div>
-          <label>생년월일</label>
-          <select {...register("birthYear")} className="">
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">생년월일</label>
+          <div className="flex gap-2">
+          <select {...register("birthYear")} className="p-2 border border-gray-300 rounded-md w-full">
             <option value=""></option>
             {Array.from({ length: 124 }, (_, i) => 1900 + i).map((year) => (
               <option key={year} value={year}>
@@ -170,8 +194,9 @@ export default function SaveUserProfilePage() {
               </option>
             ))}
           </select>
-          년
-          <select {...register("birthMonth")} className="">
+          <p>년</p>
+          <select {...register("birthMonth")} className="p-2 border border-gray-300 rounded-md w-full">
+
             <option value=""></option>
             {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
               <option key={month} value={month}>
@@ -179,8 +204,8 @@ export default function SaveUserProfilePage() {
               </option>
             ))}
           </select>
-          월
-          <select {...register("birthDay")} className="">
+          <p>월</p>
+          <select {...register("birthDay")} className="p-2 border border-gray-300 rounded-md w-full">
             <option value=""></option>
             {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
               <option key={day} value={day}>
@@ -188,36 +213,68 @@ export default function SaveUserProfilePage() {
               </option>
             ))}
           </select>
-          일{errors.birthYear && <p className="">{errors.birthYear.message}</p>}
-          {errors.birthMonth && <p className="">{errors.birthMonth.message}</p>}
-          {errors.birthDay && <p className="">{errors.birthDay.message}</p>}
+          <p>월</p>
+          </div>
+          {errors.birthYear && <p className="text-xs text-red-500 mt-1">{errors.birthYear.message}</p>}
+          {errors.birthMonth && <p className="text-xs text-red-500 mt-1">{errors.birthMonth.message}</p>}
+          {errors.birthDay && <p className="text-xs text-red-500 mt-1">{errors.birthDay.message}</p>}
         </div>
 
         {/* 성별 선택 */}
-        <div className="">
-          <label className="">성별</label>
-          <div className="">
-            <label>
-              <input type="radio" value="남성" {...register("gender")} className="" />
-              남성
-            </label>
-            <label>
-              <input type="radio" value="여성" {...register("gender")} className="" />
-              여성
-            </label>
-          </div>
-          {errors.gender && <p className="">{errors.gender.message}</p>}
+      <div>
+        <label className="text-sm font-medium text-gray-700 mb-2 block">성별</label>
+        <div className="flex space-x-4 justify-center">
+          <button
+            type="button"
+            onClick={() => handleGenderSelect("남성")}
+            className={`px-4 py-2 rounded-full border ${
+              selectedGender === "남성" ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
+            }`}
+          >
+            남성
+          </button>
+          <button
+            type="button"
+            onClick={() => handleGenderSelect("여성")}
+            className={`px-4 py-2 rounded-full border ${
+              selectedGender === "여성" ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
+            }`}
+          >
+            여성
+          </button>
         </div>
-
+        {errors.gender && (
+          <p className="text-red-500 text-sm mt-2">{errors.gender.message}</p>
+        )}
+      </div>
+        
+        {/* 혈액형 선택 */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">혈액형</label>
+          <div className="flex gap-4">
+            {["A", "B", "O", "AB"].map((type) => (
+              <button
+                key={type}
+                type="button"
+                onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")}
+                className={`w-full p-2 rounded-full border ${
+                  selectedBloodType === type ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
+                }`}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+        </div>
         {/* 에러 메세지 */}
         {/* {errorMessage && <p className="">{errorMessage}</p>} */}
 
         {/* 건너뛰기 및 시작하기 버튼 */}
-        <div className="">
-          <button type="button" onClick={() => router.push("/main")} className="">
+        <div className="flex justify-between mt-6">
+          <button type="button" onClick={() => router.push("/main")} className="w-1/2 p-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
             건너뛰기
           </button>
-          <button type="submit" className="">
+          <button type="submit" className="w-1/2 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 ml-2">
             시작하기
           </button>
         </div>
