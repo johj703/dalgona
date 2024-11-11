@@ -4,7 +4,6 @@ import Draw from "@/components/diary/Draw";
 import { FormData } from "@/types/Canvas";
 import browserClient from "@/utils/supabase/client";
 import Calender from "@/components/diary/Calender";
-import { toast } from "garlic-toast";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { EMOTION_LIST, getEmoji } from "@/utils/diary/getEmoji";
@@ -14,6 +13,7 @@ import { TypeModal } from "./TypeModal";
 import { CustomAlert } from "../CustomAlert";
 import getLoginUser from "@/lib/getLoginUser";
 import { iconOnOff } from "@/utils/diary/iconOnOff";
+import callCustomAlert from "@/lib/callCustomAlert";
 
 const TYPE_LIST = ["모눈종이", "줄노트", "편지지"];
 
@@ -66,17 +66,11 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
     try {
       if (formData.title === "") {
-        if (!customAlert) {
-          setCustomAlert({
-            type: "fail",
-            text: "제목을 입력해주세요.",
-            position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
-          });
-
-          setTimeout(() => {
-            setCustomAlert(null);
-          }, 3000);
-        }
+        callCustomAlert(customAlert, setCustomAlert, {
+          type: "fail",
+          text: "제목을 입력해주세요.",
+          position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
+        });
 
         return false;
       }
@@ -84,61 +78,37 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
       if (data.length === 0) {
         const { error } = await browserClient.from("drafts").insert(formData);
         if (error) {
-          if (!customAlert) {
-            setCustomAlert({
-              type: "fail",
-              text: "임시 저장에 실패했습니다.",
-              position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
-            });
-
-            setTimeout(() => {
-              setCustomAlert(null);
-            }, 3000);
-          }
+          callCustomAlert(customAlert, setCustomAlert, {
+            type: "fail",
+            text: "임시 저장에 실패했습니다.",
+            position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
+          });
           console.error(error);
           return;
         }
 
-        if (!customAlert) {
-          setCustomAlert({
-            type: "success",
-            text: "임시 저장 되었습니다.",
-            position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
-          });
-
-          setTimeout(() => {
-            setCustomAlert(null);
-          }, 3000);
-        }
+        callCustomAlert(customAlert, setCustomAlert, {
+          type: "success",
+          text: "임시 저장 되었습니다.",
+          position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
+        });
       } else {
         const { error } = await browserClient.from("drafts").update(formData).eq("id", POST_ID);
         if (error) {
-          if (!customAlert) {
-            setCustomAlert({
-              type: "fail",
-              text: "임시 저장에 실패했습니다.",
-              position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
-            });
-
-            setTimeout(() => {
-              setCustomAlert(null);
-            }, 3000);
-          }
+          callCustomAlert(customAlert, setCustomAlert, {
+            type: "fail",
+            text: "임시 저장에 실패했습니다.",
+            position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
+          });
           console.error(error);
           return;
         }
 
-        if (!customAlert) {
-          setCustomAlert({
-            type: "success",
-            text: "임시 저장 되었습니다.",
-            position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
-          });
-
-          setTimeout(() => {
-            setCustomAlert(null);
-          }, 3000);
-        }
+        callCustomAlert(customAlert, setCustomAlert, {
+          type: "success",
+          text: "임시 저장 되었습니다.",
+          position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
+        });
       }
     } catch (error) {
       console.error(error);
@@ -170,17 +140,11 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
   const onClickDraft = async () => {
     await uploadToDrafts();
 
-    if (!customAlert) {
-      setCustomAlert({
-        type: "success",
-        text: "임시 저장 되었습니다.",
-        position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
-      });
-
-      setTimeout(() => {
-        setCustomAlert(null);
-      }, 3000);
-    }
+    callCustomAlert(customAlert, setCustomAlert, {
+      type: "success",
+      text: "임시 저장 되었습니다.",
+      position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
+    });
     // router.replace("/main");
   };
 
@@ -202,14 +166,40 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
   // 기록하기
   const onSubmit = async () => {
-    if (formData.title === "") return toast.error("제목을 입력해주세요.");
-    if (formData.emotion === "") return toast.error("오늘의 감정을 선택해주세요.");
-    if (formData.type === "") return toast.error("일기장 속지 양식을 선택해주세요.");
-    if (formData.type === "편지지") {
-      if (!formData.draw) return toast.error("그림을 그려주세요.");
-    } else {
-      if (formData.contents?.replaceAll(" ", "") === "") return toast.error("일기 내용을 작성해주세요.");
-    }
+    if (formData.title === "")
+      return callCustomAlert(customAlert, setCustomAlert, {
+        type: "fail",
+        text: "제목을 입력해주세요.",
+        position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
+      });
+
+    if (formData.emotion === "")
+      return callCustomAlert(customAlert, setCustomAlert, {
+        type: "fail",
+        text: "오늘의 감정을 선택해주세요.",
+        position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
+      });
+
+    if (formData.type === "")
+      return callCustomAlert(customAlert, setCustomAlert, {
+        type: "fail",
+        text: "일기장 속지 양식을 선택해주세요.",
+        position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
+      });
+
+    if (formData.type !== "편지지" && !formData.draw)
+      return callCustomAlert(customAlert, setCustomAlert, {
+        type: "fail",
+        text: "그림을 그려주세요.",
+        position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
+      });
+
+    if (formData.contents?.replaceAll(" ", "") === "")
+      return callCustomAlert(customAlert, setCustomAlert, {
+        type: "fail",
+        text: "일기 내용을 작성해주세요.",
+        position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
+      });
 
     if (isModify) {
       const { error: updateError } = await browserClient.from("diary").update(formData).eq("id", POST_ID);
@@ -245,7 +235,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
           e.preventDefault();
           onSubmit();
         }}
-        className="flex flex-col gap-6"
+        className="flex flex-col gap-6 pb-14"
       >
         {/* 타이틀 */}
         <div className="flex flex-col gap-2 mx-4 ">
@@ -334,51 +324,51 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
         </div>
 
         {/* 그림판 */}
-        <div ref={drawRef} className="group/draw open  flex flex-col gap-2  mx-4">
-          <div className="flex items-center justify-between text-base leading-5">
-            그림 그리기{" "}
-            <span onClick={() => toggleTab(drawRef)} className="group-[.open]/draw:rotate-180">
-              <img src="/icons/toggle-arrow.svg" alt="아래 화살표" />
-            </span>
-          </div>
-
-          {!formData.draw ? (
-            <div
-              className="group-[.open]/draw:block hidden text-center text-base text-primary leading-none py-4 rounded-br-2xl rounded-bl-2xl border border-solid border-primary bg-white"
-              onClick={() => setGoDraw(true)}
-            >
-              탭하여 그림그리기 페이지로 이동
-            </div>
-          ) : (
-            <div className="group-[.open]/draw:flex hidden relative items-center justify-center w-full h-[calc((100vw-32px)*0.782)] overflow-hidden rounded-2xl border border-solid border-black bg-white">
-              <div className="absolute top-4 right-4" onClick={() => setFormData({ ...formData, draw: null })}>
-                삭제하기
-              </div>
-              <img className="" src={formData.draw} alt="그림" onClick={() => setGoDraw(true)} />
-            </div>
-          )}
-        </div>
-
         {formData.type !== "편지지" && (
-          <div ref={contentsRef} className="group/contents open flex flex-col gap-2  mx-4">
+          <div ref={drawRef} className="group/draw open  flex flex-col gap-2  mx-4">
             <div className="flex items-center justify-between text-base leading-5">
-              글로 쓰기{" "}
-              <span onClick={() => toggleTab(contentsRef)} className="group-[.open]/contents:rotate-180">
+              그림 그리기{" "}
+              <span onClick={() => toggleTab(drawRef)} className="group-[.open]/draw:rotate-180">
                 <img src="/icons/toggle-arrow.svg" alt="아래 화살표" />
               </span>
             </div>
-            <textarea
-              ref={textareaRef}
-              name="contents"
-              id="contents"
-              rows={9}
-              value={formData.contents}
-              onChange={(e) => onChangeFormData(e)}
-              placeholder="이곳에 내용을 입력해주세요"
-              className="resize-none outline-none w-full bg-local bg-custom-textarea leading-8 group-[.open]/contents:block hidden font-Dovemayo"
-            />
+
+            {!formData.draw ? (
+              <div
+                className="group-[.open]/draw:block hidden text-center text-base text-primary leading-none py-4 rounded-br-2xl rounded-bl-2xl border border-solid border-primary bg-white"
+                onClick={() => setGoDraw(true)}
+              >
+                탭하여 그림그리기 페이지로 이동
+              </div>
+            ) : (
+              <div className="group-[.open]/draw:flex hidden relative items-center justify-center w-full h-[calc((100vw-32px)*0.782)] overflow-hidden rounded-2xl border border-solid border-black bg-white">
+                <div className="absolute top-4 right-4" onClick={() => setFormData({ ...formData, draw: null })}>
+                  삭제하기
+                </div>
+                <img className="" src={formData.draw} alt="그림" onClick={() => setGoDraw(true)} />
+              </div>
+            )}
           </div>
         )}
+
+        <div ref={contentsRef} className="group/contents open flex flex-col gap-2  mx-4">
+          <div className="flex items-center justify-between text-base leading-5">
+            글로 쓰기{" "}
+            <span onClick={() => toggleTab(contentsRef)} className="group-[.open]/contents:rotate-180">
+              <img src="/icons/toggle-arrow.svg" alt="아래 화살표" />
+            </span>
+          </div>
+          <textarea
+            ref={textareaRef}
+            name="contents"
+            id="contents"
+            rows={9}
+            value={formData.contents}
+            onChange={(e) => onChangeFormData(e)}
+            placeholder="이곳에 내용을 입력해주세요"
+            className="resize-none outline-none w-full bg-local bg-custom-textarea leading-8 group-[.open]/contents:block hidden font-Dovemayo"
+          />
+        </div>
 
         <span className="h-14"></span>
         <div className="fixed bottom-0 left-0 flex w-full h-14 bg-background01 border-t border-[#A6A6A6] rounded-tr-2xl rounded-tl-2xl overflow-hidden">
