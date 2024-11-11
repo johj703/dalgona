@@ -21,33 +21,48 @@ const EditProfilePage = () => {
         data: { user }
       } = await supabase.auth.getUser();
       if (user) {
-        setNickname(user.nickname || "");
-        setProfileImage(user.profile_image || DEFAULT_IMAGE);
-        setBirthday(user.birthday || "");
-        setGender(user.gender || "");
-        setBloodType(user.bloodtype || "");
+        // users 테이블에서 추가 정보를 가져오는 부분
+        const { data: profileData, error } = await supabase
+          .from("users")
+          .select("nickname, profile_image, birthday, gender, bloodtype")
+          .eq("id", user.id)
+          .single(); // 한 명의 사용자만 가져옴.
+
+        if (error) {
+          console.log("프로필 데이터를 가져오는데 실패했습니다.", error);
+        }
+
+        if (profileData) {
+          setNickname(user.nickname || "");
+          setProfileImage(user.profile_image || DEFAULT_IMAGE);
+          setBirthday(user.birthday || "");
+          setGender(user.gender || "");
+          setBloodType(user.bloodtype || "");
+        }
       }
     };
     fetchUserData();
   }, []);
 
   const handleSave = async () => {
-    const { error } = await supabase
-      .from("profiles")
-      .update({
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+    if (user) {
+      const { error } = await supabase.from("users").update({
         nickname,
         profile_image: profileImage,
         birthday,
         gender,
         bloodtype: bloodType
-      })
-      .eq("id", user.id);
+      });
 
-    if (error) {
-      alert("프로필 업데이트에 실패했습니다.");
-    } else {
-      alert("프로필이 업데이트가 완료되었습니다.");
-      router.push("/mypage"); // 수정 후 mypage로 이동
+      if (error) {
+        alert("프로필 업데이트에 실패했습니다.");
+      } else {
+        alert("프로필이 업데이트가 완료되었습니다.");
+        router.push("/mypage"); // 수정 후 mypage로 이동
+      }
     }
   };
 
