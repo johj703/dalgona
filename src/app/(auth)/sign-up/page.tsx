@@ -172,7 +172,7 @@ export default function SignUpPage() {
 
         {/* "다음으로" 버튼 */}
         <div className="flex justify-center">
-          <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+          <button type="submit" className="w-full p-2 bg-primary text-white rounded-md hover:bg-primary">
             다음으로
           </button>
         </div>
