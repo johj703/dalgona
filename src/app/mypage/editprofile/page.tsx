@@ -1,6 +1,7 @@
 "use client";
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -8,6 +9,9 @@ const EditProfilePage = () => {
   const supabase = createClientComponentClient();
   const [nickname, setNickname] = useState("");
   const [profileImage, setProfileImage] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [gender, setGender] = useState("");
+  const [bloodType, setBloodType] = useState("");
   const router = useRouter();
   const DEFAULT_IMAGE = "/icons/default-profile.png";
 
@@ -19,6 +23,9 @@ const EditProfilePage = () => {
       if (user) {
         setNickname(user.nickname || "");
         setProfileImage(user.profile_image || DEFAULT_IMAGE);
+        setBirthday(user.birthday || "");
+        setGender(user.gender || "");
+        setBloodType(user.bloodtype || "");
       }
     };
     fetchUserData();
@@ -29,7 +36,10 @@ const EditProfilePage = () => {
       .from("profiles")
       .update({
         nickname,
-        profile_image: profileImage
+        profile_image: profileImage,
+        birthday,
+        gender,
+        bloodtype: bloodType
       })
       .eq("id", user.id);
 
@@ -41,7 +51,57 @@ const EditProfilePage = () => {
     }
   };
 
-  return <div>page</div>;
+  return (
+    <div>
+      <h2>내 정보 수정</h2>
+      <div>
+        <Image src={profileImage} alt="프로필 이미지" width={80} height={80} />
+        <button onClick={() => setProfileImage("/path/to/new/image.png")}>프로필 사진 변경</button>
+      </div>
+
+      <div>
+        <label>닉네임</label>
+        <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} />
+      </div>
+
+      <div>
+        <label>생일</label>
+        <input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
+      </div>
+
+      <div>
+        <label>성별</label>
+        <div>
+          <button className={`gender-button ${gender === "male" ? "selected" : ""}`} onClick={() => setGender("male")}>
+            남성
+          </button>
+          <button
+            className={`gender-button ${gender === "female" ? "selected" : ""}`}
+            onClick={() => setGender("female")}
+          >
+            여성
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <label>혈액형</label>
+        <div>
+          {["A", "B", "O", "AB"].map((type) => (
+            <button
+              key={type}
+              className={`blood-type-button ${bloodType === type ? "selected" : ""}`}
+              onClick={() => setBloodType(type)}
+            >
+              {type}형
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <button onClick={handleSave}>저장</button>
+    </div>
+  );
 };
 
 export default EditProfilePage;
