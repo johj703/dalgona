@@ -24,8 +24,7 @@ const profileSchema = z.object({
     .transform((val) => Number(val))
     .pipe(z.number().min(1, "일은 1일부터 시작합니다.").max(31, "일은 31일까지 가능합니다.")),
   gender: z.enum(["남성", "여성"]),
-  bloodType: z.enum(["A", "B", "O", "AB"]).optional(),
-
+  bloodType: z.enum(["A", "B", "O", "AB"]).optional()
 });
 
 // zod 스키마의 타입을 추론해서 ProfileData 타입을 정의
@@ -78,7 +77,7 @@ export default function SaveUserProfilePage() {
     const sanitizedFileName = sanitizeFileName(file.name); // 고유한 파일 이름 생성
     const filePath = `${userEmail}/${sanitizedFileName}`; // 입력한 이메일 디렉토리를 포함한 파일 경로
 
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from("profile") // 스토리지 버킷 이름
       .upload(filePath, file);
 
@@ -104,9 +103,9 @@ export default function SaveUserProfilePage() {
   const handleGenderSelect = (gender: "남성" | "여성") => {
     setSelectedGender(gender);
     clearErrors("gender");
-  }
+  };
 
-  const handleBloodTypeSelect = (type: "A" | "B" | "O" | "AB" ) => {
+  const handleBloodTypeSelect = (type: "A" | "B" | "O" | "AB") => {
     setSelectedBloodType(type);
     clearErrors("bloodType");
   };
@@ -168,13 +167,33 @@ export default function SaveUserProfilePage() {
           <div className="flex justify-center">
             <div className="relative">
               {profileImage ? (
-                <Image src={URL.createObjectURL(profileImage)} alt="프로필 사진" width={100} height={100} className="w-24 h-24 rounded-full" />
+                <Image
+                  src={URL.createObjectURL(profileImage)}
+                  alt="프로필 사진"
+                  width={100}
+                  height={100}
+                  className="w-24 h-24 rounded-full"
+                />
               ) : (
                 <div className="w-24 h-24 rounded-full bg-gray-200"></div>
               )}
-              <label htmlFor="profileImageUpload" className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md cursor-pointer hover:bg-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553 4.553a1.5 1.5 0 01-.353 2.4 1.5 1.5 0 01-.6.147H5.4a1.5 1.5 0 01-1.5-1.5V7.4a1.5 1.5 0 01.353-2.4A1.5 1.5 0 014.4 5h5l1-2h6l1 2h5a1.5 1.5 0 011.5 1.5v5l-2-2h-5a1.5 1.5 0 00-1.5 1.5v5l-2-2z" />
+              <label
+                htmlFor="profileImageUpload"
+                className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md cursor-pointer hover:bg-gray-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-gray-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 10l4.553 4.553a1.5 1.5 0 01-.353 2.4 1.5 1.5 0 01-.6.147H5.4a1.5 1.5 0 01-1.5-1.5V7.4a1.5 1.5 0 01.353-2.4A1.5 1.5 0 014.4 5h5l1-2h6l1 2h5a1.5 1.5 0 011.5 1.5v5l-2-2h-5a1.5 1.5 0 00-1.5 1.5v5l-2-2z"
+                  />
                 </svg>
               </label>
               <input type="file" id="profileImageUpload" onChange={handleImageUpload} className="hidden" />
@@ -186,34 +205,33 @@ export default function SaveUserProfilePage() {
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-2">생년월일</label>
           <div className="flex gap-2">
-          <select {...register("birthYear")} className="p-2 border border-gray-300 rounded-md w-full">
-            <option value=""></option>
-            {Array.from({ length: 124 }, (_, i) => 1900 + i).map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
-          <p>년</p>
-          <select {...register("birthMonth")} className="p-2 border border-gray-300 rounded-md w-full">
-
-            <option value=""></option>
-            {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-              <option key={month} value={month}>
-                {month}
-              </option>
-            ))}
-          </select>
-          <p>월</p>
-          <select {...register("birthDay")} className="p-2 border border-gray-300 rounded-md w-full">
-            <option value=""></option>
-            {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
-              <option key={day} value={day}>
-                {day}
-              </option>
-            ))}
-          </select>
-          <p>월</p>
+            <select {...register("birthYear")} className="p-2 border border-gray-300 rounded-md w-full">
+              <option value=""></option>
+              {Array.from({ length: 124 }, (_, i) => 1900 + i).map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+            <p>년</p>
+            <select {...register("birthMonth")} className="p-2 border border-gray-300 rounded-md w-full">
+              <option value=""></option>
+              {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+                <option key={month} value={month}>
+                  {month}
+                </option>
+              ))}
+            </select>
+            <p>월</p>
+            <select {...register("birthDay")} className="p-2 border border-gray-300 rounded-md w-full">
+              <option value=""></option>
+              {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
+                <option key={day} value={day}>
+                  {day}
+                </option>
+              ))}
+            </select>
+            <p>월</p>
           </div>
           {errors.birthYear && <p className="text-xs text-red-500 mt-1">{errors.birthYear.message}</p>}
           {errors.birthMonth && <p className="text-xs text-red-500 mt-1">{errors.birthMonth.message}</p>}
@@ -221,33 +239,31 @@ export default function SaveUserProfilePage() {
         </div>
 
         {/* 성별 선택 */}
-      <div>
-        <label className="text-sm font-medium text-gray-700 mb-2 block">성별</label>
-        <div className="flex space-x-4 justify-center">
-          <button
-            type="button"
-            onClick={() => handleGenderSelect("남성")}
-            className={`px-4 py-2 rounded-full border ${
-              selectedGender === "남성" ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
-            }`}
-          >
-            남성
-          </button>
-          <button
-            type="button"
-            onClick={() => handleGenderSelect("여성")}
-            className={`px-4 py-2 rounded-full border ${
-              selectedGender === "여성" ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
-            }`}
-          >
-            여성
-          </button>
+        <div>
+          <label className="text-sm font-medium text-gray-700 mb-2 block">성별</label>
+          <div className="flex space-x-4 justify-center">
+            <button
+              type="button"
+              onClick={() => handleGenderSelect("남성")}
+              className={`px-4 py-2 rounded-full border ${
+                selectedGender === "남성" ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
+              }`}
+            >
+              남성
+            </button>
+            <button
+              type="button"
+              onClick={() => handleGenderSelect("여성")}
+              className={`px-4 py-2 rounded-full border ${
+                selectedGender === "여성" ? "bg-blue-500 text-white" : "border-gray-200 text-gray-700"
+              }`}
+            >
+              여성
+            </button>
+          </div>
+          {errors.gender && <p className="text-red-500 text-sm mt-2">{errors.gender.message}</p>}
         </div>
-        {errors.gender && (
-          <p className="text-red-500 text-sm mt-2">{errors.gender.message}</p>
-        )}
-      </div>
-        
+
         {/* 혈액형 선택 */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-2">혈액형</label>
@@ -271,7 +287,11 @@ export default function SaveUserProfilePage() {
 
         {/* 건너뛰기 및 시작하기 버튼 */}
         <div className="flex justify-between mt-6">
-          <button type="button" onClick={() => router.push("/main")} className="w-1/2 p-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+          <button
+            type="button"
+            onClick={() => router.push("/main")}
+            className="w-1/2 p-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+          >
             건너뛰기
           </button>
           <button type="submit" className="w-1/2 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 ml-2">
