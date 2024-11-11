@@ -58,7 +58,7 @@ const EditProfilePage = () => {
         // 새로운 프로필 이미지를 supabase 스토리지에 업로드
         const fileExt = file.name.split(".").pop();
         const fileName = `${user.id}_${Date.now()}.${fileExt}`;
-        const { data, error } = await supabase.storage.from("profile_image").upload(fileName, file);
+        const { error } = await supabase.storage.from("profile_image").upload(fileName, file);
 
         if (error) {
           alert("프로필 이미지 업로드에 실패했습니다.");
