@@ -57,3 +57,10 @@ export const getSimpleYear = (date: string) => {
   const subYear = replacedDate.substring(0, 4); //yyyy
   return subYear;
 };
+
+//yyyy년 mm월 yy일 -> yy일
+export const getMonthKo = (date: string) => {
+  const replacedDate = date.replace(/\s/g, ""); //yyyy년mm월yy일
+  const monthKo = replacedDate.substring(8); //yy일
+  return monthKo;
+};
