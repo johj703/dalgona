@@ -20,6 +20,7 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
 
   const year = currentDate.getFullYear().toString(); //2024
   const month = (currentDate.getMonth() + 1).toString(); //11
+  const day = currentDate.getDate().toString(); //12
 
   const [userId, setUserId] = useState<string>("");
 
@@ -47,8 +48,10 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
   useEffect(() => {
     setStartYear(year);
     setStartMonth(month);
+    setStartDay(day);
     setEndYear(year);
     setEndMonth(month);
+    setEndDay(day);
   }, []);
 
   return (
@@ -110,7 +113,7 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
                 onChange={(e) => setStartDay(e.target.value)}
                 className="border-[1px] rounded-lg border-[#BFBFBF] p-[5px] w-[70px] h-[36px] mr-[5px]"
               >
-                <option value="none">선택</option>
+                {/* <option value="none">선택</option> */}
                 {days.map((d, idx) => (
                   <option value={d} key={idx}>
                     {d}
