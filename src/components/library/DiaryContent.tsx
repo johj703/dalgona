@@ -84,7 +84,7 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
                 onClick={() => handleDiaryClick(diary.id)}
               >
                 {diary.draw && (
-                  <div className="relative h-48 border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden">
+                  <div className="relative h-48 border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden bg-white">
                     <img src={diary.draw} alt="그림" className="object-cover h-full w-full" />
                     <div className="absolute top-2 right-2 flex flex-col items-center">
                       {diary.emotion && (
