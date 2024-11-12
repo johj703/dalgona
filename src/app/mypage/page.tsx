@@ -48,13 +48,15 @@ const Mypage = () => {
       <CommonTitle title={"마이 페이지"} />
       <div className="py-6">
         <div className="flex gap-[14px] px-4">
-          <Image
-            src={userData?.profile_image ? userData.profile_image : DEFAULT_IMAGE}
-            width={80}
-            height={80}
-            alt="프로필 이미지"
-            className="flex-shrink-0"
-          />
+          <span className="flex-shrink-0 flex items-center justify-center w-20 h-20 rounded-full overflow-hidden">
+            <Image
+              src={userData?.profile_image ? userData.profile_image : DEFAULT_IMAGE}
+              width={80}
+              height={80}
+              alt="프로필 이미지"
+              className="min-w-full min-h-full object-contain"
+            />
+          </span>
 
           <div className="flex-1 flex flex-col gap-[7px]">
             <div className="flex items-center gap-[7px] text-lg leading-tight">

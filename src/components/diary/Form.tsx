@@ -260,7 +260,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
         <div className="flex flex-col gap-2 mx-4 pb-4 border-b border-[rgba(184, 179, 179, 0.40)]">
           <div className="flex items-center justify-between text-base leading-5">날짜</div>
 
-          <div onClick={() => setOpenCalender(true)} className="flex gap-2">
+          <div onClick={() => setOpenCalender(true)} className="flex gap-2 cursor-pointer">
             <div className="text-xl leading-tight text-[#8B8B8B]">
               <span className="text-[#1C1B1F]">{formData.date.slice(0, 4)}</span>년
             </div>
@@ -280,7 +280,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
               return (
                 <li
                   key={emotion}
-                  className="flex flex-col items-center gap-1 w-[74px] shrink-0 text-center text-xs leading-5"
+                  className="flex flex-col items-center gap-1 w-[74px] shrink-0 text-center text-xs leading-5 cursor-pointer"
                   onClick={() => setFormData({ ...formData, emotion: emotion })}
                 >
                   {formData.emotion === emotion ? (
@@ -303,7 +303,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
               return (
                 <li
                   key={type}
-                  className="flex-1"
+                  className="flex-1 cursor-pointer"
                   onClick={() => {
                     if (idx === 2) {
                       setFormData({ ...formData, type: type });
@@ -328,14 +328,14 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
           <div ref={drawRef} className="group/draw open  flex flex-col gap-2  mx-4">
             <div className="flex items-center justify-between text-base leading-5">
               그림 그리기{" "}
-              <span onClick={() => toggleTab(drawRef)} className="group-[.open]/draw:rotate-180">
+              <span onClick={() => toggleTab(drawRef)} className="group-[.open]/draw:rotate-180 cursor-pointer">
                 <img src="/icons/toggle-arrow.svg" alt="아래 화살표" />
               </span>
             </div>
 
             {!formData.draw ? (
               <div
-                className="group-[.open]/draw:block hidden text-center text-base text-primary leading-none py-4 rounded-br-2xl rounded-bl-2xl border border-solid border-primary bg-white"
+                className="group-[.open]/draw:block hidden text-center text-base text-primary leading-none py-4 rounded-br-2xl rounded-bl-2xl border border-solid border-primary bg-white cursor-pointer"
                 onClick={() => setGoDraw(true)}
               >
                 탭하여 그림그리기 페이지로 이동
@@ -354,7 +354,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
         <div ref={contentsRef} className="group/contents open flex flex-col gap-2  mx-4">
           <div className="flex items-center justify-between text-base leading-5">
             글로 쓰기{" "}
-            <span onClick={() => toggleTab(contentsRef)} className="group-[.open]/contents:rotate-180">
+            <span onClick={() => toggleTab(contentsRef)} className="group-[.open]/contents:rotate-180 cursor-pointer">
               <img src="/icons/toggle-arrow.svg" alt="아래 화살표" />
             </span>
           </div>
