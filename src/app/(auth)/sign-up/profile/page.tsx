@@ -148,7 +148,7 @@ export default function SaveUserProfilePage() {
         return;
       }
       // 성공 시 다음 페이지로 이동
-      router.push("/main");
+      router.push("/sign-up/complete");
     } catch (error) {
       console.error("네트워크 오류 또는 알 수 없는 오류 : ", error);
       setErrorMessage("알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
@@ -322,7 +322,7 @@ export default function SaveUserProfilePage() {
           <div className="flex gap-4 mt-auto">
             <button
               type="button"
-              onClick={() => router.push("/main")}
+              onClick={() => router.push("/sign-up/complete")}
               className="w-1/2 py-3 bg-primary text-lg leading-normal text-white rounded-lg hover:bg-primary"
             >
               건너뛰기
