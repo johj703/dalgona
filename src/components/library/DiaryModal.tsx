@@ -86,9 +86,15 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
         const isSameMonth = diaryMonth === month;
         const isSameDay = day === 0 || diaryDay === day;
 
-        const matchesSearch = diary.title.includes(debouncedSearchTerm) || diary.contents.includes(debouncedSearchTerm);
+        // 검색어가 있을 때는 선택된 연도의 모든 일기를 필터링, 날짜는 무시하고 검색어로 필터링
+        if (debouncedSearchTerm) {
+          const matchesSearch =
+            diary.title.includes(debouncedSearchTerm) || diary.contents.includes(debouncedSearchTerm);
+          return isSameYear && matchesSearch;
+        }
 
-        return isSameYear && isSameMonth && isSameDay && matchesSearch;
+        // 검색어가 없을 때는 연도, 월, 일 조건으로 필터링
+        return isSameYear && isSameMonth && isSameDay;
       });
 
       result.sort((a, b) => {
@@ -98,7 +104,6 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
           ? (dateB?.getTime() || 0) - (dateA?.getTime() || 0)
           : (dateA?.getTime() || 0) - (dateB?.getTime() || 0);
       });
-      console.log("result=>", result);
       setFilteredDiaries(result);
     };
 
