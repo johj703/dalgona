@@ -1,7 +1,6 @@
 "use client";
 
 import browserClient from "@/utils/supabase/client";
-// import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
