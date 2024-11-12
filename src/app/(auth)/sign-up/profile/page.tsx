@@ -169,74 +169,84 @@ export default function SaveUserProfilePage() {
           {/* 프로필 사진 선택 */}
           <div className="mb-10">
             <label className="block text-sm leading-normal mb-4">프로필 사진</label>
-            <div className="flex justify-center">
-              <div className="relative">
+
+            <div className="relative w-[100px] h-[100px] mx-auto">
+              <span className="flex items-center justify-center w-full h-full rounded-full overflow-hidden">
                 {profileImage ? (
                   <Image
                     src={URL.createObjectURL(profileImage)}
                     alt="프로필 사진"
                     width={100}
                     height={100}
-                    className="w-24 h-24 rounded-full"
+                    className="min-w-full min-h-full object-contain"
                   />
                 ) : (
-                  <div className="w-24 h-24 rounded-full bg-gray-200"></div>
+                  <img
+                    src="/icons/default-profile.svg"
+                    alt="기본 프로필 이미지"
+                    className="min-w-full min-h-full object-contain"
+                  />
                 )}
-                <label
-                  htmlFor="profileImageUpload"
-                  className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md cursor-pointer hover:bg-gray-100"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-gray-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15 10l4.553 4.553a1.5 1.5 0 01-.353 2.4 1.5 1.5 0 01-.6.147H5.4a1.5 1.5 0 01-1.5-1.5V7.4a1.5 1.5 0 01.353-2.4A1.5 1.5 0 014.4 5h5l1-2h6l1 2h5a1.5 1.5 0 011.5 1.5v5l-2-2h-5a1.5 1.5 0 00-1.5 1.5v5l-2-2z"
-                    />
-                  </svg>
-                </label>
-                <input type="file" id="profileImageUpload" onChange={handleImageUpload} className="hidden" />
-              </div>
+              </span>
+              <label
+                htmlFor="profileImageUpload"
+                className="absolute bottom-0 right-0 p-[6px] bg-white rounded-full border-black border cursor-pointer"
+              >
+                <img src="/icons/camera.svg" alt="프로필 업로드" />
+              </label>
+              <input type="file" id="profileImageUpload" onChange={handleImageUpload} className="hidden" />
             </div>
           </div>
 
           {/* 생년월일 입력 */}
           <div className="mb-[14px] text-left">
-            <label className="block text-sm font-medium text-gray-700 mb-2">생년월일</label>
-            <div className="flex space-x-4 justify-start">
-              <select {...register("birthYear")} className="p-2 border border-gray-300 rounded-md w-full">
-                <option value="">선택</option>
-                {Array.from({ length: 124 }, (_, i) => 1900 + i).map((year) => (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
-              <p className="self-center justify-start">년</p>
-              <select {...register("birthMonth")} className="p-2 border border-gray-300 rounded-md w-full">
-                <option value="">선택</option>
-                {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-                  <option key={month} value={month}>
-                    {month}
-                  </option>
-                ))}
-              </select>
-              <p className="self-center justify-start">월</p>
-              <select {...register("birthDay")} className="p-2 border border-gray-300 rounded-md w-full">
-                <option value="">선택</option>
-                {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
-                  <option key={day} value={day}>
-                    {day}
-                  </option>
-                ))}
-              </select>
-              <p className="self-center justify-start">일</p>
+            <label className="block text-sm leading-normal">생년월일</label>
+
+            <div className="flex gap-[6px]">
+              <span className="flex items-center gap-[2px] text-sm leading-normal">
+                <select
+                  {...register("birthYear")}
+                  className="w-[75px] text-xs text-black leading-normal py-[9px] px-[13.5px] border border-gray03 rounded-lg outline-none appearance-none bg-[url('/icons/toggle-arrow.svg')] bg-no-repeat bg-[center_right_13.5px]"
+                >
+                  <option value="">선택</option>
+                  {Array.from({ length: 124 }, (_, i) => 1900 + i).map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+                년
+              </span>
+
+              <span className="flex items-center gap-[2px] text-sm leading-normal">
+                <select
+                  {...register("birthMonth")}
+                  className="w-[75px] text-xs text-black leading-normal py-[9px] px-[13.5px] border border-gray03 rounded-lg outline-none appearance-none bg-[url('/icons/toggle-arrow.svg')] bg-no-repeat bg-[center_right_13.5px]"
+                >
+                  <option value="">선택</option>
+                  {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+                    <option key={month} value={month}>
+                      {month}
+                    </option>
+                  ))}
+                </select>
+                월
+              </span>
+
+              <span className="flex items-center gap-[2px] text-sm leading-normal">
+                <select
+                  {...register("birthDay")}
+                  className="w-[75px] text-xs text-black leading-normal py-[9px] px-[13.5px] border border-gray03 rounded-lg outline-none appearance-none bg-[url('/icons/toggle-arrow.svg')] bg-no-repeat bg-[center_right_13.5px]"
+                >
+                  <option value="">선택</option>
+                  {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
+                    <option key={day} value={day}>
+                      {day}
+                    </option>
+                  ))}
+                </select>
+                일
+              </span>
             </div>
             {errors.birthYear && <p className="text-xs text-red-500 mt-1">{errors.birthYear.message}</p>}
             {errors.birthMonth && <p className="text-xs text-red-500 mt-1">{errors.birthMonth.message}</p>}
@@ -301,7 +311,9 @@ export default function SaveUserProfilePage() {
               ))}
             </div>
           </div>
+
           <p className="text-xs text-gray-300">위 항목들은 선택사항이며, 언제든지 나중에 수정할 수 있습니다.</p>
+
           {/* 에러 메세지 */}
           {/* {errorMessage && <p className="">{errorMessage}</p>} */}
 
