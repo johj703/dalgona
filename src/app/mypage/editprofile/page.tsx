@@ -10,7 +10,7 @@ const EditProfilePage = () => {
   const [nickname, setNickname] = useState("");
   const [profileImage, setProfileImage] = useState("");
   const [birthday, setBirthday] = useState("");
-  const [gender, setGender] = useState("");
+  const [selectedGender, setSelectedGender] = useState<"여성" | "남성" | "">("");
   const [bloodType, setBloodType] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const router = useRouter();
@@ -37,7 +37,7 @@ const EditProfilePage = () => {
           setNickname(profileData.nickname || "");
           setProfileImage(profileData.profile_image || DEFAULT_IMAGE);
           setBirthday(profileData.birthday || "");
-          setGender(profileData.gender || "");
+          setSelectedGender(profileData.gender || "");
           setBloodType(profileData.bloodtype || "");
           console.log("Profile Data: ", profileData); // 데이터 확인
         }
@@ -46,6 +46,10 @@ const EditProfilePage = () => {
     };
     fetchUserData();
   }, []);
+
+  const handleGenderSelect = (gender: "여성" | "남성") => {
+    setSelectedGender(gender);
+  };
 
   const handleSave = async () => {
     const {
@@ -72,13 +76,16 @@ const EditProfilePage = () => {
         uploadedImageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile_images/${fileName}`;
       }
 
-      const { error } = await supabase.from("users").update({
-        nickname,
-        profile_image: uploadedImageUrl,
-        birthday,
-        gender,
-        bloodtype: bloodType
-      });
+      const { error } = await supabase
+        .from("users")
+        .update({
+          nickname,
+          profile_image: uploadedImageUrl,
+          birthday,
+          gender: selectedGender,
+          bloodtype: bloodType
+        })
+        .eq("id", user.id);
 
       if (error) {
         alert("프로필 업데이트에 실패했습니다.");
@@ -143,17 +150,17 @@ const EditProfilePage = () => {
         <div className="flex gap-4 mt-1">
           <button
             className={`px-4 py-2 rounded-md ${
-              gender === "male" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+              selectedGender === "남성" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
             }`}
-            onClick={() => setGender("male")}
+            onClick={() => handleGenderSelect("남성")}
           >
             남성
           </button>
           <button
             className={`px-4 py-2 rounded-md ${
-              gender === "female" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+              selectedGender === "여성" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
             }`}
-            onClick={() => setGender("female")}
+            onClick={() => handleGenderSelect("여성")}
           >
             여성
           </button>
