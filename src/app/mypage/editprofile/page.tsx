@@ -11,7 +11,7 @@ const EditProfilePage = () => {
   const [profileImage, setProfileImage] = useState("");
   const [birthday, setBirthday] = useState("");
   const [selectedGender, setSelectedGender] = useState<"여성" | "남성" | "">("");
-  const [bloodType, setBloodType] = useState("");
+  const [selectedBloodType, setSelectedBloodType] = useState<"A" | "B" | "O" | "AB" | "">("");
   const [file, setFile] = useState<File | null>(null);
   const router = useRouter();
   const DEFAULT_IMAGE = "https://spimvuqwvknjuepojplk.supabase.co/storage/v1/object/public/profile/default_profile.svg";
@@ -38,7 +38,7 @@ const EditProfilePage = () => {
           setProfileImage(profileData.profile_image || DEFAULT_IMAGE);
           setBirthday(profileData.birthday || "");
           setSelectedGender(profileData.gender || "");
-          setBloodType(profileData.bloodtype || "");
+          setSelectedBloodType(profileData.bloodtype || "");
           console.log("Profile Data: ", profileData); // 데이터 확인
         }
       }
@@ -49,6 +49,10 @@ const EditProfilePage = () => {
 
   const handleGenderSelect = (gender: "여성" | "남성") => {
     setSelectedGender(gender);
+  };
+
+  const handleBloodTypeSelect = (bloodType: "A" | "B" | "O" | "AB") => {
+    setSelectedBloodType(bloodType);
   };
 
   const handleSave = async () => {
@@ -64,7 +68,7 @@ const EditProfilePage = () => {
         // 새로운 프로필 이미지를 supabase 스토리지에 업로드
         const fileExt = file.name.split(".").pop();
         const fileName = `${user.id}_${Date.now()}.${fileExt}`;
-        const { error } = await supabase.storage.from("profile_image").upload(fileName, file);
+        const { error } = await supabase.storage.from("profile-images").upload(fileName, file);
 
         if (error) {
           alert("프로필 이미지 업로드에 실패했습니다.");
@@ -83,7 +87,7 @@ const EditProfilePage = () => {
           profile_image: uploadedImageUrl,
           birthday,
           gender: selectedGender,
-          bloodtype: bloodType
+          bloodtype: selectedBloodType
         })
         .eq("id", user.id);
 
@@ -175,9 +179,9 @@ const EditProfilePage = () => {
             <button
               key={type}
               className={`px-4 py-2 rounded-md ${
-                bloodType === type ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+                selectedBloodType === type ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
               }`}
-              onClick={() => setBloodType(type)} // 선택된 혈액형을 설정
+              onClick={() => handleBloodTypeSelect(type)} // 선택된 혈액형을 설정
             >
               {type}형
             </button>
