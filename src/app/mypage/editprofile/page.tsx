@@ -1,12 +1,13 @@
 "use client";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import browserClient from "@/utils/supabase/client";
+// import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const EditProfilePage = () => {
-  const supabase = createClientComponentClient();
+  const supabase = browserClient;
   const [nickname, setNickname] = useState("");
   const [profileImage, setProfileImage] = useState("");
   const [birthday, setBirthday] = useState("");
@@ -41,6 +42,7 @@ const EditProfilePage = () => {
           setBloodType(profileData.bloodtype || "");
         }
       }
+      console.log(user);
     };
     fetchUserData();
   }, []);
