@@ -14,7 +14,7 @@ const EditProfilePage = () => {
   const [bloodType, setBloodType] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const router = useRouter();
-  const DEFAULT_IMAGE = "/icons/default-profile.png";
+  const DEFAULT_IMAGE = "https://spimvuqwvknjuepojplk.supabase.co/storage/v1/object/public/profile/default_profile.svg";
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -39,9 +39,10 @@ const EditProfilePage = () => {
           setBirthday(profileData.birthday || "");
           setGender(profileData.gender || "");
           setBloodType(profileData.bloodtype || "");
+          console.log("Profile Data: ", profileData); // 데이터 확인
         }
       }
-      console.log(user);
+      console.log("User Data", user);
     };
     fetchUserData();
   }, []);
