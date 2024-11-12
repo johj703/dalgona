@@ -1,5 +1,6 @@
 "use client";
 
+import Modal from "@/components/Modal";
 import browserClient from "@/utils/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -11,6 +12,7 @@ export default function SignInPage() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [openClose, setOpenClose] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -22,6 +24,7 @@ export default function SignInPage() {
     e.preventDefault();
 
     if (email === "" || password === "") {
+      setOpenClose(true);
       setErrorMessage("이메일과 비밀번호를 모두 입력해 주세요.");
       return;
     }
@@ -34,6 +37,7 @@ export default function SignInPage() {
       });
 
       if (error) {
+        setOpenClose(true);
         setErrorMessage("아이디 또는 비밀번호가 올바르지 않습니다.");
         return;
       }
@@ -56,7 +60,7 @@ export default function SignInPage() {
       </div>
 
       {/* 에러 메세지 출력 */}
-      {errorMessage && <p className="text-center text-red-500 mb-4">{errorMessage}</p>}
+      {openClose && <Modal mainText="안내" subText={errorMessage} setModalState={setOpenClose} />}
 
       {/* 로그인 폼 */}
       <form onSubmit={handleSignIn} className="mt-5">

@@ -200,7 +200,7 @@ export default function SaveUserProfilePage() {
 
           {/* 생년월일 입력 */}
           <div className="mb-[14px] text-left">
-            <label className="block text-sm leading-normal">생년월일</label>
+            <label className="block text-sm leading-normal mb-[10px]">생년월일</label>
 
             <div className="flex gap-[6px]">
               <span className="flex items-center gap-[2px] text-sm leading-normal">
@@ -255,13 +255,14 @@ export default function SaveUserProfilePage() {
 
           {/* 성별 선택 */}
           <div className="text-left mb-4">
-            <label className="text-sm font-medium text-gray-700 mb-2 block">성별</label>
-            <div className="flex space-x-4 justify-start">
+            <label className="block text-sm leading-normal mb-[10px]">성별</label>
+
+            <div className="flex gap-[10px]">
               <button
                 type="button"
                 onClick={() => handleGenderSelect("여성")}
-                className={`flex items-center px-4 py-2 rounded-full border ${
-                  selectedGender === "여성" ? "bg-primary text-white" : "bg-white text-primary border-primary "
+                className={`flex items-center gap-1 h-fit px-[18.5px] py-[6px] text-xs leading-normal rounded-2xl border border-primary  ${
+                  selectedGender === "여성" ? "bg-primary text-white" : "bg-white text-primary "
                 }`}
               >
                 <Image
@@ -269,15 +270,14 @@ export default function SaveUserProfilePage() {
                   alt="여성 아이콘"
                   width={18}
                   height={18}
-                  className="mr-2"
                 />
-                <span>여성</span>
+                여성
               </button>
               <button
                 type="button"
                 onClick={() => handleGenderSelect("남성")}
-                className={`flex items-center px-4 py-2 rounded-full border ${
-                  selectedGender === "남성" ? "bg-primary text-white" : "bg-white text-primary border-primary"
+                className={`flex items-center gap-1 h-fit px-[18.5px] py-[6px] text-xs leading-normal rounded-2xl border border-primary   ${
+                  selectedGender === "남성" ? "bg-primary text-white" : "bg-white text-primary"
                 }`}
               >
                 <Image
@@ -285,9 +285,8 @@ export default function SaveUserProfilePage() {
                   alt="남성 아이콘"
                   width={18}
                   height={18}
-                  className="mr-2"
                 />
-                <p>남성</p>
+                남성
               </button>
             </div>
             {errors.gender && <p className="text-primary text-sm mt-2">{errors.gender.message}</p>}
@@ -295,15 +294,15 @@ export default function SaveUserProfilePage() {
 
           {/* 혈액형 선택 */}
           <div className="text-left">
-            <label className="text-sm font-medium text-gray-700 mb-2">혈액형</label>
-            <div className="flex gap-4 justify-start">
+            <label className="block text-sm leading-normal mb-[10px]">혈액형</label>
+            <div className="flex gap-[10px]">
               {["A", "B", "O", "AB"].map((type) => (
                 <button
                   key={type}
                   type="button"
                   onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")}
-                  className={`w-full p-2 rounded-full border ${
-                    selectedBloodType === type ? "bg-primary text-white" : "bg-white text-primary border-primary"
+                  className={`flex items-center justify-center w-16 h-8 text-sm leading-normal rounded-2xl border border-primary ${
+                    selectedBloodType === type ? "bg-primary text-white" : "bg-white text-primary"
                   }`}
                 >
                   {type}
@@ -312,7 +311,9 @@ export default function SaveUserProfilePage() {
             </div>
           </div>
 
-          <p className="text-xs text-gray-300">위 항목들은 선택사항이며, 언제든지 나중에 수정할 수 있습니다.</p>
+          <p className="mt-[10px] text-sm leading-tight text-[#b9b9b9]">
+            위 항목들은 선택사항이며, 언제든지 나중에 수정할 수 있습니다.
+          </p>
 
           {/* 에러 메세지 */}
           {/* {errorMessage && <p className="">{errorMessage}</p>} */}
