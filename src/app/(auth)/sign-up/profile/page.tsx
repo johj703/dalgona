@@ -35,7 +35,8 @@ export default function SaveUserProfilePage() {
     register,
     handleSubmit,
     formState: { errors },
-    clearErrors
+    clearErrors,
+    setValue
   } = useForm<ProfileData>({
     resolver: zodResolver(profileSchema)
   });
@@ -102,6 +103,7 @@ export default function SaveUserProfilePage() {
   // 클릭시 스타일 변경 로직
   const handleGenderSelect = (gender: "남성" | "여성") => {
     setSelectedGender(gender);
+    setValue("gender", gender);
     clearErrors("gender");
   };
 
@@ -112,8 +114,21 @@ export default function SaveUserProfilePage() {
 
   // 폼 제출 핸들러
   const onSubmit = async (data: ProfileData) => {
+    // selectedGender가 정의되어 있는 경우 data.gender에 할당
+    data.gender = selectedGender || data.gender;
+
+    // selectedBloodType이 정의되어 있는 경우 data.bloodType에 할당
+    data.bloodType = selectedBloodType || data.bloodType;
+
     if (!userEmail) {
       setErrorMessage("로그인 상태를 확인할 수 없습니다.");
+      return;
+    }
+
+    // 유효성 검사 에러 확인
+    if (Object.keys(errors).length > 0) {
+      console.log("유효성 검사 오류 : ", errors);
+      setErrorMessage("입력한 정보를 확인해 주세요.");
       return;
     }
     try {
@@ -127,6 +142,10 @@ export default function SaveUserProfilePage() {
       let profileImageUrl = null;
       if (profileImage) {
         profileImageUrl = await uploadProfileImage(profileImage);
+        if (!profileImageUrl) {
+          setErrorMessage("프로필 이미지 업로드 중 문제가 발생했습니다.");
+          return;
+        }
       }
 
       // Supabase에 프로필 데이터 저장
@@ -135,7 +154,8 @@ export default function SaveUserProfilePage() {
         .update({
           profile_image: profileImageUrl, // 이미지 URL을 profile_image에 저장
           birthday, // yyyy-mm-dd 형태로 저장
-          gender: data.gender
+          gender: data.gender,
+          bloodtype: data.bloodType // bloodType 저장
         })
         // 이메일로 특정 사용자 지정
         .eq("email", userEmail);
@@ -244,6 +264,7 @@ export default function SaveUserProfilePage() {
           <div className="flex space-x-4 justify-start">
             <button
               type="button"
+              {...register("gender", { required: "성별을 선택해주세요." })}
               onClick={() => handleGenderSelect("여성")}
               className={`flex items-center px-4 py-2 rounded-full border ${
                 selectedGender === "여성" ? "bg-primary text-white" : "bg-white text-primary border-primary "
@@ -260,6 +281,7 @@ export default function SaveUserProfilePage() {
             </button>
             <button
               type="button"
+              {...register("gender", { required: "성별을 선택해주세요." })}
               onClick={() => handleGenderSelect("남성")}
               className={`flex items-center px-4 py-2 rounded-full border ${
                 selectedGender === "남성" ? "bg-primary text-white" : "bg-white text-primary border-primary"
