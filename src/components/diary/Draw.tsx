@@ -16,10 +16,8 @@ const initialCustom = {
 const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) => {
   const wrapRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const [lineCustom, setLineCustom] = useState<LineCustom>(initialCustom);
-  const [getImage, setGetImage] = useState<FileList | null>(null);
   const [pathMode, setPathMode] = useState<string>("");
   const [tool, setTool] = useState<string>("pen");
-  const fileRef = useRef<HTMLInputElement>(null);
 
   const clientRect = useClientSize(wrapRef);
   const canvasWidth = clientRect.width;
@@ -61,12 +59,10 @@ const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) 
           canvasWidth={canvasWidth}
           canvasHeight={canvasHeight}
           lineCustom={lineCustom}
-          getImage={getImage}
           pathMode={pathMode}
           setPathMode={setPathMode}
           tool={tool}
           setTool={setTool}
-          fileRef={fileRef.current}
           setFormData={setFormData}
           setGoDraw={setGoDraw}
           goDraw={goDraw}
@@ -99,8 +95,6 @@ const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) 
           )}
         </button>
 
-        {/* <button onClick={() => setTool("paint")}>채우기</button> */}
-
         <button onClick={() => setTool("pallete")}>
           {tool === "pallete" ? (
             <img src={iconOnOff("pallete", "on")} alt="팔레트 on" />
@@ -110,38 +104,22 @@ const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) 
         </button>
 
         {tool === "pen" && (
-          <input
-            type="range"
-            name="lineWidth"
-            id="lineWidth"
-            min={1}
-            max={20}
-            value={lineCustom.lineWidth}
-            step={1}
-            onChange={(e) => handleChangeCustom(e)}
-            className="hidden"
-          />
+          <div className="absolute bottom-full flex items-center gap-4 w-full py-[22px] px-8 rounded-tl-lg rounded-tr-lg overflow-x-auto scrollbar-hide bg-[#404040]">
+            <input
+              type="range"
+              name="lineWidth"
+              id="lineWidth"
+              min={1}
+              max={20}
+              value={lineCustom.lineWidth}
+              step={1}
+              onChange={(e) => handleChangeCustom(e)}
+            />
+          </div>
         )}
         {tool === "pallete" && (
           <Pallete lineCustom={lineCustom} setLineCustom={setLineCustom} handleChangeCustom={handleChangeCustom} />
         )}
-
-        {/* 네모 그리기 보류 */}
-        {/* <div>
-          <div onClick={() => setTool("square")}>네모</div>
-        </div> */}
-
-        <input
-          type="file"
-          name="uploadImage"
-          id="uploadImage"
-          accept="image/*"
-          ref={fileRef}
-          onChange={(e) => {
-            setGetImage(e.target.files);
-          }}
-          className="hidden"
-        />
       </div>
     </div>
   );
