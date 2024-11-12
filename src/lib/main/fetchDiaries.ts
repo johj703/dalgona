@@ -48,7 +48,7 @@ export const getSearchPaginatedDiaries = async (pageParam: number, limit: number
     .from("diary")
     .select("*", { count: "exact" })
     .eq("user_id", user_id)
-    .like("contents", `%${value}%`)
+    .or(`contents.ilike.%${value}%,title.ilike.%${value}%`)
     .order("date", { ascending: false })
     .range(from, to);
 

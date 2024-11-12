@@ -23,10 +23,10 @@ const Navigation = () => {
           return (
             <li
               key={navi}
-              className="flex justify-center items-center w-[25%] h-[52px] border-[1px] border-[#FDF7F4] shrink-0"
+              className="block w-[25%] h-[52px] border-[1px] border-[#FDF7F4] shrink-0"
               onClick={() => setFormData(navi)} //이동
             >
-              <Link href={navi} key={navi}>
+              <Link href={navi} key={navi} className="flex justify-center items-center w-full h-full">
                 {params === navi ? ( //유지
                   <Image src={getNavigation(navi, "on")} alt={navi} width={24} height={24} />
                 ) : (
