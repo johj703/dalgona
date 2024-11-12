@@ -1,6 +1,8 @@
 "use client";
 
+import Modal from "@/components/Modal";
 import browserClient from "@/utils/supabase/client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -10,6 +12,7 @@ export default function SignInPage() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [openClose, setOpenClose] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -21,6 +24,7 @@ export default function SignInPage() {
     e.preventDefault();
 
     if (email === "" || password === "") {
+      setOpenClose(true);
       setErrorMessage("이메일과 비밀번호를 모두 입력해 주세요.");
       return;
     }
@@ -33,6 +37,7 @@ export default function SignInPage() {
       });
 
       if (error) {
+        setOpenClose(true);
         setErrorMessage("아이디 또는 비밀번호가 올바르지 않습니다.");
         return;
       }
@@ -49,82 +54,83 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-sm p-4 bg-white shadow-md rounded-md">
-        <h1 className="text-center text-2xl font-bold mb-6">감정일기</h1>
+    <div className="flex flex-col items-center pt-[68px] px-4">
+      <div className="p-[10px]">
+        <img src="/icons/logo.svg" alt="로고" className="w-auto h-9" />
+      </div>
 
-        {/* 에러 메세지 출력 */}
-        {errorMessage && <p className="text-center text-red-500 mb-4">{errorMessage}</p>}
+      {/* 에러 메세지 출력 */}
+      {openClose && <Modal mainText="안내" subText={errorMessage} setModalState={setOpenClose} />}
 
-        {/* 로그인 폼 */}
-        <form onSubmit={handleSignIn} className="space-y-4">
-          {/* 이메일 입력 */}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium">
-              이메일:
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEamil(e.target.value)}
-              required
-              className="block w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
+      {/* 로그인 폼 */}
+      <form onSubmit={handleSignIn} className="mt-5">
+        {/* 이메일 입력 */}
 
-          {/* 비밀번호 입력 */}
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium">
-              비밀번호:
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="block w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEamil(e.target.value)}
+          required
+          className="input-style"
+          placeholder="이메일"
+        />
 
-          {/* 자동 로그인 체크박스 */}
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="rememberMe"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-              className="mr-2"
-            />
-            <label htmlFor="rememberMe" className="text-sm">
-              자동 로그인
-            </label>
-          </div>
+        {/* 비밀번호 입력 */}
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="input-style mt-4"
+          placeholder="비밀번호"
+        />
 
-          <div>
-            <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">
-              로그인
-            </button>
-          </div>
-        </form>
-
-        <div className="flex justify-between text-sm mt-4">
-          <a href="#" className="hover:underline">
-            아이디 찾기
-          </a>
-          <a href="#" className="hover:underline">
-            비밀번호 찾기
-          </a>
-          <a href="#" className="hover:underline">
-            회원가입
-          </a>
+        {/* 자동 로그인 체크박스 */}
+        {/* UT 미구현 */}
+        <div className="relative hidden items-center gap-[10px] mt-5">
+          <input
+            type="checkbox"
+            id="rememberMe"
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            className="absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 opacity-0 peer"
+          />
+          <span className="bg-checkbox-off peer-checked:bg-checkbox-on w-6 h-6"></span>
+          <label htmlFor="rememberMe" className="text-sm">
+            자동 로그인
+          </label>
         </div>
 
-        <div className="my-4 border-t border-gray-300"></div>
-        <p className="text-center text-sm">간편 로그인</p>
+        <button
+          type="submit"
+          className="mt-[31px] py-[14.5px] w-full text-lg leading-[1.35] text-white rounded-lg bg-primary"
+        >
+          로그인
+        </button>
+      </form>
 
-        <div className="flex justify-center mt-4 gap-3">
+      <div className="flex justify-between mt-[26px]">
+        {/* UT 미구현 */}
+        {/* <a href="#" className="hover:underline">
+          아이디 찾기
+        </a>
+        <a href="#" className="hover:underline">
+          비밀번호 찾기
+        </a> */}
+        <Link href={"/sign-up"} className="text-base leading-tight">
+          회원가입
+        </Link>
+      </div>
+
+      {/* UT 미구현 */}
+      <div className="hidden w-full mt-[73px]">
+        <p className="flex gap-[27px] items-center text-sm leading-4 before:flex-1 before:h-[1px] before:bg-gray03 after:flex-1 after:h-[1px] after:bg-gray03">
+          간편 로그인
+        </p>
+
+        <div className="flex justify-center mt-[18px] gap-[14px]">
           <button className="p-2 border-gray-200 rounded">깃허브</button>
           <button className="p-2 border-gray-200 rounded">구글</button>
           <button className="p-2 border-gray-200 rounded">카카오</button>
