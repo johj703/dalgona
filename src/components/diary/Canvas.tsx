@@ -1,6 +1,5 @@
 "use client";
 
-import drawImage from "@/lib/diary/drawImage";
 import getRatio from "@/lib/diary/getRatio";
 //import { convertHexToRgba, floodFill } from "@/lib/paint";
 import redo from "@/lib/diary/redo";
@@ -17,12 +16,10 @@ const Canvas = ({
   canvasWidth,
   canvasHeight,
   lineCustom,
-  getImage,
   pathMode,
   setPathMode,
   tool,
   setTool,
-  fileRef,
   setFormData,
   formData,
   setGoDraw,
@@ -83,13 +80,6 @@ const Canvas = ({
     ctx.lineWidth = Number(lineCustom.lineWidth);
     ctx.strokeStyle = tool === "eraser" ? "#ffffff" : lineCustom.lineColor;
   }
-
-  // 이미지 업로드
-  useEffect(() => {
-    if (ctx) {
-      drawImage({ getImage, ctx, saveHistory, fileRef });
-    }
-  }, [getImage]);
 
   // undo redo reset
   useEffect(() => {
