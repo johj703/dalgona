@@ -99,51 +99,60 @@ const EditProfilePage = () => {
   };
 
   return (
-    <div>
-      <h2>내 정보 수정</h2>
+    <div className="flex flex-col items-center p-6 bg-gray-50 min-h-screen">
+      <h2 className="text-2xl font-semibold mb-6">내 정보 수정</h2>
 
       {/* 프로필 이미지와 변경 버튼 */}
-      <div>
-        <Image src={profileImage} alt="프로필 이미지" width={80} height={80} />
+      <div className="flex flex-col items-center mb-4">
+        <Image src={profileImage} alt="프로필 이미지" width={80} height={80} className="rounded-full" />
 
         {/* 프로필 사진 변경 버튼 */}
         <input
           type="file"
           accept="image/*"
           onChange={handleFileChange} // 파일 선택시 상태 업데이트
-          className="mt-2"
+          className="mt-4 text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
         />
       </div>
 
       {/* 닉네임 입력 필드 */}
-      <div>
-        <label>닉네임</label>
+      <div className="w-full max-w-xs mb-4">
+        <label className="block text-sm font-medium text-gray-700">닉네임</label>
         <input
           type="text"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)} // 입력값 변경시 상태 업데이트
+          className="input w-full border rounded-md p-2 mt-1"
         />
       </div>
 
       {/* 생일 입력 필드 */}
-      <div>
-        <label>생년월일</label>
+      <div className="w-full max-w-xs mb-4">
+        <label className="block text-sm font-medium text-gray-700">생년월일</label>
         <input
           type="date"
           value={birthday}
           onChange={(e) => setBirthday(e.target.value)} // 입력값 변경시 상태 업데이트
+          className="input w-full border rounded-md p-2 mt-1"
         />
       </div>
 
       {/* 성별 선택 버튼 */}
-      <div>
-        <label>성별</label>
-        <div>
-          <button className={`gender-button ${gender === "male" ? "selected" : ""}`} onClick={() => setGender("male")}>
+      <div className="w-full max-w-xs mb-4">
+        <label className="block text-sm font-medium text-gray-700">성별</label>
+        <div className="flex gap-4 mt-1">
+          <button
+            className={`px-4 py-2 rounded-md ${
+              gender === "male" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+            }`}
+            onClick={() => setGender("male")}
+          >
             남성
           </button>
           <button
-            className={`gender-button ${gender === "female" ? "selected" : ""}`}
+            className={`px-4 py-2 rounded-md ${
+              gender === "female" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+            }`}
             onClick={() => setGender("female")}
           >
             여성
@@ -152,13 +161,15 @@ const EditProfilePage = () => {
       </div>
 
       {/* 혈액형 선택 버튼 */}
-      <div>
-        <label>혈액형</label>
-        <div>
+      <div className="w-full max-w-xs mb-4">
+        <label className="block text-sm font-medium text-gray-700">혈액형</label>
+        <div className="flex gap-4 mt-1">
           {["A", "B", "O", "AB"].map((type) => (
             <button
               key={type}
-              className={`blood-type-button ${bloodType === type ? "selected" : ""}`}
+              className={`px-4 py-2 rounded-md ${
+                bloodType === type ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+              }`}
               onClick={() => setBloodType(type)} // 선택된 혈액형을 설정
             >
               {type}형
@@ -167,7 +178,12 @@ const EditProfilePage = () => {
         </div>
       </div>
 
-      <button onClick={handleSave}>저장</button>
+      <button
+        onClick={handleSave}
+        className="w-24 max-x-xs bg-blue-500 text-white py-2 rounded-md mt-6 hover:bg-blue-600"
+      >
+        저장하기
+      </button>
     </div>
   );
 };
