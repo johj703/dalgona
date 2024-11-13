@@ -15,6 +15,7 @@ const EditProfilePage = () => {
   const [selectedGender, setSelectedGender] = useState<"여성" | "남성" | "">("");
   const [selectedBloodType, setSelectedBloodType] = useState<"A" | "B" | "O" | "AB" | "">("");
   const [file, setFile] = useState<File | null>(null);
+  const [daysInMonth, setDaysInMonth] = useState<number[]>([]); // 동적으로 일 수 목록
   const router = useRouter();
   const DEFAULT_IMAGE = "https://spimvuqwvknjuepojplk.supabase.co/storage/v1/object/public/profile/default_profile.svg";
 
@@ -46,13 +47,27 @@ const EditProfilePage = () => {
 
           setSelectedGender(profileData.gender || "");
           setSelectedBloodType(profileData.bloodtype || "");
-          console.log("Profile Data: ", profileData); // 데이터 확인
         }
       }
-      console.log("User Data", user);
     };
     fetchUserData();
   }, []);
+
+  // 생일 연도와 월에 따른 일 수를 계산하는 useEffect
+  useEffect(() => {
+    const calculateDaysInMonth = () => {
+      const year = parseInt(birthYear, 10);
+      const month = parseInt(birthMonth, 10);
+
+      if (!isNaN(year) && !isNaN(month)) {
+        const days = new Date(year, month, 0).getDate(); // 해당 연도와 월의 일 수 계산
+        setDaysInMonth(Array.from({ length: days }, (_, i) => i + 1));
+      }
+    };
+    if (birthYear && birthMonth) {
+      calculateDaysInMonth();
+    }
+  }, [birthYear, birthMonth]);
 
   const handleGenderSelect = (gender: "여성" | "남성") => {
     setSelectedGender(gender);
