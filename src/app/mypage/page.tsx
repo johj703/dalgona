@@ -78,7 +78,7 @@ const Mypage = () => {
         <div className="mt-[19px]">
           <div className="px-4 py-2 text-base leading-5">이번 달 감정 모아보기</div>
 
-          <ul className="flex gap-10 scrollbar-hide px-4 py-[8.5px] overflow-x-auto">
+          <ul className="flex gap-10 px-4 py-[8.5px] overflow-x-auto">
             {EMOTION_LIST.map((emoji, idx) => {
               return (
                 <li key={"emoji" + idx} className="flex-shrink-0 flex flex-col items-center gap-1">

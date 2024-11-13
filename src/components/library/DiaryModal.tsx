@@ -139,33 +139,36 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-      <div className="bg-background02 p-4 w-[calc(100vw-32px)] rounded-lg relative">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-[18px] font-medium flex-grow text-center">일기 등록하기</h2>
-          <button className="text-black" onClick={onClose}>
-            <img src="/icons/close-small.svg" alt="close" />
-          </button>
-        </div>
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        <DateDropdown year={year} month={month} day={day} setYear={setYear} setMonth={setMonth} setDay={setDay} />
-        <SortDropdown currentSort={sort} onSortChange={setSort} />
-        <div className="overflow-y-auto max-h-[56vh]">
-          <DiaryList
-            diaries={filteredDiaries}
-            loading={loading}
-            userId={userId}
-            sort={sort}
-            onSelectDiary={handleSelectDiary}
-          />
-        </div>
-        <div className="flex items-center justify-center mt-4 flex-shrink-0">
-          <button className="bg-primary w-full rounded-lg py-2 px-8 text-white" onClick={handleComplete}>
-            완료
-          </button>
+    <>
+      <div className="fixed inset-0 bg-gray-800 bg-opacity-75"></div>
+      <div className="fixed left-1/2 -translate-x-1/2 max-w-[414px] inset-0 flex items-center justify-center">
+        <div className="bg-background02 p-4 w-[calc(100vw-32px)] rounded-lg relative">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-[18px] font-medium flex-grow text-center">일기 등록하기</h2>
+            <button className="text-black" onClick={onClose}>
+              <img src="/icons/close-small.svg" alt="close" />
+            </button>
+          </div>
+          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <DateDropdown year={year} month={month} day={day} setYear={setYear} setMonth={setMonth} setDay={setDay} />
+          <SortDropdown currentSort={sort} onSortChange={setSort} />
+          <div className="overflow-y-auto max-h-[56vh]">
+            <DiaryList
+              diaries={filteredDiaries}
+              loading={loading}
+              userId={userId}
+              sort={sort}
+              onSelectDiary={handleSelectDiary}
+            />
+          </div>
+          <div className="flex items-center justify-center mt-4 flex-shrink-0">
+            <button className="bg-primary w-full rounded-lg py-2 px-8 text-white" onClick={handleComplete}>
+              완료
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

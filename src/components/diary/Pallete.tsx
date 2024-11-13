@@ -12,7 +12,7 @@ const Pallete = ({ lineCustom, setLineCustom, handleChangeCustom }: PalleteProps
   const isCustom = initialColorList.find((item) => item === lineCustom.lineColor) === undefined && true;
 
   return (
-    <div className="absolute bottom-full flex items-center gap-4 w-full pt-4 pb-3 rounded-tl-lg rounded-tr-lg overflow-x-auto scrollbar-hide bg-[#404040]">
+    <div className="absolute bottom-full flex items-center gap-4 w-full pt-4 pb-3 rounded-tl-lg rounded-tr-lg overflow-x-auto  bg-[#404040]">
       {initialColorList.map((color) => {
         return (
           <div

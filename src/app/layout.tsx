@@ -31,7 +31,9 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ToastContainer />
-        <ReactQueryProviders>{children}</ReactQueryProviders>
+        <div className="relative max-w-[414px] max-h-[896px] h-dvh m-auto ">
+          <ReactQueryProviders>{children}</ReactQueryProviders>
+        </div>
       </body>
     </html>
   );

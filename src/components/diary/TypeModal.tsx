@@ -16,8 +16,8 @@ export const TypeModal = ({ formData, setFormData, setOpenTypeModal, openTypeMod
 
   return (
     <>
-      <div className="fixed top-0 bottom-0 right-0 left-0 bg-black opacity-70"></div>
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[342px] w-[calc(100%-48px)] bg-white rounded-lg pt-6">
+      <div className="fixed top-0 bottom-0 right-0 left-0 bg-black opacity-70 z-[100]"></div>
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[342px] w-[calc(100%-48px)] bg-white rounded-lg pt-6 z-[100]">
         {openTypeModal === "모눈종이" ? (
           <Image src={"/images/type-preview-1.svg"} alt="모눈종이" width={312} height={402} className="w-full" />
         ) : (

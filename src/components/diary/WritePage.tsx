@@ -46,10 +46,10 @@ const WritePage = () => {
   }, []);
 
   return (
-    <>
+    <div className="">
       <TopButton />
       <Form POST_ID={POST_ID} initialData={initialData} />
-    </>
+    </div>
   );
 };
 export default WritePage;

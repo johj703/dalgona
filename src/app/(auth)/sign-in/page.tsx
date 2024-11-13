@@ -54,7 +54,7 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="flex flex-col items-center pt-[68px] px-4">
+    <div className="flex flex-col items-center justify-center px-4 h-full">
       <div className="p-[10px]">
         <img src="/icons/logo.svg" alt="로고" className="w-auto h-9" />
       </div>

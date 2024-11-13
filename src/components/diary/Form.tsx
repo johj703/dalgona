@@ -226,7 +226,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
   };
 
   return (
-    <div className={`bg-background02 min-h-screen ${goDraw && "h-screen overflow-hidden"}`}>
+    <>
       <CommonTitle title={"일기 쓰기"} draft={true} draftLength={draftLength} />
 
       {/* 작성 폼 */}
@@ -275,7 +275,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between  mx-4 text-base leading-5">오늘의 기분</div>
-          <ul className="flex gap-2 overflow-x-auto px-4 scrollbar-hide">
+          <ul className="flex gap-2 overflow-x-auto px-4">
             {EMOTION_LIST.map((emotion) => {
               return (
                 <li
@@ -341,7 +341,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
                 탭하여 그림그리기 페이지로 이동
               </div>
             ) : (
-              <div className="group-[.open]/draw:flex hidden relative items-center justify-center w-full h-[calc((100vw-32px)*0.782)] overflow-hidden rounded-2xl border border-solid border-black bg-white">
+              <div className="group-[.open]/draw:flex hidden relative items-center justify-center w-full h-[calc((100%-32px)*0.782)] overflow-hidden rounded-2xl border border-solid border-black bg-white">
                 <div className="absolute top-4 right-4" onClick={() => setFormData({ ...formData, draw: null })}>
                   삭제하기
                 </div>
@@ -371,7 +371,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
         </div>
 
         <span className="h-14"></span>
-        <div className="fixed bottom-0 left-0 flex w-full h-14 bg-background01 border-t border-[#A6A6A6] rounded-tr-2xl rounded-tl-2xl overflow-hidden">
+        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 flex max-w-[414px] w-full h-14 bg-background01 border-t border-[#A6A6A6] rounded-tr-2xl rounded-tl-2xl overflow-hidden">
           <button
             className="flex-1 text-center text-xl leading-[1.35] py-4"
             type="button"
@@ -405,7 +405,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
       {/* 커스텀 알럿 */}
       {customAlert! && CustomAlert(customAlert)}
-    </div>
+    </>
   );
 };
 export default Form;
