@@ -141,7 +141,7 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
   return (
     <>
       <div className="fixed inset-0 bg-gray-800 bg-opacity-75"></div>
-      <div className="fixed left-1/2 -translate-x-1/2 max-w-[414px] inset-0 flex items-center justify-center">
+      <div className="fixed left-1/2 -translate-x-1/2 w-full max-w-[414px] inset-0 flex items-center justify-center">
         <div className="bg-background02 p-4 w-[calc(100vw-32px)] rounded-lg relative">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-[18px] font-medium flex-grow text-center">일기 등록하기</h2>
