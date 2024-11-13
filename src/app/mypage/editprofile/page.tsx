@@ -19,6 +19,7 @@ const EditProfilePage = () => {
   const router = useRouter();
   const DEFAULT_IMAGE = "https://spimvuqwvknjuepojplk.supabase.co/storage/v1/object/public/profile/default_profile.svg";
 
+  // 사용자 데이터를 가져오는 useEffect
   useEffect(() => {
     const fetchUserData = async () => {
       const {
@@ -69,14 +70,17 @@ const EditProfilePage = () => {
     }
   }, [birthYear, birthMonth]);
 
+  // 성별 선택 함수
   const handleGenderSelect = (gender: "여성" | "남성") => {
     setSelectedGender(gender);
   };
 
+  // 혈액형 선택 함수
   const handleBloodTypeSelect = (bloodType: "A" | "B" | "O" | "AB") => {
     setSelectedBloodType(bloodType);
   };
 
+  // 프로필 저장 함수
   const handleSave = async () => {
     const {
       data: { user }
@@ -255,6 +259,7 @@ const EditProfilePage = () => {
         </div>
       </div>
 
+      {/* 저장 버튼 */}
       <button
         onClick={handleSave}
         className="w-24 max-x-xs bg-blue-500 text-white py-2 rounded-md mt-6 hover:bg-blue-600"
