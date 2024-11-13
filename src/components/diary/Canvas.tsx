@@ -11,7 +11,7 @@ import browserClient from "@/utils/supabase/client";
 import { decode } from "base64-arraybuffer";
 import { RefObject, useEffect, useRef, useState } from "react";
 import Modal from "../Modal";
-
+const newDate = new Date().toISOString();
 const Canvas = ({
   canvasWidth,
   canvasHeight,
@@ -98,14 +98,14 @@ const Canvas = ({
 
             const { data, error } = await browserClient.storage
               .from("posts")
-              .upload(`drawing/${POST_ID}`, decode(base64FileData), {
+              .upload(`drawing/${POST_ID}-${newDate}`, decode(base64FileData), {
                 contentType: "image/png",
                 upsert: true
               });
 
             if (error) console.error("error messgage =>", error);
             if (data) {
-              const { data } = browserClient.storage.from("posts").getPublicUrl(`drawing/${POST_ID}`);
+              const { data } = browserClient.storage.from("posts").getPublicUrl(`drawing/${POST_ID}-${newDate}`);
 
               setFormData({ ...formData, draw: `${data.publicUrl}?version=${crypto.randomUUID()}` });
 

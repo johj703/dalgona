@@ -28,8 +28,10 @@ const Read = ({ params }: { params: { id: string } }) => {
 
   const onClickDelete = async () => {
     await browserClient.from("diary").delete().eq("id", params.id);
-    const { error } = await browserClient.storage.from("posts").remove(["drawing/" + params.id]);
-    if (error) console.error(error);
+
+    // 그림 삭제는 보류
+    // const { error } = await browserClient.storage.from("posts").remove(["drawing/" + params.id]);
+    // if (error) console.error(error);
 
     router.replace("/main");
   };
