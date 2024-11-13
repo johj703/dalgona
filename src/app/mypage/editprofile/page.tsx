@@ -9,13 +9,17 @@ const EditProfilePage = () => {
   const supabase = browserClient;
   const [nickname, setNickname] = useState("");
   const [profileImage, setProfileImage] = useState("");
-  const [birthday, setBirthday] = useState("");
+  const [birthYear, setBirthYear] = useState("");
+  const [birthMonth, setBirthMonth] = useState("");
+  const [birthDay, setBirthDay] = useState("");
   const [selectedGender, setSelectedGender] = useState<"여성" | "남성" | "">("");
   const [selectedBloodType, setSelectedBloodType] = useState<"A" | "B" | "O" | "AB" | "">("");
   const [file, setFile] = useState<File | null>(null);
+  const [daysInMonth, setDaysInMonth] = useState<number[]>([]); // 동적으로 일 수 목록
   const router = useRouter();
   const DEFAULT_IMAGE = "https://spimvuqwvknjuepojplk.supabase.co/storage/v1/object/public/profile/default_profile.svg";
 
+  // 사용자 데이터를 가져오는 useEffect
   useEffect(() => {
     const fetchUserData = async () => {
       const {
@@ -36,25 +40,47 @@ const EditProfilePage = () => {
         if (profileData) {
           setNickname(profileData.nickname || "");
           setProfileImage(profileData.profile_image || DEFAULT_IMAGE);
-          setBirthday(profileData.birthday || "");
+
+          const [year, month, day] = profileData.birthday ? profileData.birthday.split("-") : ["", "", ""];
+          setBirthYear(year);
+          setBirthMonth(month);
+          setBirthDay(day);
+
           setSelectedGender(profileData.gender || "");
           setSelectedBloodType(profileData.bloodtype || "");
-          console.log("Profile Data: ", profileData); // 데이터 확인
         }
       }
-      console.log("User Data", user);
     };
     fetchUserData();
   }, []);
 
+  // 생일 연도와 월에 따른 일 수를 계산하는 useEffect
+  useEffect(() => {
+    const calculateDaysInMonth = () => {
+      const year = parseInt(birthYear, 10);
+      const month = parseInt(birthMonth, 10);
+
+      if (!isNaN(year) && !isNaN(month)) {
+        const days = new Date(year, month, 0).getDate(); // 해당 연도와 월의 일 수 계산
+        setDaysInMonth(Array.from({ length: days }, (_, i) => i + 1));
+      }
+    };
+    if (birthYear && birthMonth) {
+      calculateDaysInMonth();
+    }
+  }, [birthYear, birthMonth]);
+
+  // 성별 선택 함수
   const handleGenderSelect = (gender: "여성" | "남성") => {
     setSelectedGender(gender);
   };
 
+  // 혈액형 선택 함수
   const handleBloodTypeSelect = (bloodType: "A" | "B" | "O" | "AB") => {
     setSelectedBloodType(bloodType);
   };
 
+  // 프로필 저장 함수
   const handleSave = async () => {
     const {
       data: { user }
@@ -68,7 +94,7 @@ const EditProfilePage = () => {
         // 새로운 프로필 이미지를 supabase 스토리지에 업로드
         const fileExt = file.name.split(".").pop();
         const fileName = `${user.id}_${Date.now()}.${fileExt}`;
-        const { error } = await supabase.storage.from("profile-images").upload(fileName, file);
+        const { error } = await supabase.storage.from("profile").upload(fileName, file);
 
         if (error) {
           alert("프로필 이미지 업로드에 실패했습니다.");
@@ -85,7 +111,7 @@ const EditProfilePage = () => {
         .update({
           nickname,
           profile_image: uploadedImageUrl,
-          birthday,
+          birthday: `${birthYear}-${birthMonth}-${birthDay}`,
           gender: selectedGender,
           bloodtype: selectedBloodType
         })
@@ -115,7 +141,13 @@ const EditProfilePage = () => {
 
       {/* 프로필 이미지와 변경 버튼 */}
       <div className="flex flex-col items-center mb-4">
-        <Image src={profileImage} alt="프로필 이미지" width={80} height={80} className="rounded-full" />
+        <Image
+          src={profileImage}
+          alt="프로필 이미지"
+          width={80}
+          height={80}
+          className="rounded-full border border-gray-300 shadow-md object-cover"
+        />
 
         {/* 프로필 사진 변경 버튼 */}
         <input
@@ -140,12 +172,50 @@ const EditProfilePage = () => {
       {/* 생일 입력 필드 */}
       <div className="w-full max-w-xs mb-4">
         <label className="block text-sm font-medium text-gray-700">생년월일</label>
-        <input
-          type="date"
-          value={birthday}
-          onChange={(e) => setBirthday(e.target.value)} // 입력값 변경시 상태 업데이트
-          className="input w-full border rounded-md p-2 mt-1"
-        />
+
+        <div className="flex items-center gap-2 mt-1">
+          <select
+            value={birthYear}
+            onChange={(e) => setBirthYear(e.target.value)}
+            className="input border rounded-md p-2"
+          >
+            <option>연도</option>
+            {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+          <span className="text-sm">년</span>
+
+          <select
+            value={birthMonth}
+            onChange={(e) => setBirthMonth(e.target.value)}
+            className="input border rounded-md p-2"
+          >
+            <option>월</option>
+            {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+              <option key={month} value={String(month).padStart(2, "0")}>
+                {month}
+              </option>
+            ))}
+          </select>
+          <span className="text-sm">월</span>
+
+          <select
+            value={birthDay}
+            onChange={(e) => setBirthDay(e.target.value)}
+            className="input border rounded-md p-2"
+          >
+            <option>일</option>
+            {daysInMonth.map((day) => (
+              <option key={day} value={String(day).padStart(2, "0")}>
+                {day}
+              </option>
+            ))}
+          </select>
+          <span className="text-sm">일</span>
+        </div>
       </div>
 
       {/* 성별 선택 버튼 */}
@@ -181,7 +251,7 @@ const EditProfilePage = () => {
               className={`px-4 py-2 rounded-md ${
                 selectedBloodType === type ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
               }`}
-              onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB" )} // 선택된 혈액형을 설정
+              onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")} // 선택된 혈액형을 설정
             >
               {type}형
             </button>
@@ -189,6 +259,7 @@ const EditProfilePage = () => {
         </div>
       </div>
 
+      {/* 저장 버튼 */}
       <button
         onClick={handleSave}
         className="w-24 max-x-xs bg-blue-500 text-white py-2 rounded-md mt-6 hover:bg-blue-600"
