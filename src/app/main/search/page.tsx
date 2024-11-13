@@ -5,8 +5,6 @@ import { getDayOfTheWeek, getSimpleFullDate } from "@/utils/calendar/dateFormat"
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-//TODO - 최근검색어..?
-
 const SearchPage = () => {
   const [query, setQuery] = useState("");
   const [searchDiaries, setSearchDiaries] = useState("");
@@ -14,7 +12,6 @@ const SearchPage = () => {
 
   const { data: diaries, hasNextPage, fetchNextPage } = useInfiniteQuerySearchDiaries(searchDiaries, userId);
   const diariesList = diaries ? diaries.pages.flatMap((page) => page.searchPaginatedDiaries) : [];
-  console.log("🚀 ~ SearchPage ~ diariesList:", diariesList);
 
   useEffect(() => {
     // userId를 가져오는 함수 실행
@@ -70,7 +67,7 @@ const SearchPage = () => {
             <Link href={`/diary/read/${diary.id}`} key={diary.id}>
               <div key={diary.id} className="p-[10px] border-[1px] border-black rounded-lg bg-white mb-[16px]">
                 <p className="text-[16px] font-[400] overflow-hidden text-ellipsis mb-[2px]">{diary.title}</p>
-                <p className="text-[14px] font-[500] overflow-hidden text-ellipsis font-['Dovemayo'] mb-[8px]">
+                <p className="text-[14px] font-[500] overflow-hidden text-ellipsis font-['Dovemayo'] mb-[8px] h-[130px]">
                   {diary.contents}
                 </p>
                 <div className="flex text-[14px] font-[500] text-right">
