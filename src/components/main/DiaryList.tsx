@@ -19,6 +19,7 @@ const DiaryList = () => {
   const [activeTab, setActiveTab] = useState("feed");
   const [userId, setUserId] = useState<string>("");
   const { data: diaries, hasNextPage, fetchNextPage } = useInfiniteQueryDiaries(userId);
+  console.log("🚀 ~ DiaryList ~ diaries:", diaries);
   const originList = diaries?.pages.flatMap((page) => page.diariesList) || [];
 
   useEffect(() => {
@@ -88,10 +89,16 @@ const DiaryList = () => {
                     onChange={(e) => setSelectedBox(e.target.value)}
                     className="bg-[#EFE6DE] text-base"
                   >
-                    <option value="최신순" className="text-[12px] not-italic font-[400] leading-[18px]">
+                    <option
+                      value="최신순"
+                      className="text-[12px] not-italic font-[400] leading-[18px] bg-[#EFE6DE] w-[75px] h-[36px] p-[10px]"
+                    >
                       최신순
                     </option>
-                    <option value="오래된순" className="text-[12px] not-italic font-[400] leading-[18px]">
+                    <option
+                      value="오래된순"
+                      className="text-[12px] not-italic font-[400] leading-[18px] bg-[#EFE6DE] w-[75px] h-[36px] p-[10px]"
+                    >
                       오래된순
                     </option>
                   </Select>
@@ -161,7 +168,7 @@ const DiaryList = () => {
                             </>
                           )}
 
-                          <p className="text-gray-700 line-clamp-2">{diary.contents}</p>
+                          <p className=" text-[14px] font-[500] line-clamp-2 font-['Dovemayo'] ">{diary.contents}</p>
                         </div>
                       </Link>
                     ) : (
@@ -199,14 +206,14 @@ const DiaryList = () => {
                             src={diary.draw}
                             width={60}
                             height={60}
-                            alt="Picture of the author"
-                            className="border-[1px] rounded-lg border-black mr-[16px] bg-white"
+                            alt="그림"
+                            className="border-[1px] rounded-lg border-black mr-[16px] object-cover bg-white w-[60px] h-[60px]"
                           />
                           <div className="w-[222px]">
                             <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px]">
                               {diary.title}
                             </p>
-                            <p className="h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[14px] not-italic font-medium leading-[21px]">
+                            <p className="h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[14px] not-italic font-[500] leading-[21px] font-['Dovemayo'] my-[2px]">
                               {diary.contents}
                             </p>
                             <p className="self-stretch text-[12px] not-italic font-medium leading-[18px]">
@@ -229,7 +236,7 @@ const DiaryList = () => {
                               {getMonthKo(diary.date)}
                             </p>
                           </div>
-                          <p className="mt-[8px] h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[14px] not-italic font-medium leading-[21px]">
+                          <p className="mt-[8px] h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[14px] not-italic  font-[500] font-['Dovemayo'] leading-[21px]">
                             {diary.contents}
                           </p>
                         </div>
