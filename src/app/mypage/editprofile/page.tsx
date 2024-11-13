@@ -105,7 +105,7 @@ const EditProfilePage = () => {
         }
 
         // 업로드가 성공하면 파일의 공개 URL을 얻어 프로필 이미지 URL로 설정
-        uploadedImageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile_images/${fileName}`;
+        uploadedImageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile/${fileName}`;
       }
 
       const { error } = await supabase
