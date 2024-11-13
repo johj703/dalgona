@@ -68,7 +68,7 @@ const EditProfilePage = () => {
         // 새로운 프로필 이미지를 supabase 스토리지에 업로드
         const fileExt = file.name.split(".").pop();
         const fileName = `${user.id}_${Date.now()}.${fileExt}`;
-        const { error } = await supabase.storage.from("profile-images").upload(fileName, file);
+        const { error } = await supabase.storage.from("profile").upload(fileName, file);
 
         if (error) {
           alert("프로필 이미지 업로드에 실패했습니다.");
@@ -181,7 +181,7 @@ const EditProfilePage = () => {
               className={`px-4 py-2 rounded-md ${
                 selectedBloodType === type ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
               }`}
-              onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB" )} // 선택된 혈액형을 설정
+              onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")} // 선택된 혈액형을 설정
             >
               {type}형
             </button>
