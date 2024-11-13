@@ -208,7 +208,7 @@ const EditProfilePage = () => {
             className="input border rounded-md p-2"
           >
             <option>일</option>
-            {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
+            {daysInMonth.map((day) => (
               <option key={day} value={String(day).padStart(2, "0")}>
                 {day}
               </option>
