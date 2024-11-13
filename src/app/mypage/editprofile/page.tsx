@@ -175,13 +175,13 @@ const EditProfilePage = () => {
       <div className="w-full max-w-xs mb-4">
         <label className="block text-sm font-medium text-gray-700">혈액형</label>
         <div className="flex gap-4 mt-1">
-          {["A", "B", "O", "AB"].map((type) => (
+          {["A", "B", "O", "AB" as const].map((type) => (
             <button
               key={type}
               className={`px-4 py-2 rounded-md ${
                 selectedBloodType === type ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
               }`}
-              onClick={() => handleBloodTypeSelect(type)} // 선택된 혈액형을 설정
+              onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB" )} // 선택된 혈액형을 설정
             >
               {type}형
             </button>
