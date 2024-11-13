@@ -1,5 +1,7 @@
 "use client";
 
+import CommonTitle from "@/components/CommonTitle";
+import Navigation from "@/components/Navigation";
 import browserClient from "@/utils/supabase/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -136,137 +138,172 @@ const EditProfilePage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center p-6 bg-gray-50 min-h-screen">
-      <h2 className="text-2xl font-semibold mb-6">내 정보 수정</h2>
+    <>
+      <CommonTitle title="내 정보 수정" />
 
-      {/* 프로필 이미지와 변경 버튼 */}
-      <div className="flex flex-col items-center mb-4">
-        <Image
-          src={profileImage}
-          alt="프로필 이미지"
-          width={80}
-          height={80}
-          className="rounded-full border border-gray-300 shadow-md object-cover"
-        />
+      <div className="mt-[17px] px-4">
+        {/* 프로필 이미지와 변경 버튼 */}
+        <div className="relative w-20 h-20 mx-auto">
+          <div className="relative flex items-center justify-center w-20 h-20 rounded-full overflow-hidden">
+            <Image
+              src={profileImage ? profileImage : "/icons/default-profile.svg"}
+              alt="프로필 이미지"
+              width={80}
+              height={80}
+              className="min-w-full min-h-full object-contain"
+            />
+          </div>
 
-        {/* 프로필 사진 변경 버튼 */}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange} // 파일 선택시 상태 업데이트
-          className="mt-4 text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-        />
-      </div>
-
-      {/* 닉네임 입력 필드 */}
-      <div className="w-full max-w-xs mb-4">
-        <label className="block text-sm font-medium text-gray-700">닉네임</label>
-        <input
-          type="text"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)} // 입력값 변경시 상태 업데이트
-          className="input w-full border rounded-md p-2 mt-1"
-        />
-      </div>
-
-      {/* 생일 입력 필드 */}
-      <div className="w-full max-w-xs mb-4">
-        <label className="block text-sm font-medium text-gray-700">생년월일</label>
-
-        <div className="flex items-center gap-2 mt-1">
-          <select
-            value={birthYear}
-            onChange={(e) => setBirthYear(e.target.value)}
-            className="input border rounded-md p-2"
+          <label
+            htmlFor="profileImageUpload"
+            className="absolute bottom-0 right-0 p-[6px] bg-white rounded-full border-black border cursor-pointer"
           >
-            <option>연도</option>
-            {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
-          <span className="text-sm">년</span>
+            <img src="/icons/camera.svg" alt="프로필 업로드" className="w-[18px] h-[18px]" />
+          </label>
 
-          <select
-            value={birthMonth}
-            onChange={(e) => setBirthMonth(e.target.value)}
-            className="input border rounded-md p-2"
-          >
-            <option>월</option>
-            {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-              <option key={month} value={String(month).padStart(2, "0")}>
-                {month}
-              </option>
-            ))}
-          </select>
-          <span className="text-sm">월</span>
-
-          <select
-            value={birthDay}
-            onChange={(e) => setBirthDay(e.target.value)}
-            className="input border rounded-md p-2"
-          >
-            <option>일</option>
-            {daysInMonth.map((day) => (
-              <option key={day} value={String(day).padStart(2, "0")}>
-                {day}
-              </option>
-            ))}
-          </select>
-          <span className="text-sm">일</span>
+          {/* 프로필 사진 변경 버튼 */}
+          <input
+            id="profileImageUpload"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange} // 파일 선택시 상태 업데이트
+            className="hidden"
+          />
         </div>
-      </div>
 
-      {/* 성별 선택 버튼 */}
-      <div className="w-full max-w-xs mb-4">
-        <label className="block text-sm font-medium text-gray-700">성별</label>
-        <div className="flex gap-4 mt-1">
-          <button
-            className={`px-4 py-2 rounded-md ${
-              selectedGender === "남성" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-            }`}
-            onClick={() => handleGenderSelect("남성")}
-          >
-            남성
-          </button>
-          <button
-            className={`px-4 py-2 rounded-md ${
-              selectedGender === "여성" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-            }`}
-            onClick={() => handleGenderSelect("여성")}
-          >
-            여성
-          </button>
+        {/* 닉네임 입력 필드 */}
+        <div className="w-full mt-[18px] mb-7">
+          <label className="label-style">닉네임</label>
+          <input
+            type="text"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)} // 입력값 변경시 상태 업데이트
+            className="input-style"
+          />
+          <span className="mt-1 font-Dovemayo text-sm leading-normal text-gray04">
+            닉네임은 공백없이 6자 이내로 입력할 수 있어요
+          </span>
         </div>
-      </div>
 
-      {/* 혈액형 선택 버튼 */}
-      <div className="w-full max-w-xs mb-4">
-        <label className="block text-sm font-medium text-gray-700">혈액형</label>
-        <div className="flex gap-4 mt-1">
-          {["A", "B", "O", "AB" as const].map((type) => (
+        {/* 생일 입력 필드 */}
+        <div className="w-full flex items-center mb-7">
+          <div className="w-[60px] text-sm leading-[1.35]">생년월일</div>
+
+          <div className="flex items-center gap-[6px]">
+            <span className="flex items-center gap-2 text-xs leading-normal">
+              <select
+                value={birthYear}
+                onChange={(e) => setBirthYear(e.target.value)}
+                className="w-[75px] text-xs text-black leading-normal py-[9px] px-[13.5px] border border-gray03 rounded-lg outline-none appearance-none bg-[url('/icons/toggle-arrow.svg')] bg-no-repeat bg-[center_right_13.5px]"
+              >
+                <option>연도</option>
+                {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+              년
+            </span>
+
+            <span className="flex items-center gap-2 text-xs leading-normal">
+              <select
+                value={birthMonth}
+                onChange={(e) => setBirthMonth(e.target.value)}
+                className="w-[75px] text-xs text-black leading-normal py-[9px] px-[13.5px] border border-gray03 rounded-lg outline-none appearance-none bg-[url('/icons/toggle-arrow.svg')] bg-no-repeat bg-[center_right_13.5px]"
+              >
+                <option>월</option>
+                {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+                  <option key={month} value={String(month).padStart(2, "0")}>
+                    {month}
+                  </option>
+                ))}
+              </select>
+              월
+            </span>
+
+            <span className="flex items-center gap-2 text-xs leading-normal">
+              <select
+                value={birthDay}
+                onChange={(e) => setBirthDay(e.target.value)}
+                className="w-[75px] text-xs text-black leading-normal py-[9px] px-[13.5px] border border-gray03 rounded-lg outline-none appearance-none bg-[url('/icons/toggle-arrow.svg')] bg-no-repeat bg-[center_right_13.5px]"
+              >
+                <option>일</option>
+                {daysInMonth.map((day) => (
+                  <option key={day} value={String(day).padStart(2, "0")}>
+                    {day}
+                  </option>
+                ))}
+              </select>
+              일
+            </span>
+          </div>
+        </div>
+
+        {/* 성별 선택 버튼 */}
+        <div className="w-full flex items-center mb-7">
+          <div className="w-[60px] text-sm leading-[1.35]">성별</div>
+          <div className="flex gap-[10px]">
             <button
-              key={type}
-              className={`px-4 py-2 rounded-md ${
-                selectedBloodType === type ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+              className={`flex items-center gap-1 h-fit px-[18.5px] py-[6px] text-xs leading-normal rounded-2xl border border-primary  ${
+                selectedGender === "남성" ? "bg-primary text-white" : "bg-white text-primary"
               }`}
-              onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")} // 선택된 혈액형을 설정
+              onClick={() => handleGenderSelect("남성")}
             >
-              {type}형
+              <Image
+                src={selectedGender === "남성" ? "/icons/male_white.svg" : "/icons/male_red.svg"}
+                alt="남성 아이콘"
+                width={18}
+                height={18}
+              />
+              남성
             </button>
-          ))}
+            <button
+              className={`flex items-center gap-1 h-fit px-[18.5px] py-[6px] text-xs leading-normal rounded-2xl border border-primary  ${
+                selectedGender === "여성" ? "bg-primary text-white" : "bg-white text-primary"
+              }`}
+              onClick={() => handleGenderSelect("여성")}
+            >
+              <Image
+                src={selectedGender === "여성" ? "/icons/female_white.svg" : "/icons/female_red.svg"}
+                alt="여성 아이콘"
+                width={18}
+                height={18}
+              />
+              여성
+            </button>
+          </div>
         </div>
+
+        {/* 혈액형 선택 버튼 */}
+        <div className="w-full flex items-center mb-7">
+          <div className="w-[60px] text-sm leading-[1.35]">혈액형</div>
+          <div className="flex gap-[10px]">
+            {["A", "B", "O", "AB" as const].map((type) => (
+              <button
+                key={type}
+                className={`flex items-center justify-center w-16 h-8 text-sm leading-normal rounded-2xl border border-primary ${
+                  selectedBloodType === type ? "bg-primary text-white" : "bg-white text-primary"
+                }`}
+                onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")} // 선택된 혈액형을 설정
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 저장 버튼 */}
+        <button
+          onClick={handleSave}
+          className="block mt-[38px] mx-auto w-[110px] py-[7px] text-base leading-normal text-white bg-primary rounded-lg"
+        >
+          저장하기
+        </button>
       </div>
 
-      {/* 저장 버튼 */}
-      <button
-        onClick={handleSave}
-        className="w-24 max-x-xs bg-blue-500 text-white py-2 rounded-md mt-6 hover:bg-blue-600"
-      >
-        저장하기
-      </button>
-    </div>
+      <Navigation />
+    </>
   );
 };
 

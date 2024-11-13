@@ -173,13 +173,14 @@ const Canvas = ({
       <canvas
         ref={canvasRef}
         onPointerDown={() => {
-          if (tool === "pallete") {
-            setTool("pen");
-          } else {
+          if (tool === "pen" || tool === "eraser") {
             setPainting(true);
           }
         }}
         onPointerUp={() => {
+          if (tool === "pallete") {
+            setTool("pen");
+          }
           setPainting(false);
           saveHistory();
         }}
