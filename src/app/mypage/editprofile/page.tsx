@@ -9,7 +9,9 @@ const EditProfilePage = () => {
   const supabase = browserClient;
   const [nickname, setNickname] = useState("");
   const [profileImage, setProfileImage] = useState("");
-  const [birthday, setBirthday] = useState("");
+  const [birthYear, setBirthYear] = useState("");
+  const [birthMonth, setBirthMonth] = useState("");
+  const [birthDay, setBirthDay] = useState("");
   const [selectedGender, setSelectedGender] = useState<"여성" | "남성" | "">("");
   const [selectedBloodType, setSelectedBloodType] = useState<"A" | "B" | "O" | "AB" | "">("");
   const [file, setFile] = useState<File | null>(null);
@@ -36,7 +38,12 @@ const EditProfilePage = () => {
         if (profileData) {
           setNickname(profileData.nickname || "");
           setProfileImage(profileData.profile_image || DEFAULT_IMAGE);
-          setBirthday(profileData.birthday || "");
+
+          const [year, month, day] = profileData.birthday ? profileData.birthday.split("-") : ["", "", ""];
+          setBirthYear(year);
+          setBirthMonth(month);
+          setBirthDay(day);
+
           setSelectedGender(profileData.gender || "");
           setSelectedBloodType(profileData.bloodtype || "");
           console.log("Profile Data: ", profileData); // 데이터 확인
@@ -85,7 +92,7 @@ const EditProfilePage = () => {
         .update({
           nickname,
           profile_image: uploadedImageUrl,
-          birthday,
+          birthday: `${birthYear}-${birthMonth}-${birthDay}`,
           gender: selectedGender,
           bloodtype: selectedBloodType
         })
@@ -140,12 +147,50 @@ const EditProfilePage = () => {
       {/* 생일 입력 필드 */}
       <div className="w-full max-w-xs mb-4">
         <label className="block text-sm font-medium text-gray-700">생년월일</label>
-        <input
-          type="date"
-          value={birthday}
-          onChange={(e) => setBirthday(e.target.value)} // 입력값 변경시 상태 업데이트
-          className="input w-full border rounded-md p-2 mt-1"
-        />
+
+        <div className="flex items-center gap-2 mt-1">
+          <select
+            value={birthYear}
+            onChange={(e) => setBirthYear(e.target.value)}
+            className="input border rounded-md p-2"
+          >
+            <option>연도</option>
+            {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+          <span className="text-sm">년</span>
+
+          <select
+            value={birthMonth}
+            onChange={(e) => setBirthMonth(e.target.value)}
+            className="input border rounded-md p-2"
+          >
+            <option>월</option>
+            {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+              <option key={month} value={String(month).padStart(2, "0")}>
+                {month}
+              </option>
+            ))}
+          </select>
+          <span className="text-sm">월</span>
+
+          <select
+            value={birthDay}
+            onChange={(e) => setBirthDay(e.target.value)}
+            className="input border rounded-md p-2"
+          >
+            <option>일</option>
+            {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
+              <option key={day} value={String(day).padStart(2, "0")}>
+                {day}
+              </option>
+            ))}
+          </select>
+          <span className="text-sm">일</span>
+        </div>
       </div>
 
       {/* 성별 선택 버튼 */}
