@@ -26,12 +26,14 @@ const ArtworkPage: React.FC = () => {
   }
 
   return (
-    <div>
-      <MyArtwork userId={userId} />
-      <MonthlyArtwork userId={userId} />
-      <MemoryCollection userId={userId} />
+    <>
+      <div className="pb-16">
+        <MyArtwork userId={userId} />
+        <MonthlyArtwork userId={userId} />
+        <MemoryCollection userId={userId} />
+      </div>
       <Navigation />
-    </div>
+    </>
   );
 };
 
