@@ -122,7 +122,13 @@ const EditProfilePage = () => {
 
       {/* 프로필 이미지와 변경 버튼 */}
       <div className="flex flex-col items-center mb-4">
-        <Image src={profileImage} alt="프로필 이미지" width={80} height={80} className="rounded-full" />
+        <Image
+          src={profileImage}
+          alt="프로필 이미지"
+          width={80}
+          height={80}
+          className="rounded-full border border-gray-300 shadow-md object-cover"
+        />
 
         {/* 프로필 사진 변경 버튼 */}
         <input
