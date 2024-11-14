@@ -177,10 +177,10 @@ export default function SaveUserProfilePage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       {/* 페이지 안내 텍스트 */}
-      <h1 className="text-xl mb-6">환영해요.</h1>
-      <p className="text-xl mb-6">사용하실 프로필을 작성해 주세요.</p>
+      <h1 className="text-xl sm:text-xl mb-4 sm:mb-6">환영해요.</h1>
+      <p className="text-xl sm:text-xl mb-6 sm:mb-8">사용하실 프로필을 작성해 주세요.</p>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="w-11/12 max-w-md bg-white p-6 rounded-lg shadow-md">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-xs sm:max-w-md bg-white p-4 p-6 rounded-lg shadow-md">
         {/* 프로필 사진 선택 */}
         <div className="mb-6">
           <label className="text-sm font-medium text-gray-700 mb-2 block">프로필 사진</label>
@@ -192,18 +192,18 @@ export default function SaveUserProfilePage() {
                   alt="프로필 사진"
                   width={100}
                   height={100}
-                  className="w-24 h-24 rounded-full"
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full"
                 />
               ) : (
-                <div className="w-24 h-24 rounded-full bg-gray-200"></div>
+                <div className="w-24 h-24 sm:w-24 sm:h-24 rounded-full bg-gray-200"></div>
               )}
               <label
                 htmlFor="profileImageUpload"
-                className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md cursor-pointer hover:bg-gray-100"
+                className="absolute bottom-0 right-0 p-1 sm:p-2 bg-white rounded-full shadow-md cursor-pointer hover:bg-gray-100"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-gray-600"
+                  className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -224,8 +224,8 @@ export default function SaveUserProfilePage() {
         {/* 생년월일 입력 */}
         <div className="mb-4 text-left">
           <label className="block text-sm font-medium text-gray-700 mb-2">생년월일</label>
-          <div className="flex space-x-4 justify-start">
-            <select {...register("birthYear")} className="p-2 border border-gray-300 rounded-md w-full">
+          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 justify-start">
+            <select {...register("birthYear")} className="p-2 border border-gray-300 rounded-md w-full md:w-1/3">
               <option value=""></option>
               {Array.from({ length: 124 }, (_, i) => 1900 + i).map((year) => (
                 <option key={year} value={year}>
@@ -233,8 +233,8 @@ export default function SaveUserProfilePage() {
                 </option>
               ))}
             </select>
-            <p className="self-center justify-start">년</p>
-            <select {...register("birthMonth")} className="p-2 border border-gray-300 rounded-md w-full">
+            <p className="self-center justify-start md:inline">년</p>
+            <select {...register("birthMonth")} className="p-2 border border-gray-300 rounded-md w-full md:w-1/3">
               <option value=""></option>
               {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
                 <option key={month} value={month}>
@@ -242,8 +242,8 @@ export default function SaveUserProfilePage() {
                 </option>
               ))}
             </select>
-            <p className="self-center justify-start">월</p>
-            <select {...register("birthDay")} className="p-2 border border-gray-300 rounded-md w-full">
+            <p className="self-center justify-start md:inline">월</p>
+            <select {...register("birthDay")} className="p-2 border border-gray-300 rounded-md w-full md:w-1/3">
               <option value=""></option>
               {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
                 <option key={day} value={day}>
@@ -251,7 +251,7 @@ export default function SaveUserProfilePage() {
                 </option>
               ))}
             </select>
-            <p className="self-center justify-start">일</p>
+            <p className="self-center justify-start md:inline">일</p>
           </div>
           {errors.birthYear && <p className="text-xs text-red-500 mt-1">{errors.birthYear.message}</p>}
           {errors.birthMonth && <p className="text-xs text-red-500 mt-1">{errors.birthMonth.message}</p>}
