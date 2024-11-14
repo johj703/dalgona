@@ -101,7 +101,7 @@ export default function SignUpPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)} // 입력시 상태 업데이트
             required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 lg:text-base"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary lg:text-base"
           />
           <p className="text-xs text-gray-300">사용하실 이메일 주소를 입력하세요.</p>
         </div>
@@ -117,7 +117,7 @@ export default function SignUpPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)} // 입력시 상태 업데이트
             required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 lg:text-base"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary lg:text-base"
           />
           <p className="text-xs text-gray-300">안전한 비밀번호를 입력해주세요(8자 이상, 영문, 숫자 포함)</p>
         </div>
@@ -133,7 +133,7 @@ export default function SignUpPage() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)} // 입력시 상태 업데이트
             required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 lg:text-base"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary lg:text-base"
           />
           <p className="text-xs text-gray-300">비밀번호를 다시 입력해주세요.</p>
         </div>
@@ -149,7 +149,7 @@ export default function SignUpPage() {
             value={name}
             onChange={(e) => setName(e.target.value)} // 입력시 상태 업데이트
             required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 lg:text-base"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary lg:text-base"
           />
           <p className="text-xs text-gray-300">이름을 입력해 주세요.</p>
         </div>
@@ -165,7 +165,7 @@ export default function SignUpPage() {
             value={nickname}
             onChange={(e) => setNickname(e.target.value)} // 입력시 상태 업데이트
             required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 lg:text-base"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary lg:text-base"
           />
           <p className="text-xs text-gray-300">2글자 이상의 별명을 입력해 주세요.</p>
         </div>
