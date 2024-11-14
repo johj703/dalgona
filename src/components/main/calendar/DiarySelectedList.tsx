@@ -44,7 +44,9 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
                     </div>
                   )}
 
-                  <p className="text-gray-700 line-clamp-2">{diary.contents}</p>
+                  <p className="text-gray-700 line-clamp-2 text-[14px] font-[500] font-['Dovemayo']">
+                    {diary.contents}
+                  </p>
                 </div>
               </Link>
             );
@@ -52,9 +54,9 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
         </div>
       ) : rangeList && rangeList.length === 1 ? (
         <div className="my-[8px] mx-[16px] py-[20px] px-[16px] border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px]">
-          {rangeList.map((list) => (
-            <Link href={`/diary/read/${list.id}`} key={list.id}>
-              <div key={list.id} className="flex flex-col gap-[24px]">
+          {rangeList.map((diary) => (
+            <Link href={`/diary/read/${diary.id}`} key={diary.id}>
+              <div key={diary.id} className="flex flex-col gap-[24px]">
                 <div className="flex flex-col justify-center items-center gap-[23px]">
                   <div className="font-['LeferiBaseType-RegularA' text-[16px] font-[400]">내가 남긴 이야기</div>
                   <div className="text-center">
@@ -67,35 +69,35 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
                   </div>
                 </div>
 
-                {list.draw && (
+                {diary.draw && (
                   <div className="feed pt-[18px] px-[16px] pb-[19px] h-[364px] flex flex-col justify-center items-center border-[1px] rounded-2xl border-black bg-[#FDF7F4] relative">
                     <p className="title self-stretch text-[18px] not-italic font-[400] leading-[24.3px] mb-[10px]">
-                      {list.title}
+                      {diary.title}
                     </p>
                     <img
-                      src={list.draw}
-                      alt="Picture of the author"
-                      className="img border-[1px] rounded-lg border-black h-[238px] w-[100%] bg-white mb-[10px]"
+                      src={diary.draw}
+                      alt="그림"
+                      className="img object-cover border-[1px] rounded-lg border-black h-[238px] w-[100%] bg-white mb-[10px]"
                     />
                     <div className="absolute top-[75px] right-[25px]">
-                      <img src={getEmoji(list.emotion, "on")} alt={list.emotion} className="w-[40px] h-[40px] " />
+                      <img src={getEmoji(diary.emotion, "on")} alt={diary.emotion} className="w-[40px] h-[40px] " />
                     </div>
 
                     <p className="content self-stretch overflow-hidden text-ellipsis  whitespace-nowrap font-['Dovemayo'] text-[14px] not-italic font-[500] leading-[21px]">
-                      {list.contents}
+                      {diary.contents}
                     </p>
                   </div>
                 )}
 
-                {!list.draw && (
+                {!diary.draw && (
                   <div className=" border rounded-lg bg-[#FDF7F4] border-black p-4 mb-[10px]">
                     <div className="flex justify-between items-start mb-[8px]">
-                      <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px]">{list.title}</p>
+                      <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px]">{diary.title}</p>
                       <p className="w-12 h-6 text-xs py-1 justify-center items-center inline-flex bg-white border border-black rounded-2xl text-black">
-                        {getMonthKo(list.date)}
+                        {getMonthKo(diary.date)}
                       </p>
                     </div>
-                    <p className="text-gray-700 line-clamp-2">{list.contents}</p>
+                    <p className="text-gray-700 line-clamp-2">{diary.contents}</p>
                   </div>
                 )}
               </div>

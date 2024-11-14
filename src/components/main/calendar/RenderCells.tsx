@@ -7,7 +7,6 @@ import React, { useEffect, useState } from "react";
 import { getEmoji } from "@/utils/diary/getEmoji";
 import getLoginUser from "@/lib/getLoginUser";
 
-// border-b-2 border-rose-500
 const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: CellsProps) => {
   const firstDayOfMonth = startOfMonth(currentDate);
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
@@ -44,7 +43,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
 
       days.push(
         <div
-          className={`col cell w-[33px] flex flex-col items-start shrink-0 ${
+          className={`col cell w-[33px] mb-[5px] flex flex-col items-start shrink-0 gap-[4px] ${
             !isSameMonth(day, firstDayOfMonth) // 현재 달과 다른 달에 해당하는 날짜
               ? "disabled"
               : isSameDay(day, selectedDate)
@@ -57,14 +56,8 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
           onClick={() => onDateClick(cloneDay, userId)}
         >
           {emotionDate ? (
-            <div
-              className={
-                format(day, "M") === todayMonth && format(day, "d") === todayDate
-                  ? "emotion flex flex-col justify-center items-center self-stretch border-[2px] border-[#D84E35] rounded-full"
-                  : "emotion flex flex-col justify-center items-center self-stretch"
-              }
-            >
-              <img src={getEmoji(emotionDate.emotion, "on")} alt={emotionDate.emotion} className="h-[30px]" />
+            <div className={"emotion flex flex-col justify-center items-center self-stretch"}>
+              <img src={getEmoji(emotionDate.emotion, "on")} alt={emotionDate.emotion} />
             </div>
           ) : (
             <div>
@@ -74,10 +67,12 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
           <div
             className={
               format(currentDate, "M") !== format(day, "M")
-                ? "text not-valid h-[30px] p-[10px] flex flex-col justify-center items-center gap-[10px] self-stretch"
+                ? "text not-valid flex flex-col justify-center items-center gap-[10px] self-stretch border-[1px] bg-[#EFE6DE]"
+                : format(day, "d") === format(selectedDate, "d")
+                ? "selected flex flex-col justify-center items-center gap-[10px] self-stretch border-[1px] bg-[#2E5342] rounded-2xl text-white"
                 : format(day, "M") === todayMonth && format(day, "d") === todayDate
-                ? "today h-[30px] p-[10px]  flex flex-col justify-center items-center gap-[10px] self-stretch text-[#D84E35]"
-                : "h-[30px] p-[10px] flex flex-col justify-center items-center gap-[10px] self-stretch"
+                ? "today flex flex-col justify-center items-center gap-[10px] self-stretch border-[1px] bg-white rounded-2xl"
+                : "flex flex-col justify-center items-center gap-[10px] self-stretch border-[1px] bg-[#EFE6DE]"
             }
           >
             {formattedDate}

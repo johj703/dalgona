@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import supabase from "@/utils/supabase/client";
+import CommonTitle from "@/components/CommonTitle";
 
 // 입력 유효성 검사를 위해서 Zod 스키마 정의
 const profileSchema = z.object({
@@ -167,7 +168,7 @@ export default function SaveUserProfilePage() {
         return;
       }
       // 성공 시 다음 페이지로 이동
-      router.push("/main");
+      router.push("/sign-up/complete");
     } catch (error) {
       console.error("네트워크 오류 또는 알 수 없는 오류 : ", error);
       setErrorMessage("알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
@@ -222,7 +223,6 @@ export default function SaveUserProfilePage() {
               <input type="file" id="profileImageUpload" onChange={handleImageUpload} className="hidden" />
             </div>
           </div>
-        </div>
 
         {/* 생년월일 입력 */}
         <div className="mb-4 text-left">
@@ -256,89 +256,32 @@ export default function SaveUserProfilePage() {
             </select>
             <p className="self-center justify-start md:inline">일</p>
           </div>
-          {errors.birthYear && <p className="text-xs text-red-500 mt-1">{errors.birthYear.message}</p>}
-          {errors.birthMonth && <p className="text-xs text-red-500 mt-1">{errors.birthMonth.message}</p>}
-          {errors.birthDay && <p className="text-xs text-red-500 mt-1">{errors.birthDay.message}</p>}
-        </div>
 
-        {/* 성별 선택 */}
-        <div className="text-left mb-4">
-          <label className="text-sm font-medium text-gray-700 mb-2 block">성별</label>
-          <div className="flex space-x-4 justify-start">
+          <p className="mt-[10px] text-sm leading-tight text-[#b9b9b9]">
+            위 항목들은 선택사항이며, 언제든지 나중에 수정할 수 있습니다.
+          </p>
+
+          {/* 에러 메세지 */}
+          {/* {errorMessage && <p className="">{errorMessage}</p>} */}
+
+          {/* 건너뛰기 및 시작하기 버튼 */}
+          <div className="flex gap-4 mt-auto">
             <button
               type="button"
-              {...register("gender", { required: "성별을 선택해주세요." })}
-              onClick={() => handleGenderSelect("여성")}
-              className={`flex items-center px-4 py-2 rounded-full border ${
-                selectedGender === "여성" ? "bg-primary text-white" : "bg-white text-primary border-primary "
-              }`}
+              onClick={() => router.push("/sign-up/complete")}
+              className="w-1/2 py-3 bg-primary text-lg leading-normal text-white rounded-lg hover:bg-primary"
             >
-              <Image
-                src={selectedGender === "여성" ? "/icons/female_white.svg" : "/icons/female_red.svg"}
-                alt="여성 아이콘"
-                width={20}
-                height={20}
-                className="mr-2"
-              />
-              <span>여성</span>
+              건너뛰기
             </button>
             <button
-              type="button"
-              {...register("gender", { required: "성별을 선택해주세요." })}
-              onClick={() => handleGenderSelect("남성")}
-              className={`flex items-center px-4 py-2 rounded-full border ${
-                selectedGender === "남성" ? "bg-primary text-white" : "bg-white text-primary border-primary"
-              }`}
+              type="submit"
+              className="w-1/2 py-3 bg-primary text-lg leading-normal text-white rounded-lg hover:bg-primary"
             >
-              <Image
-                src={selectedGender === "남성" ? "/icons/male_white.svg" : "/icons/male_red.svg"}
-                alt="남성 아이콘"
-                width={20}
-                height={20}
-                className="mr-2"
-              />
-              <p>남성</p>
+              완료
             </button>
           </div>
-          {errors.gender && <p className="text-primary text-sm mt-2">{errors.gender.message}</p>}
-        </div>
-
-        {/* 혈액형 선택 */}
-        <div className="mb-4 text-left">
-          <label className="text-sm font-medium text-gray-700 mb-2">혈액형</label>
-          <div className="flex gap-4 justify-start">
-            {["A", "B", "O", "AB"].map((type) => (
-              <button
-                key={type}
-                type="button"
-                onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")}
-                className={`w-full p-2 rounded-full border ${
-                  selectedBloodType === type ? "bg-primary text-white" : "bg-white text-primary border-primary"
-                }`}
-              >
-                {type}
-              </button>
-            ))}
-          </div>
-        </div>
-        <p className="text-xs text-gray-300">위 항목들은 선택사항이며, 언제든지 나중에 수정할 수 있습니다.</p>
-        {/* 에러 메세지 */}
-        {/* {errorMessage && <p className="">{errorMessage}</p>} */}
-
-        {/* 건너뛰기 및 시작하기 버튼 */}
-        <div className="flex justify-between mt-6">
-          <button
-            type="button"
-            onClick={() => router.push("/main")}
-            className="w-1/2 p-2 bg-primary text-white rounded-md hover:bg-primary"
-          >
-            건너뛰기
-          </button>
-          <button type="submit" className="w-1/2 p-2 bg-primary text-white rounded-md hover:bg-primary ml-2">
-            시작하기
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

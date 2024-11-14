@@ -1,5 +1,6 @@
 "use client";
 
+import CommonTitle from "@/components/CommonTitle";
 import browserClient from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

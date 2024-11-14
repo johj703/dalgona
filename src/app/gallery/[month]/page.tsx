@@ -13,7 +13,7 @@ interface Params {
 }
 
 const MonthlyGallery = ({ params }: { params: Params }) => {
-  const { month } = params; // URL의 month 매개변수 추출
+  const { month } = params;
   const [artworks, setArtworks] = useState<Diary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

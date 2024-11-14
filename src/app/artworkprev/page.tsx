@@ -16,10 +16,9 @@ const GalleryPage = () => {
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string>("");
   const router = useRouter();
-
   const imageListRef = useRef<HTMLDivElement | null>(null);
 
-  // 로그인한 사용자의 ID를 가져오는 함수
+  // 로그인한 사용자의 ID 가져오기
   const getUserId = async () => {
     const data = await getLoginUser();
     if (data) {
@@ -59,19 +58,17 @@ const GalleryPage = () => {
     fetchDiaries();
   }, [diaryId, userId]);
 
-  const handleSwipeSelect = (entry: Diary) => {
-    setMainEntry(entry);
-
-    if (imageListRef.current) {
+  // 메인그림(mainEntry)이 변경될 때마다 스크롤 위치 조정
+  useEffect(() => {
+    if (mainEntry && imageListRef.current) {
       const container = imageListRef.current;
-      const selectedImageElement = document.getElementById(`image-${entry.id}`);
+      const selectedImageElement = document.getElementById(`image-${mainEntry.id}`);
 
       if (selectedImageElement) {
         const containerWidth = container.offsetWidth;
         const imageWidth = selectedImageElement.offsetWidth;
         const imageOffsetLeft = selectedImageElement.offsetLeft;
 
-        // 이미지가 컨테이너의 중앙에 위치하도록 스크롤 위치 계산
         const scrollPosition = imageOffsetLeft - containerWidth / 2 + imageWidth / 2;
         container.scrollTo({
           left: scrollPosition,
@@ -79,6 +76,10 @@ const GalleryPage = () => {
         });
       }
     }
+  }, [mainEntry]);
+
+  const handleSwipeSelect = (entry: Diary) => {
+    setMainEntry(entry);
   };
 
   const handleGoToDetail = () => {
@@ -111,19 +112,15 @@ const GalleryPage = () => {
           </div>
 
           <div className="py-4 h-[135px]">
-            <div
-              ref={imageListRef} // 이미지 리스트에 ref 추가
-              className="flex overflow-x-auto space-x-2 px-4"
-              style={{ padding: "0px 50%" }}
-            >
+            <div ref={imageListRef} className="flex overflow-x-auto space-x-2 px-4" style={{ padding: "0px 50%" }}>
               {diaryEntries.map((entry) => (
                 <div key={entry.id} className="flex-shrink-0 w-12 h-12">
                   <img
-                    id={`image-${entry.id}`} // 각 이미지에 고유한 id 부여
+                    id={`image-${entry.id}`}
                     src={entry.draw}
                     alt={`Artwork ${entry.id}`}
                     className={`w-full h-full object-cover cursor-pointer bg-white border border-[#D9D9D9] ${
-                      entry.id === mainEntry.id ? "border-2 border-[#D84E35]" : ""
+                      entry.id === mainEntry?.id ? "border-2 border-[#D84E35]" : ""
                     }`}
                     onClick={() => handleSwipeSelect(entry)}
                   />

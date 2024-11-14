@@ -21,22 +21,14 @@ const Mypage = () => {
   const [monthlyData, setMonthlyData] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0]);
   const [myDrawing, setMyDrawing] = useState<{ draw: string }[]>();
   const [myDrawingCount, setMyDrawingCount] = useState<number>(0);
-  const [userId, setUserId] = useState<string>("");
+
   const router = useRouter();
 
-  const getUserId = async () => {
-    const data = await getLoginUser();
-    if (data) setUserId(data.id);
-  };
-
-  useEffect(() => {
-    getUserId();
-  }, []);
-
   const getData = async () => {
-    const UserData = await getUserData(userId);
-    const MonthlyData = await getMonthlyEmotion(userId);
-    const MyDrawing = await getMyDrawing(userId);
+    const userData = await getLoginUser();
+    const UserData = await getUserData(userData!.id);
+    const MonthlyData = await getMonthlyEmotion(userData!.id);
+    const MyDrawing = await getMyDrawing(userData!.id);
 
     setUserData(UserData);
 
@@ -46,22 +38,25 @@ const Mypage = () => {
       setMyDrawingCount(MyDrawing.count!);
     }
   };
+
   useEffect(() => {
     getData();
-  }, [userId]);
+  }, []);
 
   return (
-    <>
+    <div>
       <CommonTitle title={"마이 페이지"} />
       <div className="py-6">
         <div className="flex gap-[14px] px-4">
-          <Image
-            src={userData?.profile_image ? userData.profile_image : DEFAULT_IMAGE}
-            width={80}
-            height={80}
-            alt="프로필 이미지"
-            className="flex-shrink-0"
-          />
+          <span className="flex-shrink-0 flex items-center justify-center w-20 h-20 rounded-full overflow-hidden">
+            <Image
+              src={userData?.profile_image ? userData.profile_image : DEFAULT_IMAGE}
+              width={80}
+              height={80}
+              alt="프로필 이미지"
+              className="min-w-full min-h-full object-contain"
+            />
+          </span>
 
           <div className="flex-1 flex flex-col gap-[7px]">
             <div className="flex items-center gap-[7px] text-lg leading-tight">
@@ -75,7 +70,7 @@ const Mypage = () => {
             </div>
           </div>
 
-          <button className="mb-auto">
+          <button className="mb-auto" onClick={() => router.push("/mypage/editprofile")}>
             <img src="/icons/setting.svg" alt="마이페이지 수정" />
           </button>
         </div>
@@ -99,11 +94,25 @@ const Mypage = () => {
         <div className="py-2 px-4">
           <div className="text-base leading-5">내 그림 모아보기</div>
           <ul className="flex gap-4 mt-[11px]">
+            {myDrawing?.length === 0 && (
+              <div className="flex flex-col items-center text-center w-full">
+                <div className="flex items-center justify-center gap-[10px] p-[10px] text-base leading-5">
+                  아직 그림이 없네요! <img src="/icons/facial-expressions.svg" alt="우는 얼굴" />
+                </div>
+                <span className="text-sm leading-normal text-gray04">캔버스가 당신의 하루를 기다리고 있어요!</span>
+                <Link
+                  href={"/diary/write"}
+                  className="flex items-center gap-[10px] mt-[34px] w-fit py-2 px-4 border-black border border-solid rounded-lg bg-white"
+                >
+                  그림 그리러 가기 <img src="/icons/pencil.svg" alt="연필" />
+                </Link>
+              </div>
+            )}
             {myDrawing?.map((draw, idx) => {
               return (
                 <li
                   key={idx}
-                  className="relative flex items-center justify-center w-1/3 aspect-square border border-[#D9D9D9] rounded-2xl overflow-hidden"
+                  className="relative flex items-center justify-center w-1/3 aspect-square border border-[#D9D9D9] rounded-2xl bg-white overflow-hidden"
                 >
                   <img src={draw.draw} alt={`그림${idx}`} className="object-contain" />
 
@@ -141,7 +150,7 @@ const Mypage = () => {
       </div>
 
       <Navigation />
-    </>
+    </div>
   );
 };
 export default Mypage;
