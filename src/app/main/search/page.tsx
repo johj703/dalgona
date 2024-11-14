@@ -72,7 +72,7 @@ const SearchPage = () => {
               >
                 <p className="text-[16px] font-[400] overflow-hidden text-ellipsis mb-[2px]">{diary.title}</p>
                 <p className="text-[14px] font-[500] line-clamp-2 font-['Dovemayo'] mb-[8px] ">{diary.contents}</p>
-                <div className="flex text-[14px] font-[500] text-right">
+                <div className="flex justify-end text-[14px] font-[500] text-right">
                   <p className="mr-[2px]">{getSimpleFullDate(diary.date).substring(2)}</p>
                   <p>({getDayOfTheWeek(diary.date).substring(0, 1)})</p>
                 </div>

@@ -78,7 +78,7 @@ const DiaryList = () => {
   return (
     <>
       {sortedDiaries && sortedDiaries.length > 0 ? (
-        <div className="flex py-[8px] px-[16px] items-center gap-[10px] self-stretch">
+        <div className="flex py-[8px] px-[16px] items-center gap-[10px] self-stretch lg:hidden">
           <div className="all-feed flex w-full py-[20px] px-[16px] mb-[70px] flex-col items-center gap-[10px] border-2 rounded-2xl border-black bg-[#EFE6DE]">
             <TabGroup className="w-full">
               <div className="flex mb-[16px] justify-between">
@@ -134,7 +134,6 @@ const DiaryList = () => {
                   </div>
                 </Link>
               </div>
-              <div></div>
               <TabPanels>
                 {/* 피드 클릭 시 */}
                 <TabPanel>
@@ -250,7 +249,7 @@ const DiaryList = () => {
           <TopButton />
         </div>
       ) : (
-        <div className="flex py-[8px] px-[16px] items-center gap-[10px] self-stretch">
+        <div className="flex py-[8px] px-[16px] items-center gap-[10px] self-stretch lg:hidden">
           <div className="flex w-full h-[468px] py-[159px] flex-col items-center gap-[10px] border-2 rounded-2xl border-black bg-[#EFE6DE]">
             <div className="flex flex-col justify-center items-center gap-[23px]">
               <div>

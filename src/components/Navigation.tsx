@@ -17,7 +17,7 @@ const Navigation = () => {
   console.log("🚀 ~ Navigation ~ formData:", formData);
 
   return (
-    <div className="fixed bottom-[-2px] left-0 right-0">
+    <div className="fixed bottom-[-2px] left-0 right-0 lg:hidden">
       <ul className="flex justify-between gap-[1px] self-stretch bg-[#FDF7F4]">
         {NAVIGATION_LIST.map((navi) => {
           return (
