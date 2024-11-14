@@ -18,8 +18,8 @@ const DiaryList = () => {
   const [selectedBox, setSelectedBox] = useState<string>("최신순");
   const [activeTab, setActiveTab] = useState("feed");
   const [userId, setUserId] = useState<string>("");
+
   const { data: diaries, hasNextPage, fetchNextPage } = useInfiniteQueryDiaries(userId);
-  console.log("🚀 ~ DiaryList ~ diaries:", diaries);
   const originList = diaries?.pages.flatMap((page) => page.diariesList) || [];
 
   useEffect(() => {
@@ -207,7 +207,7 @@ const DiaryList = () => {
                             width={60}
                             height={60}
                             alt="그림"
-                            className="border-[1px] rounded-lg border-black mr-[16px] object-cover bg-white w-[60px] h-[60px]"
+                            className="border-[1px] rounded-lg border-black mr-[16px] object-cover bg-white w-[60px] h-[60px] flex-shrink-0"
                           />
                           <div className="w-[222px]">
                             <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px]">
