@@ -227,8 +227,8 @@ export default function SaveUserProfilePage() {
         {/* 생년월일 입력 */}
         <div className="mb-4 text-left">
           <label className="block text-sm font-medium text-gray-700 mb-2">생년월일</label>
-          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 justify-start">
-            <select {...register("birthYear")} className="p-2 border border-gray-300 rounded-md w-full md:w-1/3">
+          <div className="flex flex-col md:flex-row md:justify-start items-center md:space-y-0 md:space-x-4 space-y-2">
+            <select {...register("birthYear")} className="p-2 border border-gray-300 rounded-md w-[100px]">
               <option value=""></option>
               {Array.from({ length: 124 }, (_, i) => 1900 + i).map((year) => (
                 <option key={year} value={year}>
@@ -237,7 +237,7 @@ export default function SaveUserProfilePage() {
               ))}
             </select>
             <p className="self-center justify-start md:inline">년</p>
-            <select {...register("birthMonth")} className="p-2 border border-gray-300 rounded-md w-full md:w-1/3">
+            <select {...register("birthMonth")} className="p-2 border border-gray-300 rounded-md w-[100px]">
               <option value=""></option>
               {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
                 <option key={month} value={month}>
@@ -246,7 +246,7 @@ export default function SaveUserProfilePage() {
               ))}
             </select>
             <p className="self-center justify-start md:inline">월</p>
-            <select {...register("birthDay")} className="p-2 border border-gray-300 rounded-md w-full md:w-1/3">
+            <select {...register("birthDay")} className="p-2 border border-gray-300 rounded-md w-[100px]">
               <option value=""></option>
               {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
                 <option key={day} value={day}>
