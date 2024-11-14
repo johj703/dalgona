@@ -100,9 +100,9 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
 
   return (
     <div className="flex-grow flex items-center justify-center py-4">
-      <div className="w-full max-w-sm rounded-lg bg-background">
+      <div className="w-full max-w-sm rounded-lg bg-background lg:max-w-[488px]">
         {selectedDiary.id ? (
-          <div className="h-[210px] px-4 py-4 rounded-lg border border-gray04 justify-center flex items-center gap-3 relative">
+          <div className="h-[210px] px-4 py-4 rounded-lg border border-gray04 justify-center flex items-center gap-3 relative lg:border-2 lg:border-black">
             <div className="w-[100px] h-[120px] flex-shrink-0">
               <img src={`/images/special-diary.svg`} alt={``} className="object-cover w-full h-full" />
             </div>
@@ -128,7 +128,7 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
             </button>
           </div>
         ) : (
-          <div className="h-[210px] px-4 pt-16 pb-[52px] rounded-lg border border-[#a5a5a5]  justify-center flex flex-col items-center">
+          <div className="h-[210px] px-4 pt-16 pb-[52px] rounded-lg border border-gray03 justify-center flex flex-col items-center lg:border-2 lg:border-black">
             <h2 className="text-lg font-medium leading-normal pb-6">기억하고 싶은 순간이 있으신가요?</h2>
             <button
               onClick={handleOpenModal}
