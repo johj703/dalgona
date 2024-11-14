@@ -223,6 +223,7 @@ export default function SaveUserProfilePage() {
               <input type="file" id="profileImageUpload" onChange={handleImageUpload} className="hidden" />
             </div>
           </div>
+        </div>
 
         {/* 생년월일 입력 */}
         <div className="mb-4 text-left">
@@ -256,32 +257,89 @@ export default function SaveUserProfilePage() {
             </select>
             <p className="self-center justify-start md:inline">일</p>
           </div>
+          {errors.birthYear && <p className="text-xs text-red-500 mt-1">{errors.birthYear.message}</p>}
+          {errors.birthMonth && <p className="text-xs text-red-500 mt-1">{errors.birthMonth.message}</p>}
+          {errors.birthDay && <p className="text-xs text-red-500 mt-1">{errors.birthDay.message}</p>}
+        </div>
 
-          <p className="mt-[10px] text-sm leading-tight text-[#b9b9b9]">
-            위 항목들은 선택사항이며, 언제든지 나중에 수정할 수 있습니다.
-          </p>
-
-          {/* 에러 메세지 */}
-          {/* {errorMessage && <p className="">{errorMessage}</p>} */}
-
-          {/* 건너뛰기 및 시작하기 버튼 */}
-          <div className="flex gap-4 mt-auto">
+        {/* 성별 선택 */}
+        <div className="text-left mb-4">
+          <label className="text-sm font-medium text-gray-700 mb-2 block">성별</label>
+          <div className="flex space-x-4 justify-start">
             <button
               type="button"
-              onClick={() => router.push("/sign-up/complete")}
-              className="w-1/2 py-3 bg-primary text-lg leading-normal text-white rounded-lg hover:bg-primary"
+              {...register("gender", { required: "성별을 선택해주세요." })}
+              onClick={() => handleGenderSelect("여성")}
+              className={`flex items-center px-4 py-2 rounded-full border ${
+                selectedGender === "여성" ? "bg-primary text-white" : "bg-white text-primary border-primary "
+              }`}
             >
-              건너뛰기
+              <Image
+                src={selectedGender === "여성" ? "/icons/female_white.svg" : "/icons/female_red.svg"}
+                alt="여성 아이콘"
+                width={20}
+                height={20}
+                className="mr-2"
+              />
+              <span>여성</span>
             </button>
             <button
-              type="submit"
-              className="w-1/2 py-3 bg-primary text-lg leading-normal text-white rounded-lg hover:bg-primary"
+              type="button"
+              {...register("gender", { required: "성별을 선택해주세요." })}
+              onClick={() => handleGenderSelect("남성")}
+              className={`flex items-center px-4 py-2 rounded-full border ${
+                selectedGender === "남성" ? "bg-primary text-white" : "bg-white text-primary border-primary"
+              }`}
             >
-              완료
+              <Image
+                src={selectedGender === "남성" ? "/icons/male_white.svg" : "/icons/male_red.svg"}
+                alt="남성 아이콘"
+                width={20}
+                height={20}
+                className="mr-2"
+              />
+              <p>남성</p>
             </button>
           </div>
-        </form>
-      </div>
+          {errors.gender && <p className="text-primary text-sm mt-2">{errors.gender.message}</p>}
+        </div>
+
+        {/* 혈액형 선택 */}
+        <div className="mb-4 text-left">
+          <label className="text-sm font-medium text-gray-700 mb-2">혈액형</label>
+          <div className="flex gap-4 justify-start">
+            {["A", "B", "O", "AB"].map((type) => (
+              <button
+                key={type}
+                type="button"
+                onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")}
+                className={`w-full p-2 rounded-full border ${
+                  selectedBloodType === type ? "bg-primary text-white" : "bg-white text-primary border-primary"
+                }`}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+        </div>
+        <p className="text-xs text-gray-300">위 항목들은 선택사항이며, 언제든지 나중에 수정할 수 있습니다.</p>
+        {/* 에러 메세지 */}
+        {/* {errorMessage && <p className="">{errorMessage}</p>} */}
+
+        {/* 건너뛰기 및 시작하기 버튼 */}
+        <div className="flex justify-between mt-6">
+          <button
+            type="button"
+            onClick={() => router.push("/main")}
+            className="w-1/2 p-2 bg-primary text-white rounded-md hover:bg-primary"
+          >
+            건너뛰기
+          </button>
+          <button type="submit" className="w-1/2 p-2 bg-primary text-white rounded-md hover:bg-primary ml-2">
+            시작하기
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
