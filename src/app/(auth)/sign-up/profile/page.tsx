@@ -180,7 +180,10 @@ export default function SaveUserProfilePage() {
       <h1 className="text-xl sm:text-xl mb-4 sm:mb-6">환영해요.</h1>
       <p className="text-xl sm:text-xl mb-6 sm:mb-8">사용하실 프로필을 작성해 주세요.</p>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-xs sm:max-w-md bg-white p-4 p-6 rounded-lg shadow-md">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full max-w-xs sm:max-w-md bg-white p-4 sm:p-6 rounded-lg shadow-md"
+      >
         {/* 프로필 사진 선택 */}
         <div className="mb-6">
           <label className="text-sm font-medium text-gray-700 mb-2 block">프로필 사진</label>
