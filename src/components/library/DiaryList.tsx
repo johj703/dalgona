@@ -29,7 +29,7 @@ const DiaryList: React.FC<DiaryListProps> = ({ diaries, loading, userId, onSelec
             <label htmlFor={`radio-${diary.id}`} className="flex items-center justify-center mr-[10px] cursor-pointer">
               <span
                 className={`w-5 h-5 rounded-full border-4 flex items-center justify-center ${
-                  selectedDiaryId === diary.id ? "border-utility03" : "border-[#A6A6A6]"
+                  selectedDiaryId === diary.id ? "border-utility03" : "border-gray04"
                 }`}
               />
             </label>

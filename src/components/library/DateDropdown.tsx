@@ -58,9 +58,9 @@ const DateDropdown: React.FC<DateDropdownProps> = ({ year, month, day, setYear, 
   return (
     <div className="flex gap-3 mt-4">
       {/* Year Dropdown */}
-      <div className="flex-1" ref={yearRef}>
+      <div className="flex-1 lg:flex-none" ref={yearRef}>
         <div className="flex items-center">
-          <div className="relative flex justify-between items-center inline-flex gap-1 rounded-lg bg-white border border-[#BFBFBF] w-full h-9 px-3">
+          <div className="relative flex justify-between items-center inline-flex gap-1 rounded-lg bg-white border border-[#BFBFBF] w-full h-9 px-3 lg:w-[75px]">
             <span className="text-xs font-normal">{year}</span>
             <button
               onClick={toggleYearDropdown}
@@ -93,9 +93,9 @@ const DateDropdown: React.FC<DateDropdownProps> = ({ year, month, day, setYear, 
       </div>
 
       {/* Month Dropdown */}
-      <div className="flex-1" ref={monthRef}>
+      <div className="flex-1 lg:flex-none" ref={monthRef}>
         <div className="flex items-center">
-          <div className="relative flex justify-between items-center inline-flex gap-1 rounded-lg bg-white border border-[#BFBFBF] w-full h-9 px-3">
+          <div className="relative flex justify-between items-center inline-flex gap-1 rounded-lg bg-white border border-[#BFBFBF] w-full h-9 px-3 lg:w-[75px]">
             <span className="text-xs font-normal">{month}</span>
             <button
               onClick={toggleMonthDropdown}
@@ -128,9 +128,9 @@ const DateDropdown: React.FC<DateDropdownProps> = ({ year, month, day, setYear, 
       </div>
 
       {/* Day Dropdown */}
-      <div className="flex-1" ref={dayRef}>
+      <div className="flex-1 lg:flex-none" ref={dayRef}>
         <div className="flex items-center">
-          <div className="relative flex justify-between items-center inline-flex gap-1 rounded-lg bg-white border border-[#BFBFBF] w-full h-9 px-3">
+          <div className="relative flex justify-between items-center inline-flex gap-1 rounded-lg bg-white border border-[#BFBFBF] w-full h-9 px-3 lg:w-[75px]">
             <span className="text-xs font-normal">{day === 0 ? "선택" : `${day}일`}</span>
             <button
               onClick={toggleDayDropdown}
