@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import supabase from "@/utils/supabase/client";
-import CommonTitle from "@/components/CommonTitle";
 
 // 입력 유효성 검사를 위해서 Zod 스키마 정의
 const profileSchema = z.object({
