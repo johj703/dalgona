@@ -1,6 +1,5 @@
 "use client";
 
-import CommonTitle from "@/components/CommonTitle";
 import browserClient from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -90,7 +89,10 @@ export default function SignUpPage() {
       {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
 
       {/* 회원가입 폼 */}
-      <form onSubmit={handleSignUp} className="w-11/12 max-w-md bg-white p-6 rounded-lg shadow-md lg:max-w-lg lg:p-8 xl:max-w-xl xl:p-10">
+      <form
+        onSubmit={handleSignUp}
+        className="w-11/12 max-w-md bg-white p-6 rounded-lg shadow-md lg:max-w-lg lg:p-8 xl:max-w-xl xl:p-10"
+      >
         {/* 이메일 입력 */}
         <div className="mb-4">
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2 lg:text-base">
@@ -173,7 +175,10 @@ export default function SignUpPage() {
 
         {/* "다음으로" 버튼 */}
         <div className="flex justify-center">
-          <button type="submit" className="w-full p-2 bg-primary text-white rounded-md hover:bg-primary lg:p-3 xl:p-4 lg:text-lg">
+          <button
+            type="submit"
+            className="w-full p-2 bg-primary text-white rounded-md hover:bg-primary lg:p-3 xl:p-4 lg:text-lg"
+          >
             다음으로
           </button>
         </div>
