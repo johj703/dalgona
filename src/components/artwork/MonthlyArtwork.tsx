@@ -45,7 +45,7 @@ const MonthlyArtwork: React.FC<MonthlyArtworkProps> = ({ userId }) => {
   };
 
   return (
-    <div className="bg-[#FDF7F4] p-4">
+    <div className="bg-[#FDF7F4] p-4 lg:pr-0">
       <div className="flex justify-items-start gap-4 items-center mb-4">
         <h2 className="text-xl font-normal">이번 달 모음</h2>
         <button onClick={handleViewAllClick}>

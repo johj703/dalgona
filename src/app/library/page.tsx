@@ -72,7 +72,7 @@ const LibraryPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background02">
+    <div className="min-h-screen bg-background02 ">
       <CommonTitle title="기록의 방" />
 
       <div className="p-4 flex flex-col max-w-sm m-auto lg:max-w-screen-lg">
