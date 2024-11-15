@@ -33,7 +33,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortChange }
   };
 
   return (
-    <div className="relative mt-[10px] flex justify-end" ref={dropdownRef}>
+    <div className="relative mt-[10px] flex justify-end lg:mb-1" ref={dropdownRef}>
       <button onClick={toggleDropdown} className="pt-[10px] flex items-center gap-2 justify-end">
         <span>{currentSort === "newest" ? "최신순" : "오래된순"}</span>
         <img src={isOpen ? "/icons/arrow-up(B).svg" : "/icons/arrow-down.svg"} alt="arrow-icon" className="ml-2" />

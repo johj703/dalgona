@@ -4,6 +4,7 @@ import CommonTitle from "@/components/CommonTitle";
 import DetailComponent from "@/components/diary/DetailComponent";
 import Modal from "@/components/Modal";
 import Navigation from "@/components/Navigation";
+import useGetDevice from "@/hooks/useGetDevice";
 import { FormData } from "@/types/Canvas";
 import { fetchData } from "@/utils/diary/fetchData";
 import browserClient from "@/utils/supabase/client";
@@ -15,6 +16,7 @@ const MemoriesBox = ({ params }: { params: { id: string } }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [openClose, setOpenClose] = useState<boolean>(false);
   const router = useRouter();
+  const device = useGetDevice();
 
   const getData = async () => {
     const DiaryData = await fetchData(params.id);
@@ -58,7 +60,7 @@ const MemoriesBox = ({ params }: { params: { id: string } }) => {
           ) : (
             <div>게시글을 불러오지 못 했습니다.</div>
           )}
-          <Navigation />
+          {device === "mobile" && <Navigation />}
         </>
       )}
     </>
