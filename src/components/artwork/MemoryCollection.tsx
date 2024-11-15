@@ -41,11 +41,11 @@ const MemoryCollection: React.FC<MemoryCollectionProps> = ({ userId }) => {
   }, [userId]); // userId가 변경될 때마다 호출
 
   return (
-    <div className="bg-[#FDF7F4] rounded-lg shadow-md p-4">
-      <div className="flex justify-between items-center mb-4">
+    <div className="bg-[#FDF7F4] rounded-lg p-4 mb-16">
+      <div className="flex justify-items-start gap-4 items-center mb-4">
         <h2 className="text-xl font-normal">추억 모음</h2>
-        <button onClick={() => router.push("/gallery")} className="text-lg text-[#18778c] hover:underline">
-          전체 보기
+        <button onClick={() => router.push("/gallery")}>
+          <img src="/icons/arrow-right.svg" alt="Go to Gallery" />
         </button>
       </div>
 

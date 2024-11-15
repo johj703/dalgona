@@ -1,32 +1,35 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import browserClient from "@/utils/supabase/client";
 import { Diary } from "@/types/library/Diary";
-import getLoginUser from "@/lib/getLoginUser"; // 로그인한 사용자 정보를 가져오는 함수
+import getLoginUser from "@/lib/getLoginUser";
 import CommonTitle from "@/components/CommonTitle";
+import { useRouter } from "next/navigation";
 
 const GalleryPage = () => {
   const searchParams = useSearchParams();
-  const diaryId = searchParams ? searchParams.get("id") : null; // URL에서 ID 가져오기
+  const diaryId = searchParams ? searchParams.get("id") : null;
   const [diaryEntries, setDiaryEntries] = useState<Diary[]>([]);
   const [mainEntry, setMainEntry] = useState<Diary | null>(null);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string>("");
+  const router = useRouter();
+  const imageListRef = useRef<HTMLDivElement | null>(null);
 
-  // 로그인한 사용자의 ID를 가져오는 함수
+  // 로그인한 사용자의 ID 가져오기
   const getUserId = async () => {
     const data = await getLoginUser();
     if (data) {
-      setUserId(data.id); // 로그인한 사용자 ID를 상태에 설정
+      setUserId(data.id);
     } else {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    getUserId(); // getUserId 실행 후 userId 상태 업데이트
+    getUserId();
   }, []);
 
   useEffect(() => {
@@ -36,6 +39,7 @@ const GalleryPage = () => {
           .from("diary")
           .select("*")
           .eq("user_id", userId)
+          .not("draw", "is", null)
           .order("date", { ascending: true });
 
         if (error) {
@@ -52,47 +56,79 @@ const GalleryPage = () => {
     };
 
     fetchDiaries();
-  }, [diaryId, userId]); // userId가 변경될 때마다 실행
+  }, [diaryId, userId]);
+
+  // 메인그림(mainEntry)이 변경될 때마다 스크롤 위치 조정
+  useEffect(() => {
+    if (mainEntry && imageListRef.current) {
+      const container = imageListRef.current;
+      const selectedImageElement = document.getElementById(`image-${mainEntry.id}`);
+
+      if (selectedImageElement) {
+        const containerWidth = container.offsetWidth;
+        const imageWidth = selectedImageElement.offsetWidth;
+        const imageOffsetLeft = selectedImageElement.offsetLeft;
+
+        const scrollPosition = imageOffsetLeft - containerWidth / 2 + imageWidth / 2;
+        container.scrollTo({
+          left: scrollPosition,
+          behavior: "smooth"
+        });
+      }
+    }
+  }, [mainEntry]);
 
   const handleSwipeSelect = (entry: Diary) => {
-    setMainEntry(entry); // 이미지를 클릭했을 때 메인 이미지로 설정
+    setMainEntry(entry);
+  };
+
+  const handleGoToDetail = () => {
+    if (mainEntry) {
+      router.push(`/library/memory/${mainEntry.id}`);
+    }
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDF7F4]">
+    <div className="flex flex-col h-screen bg-[#FDF7F4]">
       <CommonTitle title="내 그림 모아보기" />
 
       {loading ? (
         <span>로딩 중...</span>
       ) : mainEntry ? (
-        <div>
-          {/* 메인 이미지 표시 */}
-          <div className="relative flex items-center justify-center bg-white mb-4 w-full min-h-[531px] overflow-hidden border border-[#D9D9D9] ">
+        <>
+          <div className="relative artworkprev-content-height flex flex-grow items-center justify-center bg-white border border-[#D9D9D9] lg:max-w-4lg lg:mx-auto">
             {mainEntry.draw ? (
-              <img src={mainEntry.draw} alt={`Artwork ${mainEntry.id}`} className="w-full border border-[#D9D9D9]" />
+              <img src={mainEntry.draw} alt={`Artwork ${mainEntry.id}`} className="object-contain max-h-full" />
             ) : (
               <span>이미지 없음</span>
             )}
+
+            <button
+              onClick={handleGoToDetail}
+              className="absolute right-3 bottom-4 bg-background02 border border-gray02 text-black px-4 py-2 rounded-full lg:rounded-2xl lg:right-4 lg:bottom-6"
+            >
+              일기 상세 보기
+            </button>
           </div>
 
-          {/* 하단의 스와이프 가능한 이미지 리스트 */}
-          <div className="py-4">
-            <div className="flex overflow-x-auto space-x-2 px-4">
+          <div className="py-4 h-[115px] lg:h-auto lg:border lg:border-gray03 lg:bg-background01">
+            <div ref={imageListRef} className="flex overflow-x-auto space-x-2 px-4 " style={{ padding: "0px 50%" }}>
               {diaryEntries.map((entry) => (
-                <div key={entry.id} className="flex-shrink-0 w-12 h-12">
+                <div key={entry.id} className="flex-shrink-0 w-12 h-12 lg:w-[68px] lg:h-[68px]">
                   <img
+                    id={`image-${entry.id}`}
                     src={entry.draw}
                     alt={`Artwork ${entry.id}`}
-                    className={`w-full h-full object-cover cursor-pointer bg-white border border-[#D9D9D9] ${
-                      entry.id === mainEntry.id ? "border-2 border-[#D84E35]" : ""
+                    className={`w-full h-full object-cover cursor-pointer bg-white border border-gray02 lg:rounded lg:border-gray04  ${
+                      entry.id === mainEntry?.id ? "border-2 border-[#D84E35]" : ""
                     }`}
-                    onClick={() => handleSwipeSelect(entry)} // 이미지를 클릭하면 메인 이미지 변경
+                    onClick={() => handleSwipeSelect(entry)}
                   />
                 </div>
               ))}
             </div>
           </div>
-        </div>
+        </>
       ) : (
         <span>해당 다이어리 항목을 찾을 수 없습니다.</span>
       )}

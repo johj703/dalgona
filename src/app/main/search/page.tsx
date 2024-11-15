@@ -1,12 +1,9 @@
 "use client";
 import getLoginUser from "@/lib/getLoginUser";
 import { useInfiniteQuerySearchDiaries } from "@/lib/main/fetchDiaries";
-import { getDayOfTheWeek, getSimpleDate } from "@/utils/calendar/dateFormat";
+import { getDayOfTheWeek, getSimpleFullDate } from "@/utils/calendar/dateFormat";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-
-//TODO - 일기 클릭하면 상세로 이동
-//TODO - 최근검색어..?
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");
@@ -50,36 +47,41 @@ const SearchPage = () => {
   }, [fetchNextPage, hasNextPage]);
 
   return (
-    <div className="p-6 mt-4 text-center">
-      <div className="flex gap-4 p-2">
+    <div className="mt-[44px] text-center py-[16px] ">
+      <div className="flex justify-center items-center  w-[calc(100%-32px)]">
         <Link href={"/main"}>
-          <div className="pt-2">◀︎</div>
+          <img src="/icons/arrow-left-gray.svg" width={34} height={34} alt="arrow" className="ml-[16px]" />
         </Link>
         <input
           type="text"
-          className="border-2 rounded-md w-[300px] h-[40px] bg-zinc-200 p-2"
-          placeholder="일기를 검색해주세요"
+          className="border-2 rounded-md h-[40px] bg-white w-[calc(100%-32px)] p-[10px]"
+          placeholder="검색어를 입력하세요"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
       </div>
       {diariesList && diariesList.length > 0 ? (
-        <div className="text-left">
-          <p className="text-sm p-2">검색결과 ({diariesList.length})</p>
+        <div className="text-left py-[8px] px-[16px]">
+          <p className="text-[16px] font-[400] mb-[8px]">검색결과 ({diariesList.length})</p>
           {diariesList.map((diary) => (
-            <div key={diary.id} className="border-2 p-2 rounded-md my-2">
-              <p>{diary.contents}</p>
-              <div className="flex text-sm">
-                <p className="mr-2">{getDayOfTheWeek(diary.date)}</p>
-                <p>{getSimpleDate(diary.date)}</p>
+            <Link href={`/diary/read/${diary.id}`} key={diary.id}>
+              <div key={diary.id} className="p-[10px] border-[1px] border-black rounded-lg bg-white mb-[16px]">
+                <p className="text-[16px] font-[400] overflow-hidden text-ellipsis mb-[2px]">{diary.title}</p>
+                <p className="text-[14px] font-[500] overflow-hidden text-ellipsis font-['Dovemayo'] mb-[8px] h-[130px]">
+                  {diary.contents}
+                </p>
+                <div className="flex text-[14px] font-[500] text-right">
+                  <p className="mr-[2px]">{getSimpleFullDate(diary.date).substring(2)}</p>
+                  <p>({getDayOfTheWeek(diary.date).substring(0, 1)})</p>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       ) : (
-        <div>
-          <p className="font-bold m-6">일치하는 검색결과가 없습니다.</p>
-          <p className="text-sm text-gray-400">오늘은 어떤 이야기를 들려주실 건가요?</p>
+        <div className="flex flex-col items-center gap-[10px] mt-[300px]">
+          <p className="text-[18px] font-[400]">일치하는 검색결과가 없습니다.</p>
+          <p className="text-[16px] font-[400] text-gray-400">오늘은 어떤 이야기를 들려주실 건가요?</p>
         </div>
       )}
     </div>

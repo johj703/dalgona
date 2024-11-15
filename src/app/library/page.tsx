@@ -7,6 +7,8 @@ import YearSelector from "@/components/library/YearSelector";
 import DiaryReminder from "@/components/library/DiaryReminder";
 import MonthSelector from "@/components/library/MonthSelector";
 import getLoginUser from "@/lib/getLoginUser";
+import Navigation from "@/components/Navigation";
+import useGetDevice from "@/hooks/useGetDevice";
 
 const LibraryPage: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -15,6 +17,7 @@ const LibraryPage: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState<number>(currentYear);
   const [userId, setUserId] = useState<string>("");
 
+  const device = useGetDevice();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -26,7 +29,6 @@ const LibraryPage: React.FC = () => {
         if (yearParam) {
           setSelectedYear(parseInt(yearParam, 10));
         }
-
         await getUserId();
       } catch (error) {
         console.error("user ID =>", error);
@@ -72,7 +74,8 @@ const LibraryPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-background02">
       <CommonTitle title="기록의 방" />
-      <div className="p-4 flex flex-col">
+
+      <div className="p-4 flex flex-col max-w-sm m-auto lg:max-w-screen-lg">
         <YearSelector currentYear={currentYear} selectedYear={selectedYear} onYearChange={handleYearChange} />
         {userId ? (
           <DiaryReminder userId={userId} selectedYear={selectedYear} />
@@ -81,6 +84,8 @@ const LibraryPage: React.FC = () => {
         )}
         <MonthSelector year={selectedYear} />
       </div>
+
+      {device === "mobile" && <Navigation />}
     </div>
   );
 };

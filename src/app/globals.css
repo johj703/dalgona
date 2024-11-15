@@ -56,9 +56,16 @@ body {
     @apply flex items-center justify-center w-36 h-12 rounded-lg bg-primary text-base leading-normal text-white;
   }
   .label-style {
-    @apply text-sm leading-[1.35] text-gray05;
+    @apply text-sm leading-[1.35] text-gray05 mb-1;
   }
   .input-style {
-    @apply w-full h-14 p-4 text-base text-gray05 placeholder:text-gray04 rounded-lg border-2 border-solid border-gray04;
+    @apply w-full h-14 p-4 text-base text-gray05 placeholder:text-gray04 rounded-lg border-2 border-solid border-gray04 bg-white outline-none;
+  }
+}
+
+@layer utilities {
+  .artworkprev-content-height {
+    height: calc(100vh - 240px);
+
   }
 }

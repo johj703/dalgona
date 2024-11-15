@@ -11,10 +11,10 @@ const MonthSelector: React.FC<{ year: number }> = ({ year }) => {
   }
 
   return (
-    <div className="h-[645px] pb-12 bg-[#EFE6DE] flex-col justify-start items-center mx-auto p-4">
+    <div className="h-[645px] mb-12 bg-[#EFE6DE] flex-col justify-start items-center mx-auto p-4 lg:w-[488px] lg:rounded-lg lg:border-2 lg:border-black lg:h-auto">
       {rows.map((row, rowIndex) => (
         <React.Fragment key={rowIndex}>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-4 lg:gap-20">
             {row.map((month) => (
               <Link
                 key={month}

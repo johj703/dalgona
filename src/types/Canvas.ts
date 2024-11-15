@@ -13,12 +13,10 @@ export type CanvasProps = {
   canvasWidth: canvasWidth;
   canvasHeight: canvasHeight;
   lineCustom: LineCustom;
-  getImage: FileList | null;
   pathMode: string;
   setPathMode: stringState;
   tool: string;
   setTool: stringState;
-  fileRef: HTMLInputElement | null;
   setFormData: FormState;
   formData: FormData;
   setGoDraw: booleanState;

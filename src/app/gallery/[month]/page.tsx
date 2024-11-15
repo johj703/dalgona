@@ -13,7 +13,7 @@ interface Params {
 }
 
 const MonthlyGallery = ({ params }: { params: Params }) => {
-  const { month } = params; // URL의 month 매개변수 추출
+  const { month } = params;
   const [artworks, setArtworks] = useState<Diary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -59,17 +59,17 @@ const MonthlyGallery = ({ params }: { params: Params }) => {
   }, [month]);
 
   return (
-    <div className="flex flex-col h-screen bg-[#FDF7F4]">
+    <div className="flex flex-col bg-[#FDF7F4]">
       <CommonTitle title="내 그림 모아보기" />
-      <h2 className="text-2xl p-4">{month}월</h2>
+      <h2 className="text-2xl p-4 lg:text-center">{month}월</h2>
       {loading ? (
         <div className="text-center">로딩 중...</div>
       ) : error ? (
         <div className="text-red-500 text-center">{error}</div>
       ) : artworks.length > 0 ? (
-        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-4">
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 px-4 pb-24">
           {artworks.map((artwork) => (
-            <div key={artwork.id} className="border border-[#D9D9D9] aspect-square overflow-hidden">
+            <div key={artwork.id} className="border border-[#D9D9D9] aspect-square overflow-hidden lg:rounded-2xl">
               <Link href={`/artworkprev?id=${artwork.id}`}>
                 <img
                   src={artwork.draw}

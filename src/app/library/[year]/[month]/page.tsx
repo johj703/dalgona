@@ -5,6 +5,8 @@ import DiaryContent from "@/components/library/DiaryContent";
 import { useParams } from "next/navigation";
 import getLoginUser from "@/lib/getLoginUser";
 import CommonTitle from "@/components/CommonTitle";
+import Navigation from "@/components/Navigation";
+import useGetDevice from "@/hooks/useGetDevice";
 
 const MonthDiaryPage: React.FC = () => {
   const { year, month } = useParams();
@@ -12,6 +14,8 @@ const MonthDiaryPage: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const device = useGetDevice();
 
   // 사용자 ID를 가져오는 함수
   const getUserId = async () => {
@@ -47,9 +51,12 @@ const MonthDiaryPage: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col bg-[#FDF7F4] min-h-screen">
+    <div className="bg-background02 ">
       <CommonTitle title={`${month}월`} />
-      <DiaryContent userId={userId} year={Number(year)} month={Number(month)} />
+      <div className="flex flex-col bg-[#FDF7F4] max-w-sm m-auto lg:max-w-screen-lg">
+        <DiaryContent userId={userId} year={Number(year)} month={Number(month)} />
+        {device === "mobile" && <Navigation />}
+      </div>
     </div>
   );
 };

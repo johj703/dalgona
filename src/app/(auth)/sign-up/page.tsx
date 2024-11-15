@@ -1,5 +1,6 @@
 "use client";
 
+import CommonTitle from "@/components/CommonTitle";
 import browserClient from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -57,7 +58,6 @@ export default function SignUpPage() {
           email,
           nickname,
           name
-
         });
 
         // 데이터 베이스 삽입 중 오류가 발생한 경우 오류 메시지 설정 후 종료
@@ -66,11 +66,9 @@ export default function SignUpPage() {
           return;
         }
 
-        // 이메일과 비밀번호를 사용해 로그인 실행
-        await browserClient.auth.signInWithPassword({ email, password });
-
-        // **페이지 이동하기 로직 추가
+        // 회원가입이 완료되면 리디렉션으로 sign-up/profile로 이동
         router.push("/sign-up/profile");
+        console.log("회원가입 성공", data);
       }
 
       if (error) {
@@ -85,17 +83,17 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-2xl font-bold mb-6">회원가입</h1>
+    <div className="flex flex-col min-h-screen bg-background02">
+      <CommonTitle title="회원가입" />
 
       {/* 에러 메세지 출력 */}
       {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
 
       {/* 회원가입 폼 */}
-      <form onSubmit={handleSignUp} className="w-11/12 max-w-md bg-white p-6 rounded-lg shadow-md">
+      <form onSubmit={handleSignUp} className="flex-1 flex flex-col mt-[58px] px-4 pb-[22px]">
         {/* 이메일 입력 */}
         <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="email" className="label-style">
             이메일
           </label>
           <input
@@ -104,9 +102,10 @@ export default function SignUpPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)} // 입력시 상태 업데이트
             required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="input-style"
+            placeholder="이메일을 입력하세요"
           />
-          <p className="text-xs text-gray-300">사용하실 이메일 주소를 입력하세요.</p>
+          <p className="mt-1 text-sm leading-normal text-gray04">사용하실 이메일 주소를 입력하세요.</p>
         </div>
 
         {/* 비밀번호 입력 */}
@@ -120,9 +119,12 @@ export default function SignUpPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)} // 입력시 상태 업데이트
             required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="input-style"
+            placeholder="비밀번호를 입력하세요"
           />
-          <p className="text-xs text-gray-300">안전한 비밀번호를 입력해주세요(8자 이상, 영문, 숫자 포함)</p>
+          <p className="mt-1 text-sm leading-normal text-gray04">
+            안전한 비밀번호를 입력해주세요(8자 이상, 영문, 숫자 포함)
+          </p>
         </div>
 
         {/* 비밀번호 확인 입력 */}
@@ -136,9 +138,9 @@ export default function SignUpPage() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)} // 입력시 상태 업데이트
             required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="input-style"
           />
-          <p className="text-xs text-gray-300">비밀번호를 다시 입력해주세요.</p>
+          <p className="mt-1 text-sm leading-normal text-gray04">비밀번호를 다시 입력해주세요.</p>
         </div>
 
         {/* 이름 입력 */}
@@ -152,9 +154,10 @@ export default function SignUpPage() {
             value={name}
             onChange={(e) => setName(e.target.value)} // 입력시 상태 업데이트
             required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="input-style"
+            placeholder="이름을 입력하세요"
           />
-          <p className="text-xs text-gray-300">이름을 입력해 주세요.</p>
+          <p className="mt-1 text-sm leading-normal text-gray04">이름을 입력해 주세요.</p>
         </div>
 
         {/* 별명 입력 */}
@@ -168,14 +171,18 @@ export default function SignUpPage() {
             value={nickname}
             onChange={(e) => setNickname(e.target.value)} // 입력시 상태 업데이트
             required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="input-style"
+            placeholder="별명을 입력하세요"
           />
-          <p className="text-xs text-gray-300">2글자 이상의 별명을 입력해 주세요.</p>
+          <p className="mt-1 text-sm leading-normal text-gray04">2글자 이상의 별명을 입력해 주세요.</p>
         </div>
 
         {/* "다음으로" 버튼 */}
-        <div className="flex justify-center">
-          <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+        <div className="flex justify-center mt-auto">
+          <button
+            type="submit"
+            className="w-full py-4 bg-primary text-white rounded-lg text-sm leading-[1.35] hover:bg-primary"
+          >
             다음으로
           </button>
         </div>

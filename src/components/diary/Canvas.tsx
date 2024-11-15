@@ -1,28 +1,26 @@
 "use client";
 
-import drawImage from "@/lib/drawImage";
-import getRatio from "@/lib/getRatio";
+import getRatio from "@/lib/diary/getRatio";
 //import { convertHexToRgba, floodFill } from "@/lib/paint";
-import redo from "@/lib/redo";
-import reDraw from "@/lib/reDraw";
-import setCanvasContext from "@/lib/setCanvasContext";
-import undo from "@/lib/undo";
+import redo from "@/lib/diary/redo";
+import reDraw from "@/lib/diary/reDraw";
+import setCanvasContext from "@/lib/diary/setCanvasContext";
+import undo from "@/lib/diary/undo";
 import { CanvasProps } from "@/types/Canvas";
 import browserClient from "@/utils/supabase/client";
 import { decode } from "base64-arraybuffer";
 import { RefObject, useEffect, useRef, useState } from "react";
 import Modal from "../Modal";
 
+const newDate = new Date().toISOString();
 const Canvas = ({
   canvasWidth,
   canvasHeight,
   lineCustom,
-  getImage,
   pathMode,
   setPathMode,
   tool,
   setTool,
-  fileRef,
   setFormData,
   formData,
   setGoDraw,
@@ -34,7 +32,6 @@ const Canvas = ({
   const [painting, setPainting] = useState(false);
   const [pathHistory, setPathHistory] = useState<string[]>([]);
   const [pathStep, setPathStep] = useState<number>(-1);
-  const [pos, setPos] = useState<number[]>([]);
   const [openClose, setOpenClose] = useState<boolean>(false);
 
   // 캔버스 세팅
@@ -84,13 +81,6 @@ const Canvas = ({
     ctx.strokeStyle = tool === "eraser" ? "#ffffff" : lineCustom.lineColor;
   }
 
-  // 이미지 업로드
-  useEffect(() => {
-    if (ctx) {
-      drawImage({ getImage, ctx, saveHistory, fileRef });
-    }
-  }, [getImage]);
-
   // undo redo reset
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -109,14 +99,14 @@ const Canvas = ({
 
             const { data, error } = await browserClient.storage
               .from("posts")
-              .upload(`drawing/${POST_ID}`, decode(base64FileData), {
+              .upload(`drawing/${POST_ID}-${newDate}`, decode(base64FileData), {
                 contentType: "image/png",
                 upsert: true
               });
 
             if (error) console.error("error messgage =>", error);
             if (data) {
-              const { data } = browserClient.storage.from("posts").getPublicUrl(`drawing/${POST_ID}`);
+              const { data } = browserClient.storage.from("posts").getPublicUrl(`drawing/${POST_ID}-${newDate}`);
 
               setFormData({ ...formData, draw: `${data.publicUrl}?version=${crypto.randomUUID()}` });
 
@@ -168,22 +158,6 @@ const Canvas = ({
     }
   }, [painting]);
 
-  // 사각형 그리기 (보류)
-  const drawSquare = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    const canvas = canvasRef.current;
-    const canvasContext = canvas?.getContext("2d");
-
-    if (canvas && ctx && canvasContext && tool === "square") {
-      const mouseX = e.nativeEvent.offsetX;
-      const mouseY = e.nativeEvent.offsetY;
-
-      if (!painting) return;
-      reDraw({ pathHistory, canvas, canvasContext, pathStep });
-      ctx.beginPath();
-      ctx.strokeRect(pos[0], pos[1], mouseX - pos[0], mouseY - pos[1]);
-    }
-  };
-
   // 히스토리 저장
   const saveHistory = () => {
     if (pathHistory.length > pathStep + 1) {
@@ -195,32 +169,23 @@ const Canvas = ({
     setPathStep(pathStep + 1);
   };
 
-  // const paintCanvas = (e: React.PointerEvent<HTMLCanvasElement>) => {
-  //   const curPos = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
-  //   if (!curPos) return;
-  //   const currentColor = convertHexToRgba(lineCustom.lineColor);
-  //   floodFill(curPos.x, curPos.y, currentColor, ctx);
-  // };
-
   return (
     <>
       <canvas
         ref={canvasRef}
-        onPointerDown={(e) => {
+        onPointerDown={() => {
+          setPainting(true);
+        }}
+        onPointerUp={() => {
           if (tool === "pallete") {
             setTool("pen");
           }
 
-          setPainting(true);
-          setPos([e.nativeEvent.offsetX, e.nativeEvent.offsetY]);
-        }}
-        onPointerUp={() => {
           setPainting(false);
           saveHistory();
         }}
         onPointerMove={(e) => {
           drawFn(e);
-          drawSquare(e);
         }}
         onPointerLeave={() => {
           setPainting(false);

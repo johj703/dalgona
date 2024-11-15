@@ -4,6 +4,7 @@ import CommonTitle from "@/components/CommonTitle";
 import DetailComponent from "@/components/diary/DetailComponent";
 import Modal from "@/components/Modal";
 import Navigation from "@/components/Navigation";
+import useGetDevice from "@/hooks/useGetDevice";
 import { FormData } from "@/types/Canvas";
 import { fetchData } from "@/utils/diary/fetchData";
 import browserClient from "@/utils/supabase/client";
@@ -15,6 +16,7 @@ const MemoriesBox = ({ params }: { params: { id: string } }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [openClose, setOpenClose] = useState<boolean>(false);
   const router = useRouter();
+  const device = useGetDevice();
 
   const getData = async () => {
     const DiaryData = await fetchData(params.id);
@@ -42,7 +44,7 @@ const MemoriesBox = ({ params }: { params: { id: string } }) => {
                 <p className="text-center font-bold">이 순간을 기억해 두셨군요!</p>
                 <p className="text-center font-bold">그 소중한 감정이 다시 살아납니다.</p>
               </div>
-              <DetailComponent postData={postData} />
+              <DetailComponent postData={postData} setOpenClose={setOpenClose} />
 
               {/* 삭제 확인 모달 */}
               {openClose && (
@@ -58,7 +60,7 @@ const MemoriesBox = ({ params }: { params: { id: string } }) => {
           ) : (
             <div>게시글을 불러오지 못 했습니다.</div>
           )}
-          <Navigation />
+          {device === "mobile" && <Navigation />}
         </>
       )}
     </>
