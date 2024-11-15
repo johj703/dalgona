@@ -56,7 +56,7 @@ export default function SignInPage() {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-sm p-4 bg-white shadow-md rounded-md lg:max-w-md xl:max-w-lg lg:p-8">
+      <div className="w-full max-w-sm p-4 rounded-md lg:max-w-md xl:max-w-lg lg:p-8">
         <div className="flex justify-center items-center">
           <Image
             src="/icons/Header.jpg"
