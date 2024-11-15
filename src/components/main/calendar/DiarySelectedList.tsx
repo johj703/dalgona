@@ -6,6 +6,11 @@ import React from "react";
 
 const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
   const today = new Date();
+  const dayOfWeek = selectedDate.getDay();
+  const dayNames = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+  const year = selectedDate.getFullYear().toString().substring(2);
+  const month = selectedDate.getMonth() + 1;
+  const day = selectedDate.getDate();
 
   return (
     <>
@@ -105,38 +110,54 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
           ))}
         </div>
       ) : (
-        <div className="my-[8px] mx-[16px] py-[159px]  border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px]">
+        <div className="my-[8px] mx-[16px] py-[159px]  border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px] lg:m-0 lg:p-0 lg:w-[100%] lg:h-[856px] lg:flex lg:flex-col lg:justify-center lg:mt-[45px] lg:relative">
           <div className="flex flex-col justify-center items-center gap-[23px]">
             {selectedDate > today ? (
               <div>
                 <div className="flex gap-[10px] p-[10px]">
-                  <p className="text-[16px] not-italic font-[400]	leading-normal">아직 다가오지 않은 날이에요</p>
+                  <p className="text-[16px] not-italic font-[400]	leading-normal lg:text-[20px]">
+                    아직 다가오지 않은 날이에요
+                  </p>
                   <img src="/icons/clock.svg" width={21} height={21} alt="clock" />
                 </div>
-                <p className="text-[#A6A6A6] text-[14px] not-italic font-[400] leading-[21px] text-center">
+                <p className="text-[#A6A6A6] text-[14px] not-italic font-[400] leading-[21px] text-center lg:text-[18px]">
                   그 날이 오면 새로운 이야기를 시작해 봐요
                 </p>
               </div>
             ) : (
               <>
                 <div>
-                  <div className="flex gap-[10px] p-[10px]">
-                    <p className="text-[16px] not-italic font-[400]	leading-normal">아직 작성된 일기가 없어요</p>
+                  <div className="flex gap-[10px] p-[10px] lg:items-center">
+                    <p className="text-[16px] not-italic font-[400]	leading-normal lg:text-[20px]">
+                      아직 작성된 일기가 없어요
+                    </p>
                     <img src="/icons/group-1000005726.svg" width={17} height={21} alt="group-1000005726" />
                   </div>
-                  <p className="text-[#A6A6A6] text-[14px] not-italic font-[400] leading-[21px] text-center">
-                    오늘의 첫 이야기를 남겨보세요
+                  <p className="text-[#A6A6A6] text-[14px] not-italic font-[400] leading-[21px] text-center lg:text-[18px]">
+                    하루의 소중한 기록을 남겨보세요
                   </p>
                 </div>
                 <div>
                   <Link href={"/diary/write"}>
                     <button className="flex gap-[10px] py-[12px] px-[16px] bg-white rounded-2xl border-[1px] border-black ">
-                      <p>일기 쓰러가기</p> <img src="/icons/pencil.svg" width={20} height={20} alt="pencil" />
+                      <p className="lg:text-[16px]">일기 쓰러가기</p>{" "}
+                      <img src="/icons/pencil.svg" width={20} height={20} alt="pencil" />
                     </button>
                   </Link>
                 </div>
               </>
             )}
+          </div>
+          <div className="hidden lg:block lg:flex flex-col items-center gap-[23px] absolute top-[-140px] left-[250px]">
+            <div className="font-['LeferiBaseType-RegularA' text-[20px] font-[400]">내가 남긴 이야기</div>
+            <div className="text-center">
+              <p className="today text-[14px] not-italic font-[400] leading-[21px] pb-[4px] border-b-[1px] border-black">
+                {dayNames[dayOfWeek]}
+              </p>
+              <p className="simple-date text-[14px] not-italic font-[400] leading-[21px] mt-[4px]">
+                {`${year}.${month}.${day}`}
+              </p>
+            </div>
           </div>
         </div>
       )}

@@ -97,12 +97,12 @@ export default function Calendar(): JSX.Element {
   //버튼 클릭시 모달 버튼 클릭 유무를 설정하는 state 함수
   const clickModal = () => setIsModalOpen(!isModalOpen);
   return (
-    <div className="flex flex-col gap-[6px]">
-      <div className="flex flex-col justify-center items-center">
-        <div className="button-dummy flex justify-between items-center self-stretch px-[16px]">
+    <div className="flex flex-col gap-[6px] lg:flex-row lg:gap-[16px] lg:mt-[24px]">
+      <div className="flex flex-col justify-center items-center lg:justify-start">
+        <div className="button-dummy flex justify-between items-center self-stretch px-[16px] lg:px-0 lg:w-[100%] lg:justify-start lg:gap-[16px]">
           <button
             onClick={clickModal}
-            className="border-[2px] border-black rounded-lg bg-[#EFE6DE] py-[8px] px-[10px] font-['LeferiBaseType-RegularA'] text-[12px] not-italic font-[400] leading-[18px]"
+            className="border-[2px] border-black rounded-lg bg-[#EFE6DE] py-[8px] px-[10px] font-['LeferiBaseType-RegularA'] text-[12px] not-italic font-[400] leading-[18px] lg:p-[10px] lg:text-[18px] lg:font-['Dovemayo_gothic']"
           >
             조회기간
           </button>
@@ -118,14 +118,14 @@ export default function Calendar(): JSX.Element {
             <div className="flex gap-[8px]">
               <input
                 type="text"
-                className="border-[1px] border-[#2E5342] rounded-lg h-[22px] w-[70px] bg-[#FDF7F4] text-center font-['Pretendard-Regular'] text-[12px] not-italic font-[400] leading-normal"
+                className="border-[1px] border-[#2E5342] rounded-lg h-[22px] w-[70px] bg-[#FDF7F4] text-center font-['Pretendard-Regular'] text-[12px] not-italic font-[400] leading-normal lg:px-[8px] lg:py-[4px] lg:bg-white lg:text-[16px] lg:font-['Dovemayo_gothic'] lg:w-[100px] lg:h-[40px]"
                 value={getSimpleFullDate(firstDate)}
                 readOnly
               />
               <div>~</div>
               <input
                 type="text"
-                className="border-[1px] border-[#2E5342] rounded-lg h-[22px] w-[70px] bg-[#FDF7F4] text-center font-['Pretendard-Regular'] text-[12px] not-italic font-[400] leading-normal"
+                className="border-[1px] border-[#2E5342] rounded-lg h-[22px] w-[70px] bg-[#FDF7F4] text-center font-['Pretendard-Regular'] text-[12px] not-italic font-[400] leading-normal lg:px-[8px] lg:py-[4px] lg:bg-white lg:text-[16px] lg:font-['Dovemayo_gothic'] lg:w-[100px] lg:h-[40px]"
                 value={getSimpleFullDate(secondDate)}
                 readOnly
               />
@@ -135,13 +135,13 @@ export default function Calendar(): JSX.Element {
           )}
 
           <button
-            className="border-[2px] border-black rounded-lg bg-[#EFE6DE] py-[8px] px-[10px] font-['LeferiBaseType-RegularA'] text-[12px] not-italic font-[400] leading-[18px]"
+            className="border-[2px] border-black rounded-lg bg-[#EFE6DE] py-[8px] px-[10px] font-['LeferiBaseType-RegularA'] text-[12px] not-italic font-[400] leading-[18px] lg:p-[10px] lg:text-[18px] lg:font-['Dovemayo_gothic'] lg:hidden"
             onClick={InitializationInput}
           >
             전체기간
           </button>
         </div>
-        <div className="calendar w-[calc(100%-32px)] py-[16px]  my-[8px] mx-[16px] px-[16px] pb-[4px] border-[1px] border-black rounded-lg bg-[#EFE6DE] flex flex-col justify-center items-center gap-[2px]">
+        <div className="calendar w-[calc(100%-32px)] py-[16px]  my-[8px] mx-[16px] px-[16px] pb-[4px] border-[1px] border-black rounded-lg bg-[#EFE6DE] flex flex-col justify-center items-center gap-[2px] lg:w-[100%] lg:mx-0 lg:py-[50px] lg:px-[40px]">
           <RenderHeader currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
           <RenderDays />
           <RenderCells

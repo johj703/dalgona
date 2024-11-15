@@ -113,7 +113,7 @@ const WebDiaryList = () => {
                   </Link>
                 </div>
               </div>
-              <div className="flex gap-[14px] mb-[16px] justify-end">
+              <div className="grid grid-flow-row auto-rows-max gap-[14px] mb-[16px] justify-end">
                 <TabList>
                   <Tab className="pr-2" onClick={() => setActiveTab("feed")}>
                     {activeTab === "feed" ? (

@@ -43,7 +43,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
 
       days.push(
         <div
-          className={`col cell w-[33px] mb-[5px] flex flex-col items-start shrink-0 gap-[4px] ${
+          className={`col cell w-[33px] mb-[5px] flex flex-col items-start shrink-0 gap-[4px] lg:mb-[12px] ${
             !isSameMonth(day, firstDayOfMonth) // 현재 달과 다른 달에 해당하는 날짜
               ? "disabled"
               : isSameDay(day, selectedDate)
