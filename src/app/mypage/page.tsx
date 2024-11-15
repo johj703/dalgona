@@ -46,8 +46,8 @@ const Mypage = () => {
   }, []);
 
   return (
-    <div>
-      {device === "pc" ? <></> : <CommonTitle title={"마이 페이지"} />}
+    <div className="lg:pb-[34px]">
+      {device === "pc" ? <div>PC용 헤더 들어갈 듯</div> : <CommonTitle title={"마이 페이지"} />}
       <div className="py-6 lg:py-0 lg:flex flex-col gap-4">
         <div className="flex gap-[14px] px-4 lg:flex-col lg:items-center lg:text-center lg:gap-3 lg:p-4">
           <span className="flex-shrink-0 flex items-center justify-center w-20 h-20 rounded-full overflow-hidden lg:mb-1">
@@ -81,7 +81,7 @@ const Mypage = () => {
         <div className="mt-[19px] lg:mt-0 lg:p-4 lg:flex flex-col items-center gap-4">
           <div className="px-4 py-2 text-base leading-5 lg:p-0 lg:text-xl lg:leading-normal">이번 달 감정 모아보기</div>
 
-          <ul className="flex gap-10 scrollbar-hide px-4 py-[8.5px] overflow-x-auto lg:p-0 lg:gap-4">
+          <ul className="flex gap-10 scrollbar-hide px-4 py-[8.5px] overflow-x-auto lg:p-0 lg:gap-4 ">
             {EMOTION_LIST.map((emoji, idx) => {
               return (
                 <li key={"emoji" + idx} className="flex-shrink-0 flex flex-col items-center gap-1 lg:gap-3">
@@ -114,7 +114,7 @@ const Mypage = () => {
               </Link>
             </div>
           ) : (
-            <ul className="flex gap-4 mt-[11px] lg:mt-4">
+            <ul className="flex gap-4 mt-[11px] lg:mt-4 lg:justify-center">
               {myDrawing?.map((draw, idx) => {
                 return (
                   <li
@@ -144,7 +144,7 @@ const Mypage = () => {
         </div>
 
         <button
-          className="flex items-center justify-center mt-[21px] mx-auto w-[130px] h-10 border border-primary text-primary rounded-lg bg-white text-sm leading-none"
+          className="flex items-center justify-center mt-[21px] mx-auto w-[130px] h-10 border border-primary text-primary rounded-lg bg-white text-sm leading-none lg:hidden"
           onClick={async () => {
             await supabase.auth.signOut();
 
