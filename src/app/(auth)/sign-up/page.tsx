@@ -13,6 +13,7 @@ export default function SignUpPage() {
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
+  console.log(setEmail);
 
   // 회원가입 버튼을 클릭했을 때 호출되는 함수
   const handleSignUp = async (e: React.FormEvent) => {
