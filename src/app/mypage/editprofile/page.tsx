@@ -137,7 +137,7 @@ const EditProfilePage = () => {
 
   return (
     <div className="flex flex-col items-center p-6 bg-gray-50 min-h-screen">
-      <h2 className="text-2xl font-semibold mb-6">내 정보 수정</h2>
+      <h2 className="text-2xl font-semibold mb-6 lg:text-3xl">내 정보 수정</h2>
 
       {/* 프로필 이미지와 변경 버튼 */}
       <div className="flex flex-col items-center mb-4">
@@ -146,7 +146,7 @@ const EditProfilePage = () => {
           alt="프로필 이미지"
           width={80}
           height={80}
-          className="rounded-full border border-gray-300 shadow-md object-cover"
+          className="rounded-full border border-gray-300 object-cover"
         />
 
         {/* 프로필 사진 변경 버튼 */}
@@ -154,7 +154,7 @@ const EditProfilePage = () => {
           type="file"
           accept="image/*"
           onChange={handleFileChange} // 파일 선택시 상태 업데이트
-          className="mt-4 text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+          className="mt-4 text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-primary hover:file:bg-blue-100"
         />
       </div>
 
@@ -220,50 +220,62 @@ const EditProfilePage = () => {
 
       {/* 성별 선택 버튼 */}
       <div className="w-full max-w-xs mb-4">
-        <label className="block text-sm font-medium text-gray-700">성별</label>
-        <div className="flex gap-4 mt-1">
+        <label className="block text-sm leading-normal mb-[10px]">성별</label>
+        <div className="flex gap-[10px]">
           <button
-            className={`px-4 py-2 rounded-md ${
-              selectedGender === "남성" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+            type="button"
+            onClick={() => handleGenderSelect("여성")}
+            className={`flex items-center gap-1 h-fit px-[18.5px] py-[6px] text-xs leading-normal rounded-2xl border border-primary ${
+              selectedGender === "여성" ? "bg-primary text-white" : "bg-white text-primary"
             }`}
-            onClick={() => handleGenderSelect("남성")}
           >
-            남성
+            <Image
+              src={selectedGender === "여성" ? "/icons/female_white.svg" : "/icons/female_red.svg"}
+              alt="여성 아이콘"
+              width={18}
+              height={18}
+            />
+            여성
           </button>
           <button
-            className={`px-4 py-2 rounded-md ${
-              selectedGender === "여성" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+            type="button"
+            onClick={() => handleGenderSelect("남성")}
+            className={`flex items-center gap-1 h-fit px-[18.5px] py-[6px] text-xs leading-normal rounded-2xl border border-primary ${
+              selectedGender === "남성" ? "bg-primary text-white" : "bg-white text-primary"
             }`}
-            onClick={() => handleGenderSelect("여성")}
           >
-            여성
+            <Image
+              src={selectedGender === "남성" ? "/icons/male_white.svg" : "/icons/male_red.svg"}
+              alt="남성 아이콘"
+              width={18}
+              height={18}
+            />
+            남성
           </button>
         </div>
       </div>
 
       {/* 혈액형 선택 버튼 */}
       <div className="w-full max-w-xs mb-4">
-        <label className="block text-sm font-medium text-gray-700">혈액형</label>
-        <div className="flex gap-4 mt-1">
-          {["A", "B", "O", "AB" as const].map((type) => (
+        <label className="block text-sm leading-normal mb-[10px]">혈액형</label>
+        <div className="flex gap-[10px]">
+          {["A", "B", "O", "AB"].map((type) => (
             <button
               key={type}
-              className={`px-4 py-2 rounded-md ${
-                selectedBloodType === type ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+              type="button"
+              onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")}
+              className={`flex items-center justify-center w-16 h-8 text-sm leading-normal rounded-2xl border border-primary ${
+                selectedBloodType === type ? "bg-primary text-white" : "bg-white text-primary"
               }`}
-              onClick={() => handleBloodTypeSelect(type as "A" | "B" | "O" | "AB")} // 선택된 혈액형을 설정
             >
-              {type}형
+              {type}
             </button>
           ))}
         </div>
       </div>
 
       {/* 저장 버튼 */}
-      <button
-        onClick={handleSave}
-        className="w-24 max-x-xs bg-blue-500 text-white py-2 rounded-md mt-6 hover:bg-blue-600"
-      >
+      <button onClick={handleSave} className="bg-primary hover:bg-primary-300 text-white py-2 px-4 rounded-md mt-6">
         저장하기
       </button>
     </div>
