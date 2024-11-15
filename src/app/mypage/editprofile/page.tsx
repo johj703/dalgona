@@ -136,26 +136,37 @@ const EditProfilePage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center p-6 bg-gray-50 min-h-screen">
+    <div className="flex flex-col items-center p-6 bg-background02 min-h-screen">
       <h2 className="text-2xl font-semibold mb-6 lg:text-3xl">내 정보 수정</h2>
 
       {/* 프로필 이미지와 변경 버튼 */}
-      <div className="flex flex-col items-center mb-4">
-        <Image
-          src={profileImage}
-          alt="프로필 이미지"
-          width={80}
-          height={80}
-          className="rounded-full border border-gray-300 object-cover"
-        />
-
-        {/* 프로필 사진 변경 버튼 */}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange} // 파일 선택시 상태 업데이트
-          className="mt-4 text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-primary hover:file:bg-blue-100"
-        />
+      <div className="mb-10">
+        <div className="relative w-[100px] h-[100px] mx-auto">
+          <span className="flex items-center justify-center w-full h-full rounded-full overflow-hidden">
+            {profileImage ? (
+              <Image
+                src={profileImage}
+                alt="프로필 사진"
+                width={100}
+                height={100}
+                className="min-w-full min-h-full object-contain"
+              />
+            ) : (
+              <img
+                src="/icons/default-profile.svg"
+                alt="기본 프로필 이미지"
+                className="min-w-full min-h-full object-contain"
+              />
+            )}
+          </span>
+          <label
+            htmlFor="profileImageUpload"
+            className="absolute bottom-0 right-0 p-[6px] bg-white rounded-full border-black border cursor-pointer"
+          >
+            <img src="/icons/camera.svg" alt="프로필 업로드" />
+          </label>
+          <input type="file" id="profileImageUpload" onChange={handleFileChange} className="hidden" />
+        </div>
       </div>
 
       {/* 닉네임 입력 필드 */}
