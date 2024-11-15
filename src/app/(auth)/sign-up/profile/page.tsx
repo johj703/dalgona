@@ -175,14 +175,11 @@ export default function SaveUserProfilePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen background02">
       {/* 페이지 안내 텍스트 */}
       <h1 className="text-2xl font-bold mb-6 lg:text-3xl xl:text-4xl">회원가입</h1>
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-xs sm:max-w-md bg-white p-4 sm:p-6 rounded-lg shadow-md"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-xs sm:max-w-md p-4 sm:p-6 rounded-lg">
         {/* 프로필 사진 선택 */}
         <div className="mb-6">
           <label className="text-sm font-medium text-gray-700 mb-2 block">프로필 사진</label>
@@ -327,7 +324,7 @@ export default function SaveUserProfilePage() {
         {/* {errorMessage && <p className="">{errorMessage}</p>} */}
 
         {/* 건너뛰기 및 시작하기 버튼 */}
-        <div className="flex gap-4 mt-auto">
+        <div className="flex gap-4 mt-auto mt-40">
           <button
             type="button"
             onClick={() => router.push("/main")}
