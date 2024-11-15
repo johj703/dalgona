@@ -118,7 +118,7 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
             </div>
             <div>
               <h3 className="text-black text-lg font-medium leading-normal pb-1">{selectedDiary.title}</h3>
-              <p className="w-[202px] h-11 text-black text-sm font-normal leading-[21px] line-clamp-2 lg:line-clamp-4 lg:h-20">
+              <p className="w-[202px] max-h-11 text-black text-sm font-normal leading-[21px] line-clamp-2 lg:line-clamp-4 lg:max-h-20">
                 {selectedDiary.contents}
               </p>
               <div className="pt-2">
