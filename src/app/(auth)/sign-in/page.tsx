@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 export default function SignInPage() {
   const [isMounted, setIsMounted] = useState(false);
-  const [email, setEamil] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -79,7 +79,7 @@ export default function SignInPage() {
               id="email"
               placeholder="이메일"
               value={email}
-              onChange={(e) => setEamil(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               required
               className="input-style"
             />
