@@ -57,9 +57,9 @@ export default function SignInPage() {
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="w-full max-w-sm p-4 rounded-md lg:max-w-md xl:max-w-lg lg:p-8">
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center mb-12">
           <Image
-            src="/icons/Header.jpg"
+            src="/icons/logo.svg"
             alt="달고나 타이틀 이미지"
             width={150}
             height={50}
