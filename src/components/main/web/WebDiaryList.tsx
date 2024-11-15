@@ -84,17 +84,17 @@ const WebDiaryList = () => {
                     name="status"
                     aria-label="Project status"
                     onChange={(e) => setSelectedBox(e.target.value)}
-                    className="bg-[#EFE6DE] text-base"
+                    className="bg-[#EFE6DE] text-[20px]"
                   >
                     <option
                       value="최신순"
-                      className="text-[12px] not-italic font-[400] leading-[18px] bg-[#EFE6DE] w-[75px] h-[36px] p-[10px]"
+                      className="text-[20px] not-italic font-[400] leading-[18px] bg-[#EFE6DE] w-[75px] h-[36px] p-[10px]"
                     >
                       최신순
                     </option>
                     <option
                       value="오래된순"
-                      className="text-[12px] not-italic font-[400] leading-[18px] bg-[#EFE6DE] w-[75px] h-[36px] p-[10px]"
+                      className="text-[20px] not-italic font-[400] leading-[18px] bg-[#EFE6DE] w-[75px] h-[36px] p-[10px]"
                     >
                       오래된순
                     </option>
@@ -102,12 +102,12 @@ const WebDiaryList = () => {
                 </div>
                 <div className="flex gap-2 justify-end mb-[16px]">
                   <Link href={"/diary/write"}>
-                    <div className="border-[1px] rounded-2xl border-black py-[10px] px-[16px] bg-[#FDF7F4] text-[12px] not-italic font-[400] leading-[18px]">
+                    <div className="border-[1px] rounded-2xl border-black py-[14px] px-[24px] bg-[#FDF7F4] text-[18px] not-italic font-[400] leading-[18px]">
                       일기 쓰러가기
                     </div>
                   </Link>
                   <Link href={"/library"}>
-                    <div className="border-[1px] rounded-2xl border-black py-[10px] px-[16px] bg-[#FDF7F4] text-[12px] not-italic font-[400] leading-[18px]">
+                    <div className="border-[1px] rounded-2xl border-black py-[14px] px-[24px] bg-[#FDF7F4] text-[18px] not-italic font-[400] leading-[18px]">
                       기록의 방
                     </div>
                   </Link>
@@ -117,16 +117,16 @@ const WebDiaryList = () => {
                 <TabList>
                   <Tab className="pr-2" onClick={() => setActiveTab("feed")}>
                     {activeTab === "feed" ? (
-                      <img src="/icons/feed-selected.svg" width={24} height={24} alt="feed" />
+                      <img src="/icons/feed-selected.svg" width={28} height={28} alt="feed" />
                     ) : (
-                      <img src="/icons/feed-non-selected.svg" width={24} height={24} alt="feed" />
+                      <img src="/icons/feed-non-selected.svg" width={28} height={28} alt="feed" />
                     )}
                   </Tab>
                   <Tab onClick={() => setActiveTab("list")}>
                     {activeTab === "list" ? (
-                      <img src="/icons/list.svg" width={24} height={24} alt="list" />
+                      <img src="/icons/list.svg" width={28} height={28} alt="list" />
                     ) : (
-                      <img src="/icons/list-non-selected.svg" width={24} height={24} alt="list" />
+                      <img src="/icons/list-non-selected.svg" width={28} height={28} alt="list" />
                     )}
                   </Tab>
                 </TabList>
@@ -148,18 +148,18 @@ const WebDiaryList = () => {
                                 </h3>
                                 <div className="relative h-[238px] border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden  my-[10px]">
                                   <img src={diary.draw} alt="그림" className="object-cover h-full w-full bg-white" />
-                                  <div className="absolute top-[10px] left-[10px] right-[10px] flex justify-between items-center">
-                                    <div className="w-[50px] text-sm">
-                                      <p className="today text-center border-b-2">{getDayOfTheWeek(diary.date)}</p>
-                                      <p className="simple-date text-center">
-                                        {getSimpleFullDate(diary.date).substring(2)}
-                                      </p>
-                                    </div>
-                                    <div>
+                                  <div className="absolute bottom-[16px] right-[16px] flex justify-between items-center">
+                                    <div className="flex gap-[5px]">
+                                      <div className=" flex justify-center items-center gap-[3px] text-[#8C8C8C] h-[30px]">
+                                        <p className="simple-date text-center">
+                                          {getSimpleFullDate(diary.date).substring(2)}
+                                        </p>
+                                        <p className="today text-center">{getDayOfTheWeek(diary.date)}</p>
+                                      </div>
                                       <img
                                         src={getEmoji(diary.emotion, "on")}
                                         alt={diary.emotion}
-                                        className="w-10 h-10 mt-1"
+                                        className="w-[30px] h-[30px]"
                                       />
                                     </div>
                                   </div>
@@ -176,14 +176,14 @@ const WebDiaryList = () => {
                             className="h-[159px] w-[450px] p-[24px] border-[1px] rounded-lg border-black bg-[#FDF7F4]"
                           >
                             <div className="flex justify-between items-start">
-                              <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px]">
+                              <p className="self-stretch text-[18px] not-italic font-normal leading-[21.6px]">
                                 {diary.title}
                               </p>
                               <p className="w-12 h-6 text-xs py-1 justify-center items-center inline-flex bg-white border border-black rounded-2xl text-black">
                                 {getMonthKo(diary.date)}
                               </p>
                             </div>
-                            <p className="mt-[8px] h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[14px] not-italic font-['Dovemayo'] font-medium leading-[21px]">
+                            <p className="mt-[8px] h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[16px] not-italic font-['Dovemayo'] font-medium leading-[21px]">
                               {diary.contents}
                             </p>
                           </div>
@@ -250,23 +250,24 @@ const WebDiaryList = () => {
         </div>
       ) : (
         <div className=" py-[8px] px-[16px] items-center gap-[10px] self-stretch hidden lg:block">
-          <div className="flex w-full h-[468px] py-[159px] flex-col items-center gap-[10px] border-2 rounded-2xl border-black bg-[#EFE6DE]">
+          <div className="flex justify-center items-center w-full h-[992px] border-2 rounded-2xl border-black bg-[#EFE6DE]">
             <div className="flex flex-col justify-center items-center gap-[23px]">
               <div>
                 <Link href={"/diary/write"}>
                   <div className="flex gap-[10px] p-[10px]">
-                    <p className="text-[16px] not-italic font-[400]	leading-normal">아직 작성된 일기가 없어요</p>
+                    <p className="text-[20px] not-italic font-[400]	leading-normal">아직 작성된 일기가 없어요</p>
                     <img src="/icons/group-1000005726.svg" width={17} height={21} alt="group-1000005726" />
                   </div>
                 </Link>
-                <p className="text-[#A6A6A6] text-[14px] not-italic font-[400] leading-[21px] text-center">
-                  오늘의 첫 이야기를 남겨보세요
+                <p className="text-[#A6A6A6] text-[18px] not-italic font-[400] leading-[21px] text-center">
+                  하루의 소중한 기록을 남겨보세요
                 </p>
               </div>
               <div>
                 <Link href={"/diary/write"}>
-                  <button className="flex gap-[10px] py-[12px] px-[16px] bg-white rounded-2xl border-[1px] border-black ">
-                    <p>일기 쓰러가기</p> <img src="/icons/pencil.svg" width={24} height={24} alt="pencil" />
+                  <button className="flex gap-[10px] py-[8px] px-[16px] bg-white rounded-2xl border-[1px] border-black ">
+                    <p className="text-[16px]">일기 쓰러가기</p>{" "}
+                    <img src="/icons/pencil.svg" width={24} height={24} alt="pencil" />
                   </button>
                 </Link>
               </div>
