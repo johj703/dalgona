@@ -177,9 +177,9 @@ export default function SaveUserProfilePage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen background02">
       {/* 페이지 안내 텍스트 */}
-      <h1 className="text-2xl font-bold mb-6 lg:text-3xl xl:text-4xl">회원가입</h1>
+      <h1 className="text-2xl font-bold mb-6 lg:text-3xl">회원가입</h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-xs sm:max-w-md p-4 sm:p-6 rounded-lg">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-xs p-4 rounded-lg lg:max-w-lg lg:p-8">
         {/* 프로필 사진 선택 */}
         <div className="mb-6">
           <label className="text-sm font-medium text-gray-700 mb-2 block">프로필 사진</label>
@@ -191,18 +191,18 @@ export default function SaveUserProfilePage() {
                   alt="프로필 사진"
                   width={100}
                   height={100}
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full"
+                  className="w-20 h-20 lg:w-24 lg:h-24 rounded-full"
                 />
               ) : (
-                <div className="w-24 h-24 sm:w-24 sm:h-24 rounded-full bg-gray-200"></div>
+                <div className="w-24 h-24 lg:w-24 lg:h-24 rounded-full bg-gray-200"></div>
               )}
               <label
                 htmlFor="profileImageUpload"
-                className="absolute bottom-0 right-0 p-1 sm:p-2 bg-white rounded-full shadow-md cursor-pointer hover:bg-gray-100"
+                className="absolute bottom-0 right-0 p-1 bg-white rounded-full cursor-pointer hover:bg-gray-100"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600"
+                  className="h-5 w-5 text-gray-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -223,8 +223,8 @@ export default function SaveUserProfilePage() {
         {/* 생년월일 입력 */}
         <div className="mb-4 text-left">
           <label className="block text-sm font-medium text-gray-700 mb-2">생년월일</label>
-          <div className="flex flex-col md:flex-row md:justify-start items-center md:space-y-0 md:space-x-4 space-y-2">
-            <select {...register("birthYear")} className="p-2 border border-gray-300 rounded-md w-[100px]">
+          <div className="flex flex-row justify-between items-center space-x-4">
+            <select {...register("birthYear")} className="p-2 border border-gray-300 rounded-md w-[100px] lg:text-base">
               <option value=""></option>
               {Array.from({ length: 124 }, (_, i) => 1900 + i).map((year) => (
                 <option key={year} value={year}>
@@ -232,8 +232,11 @@ export default function SaveUserProfilePage() {
                 </option>
               ))}
             </select>
-            <p className="self-center justify-start md:inline">년</p>
-            <select {...register("birthMonth")} className="p-2 border border-gray-300 rounded-md w-[100px]">
+            <p className="self-center">년</p>
+            <select
+              {...register("birthMonth")}
+              className="p-2 border border-gray-300 rounded-md w-[100px] lg:text-base"
+            >
               <option value=""></option>
               {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
                 <option key={month} value={month}>
@@ -241,8 +244,8 @@ export default function SaveUserProfilePage() {
                 </option>
               ))}
             </select>
-            <p className="self-center justify-start md:inline">월</p>
-            <select {...register("birthDay")} className="p-2 border border-gray-300 rounded-md w-[100px]">
+            <p className="self-center">월</p>
+            <select {...register("birthDay")} className="p-2 border border-gray-300 rounded-md w-[100px] lg:text-base">
               <option value=""></option>
               {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
                 <option key={day} value={day}>
@@ -250,7 +253,7 @@ export default function SaveUserProfilePage() {
                 </option>
               ))}
             </select>
-            <p className="self-center justify-start md:inline">일</p>
+            <p className="self-center">일</p>
           </div>
           {errors.birthYear && <p className="text-xs text-red-500 mt-1">{errors.birthYear.message}</p>}
           {errors.birthMonth && <p className="text-xs text-red-500 mt-1">{errors.birthMonth.message}</p>}
@@ -324,11 +327,11 @@ export default function SaveUserProfilePage() {
         {/* {errorMessage && <p className="">{errorMessage}</p>} */}
 
         {/* 건너뛰기 및 시작하기 버튼 */}
-        <div className="flex gap-4 mt-auto mt-40">
+        <div className="flex gap-4 mt-40">
           <button
             type="button"
             onClick={() => router.push("/main")}
-            className="w-1/2 py-3 bg-primary text-lg leaging-normal text-white rounded-lg hover:bg-primary"
+            className="w-1/2 py-3 bg-primary text-lg leading-normal text-white rounded-lg hover:bg-primary"
           >
             건너뛰기
           </button>

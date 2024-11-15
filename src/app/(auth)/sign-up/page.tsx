@@ -82,14 +82,14 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen background02 lg:max-w-screen-lg">
-      <h1 className="text-2xl font-bold mb-2 lg:text-3xl xl:text-4xl">회원가입</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen background02 lg:max-w-screen-lg lg:px-4">
+      <h1 className="text-2xl font-bold mb-2 lg:text-3xl">회원가입</h1>
 
       {/* 에러 메세지 출력 */}
       {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
 
       {/* 회원가입 폼 */}
-      <form onSubmit={handleSignUp} className="w-11/12 max-w-md p-6 rounded-lg lg:max-w-lg lg:p-8 xl:max-w-xl xl:p-10">
+      <form onSubmit={handleSignUp} className="w-11/12 max-w-md p-6 rounded-lg lg:max-w-lg lg:p-8">
         {/* 이메일 입력 */}
         <div className="mb-4">
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2 lg:text-base">
@@ -174,7 +174,7 @@ export default function SignUpPage() {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="w-full p-2 mt-8 bg-primary text-white rounded-md hover:bg-primary lg:p-3 xl:p-4 lg:text-lg"
+            className="w-full p-2 mt-8 bg-primary text-white rounded-md hover:bg-primary lg:p-3 lg:text-lg"
           >
             다음으로
           </button>
