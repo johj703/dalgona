@@ -2,7 +2,7 @@
 import { useInfiniteQueryDiaries } from "@/lib/main/fetchDiaries";
 import { Select, Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
-import { formatDate, getDayOfTheWeek, getMonthKo, getSimpleFullDate } from "@/utils/calendar/dateFormat";
+import { formatDate, getDayOfTheWeek, getSimpleFullDate } from "@/utils/calendar/dateFormat";
 import { SortedDiaries } from "@/types/main/Calendar";
 import Link from "next/link";
 import { getEmoji } from "@/utils/diary/getEmoji";
@@ -179,13 +179,14 @@ const WebDiaryList = () => {
                               <p className="self-stretch text-[18px] not-italic font-normal leading-[21.6px]">
                                 {diary.title}
                               </p>
-                              <p className="w-12 h-6 text-xs py-1 justify-center items-center inline-flex bg-white border border-black rounded-2xl text-black">
-                                {getMonthKo(diary.date)}
-                              </p>
                             </div>
-                            <p className="mt-[8px] h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[16px] not-italic font-['Dovemayo'] font-medium leading-[21px]">
+                            <p className="mt-[8px] h-[49px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[16px] not-italic font-['Dovemayo'] font-medium leading-[21px]">
                               {diary.contents}
                             </p>
+                            <div className=" flex justify-end items-center gap-[3px] text-[#8C8C8C] h-[30px]">
+                              <p className="simple-date text-center">{getSimpleFullDate(diary.date).substring(2)}</p>
+                              <p className="today text-center">{getDayOfTheWeek(diary.date)}</p>
+                            </div>
                           </div>
                         </Link>
                       )
