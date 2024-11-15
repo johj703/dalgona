@@ -1,8 +1,8 @@
 .embla {
   position: relative;
   padding: 0px 16px 8px 16px;
-  max-width: 48rem;
-  margin: auto;
+  /* max-width: 48rem; */
+  /* margin: auto; */
   --slide-height: 5rem;
   --slide-spacing: 1rem;
   --slide-size: 100%;
@@ -35,10 +35,15 @@
 .embla__controls {
   position: absolute;
   bottom: 10px;
-  left: 43%;
+  left: 44%;
   display: grid;
   justify-items: center;
   gap: 1.2rem;
+}
+@media (min-width: 1024px) {
+  .embla__controls {
+    left: 47%;
+  }
 }
 .embla__dots {
   display: flex;

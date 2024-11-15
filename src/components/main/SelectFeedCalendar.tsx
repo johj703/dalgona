@@ -10,7 +10,10 @@ import Image from "next/image";
 import WebDiaryList from "./web/WebDiaryList";
 
 const OPTIONS: EmblaOptionsType = {};
-const SLIDES = [{ img: "/icons/banner1.svg" }, { img: "/icons/banner2.svg" }];
+const SLIDES = [
+  { img: "/icons/banner-short-1.svg", imgLg: "/icons/banner-long-1.svg" },
+  { img: "/icons/banner-short-2.svg", imgLg: "/icons/banner-long-2.svg" }
+];
 
 const SelectFeedCalendar = () => {
   return (
