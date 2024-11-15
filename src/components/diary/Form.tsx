@@ -155,7 +155,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
   // 일기 내용 : contents
   useEffect(() => {
     const textarea = textareaRef.current;
-    if (textarea) {
+    if (textarea && device === "mobile") {
       textarea.style.height = "auto";
       textarea.style.height = textarea.scrollHeight + "px";
     }
@@ -397,7 +397,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
             value={formData.contents}
             onChange={(e) => onChangeFormData(e)}
             placeholder="이곳에 내용을 입력해주세요"
-            className="resize-none outline-none w-full bg-local bg-custom-textarea leading-8 group-[.open]/contents:block hidden font-Dovemayo lg:!block"
+            className="resize-none outline-none w-full bg-local bg-custom-textarea leading-8 group-[.open]/contents:block hidden font-Dovemayo lg:!block lg:h-full"
           />
         </div>
 
@@ -409,7 +409,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
           <button className="write-form-button">기록하기</button>
           {device === "pc" && (
             <Link href={`/diary/drafts`} className="text-xl leading-[1.35] ml-auto">
-              보관({draftLength})
+              불러오기({draftLength})
             </Link>
           )}
         </div>

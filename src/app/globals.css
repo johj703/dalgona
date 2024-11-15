@@ -65,6 +65,10 @@ body {
   .write-form-button {
     @apply flex-1 text-center text-xl !leading-[1.35] py-4 lg:max-w-[400px] lg:bg-[#B1A4A1] lg:text-white lg:py-[15px] lg:text-lg lg:rounded-lg;
   }
+
+  .draft-button {
+    @apply flex-1 text-center text-[18px] py-4 lg:bg-[#B1A4A1] lg:text-white lg:leading-[1.35] lg:py-[15px] lg:rounded-lg;
+  }
 }
 
 @layer utilities {
