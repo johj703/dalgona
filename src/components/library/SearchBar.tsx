@@ -3,7 +3,7 @@ import React from "react";
 import { SearchBarProps } from "@/types/library/Diary";
 
 const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, setSearchTerm }) => (
-  <div className="relative">
+  <div className="relative max-w-sm lg:max-w-lg">
     <img
       src="/icons/search-icon.svg"
       alt="Search Icon"

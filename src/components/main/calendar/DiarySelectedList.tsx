@@ -44,7 +44,9 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
                     </div>
                   )}
 
-                  <p className="text-gray-700 line-clamp-2">{diary.contents}</p>
+                  <p className="text-gray-700 line-clamp-2 text-[14px] font-[500] font-['Dovemayo']">
+                    {diary.contents}
+                  </p>
                 </div>
               </Link>
             );

@@ -9,7 +9,9 @@ export const getInitialDiaries = async (user_id: string) => {
     .from("diary")
     .select("*")
     .eq("user_id", user_id)
-    .order("date", { ascending: false });
+    .order("date", { ascending: false })
+    .order("created_at", { ascending: false }); //만약 하루 여러개일기 작성햇을경우 그 안에서 순서대로 정렬
+
   return initialDiaries;
 };
 export const useFetchDiaries = (user_id: string) => {
@@ -30,7 +32,8 @@ export const getSelectedDiaries = async (startDate: string, endDate: string, use
     .eq("user_id", user_id)
     .gte("date", startDate)
     .lte("date", endDate)
-    .order("date", { ascending: false });
+    .order("date", { ascending: false })
+    .order("created_at", { ascending: false }); //만약 하루 여러개일기 작성햇을경우 그 안에서 순서대로 정렬
 
   return selectedDiaries as SortedDiaries[];
 };
@@ -89,6 +92,7 @@ export const getPaginatedDiaries = async (pageParam: number, limit: number, user
     .select("*", { count: "exact" })
     .eq("user_id", user_id)
     .order("date", { ascending: false })
+    .order("created_at", { ascending: false }) //만약 하루 여러개일기 작성햇을경우 그 안에서 순서대로 정렬
     .range(from, to);
 
   if (error) {
