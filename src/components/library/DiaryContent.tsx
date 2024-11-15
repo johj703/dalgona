@@ -116,7 +116,7 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
           })}
         </div>
       ) : (
-        <div className="flex h-[656px] flex-col items-center justify-center bg-background01 border rounded-lg border-black p-4">
+        <div className="flex h-[656px] flex-col items-center justify-center bg-background01 border rounded-lg border-black p-4 lg:max-h-lg">
           <div className="flex items-center mb-2">
             <p className="text-lg font-bold text-center mr-2">이번 달에 작성된 일기가 없어요</p>
             <img src="/icons/mini-diary.svg" alt="mini-diary" className="w-6 h-6" />
