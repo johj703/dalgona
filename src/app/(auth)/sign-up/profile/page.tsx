@@ -166,7 +166,7 @@ export default function SaveUserProfilePage() {
         setErrorMessage("프로필 저장 중 문제가 발생했습니다. 다시 시도해 주세요.");
         return;
       }
-      // 성공 시 다음 페이지로 이동
+      // 성공 시 완료 페이지로 이동
       router.push("/sign-up/complete");
     } catch (error) {
       console.error("네트워크 오류 또는 알 수 없는 오류 : ", error);
@@ -177,8 +177,7 @@ export default function SaveUserProfilePage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       {/* 페이지 안내 텍스트 */}
-      <h1 className="text-xl sm:text-xl mb-4 sm:mb-6">환영해요.</h1>
-      <p className="text-xl sm:text-xl mb-6 sm:mb-8">사용하실 프로필을 작성해 주세요.</p>
+      <h1 className="text-2xl font-bold mb-6 lg:text-3xl xl:text-4xl">회원가입</h1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -321,16 +320,18 @@ export default function SaveUserProfilePage() {
             ))}
           </div>
         </div>
-        <p className="text-xs text-gray-300">위 항목들은 선택사항이며, 언제든지 나중에 수정할 수 있습니다.</p>
+        <p className="mt-[10px] text-sm leading-tight text-[#b9b9b9]">
+          위 항목들은 선택사항이며, 언제든지 나중에 수정할 수 있습니다.
+        </p>
         {/* 에러 메세지 */}
         {/* {errorMessage && <p className="">{errorMessage}</p>} */}
 
         {/* 건너뛰기 및 시작하기 버튼 */}
-        <div className="flex justify-between mt-6">
+        <div className="flex gap-4 mt-auto">
           <button
             type="button"
             onClick={() => router.push("/main")}
-            className="w-1/2 p-2 bg-primary text-white rounded-md hover:bg-primary"
+            className="w-1/2 py-3 bg-primary text-lg leaging-normal text-white rounded-lg hover:bg-primary"
           >
             건너뛰기
           </button>
