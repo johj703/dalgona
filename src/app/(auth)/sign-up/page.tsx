@@ -82,7 +82,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen background02">
+    <div className="flex flex-col items-center justify-center min-h-screen background02 lg:max-w-screen-lg">
       <h1 className="text-2xl font-bold mb-2 lg:text-3xl xl:text-4xl">회원가입</h1>
 
       {/* 에러 메세지 출력 */}
