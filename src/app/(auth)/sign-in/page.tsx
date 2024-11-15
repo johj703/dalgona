@@ -53,11 +53,6 @@ export default function SignInPage() {
     }
   };
 
-  // sign-up 페이지로 이동하는 함수
-  const handleSignUp = () => {
-    router.push("/sign-up");
-  };
-
   return (
     <div className="flex flex-col items-center pt-[68px] px-4">
       <div className="p-[10px]">
@@ -75,7 +70,7 @@ export default function SignInPage() {
           type="email"
           id="email"
           value={email}
-          onChange={(e) => setEamil(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           required
           className="input-style"
           placeholder="이메일"
