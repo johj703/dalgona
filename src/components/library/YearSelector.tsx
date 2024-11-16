@@ -47,7 +47,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
           <ul
             id="year-list"
             role="listbox"
-            className="absolute z-10 rounded-lg border border-[#BFBFBF] bg-white max-h-40 w-full left-0 top-full mt-[10px] overflow-y-auto"
+            className="absolute z-10 rounded-lg border border-gray01 bg-white max-h-40 w-full left-0 top-full mt-[10px] overflow-y-auto"
           >
             {years.map((year, index) => (
               <li

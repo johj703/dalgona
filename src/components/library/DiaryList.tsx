@@ -36,9 +36,9 @@ const DiaryList: React.FC<DiaryListProps> = ({ diaries, loading, userId, onSelec
 
             <div className="border border-black bg-background rounded-lg p-2 flex-1">
               <h3 className="text-lg font-bold">{diary.title}</h3>
-              <p className="line-clamp-1 text-black">{diary.contents}</p>
+              <p className="line-clamp-1 text-black font-Dovemayo lg:font-thin">{diary.contents}</p>
               <div className="flex justify-end">
-                <span className="text-black text-sm">{ChangeDateForm(diary.date)}</span>
+                <span className="text-black font-Dovemayo text-sm lg:font-thin">{ChangeDateForm(diary.date)}</span>
               </div>
             </div>
           </div>

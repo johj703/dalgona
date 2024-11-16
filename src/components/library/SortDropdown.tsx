@@ -40,13 +40,13 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortChange }
       </button>
 
       {isOpen && (
-        <ul className="absolute z-10 right-0 top-full mt-[10px] overflow-y-auto bg-white border border-[#BFBFBF] rounded-lg">
+        <ul className="absolute z-10 right-0 top-full mt-[10px] overflow-y-auto bg-white border border-gray03 rounded-lg">
           {["newest", "oldest"].map((sortType, index) => (
             <li
               key={sortType}
               onClick={() => handleSortChange(sortType as "newest" | "oldest")}
               className={`cursor-pointer px-4 py-2 text-sm text-black ${
-                index === 0 ? "border-b border-[#BFBFBF]" : ""
+                index === 0 ? "border-b border-gray03" : ""
               } hover:bg-gray-100`}
             >
               {sortType === "newest" ? "최신순" : "오래된순"}

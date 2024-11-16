@@ -29,9 +29,9 @@ const ArtworkPage: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="lg:max-w-screen-lg m-auto">
       <CommonTitle title="내 그림 모아보기" />
-      <div className="lg:flex justify-center items-center lg:ml-[23px] lg:mt-[191px]">
+      <div className="lg:flex justify-center items-center lg:ml-[23px] lg:mt-10">
         <MyArtwork userId={userId} />
         <div className="lg:w-1/2 overflow-hidden">
           <MonthlyArtwork userId={userId} />
