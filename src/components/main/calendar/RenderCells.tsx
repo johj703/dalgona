@@ -67,7 +67,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
           <div
             className={
               format(currentDate, "M") !== format(day, "M")
-                ? "text not-valid flex flex-col justify-center items-center gap-[10px] self-stretch border-[1px] bg-[#EFE6DE]"
+                ? "text not-valid flex flex-col justify-center items-center gap-[10px] self-stretch border-[1px] bg-[#EFE6DE] text-[#A6A6A6]"
                 : format(day, "d") === format(selectedDate, "d")
                 ? "selected flex flex-col justify-center items-center gap-[10px] self-stretch border-[1px] bg-[#2E5342] rounded-2xl text-white"
                 : format(day, "M") === todayMonth && format(day, "d") === todayDate
