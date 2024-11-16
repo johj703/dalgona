@@ -16,6 +16,7 @@ const Drafts = () => {
   const [openClose, setOpenClose] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>("");
   const [customAlert, setCustomAlert] = useState<{ type: string; text: string; position: string } | null>(null);
+  const [modalSetting, setModalSetting] = useState<{ text: string; confirm: boolean }>({ text: "", confirm: false });
 
   const router = useRouter();
 
@@ -49,6 +50,7 @@ const Drafts = () => {
         position: "fixed left-1/2 -translate-x-1/2 top-[62px]"
       });
     }
+    setModalSetting({ text: "삭제 하시겠습니까?", confirm: true });
     setOpenClose(true);
   };
 
@@ -65,11 +67,8 @@ const Drafts = () => {
         position: "fixed left-1/2 -translate-x-1/2 top-[62px]"
       });
     } else if (checkList.length > 1) {
-      return callCustomAlert(customAlert, setCustomAlert, {
-        type: "fail",
-        text: "하나의 글만 선택해주세요.",
-        position: "fixed left-1/2 -translate-x-1/2 top-[62px]"
-      });
+      setModalSetting({ text: "임시저장된 글은 한 번에 한 개만 불러올 수 있습니다.", confirm: false });
+      return setOpenClose(true);
     }
 
     router.push(`/diary/drafts/load/${checkList[0]}`);
@@ -119,7 +118,12 @@ const Drafts = () => {
       </div>
       {/* 삭제 확인 모달 */}
       {openClose && (
-        <Modal mainText="삭제하시겠습니까?" setModalState={setOpenClose} isConfirm={true} confirmAction={deleteDraft} />
+        <Modal
+          mainText={modalSetting.text}
+          setModalState={setOpenClose}
+          isConfirm={modalSetting.confirm}
+          confirmAction={deleteDraft}
+        />
       )}
 
       {/* 커스텀 알럿 */}
