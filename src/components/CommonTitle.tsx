@@ -11,9 +11,10 @@ type TitleProps = {
   draft?: boolean;
   draftLength?: number;
   setOpenClose?: booleanState;
+  setGoDraw?: booleanState;
 };
 
-const CommonTitle = ({ title, post_id, draft, draftLength, setOpenClose }: TitleProps) => {
+const CommonTitle = ({ title, post_id, draft, draftLength, setOpenClose, setGoDraw }: TitleProps) => {
   const router = useRouter();
   const device = useGetDevice();
 
@@ -21,7 +22,7 @@ const CommonTitle = ({ title, post_id, draft, draftLength, setOpenClose }: Title
     <div className="relative flex items-center justify-center h-[52px] lg:h-[74px] lg:border-b lg:border-gray04">
       <div
         className="absolute top-1/2 -translate-y-1/2 left-[8.5px] lg:left-4 flex items-center justify-center w-[34px] h-[34px] lg:w-[42px] lg:h-[42px] cursor-pointer"
-        onClick={() => router.back()}
+        onClick={() => (!setGoDraw ? router.back() : setGoDraw(false))}
       >
         <img src="/icons/back.svg" alt="뒤로가기" className="w-full h-full" />
       </div>

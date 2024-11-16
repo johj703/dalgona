@@ -14,6 +14,7 @@ import { EMOTION_LIST, getEmoji } from "@/utils/diary/getEmoji";
 import getLoginUser from "@/lib/getLoginUser";
 import getGenderIcon from "@/utils/mypage/getGenderIcon";
 import useGetDevice from "@/hooks/useGetDevice";
+import Header from "@/components/Header";
 
 const DEFAULT_IMAGE = "https://spimvuqwvknjuepojplk.supabase.co/storage/v1/object/public/profile/default_profile.svg";
 
@@ -47,7 +48,7 @@ const Mypage = () => {
 
   return (
     <div className="lg:pb-[34px]">
-      {device === "pc" ? <div>PC용 헤더 들어갈 듯</div> : <CommonTitle title={"마이 페이지"} />}
+      {device === "pc" ? <Header /> : <CommonTitle title={"마이 페이지"} />}
       <div className="py-6 lg:py-0 lg:flex flex-col gap-4">
         <div className="flex gap-[14px] px-4 lg:flex-col lg:items-center lg:text-center lg:gap-3 lg:p-4">
           <span className="flex-shrink-0 flex items-center justify-center w-20 h-20 rounded-full overflow-hidden lg:mb-1">

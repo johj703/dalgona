@@ -191,13 +191,6 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
         position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
       });
 
-    if (formData.type !== "편지지" && !formData.draw)
-      return callCustomAlert(customAlert, setCustomAlert, {
-        type: "fail",
-        text: "그림을 그려주세요.",
-        position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
-      });
-
     if (formData.contents?.replaceAll(" ", "") === "")
       return callCustomAlert(customAlert, setCustomAlert, {
         type: "fail",
@@ -330,7 +323,11 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
                     className="flex-1 max-w-[108px] cursor-pointer"
                     onClick={() => {
                       if (idx === 2) {
-                        setFormData({ ...formData, type: type });
+                        callCustomAlert(customAlert, setCustomAlert, {
+                          type: "letter",
+                          text: "앞으로 업데이트 될 속지입니다",
+                          position: "fixed left-1/2 -translate-x-1/2 bottom-[62px]"
+                        });
                       } else {
                         setOpenTypeModal(type);
                       }
@@ -348,39 +345,48 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
           </div>
 
           {/* 그림판 */}
-          {formData.type !== "편지지" && (
-            <div ref={drawRef} className="group/draw open  flex flex-col gap-2  mx-4 lg:mx-0">
-              <div className="flex items-center justify-between text-base leading-5 lg:text-xl">
-                그림 그리기{" "}
-                <span onClick={() => toggleTab(drawRef)} className="group-[.open]/draw:rotate-180 cursor-pointer">
-                  <img src="/icons/toggle-arrow.svg" alt="아래 화살표" />
-                </span>
-              </div>
-
-              {!formData.draw ? (
-                <div
-                  className="group-[.open]/draw:block hidden text-center text-base text-primary leading-none py-4 rounded-br-2xl rounded-bl-2xl border border-solid border-primary bg-white cursor-pointer lg:text-xl lg:py-[14px]"
-                  onClick={() => setGoDraw(true)}
-                >
-                  탭하여 그림그리기 페이지로 이동
-                </div>
-              ) : (
-                <div className="group-[.open]/draw:flex hidden relative items-center justify-center w-full h-[calc((100vw-32px)*0.782)] overflow-hidden rounded-2xl border border-solid border-black bg-white">
-                  <div className="absolute top-4 right-4" onClick={() => setFormData({ ...formData, draw: null })}>
-                    삭제하기
-                  </div>
-                  <img className="" src={formData.draw} alt="그림" onClick={() => setGoDraw(true)} />
-                </div>
-              )}
+          <div ref={drawRef} className="group/draw open  flex flex-col gap-2  mx-4 lg:mx-0">
+            <div className="flex items-center justify-between text-base leading-5 lg:text-xl">
+              그림 그리기{" "}
+              <span onClick={() => toggleTab(drawRef)} className="group-[.open]/draw:rotate-180 cursor-pointer">
+                <img src="/icons/toggle-arrow.svg" alt="아래 화살표" />
+              </span>
             </div>
-          )}
+
+            {!formData.draw ? (
+              <div
+                className="group-[.open]/draw:block hidden text-center text-base text-primary leading-none py-4 rounded-br-2xl rounded-bl-2xl border border-solid border-primary bg-white cursor-pointer lg:text-xl lg:py-[14px]"
+                onClick={() => setGoDraw(true)}
+              >
+                탭하여 그림그리기 페이지로 이동
+              </div>
+            ) : (
+              <div className="group-[.open]/draw:flex hidden relative items-center justify-center w-full h-[calc((100vw-32px)*0.782)] overflow-hidden rounded-2xl border border-solid border-black bg-white">
+                <div className="absolute top-4 right-4 flex gap-2">
+                  <button
+                    className="flex items-center justify-center w-[84px] h-[35px] text-sm border border-gray04 rounded-lg bg-white"
+                    onClick={() => setGoDraw(true)}
+                  >
+                    수정하기
+                  </button>
+                  <button
+                    className="flex items-center justify-center w-[84px] h-[35px] text-sm border border-gray04 rounded-xl"
+                    onClick={() => setFormData({ ...formData, draw: null })}
+                  >
+                    삭제하기
+                  </button>
+                </div>
+                <img className="" src={formData.draw} alt="그림" />
+              </div>
+            )}
+          </div>
         </div>
 
         <div
           ref={contentsRef}
           className="group/contents open flex flex-col gap-2  mx-4 lg:w-1/2 lg:order-3 lg:m-0 lg:flex-1"
         >
-          <div className="flex items-center justify-between text-base leading-5">
+          <div className="flex items-center justify-between text-base leading-5 lg:text-xl">
             글로 쓰기{" "}
             <span
               onClick={() => toggleTab(contentsRef)}
@@ -397,7 +403,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
             value={formData.contents}
             onChange={(e) => onChangeFormData(e)}
             placeholder="이곳에 내용을 입력해주세요"
-            className="resize-none outline-none w-full bg-local bg-custom-textarea leading-8 group-[.open]/contents:block hidden font-Dovemayo lg:!block lg:h-full"
+            className="resize-none outline-none w-full bg-local bg-custom-textarea leading-8 group-[.open]/contents:block hidden font-Dovemayo lg:!block lg:h-full lg:px-4 lg:text-2xl lg:leading-[52px] lg:bg-custom-textarea-lg"
           />
         </div>
 

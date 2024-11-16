@@ -42,7 +42,7 @@
 }
 
 body {
-  color: var(--foreground);
+  color: #000000;
   background: var(--background02);
   font-family: "Dovemayo_gothic", Arial, Helvetica, sans-serif;
 }
