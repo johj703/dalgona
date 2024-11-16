@@ -77,7 +77,7 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
       onClick={clickModal}
     >
       <div
-        className=" bg-white rounded-lg shadow-md  max-w-md h-[320px] w-[343px] "
+        className=" bg-white rounded-lg shadow-md  max-w-md h-[320px] w-[343px] mb-[400px]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mt-[18px] mx-[113px] justify-center items-center gap-[10px] inline-flex">
