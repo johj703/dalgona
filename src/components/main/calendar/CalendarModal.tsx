@@ -2,11 +2,8 @@
 import getLoginUser from "@/lib/getLoginUser";
 import { CalendarModalProps } from "@/types/main/Calendar";
 import { Select } from "@headlessui/react";
+import { getDaysInMonth } from "date-fns";
 import React, { useEffect, useState } from "react";
-
-const years = Array.from({ length: 9 }, (_, i) => i + 2017);
-const months = Array.from({ length: 12 }, (_, i) => i + 1);
-const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
 //TODO - 조회기간 설정시 종료일자를 시작일자보다 전으로 설정하면 안됨
 
@@ -21,6 +18,12 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
   const year = currentDate.getFullYear().toString(); //2024
   const month = (currentDate.getMonth() + 1).toString(); //11
   const day = currentDate.getDate().toString(); //12
+  const daysInMonth = getDaysInMonth(new Date(Number(startYear), Number(startMonth)));
+  console.log("🚀 ~ CalendarModal ~ daysInMonth:", daysInMonth);
+
+  const years = Array.from({ length: 8 }, (_, i) => i + 2017).reverse();
+  const months = Array.from({ length: 12 }, (_, i) => i + 1);
+  const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
   const [userId, setUserId] = useState<string>("");
 
