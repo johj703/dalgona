@@ -210,7 +210,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
     const { error: deleteError } = await browserClient.from("drafts").delete().eq("id", POST_ID);
     if (deleteError) return console.error("deleteError => ", deleteError);
 
-    router.replace(`/diary/read/${POST_ID}`);
+    router.replace(`/diary/read/${formData.id}`);
   };
 
   // 탭 토글

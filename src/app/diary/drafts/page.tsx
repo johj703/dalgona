@@ -108,7 +108,7 @@ const Drafts = () => {
         )}
 
         <span className="h-14 lg:hidden"></span>
-        <div className="fixed bottom-0 left-0 flex w-full h-14 bg-[#FDF7F4] border-t border-[#A6A6A6] rounded-2xl overflow-hidden lg:order-1 lg:gap-6 lg:static lg:rounded-none lg:border-0 lg:border-b lg:h-auto lg:py-6 lg:px-4 lg:bg-transparent">
+        <div className="fixed bottom-0 left-0 flex w-full h-14 bg-background01 border-t border-[#A6A6A6] rounded-2xl overflow-hidden lg:order-1 lg:gap-6 lg:static lg:rounded-none lg:border-0 lg:border-b lg:h-auto lg:py-6 lg:px-4 lg:bg-transparent">
           <button className="draft-button" type="button" onClick={() => clickDelete()}>
             삭제
           </button>
