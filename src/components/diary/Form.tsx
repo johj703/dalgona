@@ -16,6 +16,7 @@ import { iconOnOff } from "@/utils/diary/iconOnOff";
 import callCustomAlert from "@/lib/callCustomAlert";
 import useGetDevice from "@/hooks/useGetDevice";
 import Link from "next/link";
+import Header from "../layout/Header";
 
 const TYPE_LIST = ["모눈종이", "줄노트", "편지지"];
 
@@ -224,7 +225,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
 
   return (
     <div className={`bg-background02 min-h-screen ${goDraw && "h-screen overflow-hidden"}`}>
-      {device === "pc" ? <div>PC헤더</div> : <CommonTitle title={"일기 쓰기"} draft={true} draftLength={draftLength} />}
+      {device === "pc" ? <Header /> : <CommonTitle title={"일기 쓰기"} draft={true} draftLength={draftLength} />}
 
       {/* 작성 폼 */}
       <form

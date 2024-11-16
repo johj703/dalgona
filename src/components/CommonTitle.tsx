@@ -1,7 +1,7 @@
 import { booleanState } from "@/types/Canvas";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import HeaderUserBtn from "./HeaderUserBtn";
+import HeaderUserBtn from "./layout/HeaderUserBtn";
 import useGetDevice from "@/hooks/useGetDevice";
 import EditButton from "./diary/EditButton";
 

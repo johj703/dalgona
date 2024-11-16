@@ -2,7 +2,7 @@ import { stringState } from "@/types/Canvas";
 
 const CanvasButtons = ({ setPathMode }: { setPathMode: stringState }) => {
   return (
-    <div className="flex gap-2 lg:flex-col lg:gap-4">
+    <div className="flex gap-2 lg:flex-col lg:gap-4 lg:mt-auto">
       <button className="mr-auto lg:order-4 lg:mr-0" onClick={() => setPathMode("save")}>
         <img src="/icons/save.svg" alt="저장" />
       </button>

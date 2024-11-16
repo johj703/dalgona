@@ -14,7 +14,7 @@ import { EMOTION_LIST, getEmoji } from "@/utils/diary/getEmoji";
 import getLoginUser from "@/lib/getLoginUser";
 import getGenderIcon from "@/utils/mypage/getGenderIcon";
 import useGetDevice from "@/hooks/useGetDevice";
-import Header from "@/components/Header";
+import Header from "@/components/layout/Header";
 
 const DEFAULT_IMAGE = "https://spimvuqwvknjuepojplk.supabase.co/storage/v1/object/public/profile/default_profile.svg";
 
