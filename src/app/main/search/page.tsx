@@ -26,7 +26,7 @@ const SearchPage = () => {
   useEffect(() => {
     const delayDebounceTimer = setTimeout(() => {
       setSearchDiaries(query);
-    }, 1000);
+    }, 500);
     return () => clearTimeout(delayDebounceTimer);
   }, [query]);
 
