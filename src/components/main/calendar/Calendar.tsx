@@ -97,7 +97,7 @@ export default function Calendar(): JSX.Element {
   //버튼 클릭시 모달 버튼 클릭 유무를 설정하는 state 함수
   const clickModal = () => setIsModalOpen(!isModalOpen);
   return (
-    <div className="flex flex-col gap-[6px] lg:flex-row lg:gap-[16px] lg:mt-[24px]">
+    <div className="flex flex-col gap-[6px] lg:flex-row lg:gap-[16px] lg:my-[24px]">
       <div className="flex flex-col justify-center items-center lg:justify-start">
         <div className="button-dummy flex justify-between items-center self-stretch px-[16px] lg:px-0 lg:w-[100%] lg:justify-start lg:gap-[16px]">
           <button
@@ -122,7 +122,7 @@ export default function Calendar(): JSX.Element {
                 value={getSimpleFullDate(firstDate)}
                 readOnly
               />
-              <div>~</div>
+              <div className="lg:flex lg:flex-col lg:justify-center">~</div>
               <input
                 type="text"
                 className="border-[1px] border-[#2E5342] rounded-lg h-[22px] w-[70px] bg-[#FDF7F4] text-center font-['Pretendard-Regular'] text-[12px] not-italic font-[400] leading-normal lg:px-[8px] lg:py-[4px] lg:bg-white lg:text-[16px] lg:font-['Dovemayo_gothic'] lg:w-[100px] lg:h-[40px]"
