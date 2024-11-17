@@ -69,7 +69,10 @@ const MonthlyGallery = ({ params }: { params: Params }) => {
       ) : artworks.length > 0 ? (
         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 px-4 pb-24">
           {artworks.map((artwork) => (
-            <div key={artwork.id} className="border border-[#D9D9D9] aspect-square overflow-hidden lg:rounded-2xl">
+            <div
+              key={artwork.id}
+              className="border border-[#D9D9D9] aspect-square overflow-hidden rounded-[4px] lg:rounded-2xl"
+            >
               <Link href={`/artworkprev?id=${artwork.id}`}>
                 <img
                   src={artwork.draw}
