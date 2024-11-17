@@ -44,7 +44,7 @@ const Mypage = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [device]);
 
   return (
     <div className="lg:pb-[34px]">

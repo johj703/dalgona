@@ -6,7 +6,7 @@ import Modal from "@/components/Modal";
 import Navigation from "@/components/Navigation";
 import useGetDevice from "@/hooks/useGetDevice";
 import { FormData } from "@/types/Canvas";
-import { fetchData } from "@/utils/diary/fetchData";
+import { fetchData } from "@/utils/diary/diaryData";
 import browserClient from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

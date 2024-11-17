@@ -1,63 +1,25 @@
 "use client";
 
-import Draw from "@/components/diary/Draw";
-import { FormData } from "@/types/Canvas";
-import browserClient from "@/utils/supabase/client";
-import Calender from "@/components/diary/Calender";
-import { RefObject, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { EMOTION_LIST, getEmoji } from "@/utils/diary/getEmoji";
 import Image from "next/image";
-import CommonTitle from "../CommonTitle";
-import { TypeModal } from "./TypeModal";
-import { CustomAlert } from "../CustomAlert";
-import getLoginUser from "@/lib/getLoginUser";
 import { iconOnOff } from "@/utils/diary/iconOnOff";
 import callCustomAlert from "@/lib/callCustomAlert";
-import useGetDevice from "@/hooks/useGetDevice";
 import Link from "next/link";
-import Header from "../layout/Header";
+import { RefObject, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import browserClient from "@/utils/supabase/client";
 
 const TYPE_LIST = ["모눈종이", "줄노트", "편지지"];
 
-const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData: FormData; isModify?: boolean }) => {
-  const [goDraw, setGoDraw] = useState<boolean>(false);
-  const [formData, setFormData] = useState<FormData>(initialData);
-  const [isDraft, setIsDraft] = useState<boolean>(false);
-  const [openCalender, setOpenCalender] = useState<boolean>(false);
-  const [openTypeModal, setOpenTypeModal] = useState<string>("");
+const Form = () => {
   const [customAlert, setCustomAlert] = useState<{ type: string; text: string; position: string } | null>(null);
-  const [userId, setUserId] = useState<string>("");
-  const [draftLength, setDraftLength] = useState<number>(0);
-  const device = useGetDevice();
-
-  const getUserId = async () => {
-    const data = await getLoginUser();
-    if (data) {
-      setUserId(data.id);
-      getDraftsLength(data.id);
-    }
-  };
+  const [isDraft, setIsDraft] = useState<boolean>(false);
   const router = useRouter();
 
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
   const drawRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
-
   const contentsRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const textareaRef: RefObject<HTMLTextAreaElement> = useRef<HTMLTextAreaElement>(null);
-
-  const getDraftsLength = async (userId: string) => {
-    const { data: getById, error: byIdError } = await browserClient.from("drafts").select("id").eq("user_id", userId);
-    if (!byIdError) setDraftLength(getById.length);
-  };
-
-  useEffect(() => {
-    // 로그인 한 유저 아이디 저장
-    getUserId();
-
-    // 날짜 선택시 달력 off
-    if (openCalender) setOpenCalender(false);
-  }, []);
 
   // 임시 저장
   const uploadToDrafts = async () => {
@@ -224,9 +186,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
   };
 
   return (
-    <div className={`bg-background02 min-h-screen ${goDraw && "h-screen overflow-hidden"}`}>
-      {device === "pc" ? <Header /> : <CommonTitle title={"일기 쓰기"} draft={true} draftLength={draftLength} />}
-
+    <>
       {/* 작성 폼 */}
       <form
         onSubmit={(e) => {
@@ -235,7 +195,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
         }}
         className="flex flex-col gap-6 pb-14 lg:flex-row lg:flex-wrap lg:gap-4"
       >
-        <div className="lg:order-2 lg:w-1/2 lg:flex-1 lg:p-4 lg:flex flex-col gap-6">
+        <div className="lg:order-2 lg:w-1/2 lg:flex-1 lg:p-4 flex flex-col gap-6">
           {/* 타이틀 */}
           <div className="flex flex-col gap-2 mx-4 lg:mx-0">
             <label htmlFor="title" className="hidden lg:block text-xl leading-none">
@@ -421,28 +381,9 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
           )}
         </div>
       </form>
-
-      {/* 그림판 */}
-      {goDraw && (
-        <Draw POST_ID={POST_ID} setFormData={setFormData} formData={formData} setGoDraw={setGoDraw} goDraw={goDraw} />
-      )}
-
-      {/* 달력 */}
-      {openCalender && <Calender setFormData={setFormData} formData={formData} setOpenCalender={setOpenCalender} />}
-
-      {/* 일기장 속지 모달 */}
-      {openTypeModal && (
-        <TypeModal
-          setFormData={setFormData}
-          formData={formData}
-          setOpenTypeModal={setOpenTypeModal}
-          openTypeModal={openTypeModal}
-        />
-      )}
-
       {/* 커스텀 알럿 */}
       {customAlert! && CustomAlert(customAlert)}
-    </div>
+    </>
   );
 };
 export default Form;

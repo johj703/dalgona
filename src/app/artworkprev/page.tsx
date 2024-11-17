@@ -68,8 +68,9 @@ const GalleryPage = () => {
         const containerWidth = container.offsetWidth;
         const imageWidth = selectedImageElement.offsetWidth;
         const imageOffsetLeft = selectedImageElement.offsetLeft;
+        const iamgeIndex = Number(selectedImageElement.dataset.idx);
 
-        const scrollPosition = imageOffsetLeft - containerWidth / 2 + imageWidth / 2;
+        const scrollPosition = (imageWidth + 8) * iamgeIndex + imageWidth / 2;
         container.scrollTo({
           left: scrollPosition,
           behavior: "smooth"
@@ -113,10 +114,11 @@ const GalleryPage = () => {
 
           <div className="py-4 h-[115px] lg:h-auto lg:border lg:border-gray03 lg:bg-background01">
             <div ref={imageListRef} className="flex overflow-x-auto space-x-2 px-4 " style={{ padding: "0px 50%" }}>
-              {diaryEntries.map((entry) => (
+              {diaryEntries.map((entry, idx) => (
                 <div key={entry.id} className="flex-shrink-0 w-12 h-12 lg:w-[68px] lg:h-[68px]">
                   <img
                     id={`image-${entry.id}`}
+                    data-idx={idx}
                     src={entry.draw}
                     alt={`Artwork ${entry.id}`}
                     className={`w-full h-full object-cover cursor-pointer bg-white border border-gray02 lg:rounded lg:border-gray04  ${
