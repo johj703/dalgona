@@ -35,12 +35,12 @@ const YearSelector: React.FC<YearSelectorProps> = ({ currentYear, selectedYear, 
   }, []);
 
   return (
-    <div ref={dropdownRef} className="relative ">
+    <div ref={dropdownRef} className="relative">
       <div
-        className="relative flex justify-between items-center inline-flex gap-1 rounded-lg bg-white border border-[#BFBFBF] h-9 px-3 lg:mx-[250px]"
+        className="relative justify-between items-center inline-flex gap-1 rounded-lg bg-white border border-[#BFBFBF] h-9 px-3 lg:mx-[252px]"
         onClick={toggleDropdown}
       >
-        <span className="text-xs font-normal leading-[18px]">{selectedYear}년</span>
+        <span className="text-xs font-normal leading-[18px] lg:text-sm">{selectedYear}년</span>
         <img src={isOpen ? "/icons/arrow-up(B).svg" : "/icons/arrow-down.svg"} alt="Arrow Icon" className="relative" />
 
         {isOpen && (

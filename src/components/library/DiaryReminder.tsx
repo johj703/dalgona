@@ -99,7 +99,7 @@ const DiaryReminder: React.FC<DiaryReminderProps> = ({ userId, selectedYear }) =
   };
 
   return (
-    <div className="flex-grow flex items-center justify-center py-4">
+    <div className="flex-grow flex items-center justify-center py-2">
       <div className="w-full max-w-sm rounded-lg bg-background lg:max-w-[488px]">
         {selectedDiary.id ? (
           <div

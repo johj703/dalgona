@@ -82,6 +82,7 @@ const LibraryPage: React.FC = () => {
         ) : (
           <p>유저 정보를 불러오지 못했습니다.</p>
         )}
+        <p className="pt-1 pb-2 text-sm font-medium text-[#595959] lg:mx-[250px]">필터링 연도: {selectedYear}년</p>
         <MonthSelector year={selectedYear} />
       </div>
 

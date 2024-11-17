@@ -40,6 +40,10 @@ const MemoryCollection: React.FC<MemoryCollectionProps> = ({ userId }) => {
     fetchAllArtworks();
   }, [userId]); // userId가 변경될 때마다 호출
 
+  const handleImageClick = (id: string) => {
+    router.push(`/library/memory/${id}`);
+  };
+
   return (
     <div className="bg-[#FDF7F4] rounded-lg p-4 mb-16 lg:mb-0 lg:pr-0">
       <div className="flex justify-items-start gap-4 items-center mb-4">
@@ -60,8 +64,9 @@ const MemoryCollection: React.FC<MemoryCollectionProps> = ({ userId }) => {
           selectedEntries.map((diary: Diary, index: number) => (
             <div
               key={diary.id}
-              className="flex-shrink-0 w-64 transition-transform duration-700 linear"
+              className="flex-shrink-0 w-64 transition-transform duration-700 linear cursor-pointer"
               style={{ marginRight: index !== selectedEntries.length - 1 ? "16px" : "0" }}
+              onClick={() => handleImageClick(diary.id)}
             >
               {diary.draw ? (
                 <img

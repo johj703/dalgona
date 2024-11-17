@@ -61,7 +61,7 @@ const DateDropdown: React.FC<DateDropdownProps> = ({ year, month, day, setYear, 
       <div className="flex-1 lg:flex-none" ref={yearRef}>
         <div className="flex items-center">
           <div className="relative flex justify-between items-center inline-flex gap-1 rounded-lg bg-white border border-gray03 w-full h-9 px-3 lg:w-[75px]">
-            <span className="text-xs font-normal">{year}</span>
+            <span className="text-xs font-normal lg:text-sm">{year}</span>
             <button
               onClick={toggleYearDropdown}
               className="ml-1 py-1 text-sm rounded focus:outline-none"
@@ -96,7 +96,7 @@ const DateDropdown: React.FC<DateDropdownProps> = ({ year, month, day, setYear, 
       <div className="flex-1 lg:flex-none" ref={monthRef}>
         <div className="flex items-center">
           <div className="relative flex justify-between items-center inline-flex gap-1 rounded-lg bg-white border border-gray03 w-full h-9 px-3 lg:w-[75px]">
-            <span className="text-xs font-normal">{month}</span>
+            <span className="text-xs font-normal lg:text-sm">{month}</span>
             <button
               onClick={toggleMonthDropdown}
               className="ml-1 py-1 text-sm rounded focus:outline-none"
@@ -131,7 +131,7 @@ const DateDropdown: React.FC<DateDropdownProps> = ({ year, month, day, setYear, 
       <div className="flex-1 lg:flex-none" ref={dayRef}>
         <div className="flex items-center">
           <div className="relative flex justify-between items-center inline-flex gap-1 rounded-lg bg-white border border-gray03 w-full h-9 px-3 lg:w-[75px]">
-            <span className="text-xs font-normal">{day === 0 ? "선택" : `${day}일`}</span>
+            <span className="text-xs font-normal lg:text-sm">{day === 0 ? "선택" : `${day}일`}</span>
             <button
               onClick={toggleDayDropdown}
               className="ml-1 py-1 text-sm rounded focus:outline-none"

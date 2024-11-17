@@ -95,8 +95,6 @@ const MyArtwork: React.FC<MyArtworkProps> = ({ userId }) => {
     <div className="flex flex-col bg-[#FDF7F4] lg:w-1/2 ">
       {/* <CommonTitle title="내 그림 모아보기" /> */}
 
-      {/* 슬라이더 영역 */}
-
       <div
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}

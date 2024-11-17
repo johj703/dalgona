@@ -44,6 +44,10 @@ const MonthlyArtwork: React.FC<MonthlyArtworkProps> = ({ userId }) => {
     router.push(`/gallery/${currentMonth}`);
   };
 
+  const handleImageClick = (id: string) => {
+    router.push(`/library/memory/${id}`);
+  };
+
   return (
     <div className="bg-[#FDF7F4] p-4 lg:pr-0">
       <div className="flex justify-items-start gap-4 items-center mb-4">
@@ -62,8 +66,9 @@ const MonthlyArtwork: React.FC<MonthlyArtworkProps> = ({ userId }) => {
           diaryEntries.map((diary: Diary, index: number) => (
             <div
               key={diary.id}
-              className="flex-shrink-0 w-64 transition-transform duration-700 linear"
+              className="flex-shrink-0 w-64 transition-transform duration-700 linear cursor-pointer"
               style={{ marginRight: index !== diaryEntries.length - 1 ? "16px" : "0" }} // 마지막 항목에는 오른쪽 마진 없음
+              onClick={() => handleImageClick(diary.id)}
             >
               {diary.draw ? (
                 <img
