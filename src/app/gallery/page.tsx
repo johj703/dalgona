@@ -51,7 +51,7 @@ const ArtworkGallery: React.FC = () => {
   return (
     <div className="flex flex-col bg-[#FDF7F4]">
       <CommonTitle title="내 그림 모아보기" />
-      <h2 className="text-2xl p-4 lg:text-center">전체</h2>
+      <h2 className="text-2xl p-4 lg:text-center">추억모음</h2>
       {loading ? (
         <div className="flex items-center justify-center w-full h-48">
           <span>로딩 중...</span>

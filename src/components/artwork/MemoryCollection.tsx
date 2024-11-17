@@ -41,7 +41,7 @@ const MemoryCollection: React.FC<MemoryCollectionProps> = ({ userId }) => {
   }, [userId]); // userId가 변경될 때마다 호출
 
   const handleImageClick = (id: string) => {
-    router.push(`/library/memory/${id}`);
+    router.push(`/artworkprev?id=${id}&userId=${userId}`);
   };
 
   return (
@@ -71,11 +71,11 @@ const MemoryCollection: React.FC<MemoryCollectionProps> = ({ userId }) => {
               {diary.draw ? (
                 <img
                   src={diary.draw}
-                  className="object-cover w-full h-40 border bg-white border-[#D9D9D9] rounded-lg"
+                  className="object-cover w-full h-40 border bg-white border-gray04 rounded-lg"
                   alt={`Artwork ${diary.id}`}
                 />
               ) : (
-                <div className="flex items-center justify-center w-full h-full bg-gray-200 rounded-lg">이미지 없음</div>
+                <div className="flex items-center justify-center w-full h-full bg-gray04 rounded-lg">이미지 없음</div>
               )}
             </div>
           ))
