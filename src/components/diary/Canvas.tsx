@@ -25,7 +25,8 @@ const Canvas = ({
   formData,
   setGoDraw,
   goDraw,
-  POST_ID
+  POST_ID,
+  setShowStroke
 }: CanvasProps) => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
@@ -175,12 +176,12 @@ const Canvas = ({
         ref={canvasRef}
         onPointerDown={() => {
           setPainting(true);
+          setShowStroke(false);
         }}
         onPointerUp={() => {
           if (tool === "pallete") {
             setTool("pen");
           }
-
           setPainting(false);
           saveHistory();
         }}

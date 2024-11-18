@@ -275,6 +275,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
             </div>
           </div>
 
+          {/* 오늘의 기분 */}
           <div className="flex flex-col gap-2">
             <div className="mx-4 text-base leading-5 lg:mx-0 lg:text-xl">오늘의 기분</div>
             <ul
@@ -314,6 +315,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
             </ul>
           </div>
 
+          {/* 일기장 속지 */}
           <div className="flex flex-col gap-2  mx-4 lg:mx-0">
             <div className="text-base leading-5 lg:text-xl">일기장 속지 양식 선택</div>
             <ul className="flex gap-4">
@@ -365,7 +367,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
               <div className="group-[.open]/draw:flex hidden relative items-center justify-center w-full h-[calc((100vw-32px)*0.782)] overflow-hidden rounded-2xl border border-solid border-black bg-white lg:h-auto">
                 <div className="absolute top-4 right-4 flex gap-2">
                   <button
-                    className="flex items-center justify-center w-[84px] h-[35px] text-sm border border-gray04 rounded-lg bg-white"
+                    className="flex items-center justify-center w-[84px] h-[35px] text-sm border border-gray04 rounded-2xl bg-white"
                     onClick={(e) => {
                       e.preventDefault();
                       setGoDraw(true);
@@ -374,7 +376,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
                     수정하기
                   </button>
                   <button
-                    className="flex items-center justify-center w-[84px] h-[35px] text-sm border border-gray04 rounded-xl"
+                    className="flex items-center justify-center w-[84px] h-[35px] text-sm border border-gray04 rounded-2xl bg-white"
                     onClick={() => setFormData({ ...formData, draw: null })}
                   >
                     삭제하기
