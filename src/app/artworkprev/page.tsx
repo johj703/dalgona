@@ -7,6 +7,8 @@ import { Diary } from "@/types/library/Diary";
 import getLoginUser from "@/lib/getLoginUser";
 import CommonTitle from "@/components/CommonTitle";
 import { useRouter } from "next/navigation";
+import Header from "@/components/layout/Header";
+import useGetDevice from "@/hooks/useGetDevice";
 
 const GalleryPage = () => {
   const searchParams = useSearchParams();
@@ -16,6 +18,7 @@ const GalleryPage = () => {
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string>("");
   const router = useRouter();
+  const device = useGetDevice();
   const imageListRef = useRef<HTMLDivElement | null>(null);
 
   // 로그인한 사용자의 ID 가져오기
@@ -90,7 +93,7 @@ const GalleryPage = () => {
 
   return (
     <div className="flex flex-col h-screen bg-[#FDF7F4]">
-      <CommonTitle title="내 그림 모아보기" />
+      {device === "pc" ? <Header /> : <CommonTitle title={"내 그림 모아보기"} />}
 
       {loading ? (
         <span>로딩 중...</span>
