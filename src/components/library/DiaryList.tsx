@@ -35,16 +35,18 @@ const DiaryList: React.FC<DiaryListProps> = ({ diaries, loading, userId, onSelec
             </label>
 
             <div className="border border-black bg-background rounded-lg p-2 flex-1">
-              <h3 className="text-lg font-bold">{diary.title}</h3>
-              <p className="line-clamp-1 text-black">{diary.contents}</p>
+              <h3 className="text-sm font-medium">{diary.title}</h3>
+              <p className="line-clamp-1 text-xs text-black font-Dovemayo lg:font-thin">{diary.contents}</p>
               <div className="flex justify-end">
-                <span className="text-black text-sm">{ChangeDateForm(diary.date)}</span>
+                <span className="text-black font-Dovemayo text-xs mt-1 lg:font-thin">{ChangeDateForm(diary.date)}</span>
               </div>
             </div>
           </div>
         ))
       ) : (
-        <p>선택된 날짜에 대한 일기가 없습니다.</p>
+        <div className="flex items-center justify-center h-full">
+          <p className="text-center text-gray04 font-Dovemayo_gothic text-base">선택된 날짜에 일기가 없습니다</p>
+        </div>
       )}
     </div>
   );

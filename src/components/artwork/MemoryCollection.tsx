@@ -40,8 +40,12 @@ const MemoryCollection: React.FC<MemoryCollectionProps> = ({ userId }) => {
     fetchAllArtworks();
   }, [userId]); // userId가 변경될 때마다 호출
 
+  const handleImageClick = (id: string) => {
+    router.push(`/artworkprev?id=${id}&userId=${userId}`);
+  };
+
   return (
-    <div className="bg-[#FDF7F4] rounded-lg p-4 mb-16">
+    <div className="bg-[#FDF7F4] rounded-lg p-4 mb-16 lg:mb-0 lg:pr-0">
       <div className="flex justify-items-start gap-4 items-center mb-4">
         <h2 className="text-xl font-normal">추억 모음</h2>
         <button onClick={() => router.push("/gallery")}>
@@ -60,17 +64,18 @@ const MemoryCollection: React.FC<MemoryCollectionProps> = ({ userId }) => {
           selectedEntries.map((diary: Diary, index: number) => (
             <div
               key={diary.id}
-              className="flex-shrink-0 w-64 transition-transform duration-700 linear"
+              className="flex-shrink-0 w-64 transition-transform duration-700 linear cursor-pointer"
               style={{ marginRight: index !== selectedEntries.length - 1 ? "16px" : "0" }}
+              onClick={() => handleImageClick(diary.id)}
             >
               {diary.draw ? (
                 <img
                   src={diary.draw}
-                  className="object-cover w-full h-40 border bg-white border-[#D9D9D9] rounded-lg"
+                  className="object-cover w-full h-40 border bg-white border-gray04 rounded-lg"
                   alt={`Artwork ${diary.id}`}
                 />
               ) : (
-                <div className="flex items-center justify-center w-full h-full bg-gray-200 rounded-lg">이미지 없음</div>
+                <div className="flex items-center justify-center w-full h-full bg-gray04 rounded-lg">이미지 없음</div>
               )}
             </div>
           ))

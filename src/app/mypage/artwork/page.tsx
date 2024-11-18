@@ -6,9 +6,12 @@ import MonthlyArtwork from "@/components/artwork/MonthlyArtwork";
 import MemoryCollection from "@/components/artwork/MemoryCollection";
 import getLoginUser from "@/lib/getLoginUser";
 import Navigation from "@/components/Navigation";
+import CommonTitle from "@/components/CommonTitle";
+import useGetDevice from "@/hooks/useGetDevice";
 
 const ArtworkPage: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
+  const device = useGetDevice();
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -26,11 +29,16 @@ const ArtworkPage: React.FC = () => {
   }
 
   return (
-    <div>
-      <MyArtwork userId={userId} />
-      <MonthlyArtwork userId={userId} />
-      <MemoryCollection userId={userId} />
-      <Navigation />
+    <div className="lg:max-w-screen-lg m-auto">
+      <CommonTitle title="내 그림 모아보기" />
+      <div className="lg:flex justify-center items-center lg:ml-[23px] lg:mt-[50px]">
+        <MyArtwork userId={userId} />
+        <div className="lg:w-1/2 overflow-hidden">
+          <MonthlyArtwork userId={userId} />
+          <MemoryCollection userId={userId} />
+        </div>
+      </div>
+      {device === "mobile" && <Navigation />}
     </div>
   );
 };
