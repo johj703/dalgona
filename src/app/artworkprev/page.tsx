@@ -59,25 +59,6 @@ const GalleryPage = () => {
   }, [diaryId, userId]);
 
   // 메인그림(mainEntry)이 변경될 때마다 스크롤 위치 조정
-  // useEffect(() => {
-  //   if (mainEntry && imageListRef.current) {
-  //     const container = imageListRef.current;
-  //     const selectedImageElement = document.getElementById(`image-${mainEntry.id}`);
-
-  //     if (selectedImageElement) {
-  //       const containerWidth = container.offsetWidth;
-  //       const imageWidth = selectedImageElement.offsetWidth;
-  //       const imageOffsetLeft = selectedImageElement.offsetLeft;
-
-  //       const scrollPosition = imageOffsetLeft - containerWidth / 2 + imageWidth / 2;
-  //       container.scrollTo({
-  //         left: scrollPosition,
-  //         behavior: "smooth"
-  //       });
-  //     }
-  //   }
-  // }, [mainEntry]);
-
   useEffect(() => {
     if (mainEntry && imageListRef.current) {
       const container = imageListRef.current;
@@ -88,7 +69,7 @@ const GalleryPage = () => {
         const imageIndex = Number(selectedImageElement.dataset.idx);
 
         const scrollPosition = (imageWidth + 8) * imageIndex + imageWidth / 2;
-        console.log("야", scrollPosition);
+
         container.scrollTo({
           left: scrollPosition,
           behavior: "smooth"

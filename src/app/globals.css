@@ -42,7 +42,7 @@
 }
 
 body {
-  color: var(--foreground);
+  color: #000000;
   background: var(--background02);
   font-family: "Dovemayo_gothic", Arial, Helvetica, sans-serif;
 }
@@ -60,6 +60,14 @@ body {
   }
   .input-style {
     @apply w-full h-14 p-4 text-base text-gray05 placeholder:text-gray04 rounded-lg border-2 border-solid border-gray04 bg-white outline-none;
+  }
+
+  .write-form-button {
+    @apply flex-1 text-center text-xl !leading-[1.35] py-4 lg:max-w-[400px] lg:bg-[#B1A4A1] lg:text-white lg:py-[15px] lg:text-lg lg:rounded-lg;
+  }
+
+  .draft-button {
+    @apply flex-1 text-center text-[18px] py-4 lg:bg-[#B1A4A1] lg:text-white lg:leading-[1.35] lg:py-[15px] lg:rounded-lg;
   }
 }
 

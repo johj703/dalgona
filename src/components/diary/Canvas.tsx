@@ -190,7 +190,7 @@ const Canvas = ({
         onPointerLeave={() => {
           setPainting(false);
         }}
-        className="bg-white touch-none"
+        className="bg-white touch-none mx-auto border border-gray04 border-t-0"
       />
 
       {openClose && (

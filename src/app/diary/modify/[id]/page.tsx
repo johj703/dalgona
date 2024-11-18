@@ -2,41 +2,31 @@
 
 import Form from "@/components/diary/Form";
 import TopButton from "@/components/TopButton";
-import { fetchData } from "@/utils/diary/fetchData";
-import { useEffect, useState } from "react";
-
-const initialData = {
-  id: "",
-  title: "",
-  date: "",
-  emotion: "",
-  type: "",
-  contents: "",
-  draw: null,
-  user_id: ""
-};
+import { useGetDiaryDetail } from "@/queries/diary/useGetDiaryDetail";
 
 const Modify = ({ params }: { params: { id: string } }) => {
-  const [postData, setPostData] = useState(initialData);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const POST_ID = params.id;
+  const { data: diary, isLoading, isError } = useGetDiaryDetail(params.id);
 
-  const getData = async () => {
-    const DiaryData = await fetchData(POST_ID);
-    setPostData({ ...postData, ...DiaryData });
-    setIsLoading(false);
-  };
+  if (isLoading)
+    return (
+      <div className="flex-1 flex items-center justify-center text-center pt-2 pb-[60px] px-4 text-lg leading-[1.35] text-gray04">
+        일기를 불러오고있습니다.
+      </div>
+    );
 
-  useEffect(() => {
-    getData();
-  }, []);
+  if (isError)
+    return (
+      <div className="flex-1 flex items-center justify-center text-center pt-2 pb-[60px] px-4 text-lg leading-[1.35] text-gray04">
+        일기를 불러오지 못 했습니다.
+      </div>
+    );
+
   return (
-    !isLoading && (
-      <>
-        <TopButton />
-        <Form POST_ID={POST_ID} initialData={postData} isModify={true} />
-      </>
-    )
+    <>
+      <TopButton />
+      <Form POST_ID={POST_ID} initialData={diary![0]} isModify={true} />
+    </>
   );
 };
 export default Modify;
