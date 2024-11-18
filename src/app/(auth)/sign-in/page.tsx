@@ -56,7 +56,7 @@ export default function SignInPage() {
   return (
     <div className="flex flex-col items-center pt-[68px] px-4 lg:justify-center lg:h-screen">
       <div className="p-[10px]">
-        <img src="/icons/logo.svg" alt="로고" className="w-auto h-9 lg:h-auto" />
+        <img src="/icons/logo.svg" alt="로고" className="w-auto h-9 lg:h-10" />
       </div>
 
       {/* 에러 메세지 출력 */}
