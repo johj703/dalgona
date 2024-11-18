@@ -45,7 +45,7 @@ const MemoryCollection: React.FC<MemoryCollectionProps> = ({ userId }) => {
   };
 
   return (
-    <div className="bg-[#FDF7F4] rounded-lg p-4 mb-16 lg:mb-0 lg:pr-0">
+    <div className="bg-[#FDF7F4] rounded-lg p-4 mb-16 lg:p-8 lg:pt-0 lg:mb-0 lg:pr-0">
       <div className="flex justify-items-start gap-4 items-center mb-4">
         <h2 className="text-xl font-normal">추억 모음</h2>
         <button onClick={() => router.push("/gallery")}>
@@ -71,7 +71,7 @@ const MemoryCollection: React.FC<MemoryCollectionProps> = ({ userId }) => {
               {diary.draw ? (
                 <img
                   src={diary.draw}
-                  className="object-cover w-full h-40 border bg-white border-gray04 rounded-lg"
+                  className="object-cover w-full h-40 border bg-white border-gray04 rounded-lg lg:w-[320px] lg:h-[310px]"
                   alt={`Artwork ${diary.id}`}
                 />
               ) : (

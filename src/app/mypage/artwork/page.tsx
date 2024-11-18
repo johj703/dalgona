@@ -32,7 +32,7 @@ const ArtworkPage: React.FC = () => {
   return (
     <div className="lg:max-w-screen-lg m-auto">
       {device === "pc" ? <Header /> : <CommonTitle title={"내 그림 모아보기"} />}
-      <div className="lg:flex justify-center items-center lg:ml-[23px] lg:mt-[50px]">
+      <div className="lg:flex items-center lg:ml-[16px]">
         <MyArtwork userId={userId} />
         <div className="lg:w-1/2 overflow-hidden">
           <MonthlyArtwork userId={userId} />

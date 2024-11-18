@@ -50,7 +50,7 @@ const MonthlyArtwork: React.FC<MonthlyArtworkProps> = ({ userId }) => {
   };
 
   return (
-    <div className="bg-[#FDF7F4] p-4 lg:pr-0">
+    <div className="bg-[#FDF7F4] p-4 lg:p-8 lg:pt-4 lg:pr-0">
       <div className="flex justify-items-start gap-4 items-center mb-4">
         <h2 className="text-xl font-normal">이번 달 모음</h2>
         <button onClick={handleViewAllClick}>
@@ -74,7 +74,7 @@ const MonthlyArtwork: React.FC<MonthlyArtworkProps> = ({ userId }) => {
               {diary.draw ? (
                 <img
                   src={diary.draw}
-                  className="object-cover w-full h-40 border bg-white border-gray04 rounded-lg"
+                  className="object-cover w-full h-40 border bg-white border-gray04 rounded-lg lg:w-[320px] lg:h-[310px]"
                   alt={`Artwork ${diary.id}`}
                 />
               ) : (
