@@ -139,8 +139,8 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-      <div className="bg-background02 p-4 w-[342px] h-[654px] rounded-lg relative max-w-sm lg:w-[441px] lg:h-[748px] lg:border lg:border-black lg:max-w-lg flex flex-col">
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-10">
+      <div className="bg-background02 p-4 w-[342px] h-[654px] rounded-lg relative max-w-sm max-h-[90vh] lg:w-[441px] lg:h-[748px] lg:border lg:border-black lg:max-w-lg flex flex-col">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-[18px] font-medium flex-grow text-center">일기 등록하기</h2>
           <button className="text-black lg:hidden" onClick={onClose}>
