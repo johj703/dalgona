@@ -9,10 +9,8 @@ const MainPage = () => {
   return (
     <>
       {device === "pc" && <Header />}
-      <div className="lg:flex lg:flex-col lg:justify-center lg:items-center ">
-        <SelectFeedCalendar />
-        <Navigation />
-      </div>
+      <SelectFeedCalendar />
+      <Navigation />
     </>
   );
 };

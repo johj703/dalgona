@@ -1,5 +1,5 @@
 import { Dates } from "@/types/main/Calendar";
-import { getDayOfTheWeek, getMonthKo, getSimpleDate, getSimpleFullDate } from "@/utils/calendar/dateFormat";
+import { getDayOfTheWeek, getSimpleDate, getSimpleFullDate } from "@/utils/calendar/dateFormat";
 import { getEmoji } from "@/utils/diary/getEmoji";
 import Link from "next/link";
 import React from "react";
@@ -16,7 +16,7 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
     <>
       {rangeList && rangeList.length > 1 ? (
         //=============================================================== 일기 여러개인 경우 ===================================
-        <div className="my-[8px] mx-[16px] py-[20px] px-[16px] border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px] lg:m-0  lg:mt-[45px] lg:w-[580px] lg:relative">
+        <div className="my-[8px] mx-[16px] py-[20px] px-[16px] border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px] lg:m-0  lg:mt-[48px] lg:w-[580px] lg:relative">
           {rangeList.map((diary) => {
             return (
               <Link href={`/diary/read/${diary.id}`} key={diary.id}>
@@ -49,13 +49,13 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
                   )}
 
                   {!diary.draw && (
-                    <div className="flex justify-between items-start mb-[8px]">
-                      <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px] lg:text-[18px]">
+                    <div className="flex justify-between items-start mb-[8px] ">
+                      {/* <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px] lg:text-[18px]">
                         {diary.title}
                       </p>
                       <p className="w-12 h-6 text-xs py-1 justify-center items-center inline-flex bg-white border border-black rounded-2xl text-black">
                         {getMonthKo(diary.date)}
-                      </p>
+                      </p> */}
                     </div>
                   )}
 
@@ -72,7 +72,7 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
         </div>
       ) : //=============================================================== 일기 한 개인 경우 ===================================
       rangeList && rangeList.length === 1 ? (
-        <div className="my-[8px] mx-[16px] py-[20px] px-[16px] border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px] lg:m-0 lg:h-[880px] lg:mt-[45px] lg:w-[580px] lg:relative">
+        <div className="my-[8px] mx-[16px] py-[20px] px-[16px] border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px] lg:m-0 lg:h-[870px] lg:mt-[48px] lg:w-[580px] lg:relative">
           {rangeList.map((diary) => (
             <Link href={`/diary/read/${diary.id}`} key={diary.id}>
               <div key={diary.id} className="flex flex-col gap-[24px]">
@@ -92,14 +92,14 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
 
                 {/* 그림이있는경우 */}
                 {diary.draw && (
-                  <div className="feed pt-[18px] px-[16px] pb-[19px] h-[364px] flex flex-col justify-center items-center border-[1px] rounded-2xl border-black bg-[#FDF7F4] relative  lg:p-0 lg:bg-[#EFE6DE] lg:border-0 lg:justify-start lg:h-full">
+                  <div className="feed pt-[18px] px-[16px] pb-[19px] h-[364px] flex flex-col justify-center items-center border-[1px] rounded-2xl border-black bg-[#FDF7F4] relative  lg:p-0 lg:bg-[#EFE6DE] lg:border-0 lg:justify-start lg:h-full ">
                     <p className="title self-stretch text-[18px] not-italic font-[400] leading-[24.3px] mb-[10px] lg:mb-[20px]">
                       {diary.title}
                     </p>
                     <img
                       src={diary.draw}
                       alt="그림"
-                      className="img object-cover border-[1px] rounded-lg border-black h-[238px] w-[100%] bg-white mb-[10px] lg:h-[619px]"
+                      className="img object-cover border-[1px] rounded-lg border-black h-[238px] w-[100%] bg-white mb-[10px] lg:h-[619px] "
                     />
                     <div className="absolute top-[75px] right-[25px] lg:top-[65px] lg:right-[20px]">
                       <img src={getEmoji(diary.emotion, "on")} alt={diary.emotion} className="w-[40px] h-[40px] " />
@@ -133,7 +133,7 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
           ))}
         </div>
       ) : (
-        <div className="my-[8px] mx-[16px] py-[159px]  border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px] lg:m-0 lg:p-0 lg:w-[100%] lg:h-[880px] lg:flex lg:flex-col lg:justify-center lg:mt-[45px] lg:relative">
+        <div className="my-[8px] mx-[16px] py-[159px]  border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px] lg:m-0 lg:p-0 lg:w-[100%] lg:h-[870px] lg:flex lg:flex-col lg:justify-center lg:mt-[48px] lg:relative">
           <div className="flex flex-col justify-center items-center gap-[23px]">
             {selectedDate > today ? (
               <div>

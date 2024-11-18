@@ -53,7 +53,7 @@ const SearchPage = () => {
     <div>
       {device === "pc" && <Header />}
       <div className="mt-[44px] text-center py-[16px] lg:mt-[16px] lg:flex lg:flex-col lg:justify-center lg:items-center">
-        <div className="flex justify-center items-center  w-[calc(100%-32px)]">
+        <div className="flex lg:gap-[8px] justify-center items-center  w-[calc(100%-32px)]">
           <Link href={"/main"}>
             <img
               src="/icons/arrow-left-gray.svg"
@@ -65,7 +65,7 @@ const SearchPage = () => {
           </Link>
           <input
             type="text"
-            className="border-2 rounded-md h-[40px] bg-white w-[calc(100%-32px)] p-[10px] lg:h-[60px] lg:w-[952px] lg:rounded-2xl"
+            className="border-2 rounded-md h-[40px] bg-white w-[calc(100%-32px)] p-[10px] lg:h-[60px] lg:w-[944px] lg:rounded-2xl lg:border-[#A6A6A6] lg:text-[18px]"
             placeholder="검색어를 입력하세요"
             value={query}
             onChange={(e) => setQuery(e.target.value)}

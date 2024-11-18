@@ -112,7 +112,7 @@ export default function Calendar(props: propsType): JSX.Element {
         <div className="button-dummy flex justify-between items-center self-stretch px-[16px] lg:px-0 lg:w-[100%] lg:justify-start lg:gap-[16px]">
           <button
             onClick={clickModal}
-            className="border-[2px] border-black rounded-lg bg-[#EFE6DE] py-[8px] px-[10px] font-['LeferiBaseType-RegularA'] text-[12px] not-italic font-[400] leading-[18px] lg:p-[10px] lg:text-[18px] lg:font-['Dovemayo_gothic']"
+            className="border-[2px] border-black rounded-lg bg-[#EFE6DE] py-[8px] px-[10px] font-['LeferiBaseType-RegularA'] text-[12px] not-italic font-[400] leading-[18px] lg:p-[10px] lg:text-[16px] lg:font-[Dovemayo_gothic]"
           >
             조회기간
           </button>
