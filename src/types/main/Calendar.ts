@@ -24,6 +24,7 @@ export type CellsProps = {
   currentDate: Date;
   selectedDate: Date;
   onDateClick: (arg0: Date, user_id: string) => void;
+  isTodayClick: (arg0: Date, user_id: string) => void;
   filterDiaries: SortedDiaries[];
 };
 
