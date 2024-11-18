@@ -150,7 +150,7 @@ const WebDiaryList = () => {
                                   <img src={diary.draw} alt="그림" className="object-cover h-full w-full bg-white" />
                                   <div className="absolute bottom-[16px] right-[16px] flex justify-between items-center">
                                     <div className="flex gap-[5px]">
-                                      <div className=" flex justify-center items-center gap-[3px] text-[#8C8C8C] h-[30px]">
+                                      <div className=" flex justify-center items-center gap-[3px] text-[#8C8C8C] h-[30px] pt-[2px]">
                                         <p className="simple-date text-center">
                                           {getSimpleFullDate(diary.date).substring(2)}
                                         </p>

@@ -30,13 +30,26 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
                       </h3>
                       <div className="relative h-48 border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden my-[10px] lg:p-0 lg:m-0 lg:h-[238px] lg:w-[492px]">
                         <img src={diary.draw} alt="그림" className="object-cover h-full w-full bg-white " />
-                        <div className="absolute top-[10px] left-[10px] right-[10px] flex justify-between items-center ">
+                        <div className="lg:hidden absolute top-[10px] left-[10px] right-[10px] flex justify-between items-center ">
                           <div className="w-[50px] text-sm">
                             <p className="today text-center border-b-2">{getDayOfTheWeek(diary.date)}</p>
                             <p className="simple-date text-center">{getSimpleFullDate(diary.date).substring(2)}</p>
                           </div>
                           <div>
                             <img src={getEmoji(diary.emotion, "on")} alt={diary.emotion} className="w-10 h-10 mt-1 " />
+                          </div>
+                        </div>
+                        <div className="hidden lg:block">
+                          <div className=" absolute flex gap-[5px] top-[80%] right-[10px] justify-center">
+                            <div className=" flex justify-center items-center gap-[3px] text-[#8C8C8C] h-[30px] pt-[2px]">
+                              <p className="simple-date text-center">{getSimpleFullDate(diary.date).substring(2)}</p>
+                              <p className="today text-center">{getDayOfTheWeek(diary.date)}</p>
+                            </div>
+                            <img
+                              src={getEmoji(diary.emotion, "on")}
+                              alt={diary.emotion}
+                              className="w-[30px] h-[30px]"
+                            />
                           </div>
                         </div>
                       </div>
