@@ -92,7 +92,7 @@ const MyArtwork: React.FC<MyArtworkProps> = ({ userId }) => {
   };
 
   return (
-    <div className="flex flex-col bg-[#FDF7F4] lg:w-1/2 ">
+    <div className="flex flex-col lg:w-1/2 ">
       {/* <CommonTitle title="내 그림 모아보기" /> */}
 
       <div
@@ -103,7 +103,7 @@ const MyArtwork: React.FC<MyArtworkProps> = ({ userId }) => {
         className={`pb-4 relative flex items-center justify-center ${loading ? "hidden" : ""}`}
       >
         {diaryEntries.length > 0 ? (
-          <div className="relative w-full h-[490px] overflow-hidden border-2 border-[#D9D99] bg-white">
+          <div className="relative w-full h-[490px] overflow-hidden border border-gray04 bg-white">
             {diaryEntries.map((diary: Diary, index: number) => (
               <div
                 key={diary.id}
@@ -122,7 +122,7 @@ const MyArtwork: React.FC<MyArtworkProps> = ({ userId }) => {
               {diaryEntries.map((_, index) => (
                 <div
                   key={index}
-                  className={`h-2 w-2 rounded-full ${index === currentIndex ? "bg-[#AEAEAE]" : "bg-[#D9D9D9]"}`}
+                  className={`h-2 w-2 rounded-full ${index === currentIndex ? "bg-[#AEAEAE]" : "bg-gray02"}`}
                 />
               ))}
             </div>

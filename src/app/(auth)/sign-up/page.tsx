@@ -82,17 +82,22 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen background02 lg:max-w-screen-lg lg:px-4">
-      <h1 className="text-2xl font-bold mb-2 lg:text-3xl">회원가입</h1>
+    <div className="flex flex-col min-h-screen max-w-sm mx-auto bg-background02 lg:max-w-screen-lg">
+      <CommonTitle title="회원가입" />
 
       {/* 에러 메세지 출력 */}
       {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
 
       {/* 회원가입 폼 */}
-      <form onSubmit={handleSignUp} className="w-11/12 max-w-md rounded-lg lg:max-w-lg lg:p-8">
+      <form
+        onSubmit={handleSignUp}
+        className="flex-1 flex flex-col mt-[58px] px-4 pb-[22px] lg:px-[268px] lg:pb-[105px]"
+      >
+        <h2 className="hidden lg:block text-xl font-normal mb-6 text-gray-800 text-center">회원가입</h2>
+
         {/* 이메일 입력 */}
         <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2 lg:text-base">
+          <label htmlFor="email" className="label-style lg:text-lg">
             이메일
           </label>
           <input
@@ -109,7 +114,7 @@ export default function SignUpPage() {
 
         {/* 비밀번호 입력 */}
         <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2 lg:text-base">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2 lg:text-lg">
             비밀번호
           </label>
           <input
@@ -126,7 +131,7 @@ export default function SignUpPage() {
 
         {/* 비밀번호 확인 입력 */}
         <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2 lg:text-base">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2 lg:text-lg">
             비밀번호 확인
           </label>
           <input
@@ -138,12 +143,12 @@ export default function SignUpPage() {
             placeholder="비밀번호를 입력하세요."
             className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary lg:text-base"
           />
-          <p className="text-xs text-gray-300 lg:text-sm">비밀번호를 다시 입력해주세요.</p>
+          <p className="mt-1 text-sm leading-normal text-gray04">위와 동일한 비밀번호를 입력해주세요</p>
         </div>
 
         {/* 이름 입력 */}
         <div className="mb-4">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2 lg:text-base">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2 lg:text-lg">
             이름
           </label>
           <input
@@ -160,7 +165,7 @@ export default function SignUpPage() {
 
         {/* 별명 입력 */}
         <div className="mb-4">
-          <label htmlFor="nickname" className="block text-sm font-medium text-gray-700 mb-2 lg:text-base">
+          <label htmlFor="nickname" className="block text-sm font-medium text-gray-700 mb-2 lg:text-lg">
             별명
           </label>
           <input
@@ -176,10 +181,10 @@ export default function SignUpPage() {
         </div>
 
         {/* "다음으로" 버튼 */}
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-auto lg:mt-[74px]">
           <button
             type="submit"
-            className="w-full p-2 mt-8 bg-primary text-white rounded-md hover:bg-primary lg:p-3 lg:text-lg"
+            className="w-full py-4 bg-primary text-white rounded-lg text-sm leading-[1.35] hover:bg-primary lg:text-lg lg:font-medium"
           >
             다음으로
           </button>
