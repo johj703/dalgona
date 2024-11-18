@@ -132,14 +132,15 @@ const WebDiaryList = () => {
                 </TabList>
               </div>
               <TabPanels>
+                {/* 피드 클릭 시 */}
                 <TabPanel>
-                  <div className="grid grid-cols-2 gap-[24px]">
+                  <div className="grid grid-cols-2 gap-[24px] ">
                     {sortedDiaries?.map((diary) =>
                       diary.draw ? (
                         <Link href={`/diary/read/${diary.id}`} key={diary.id}>
                           <div
                             key={diary.id}
-                            className=" border rounded-lg bg-[#FDF7F4] border-black p-[24px] h-[367px] w-[450px]"
+                            className=" border rounded-lg bg-[#FDF7F4] border-black p-[24px] h-[367px] w-[450px] "
                           >
                             {diary.draw && (
                               <>

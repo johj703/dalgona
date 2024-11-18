@@ -149,11 +149,11 @@ const DiaryList = () => {
                               <div className="relative h-[238px] border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden  my-[10px]">
                                 <img src={diary.draw} alt="그림" className="object-cover h-full w-full bg-white" />
                                 <div className="absolute top-[10px] left-[10px] right-[10px] flex justify-between items-center">
-                                  <div className="w-[50px] text-sm">
-                                    <p className="today text-center border-b-2">{getDayOfTheWeek(diary.date)}</p>
+                                  <div className=" flex justify-center items-center gap-[3px] w-[100px] h-[30px] pt-[2px] border-[1px] rounded border-black bg-white">
                                     <p className="simple-date text-center">
                                       {getSimpleFullDate(diary.date).substring(2)}
                                     </p>
+                                    <p className="today text-center">{getDayOfTheWeek(diary.date)}</p>
                                   </div>
                                   <div>
                                     <img
@@ -166,7 +166,6 @@ const DiaryList = () => {
                               </div>
                             </>
                           )}
-
                           <p className=" text-[14px] font-[500] line-clamp-2 font-['Dovemayo'] ">{diary.contents}</p>
                         </div>
                       </Link>
@@ -174,19 +173,27 @@ const DiaryList = () => {
                       <Link href={`/diary/read/${diary.id}`} key={diary.id}>
                         <div
                           key={diary.id}
-                          className="h-[88px] py-[11px] px-[14px] mb-[16px] border-[1px] rounded-lg border-black bg-[#FDF7F4]"
+                          className="h-[134px] py-[11px] px-[14px] mb-[16px] border-[1px] rounded-lg border-black bg-[#FDF7F4]"
                         >
-                          <div className="flex justify-between items-start">
-                            <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px]">
-                              {diary.title}
+                          <div className="relative flex flex-col gap-[16px]">
+                            <div className="flex flex-col gap-[4px]">
+                              <p className="self-stretch text-[16px] not-italic font-normal leading-[21.6px]">
+                                {diary.title}
+                              </p>
+                              <div className=" flex justify-center items-center gap-[3px] w-[100px] h-[30px] pt-[2px] border-[1px] rounded border-black bg-white">
+                                <p className="simple-date text-center">{getSimpleFullDate(diary.date).substring(2)}</p>
+                                <p className="today text-center">{getDayOfTheWeek(diary.date)}</p>
+                              </div>
+                            </div>
+                            <p className="mt-[8px] h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[14px] not-italic font-['Dovemayo'] font-medium leading-[21px]">
+                              {diary.contents}
                             </p>
-                            <p className="w-12 h-6 text-xs py-1 justify-center items-center inline-flex bg-white border border-black rounded-2xl text-black">
-                              {getMonthKo(diary.date)}
-                            </p>
+                            <img
+                              src={getEmoji(diary.emotion, "on")}
+                              alt={diary.emotion}
+                              className="absolute right-[8px] w-10 h-10 mt-1"
+                            />
                           </div>
-                          <p className="mt-[8px] h-[20px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[14px] not-italic font-['Dovemayo'] font-medium leading-[21px]">
-                            {diary.contents}
-                          </p>
                         </div>
                       </Link>
                     )
