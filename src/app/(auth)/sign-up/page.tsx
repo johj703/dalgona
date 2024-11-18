@@ -12,11 +12,11 @@ export default function SignUpPage() {
   const [nickname, setNickname] = useState("");
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [fieldError, setFieldError] = useState("");
+  const [fieldError, setFieldError] = useState<Record<string, string>>({});
   const router = useRouter();
 
   const validateFields = () => {
-    const errors = { email: "", password: "", confirmPassword: "", nickname: "" };
+    const errors: Record<string, string> = {};
 
     // 이메일 유효성 검사
     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -50,15 +50,11 @@ export default function SignUpPage() {
 
     // 유효성 검사
     const validationErrors = validateFields(); // 입력값 검사 실행
-    const firstErrorField = Object.keys(validationErrors).find(
-      (field) => validationErrors[field as keyof typeof validationErrors] !== ""
-    );
+    setFieldError(validateFields); // 각 필드별 오류 메세지 설정
 
-    // 첫 번째 오류 메시지 설정
-    if (firstErrorField) {
-      setErrorMessage(validationErrors[firstErrorField as keyof typeof validationErrors]);
-      setFieldError(firstErrorField); // 오류가 발생한 필드 식별
-      return; // 에러가 있으면 실행 중단
+    // 에러가 있으면 실행 중단
+    if (Object.keys(validationErrors).length > 0) {
+      return;
     }
 
     // ** 데이터가 입력이 되면 로그인이 실행되고(이 때, 테이블에 추가가 되는것으로 작성하기) 회원가입2로 이동하도록 작성
