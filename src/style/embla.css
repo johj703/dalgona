@@ -42,7 +42,8 @@
 }
 @media (min-width: 1024px) {
   .embla__controls {
-    left: 47%;
+    left: 48%;
+    bottom: 12px;
   }
 }
 .embla__dots {
