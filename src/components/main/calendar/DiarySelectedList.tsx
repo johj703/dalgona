@@ -66,7 +66,7 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
           </div>
         </div>
       ) : rangeList && rangeList.length === 1 ? (
-        <div className="my-[8px] mx-[16px] py-[20px] px-[16px] border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px] lg:m-0 lg:h-[856px] lg:mt-[45px] lg:w-[580px] lg:relative">
+        <div className="my-[8px] mx-[16px] py-[20px] px-[16px] border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px] lg:m-0 lg:h-[880px] lg:mt-[45px] lg:w-[580px] lg:relative">
           {rangeList.map((diary) => (
             <Link href={`/diary/read/${diary.id}`} key={diary.id}>
               <div key={diary.id} className="flex flex-col gap-[24px]">
@@ -125,7 +125,7 @@ const DiarySelectedList = ({ rangeList, selectedDate }: Dates) => {
           ))}
         </div>
       ) : (
-        <div className="my-[8px] mx-[16px] py-[159px]  border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px] lg:m-0 lg:p-0 lg:w-[100%] lg:h-[856px] lg:flex lg:flex-col lg:justify-center lg:mt-[45px] lg:relative">
+        <div className="my-[8px] mx-[16px] py-[159px]  border-2 rounded-2xl border-black bg-[#EFE6DE] mb-[100px] lg:m-0 lg:p-0 lg:w-[100%] lg:h-[880px] lg:flex lg:flex-col lg:justify-center lg:mt-[45px] lg:relative">
           <div className="flex flex-col justify-center items-center gap-[23px]">
             {selectedDate > today ? (
               <div>

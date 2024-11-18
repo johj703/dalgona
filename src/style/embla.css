@@ -46,6 +46,12 @@
     bottom: 12px;
   }
 }
+@media (min-width: 1024px) {
+  .embla__controls--select-calendar {
+    bottom: 40px;
+  }
+}
+
 .embla__dots {
   display: flex;
   flex-wrap: wrap;

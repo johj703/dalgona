@@ -11,8 +11,18 @@ import CalendarModal from "./CalendarModal";
 import "react-datepicker/dist/react-datepicker.css";
 import { getSimpleFullDate, getSimpleMonth, getSimpleYear } from "@/utils/calendar/dateFormat";
 import getLoginUser from "@/lib/getLoginUser";
+import EmblaCarousel from "../EmblaCarousel";
+import { EmblaOptionsType } from "embla-carousel";
 
-export default function Calendar(): JSX.Element {
+const OPTIONS: EmblaOptionsType = {};
+const SLIDES_CALENDAR = [{ img: "/images/banner-rectangle-1.svg" }, { img: "/images/banner-rectangle-2.svg" }];
+
+type propsType = {
+  isSelectCalendar: number;
+};
+
+export default function Calendar(props: propsType): JSX.Element {
+  const { isSelectCalendar } = props;
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [rangeList, setRangeList] = useState<SortedDiaries[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -141,7 +151,7 @@ export default function Calendar(): JSX.Element {
             전체기간
           </button>
         </div>
-        <div className="calendar w-[calc(100%-32px)] py-[16px]  my-[8px] mx-[16px] px-[16px] pb-[4px] border-[1px] border-black rounded-lg bg-[#EFE6DE] flex flex-col justify-center items-center gap-[2px] lg:w-[100%] lg:mx-0 lg:py-[50px] lg:px-[40px]">
+        <div className="calendar w-[calc(100%-32px)] py-[16px]  my-[8px] mx-[16px] px-[16px] pb-[4px] border-[1px] border-black rounded-lg bg-[#EFE6DE] flex flex-col justify-center items-center gap-[2px] lg:w-[100%] lg:mx-0 lg:py-[50px] lg:px-[40px] lg:border-[2px]">
           <RenderHeader currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
           <RenderDays />
           <RenderCells
@@ -150,6 +160,9 @@ export default function Calendar(): JSX.Element {
             onDateClick={onDateClick}
             filterDiaries={filterDiaries || []}
           />
+        </div>
+        <div className="hidden lg:block">
+          <EmblaCarousel slides={SLIDES_CALENDAR} options={OPTIONS} isSelectCalendar={isSelectCalendar} />
         </div>
       </div>
       <DiarySelectedList rangeList={rangeList} selectedDate={selectedDate} />
