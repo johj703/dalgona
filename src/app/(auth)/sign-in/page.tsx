@@ -54,16 +54,16 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="flex flex-col items-center pt-[68px] px-4">
+    <div className="flex flex-col items-center pt-[68px] px-4 lg:justify-center lg:h-screen">
       <div className="p-[10px]">
-        <img src="/icons/logo.svg" alt="로고" className="w-auto h-9" />
+        <img src="/icons/logo.svg" alt="로고" className="w-auto h-9 lg:h-auto" />
       </div>
 
       {/* 에러 메세지 출력 */}
       {openClose && <Modal mainText="안내" subText={errorMessage} setModalState={setOpenClose} />}
 
       {/* 로그인 폼 */}
-      <form onSubmit={handleSignIn} className="mt-5">
+      <form onSubmit={handleSignIn} className="mt-5 lg:mt-12">
         {/* 이메일 입력 */}
 
         <input
