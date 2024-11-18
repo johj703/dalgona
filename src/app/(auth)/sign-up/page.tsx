@@ -12,6 +12,7 @@ export default function SignUpPage() {
   const [nickname, setNickname] = useState("");
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [fieldError, setFieldError] = useState("");
   const router = useRouter();
 
   const validateFields = () => {
@@ -39,6 +40,7 @@ export default function SignUpPage() {
       errors.nickname = "별명은 2글자 이상이어야 합니다.";
     }
 
+    // 각 필드별 오류 메세지 반환
     return errors;
   };
 
@@ -47,13 +49,16 @@ export default function SignUpPage() {
     e.preventDefault();
 
     // 유효성 검사
-    const validationErrors = validateFields();
-    const firstError = Object.values(validationErrors).find((msg) => msg !== "");
-    setErrorMessage(validationErrors);
+    const validationErrors = validateFields(); // 입력값 검사 실행
+    const firstErrorField = Object.keys(validationErrors).find(
+      (field) => validationErrors[field as keyof typeof validationErrors] !== ""
+    );
 
-    if (firstError) {
-      // 첫 번째 에러가 있으면 실행 중단
-      return;
+    // 첫 번째 오류 메시지 설정
+    if (firstErrorField) {
+      setErrorMessage(validationErrors[firstErrorField as keyof typeof validationErrors]);
+      setFieldError(firstErrorField); // 오류가 발생한 필드 식별
+      return; // 에러가 있으면 실행 중단
     }
 
     // ** 데이터가 입력이 되면 로그인이 실행되고(이 때, 테이블에 추가가 되는것으로 작성하기) 회원가입2로 이동하도록 작성
