@@ -147,7 +147,7 @@ const WebDiaryList = () => {
                                 <h3 className="title self-stretch text-[18px] not-italic font-[400] leading-[24.3px]">
                                   {diary.title}
                                 </h3>
-                                <div className="relative h-[238px] border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden  my-[10px]">
+                                <div className="relative h-[238px] border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden my-[10px]">
                                   <img src={diary.draw} alt="그림" className="object-cover h-full w-full bg-white" />
                                   <div className="absolute bottom-[16px] right-[16px] flex justify-between items-center">
                                     <div className="flex gap-[5px]">
@@ -174,19 +174,30 @@ const WebDiaryList = () => {
                         <Link href={`/diary/read/${diary.id}`} key={diary.id}>
                           <div
                             key={diary.id}
-                            className="h-[159px] w-[450px] p-[24px] border-[1px] rounded-lg border-black bg-[#FDF7F4]"
+                            className="h-[367px] w-[450px] p-[24px] border-[1px] rounded-lg border-black bg-[#FDF7F4]"
                           >
                             <div className="flex justify-between items-start">
                               <p className="self-stretch text-[18px] not-italic font-normal leading-[21.6px]">
                                 {diary.title}
                               </p>
                             </div>
-                            <p className="mt-[8px] h-[49px] self-stretch overflow-hidden text-ellipsis whitespace-nowrap text-[16px] not-italic font-['Dovemayo'] font-medium leading-[21px]">
-                              {diary.contents}
-                            </p>
-                            <div className=" flex justify-end items-center gap-[3px] text-[#8C8C8C] h-[30px]">
-                              <p className="simple-date text-center">{getSimpleFullDate(diary.date).substring(2)}</p>
-                              <p className="today text-center">{getDayOfTheWeek(diary.date)}</p>
+                            <div className="relative h-[238px] border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden my-[10px] bg-white">
+                              <div>그림이 없습니다.</div>
+                              <div className="absolute bottom-[16px] right-[16px] flex justify-between items-center">
+                                <div className="flex gap-[5px]">
+                                  <div className=" flex justify-center items-center gap-[3px] text-[#8C8C8C] h-[30px] pt-[2px]">
+                                    <p className="simple-date text-center">
+                                      {getSimpleFullDate(diary.date).substring(2)}
+                                    </p>
+                                    <p className="today text-center">{getDayOfTheWeek(diary.date)}</p>
+                                  </div>
+                                  <img
+                                    src={getEmoji(diary.emotion, "on")}
+                                    alt={diary.emotion}
+                                    className="w-[30px] h-[30px]"
+                                  />
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </Link>
