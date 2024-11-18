@@ -14,32 +14,45 @@ export default function SignUpPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
-  // 회원가입 버튼을 클릭했을 때 호출되는 함수
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const validateFields = () => {
+    const errors = { email: "", password: "", confirmPassword: "", nickname: "" };
 
-    // 모든 입력칸이 채워졌는지 확인
-    if (email === "" || password === "" || nickname === "") {
-      setErrorMessage("모든 항목을 입력해 주세요.");
-      return;
+    // 이메일 유효성 검사
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!emailValid) {
+      errors.email = "이메일 형식이 잘못되었습니다.";
     }
 
-    // 비밀번호 유효성 검사(8자 이상, 영문과 숫자 포함)
+    // 비밀번호 유효성 검사
     const passwordValid = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/.test(password);
     if (!passwordValid) {
-      setErrorMessage("비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다.");
-      return;
+      errors.password = "비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다.";
     }
 
     // 비밀번호 확인 일치 여부 검사
     if (password !== confirmPassword) {
-      setErrorMessage("비밀번호가 일치하지 않습니다.");
-      return;
+      errors.confirmPassword = "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
     }
 
-    // 별명 유효성 검사(별명은 2자 이상이어야 함)
+    // 별명 유효성 검사
     if (nickname.length < 2) {
-      setErrorMessage("별명은 2글자 이상이어야 합니다.");
+      errors.nickname = "별명은 2글자 이상이어야 합니다.";
+    }
+
+    return errors;
+  };
+
+  // 회원가입 버튼을 클릭했을 때 호출되는 함수
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // 유효성 검사
+    const validationErrors = validateFields();
+    const firstError = Object.values(validationErrors).find((msg) => msg !== "");
+    setErrorMessage(validationErrors);
+
+    if (firstError) {
+      // 첫 번째 에러가 있으면 실행 중단
       return;
     }
 
