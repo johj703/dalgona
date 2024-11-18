@@ -49,9 +49,9 @@ const ArtworkGallery: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen bg-[#FDF7F4]">
+    <div className="flex flex-col bg-[#FDF7F4]">
       <CommonTitle title="내 그림 모아보기" />
-      <h2 className="text-2xl p-4">전체</h2>
+      <h2 className="text-2xl p-4 lg:text-center">전체</h2>
       {loading ? (
         <div className="flex items-center justify-center w-full h-48">
           <span>로딩 중...</span>
@@ -59,9 +59,12 @@ const ArtworkGallery: React.FC = () => {
       ) : error ? (
         <div className="flex items-center justify-center w-full h-48 text-red-500">{error}</div>
       ) : artworks.length > 0 ? (
-        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-4">
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 px-4 pb-24">
           {artworks.map((artwork) => (
-            <div key={artwork.id} className="border border-[#D9D9D9] aspect-square overflow-hidden">
+            <div
+              key={artwork.id}
+              className="border border-[#D9D9D9] aspect-square overflow-hidden rounded-[4px] lg:rounded-2xl"
+            >
               <Link href={`/artworkprev?id=${artwork.id}`}>
                 <img src={artwork.draw} alt={`Artwork ${artwork.id}`} className="w-full h-full object-cover bg-white" />
               </Link>

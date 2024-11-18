@@ -8,6 +8,7 @@ import DiaryReminder from "@/components/library/DiaryReminder";
 import MonthSelector from "@/components/library/MonthSelector";
 import getLoginUser from "@/lib/getLoginUser";
 import Navigation from "@/components/Navigation";
+import useGetDevice from "@/hooks/useGetDevice";
 
 const LibraryPage: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -16,6 +17,7 @@ const LibraryPage: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState<number>(currentYear);
   const [userId, setUserId] = useState<string>("");
 
+  const device = useGetDevice();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -27,7 +29,6 @@ const LibraryPage: React.FC = () => {
         if (yearParam) {
           setSelectedYear(parseInt(yearParam, 10));
         }
-
         await getUserId();
       } catch (error) {
         console.error("user ID =>", error);
@@ -71,18 +72,21 @@ const LibraryPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background02">
+    <div className="min-h-screen bg-background02 ">
       <CommonTitle title="기록의 방" />
-      <div className="p-4 flex flex-col">
+
+      <div className="p-4 flex flex-col max-w-sm m-auto lg:max-w-screen-lg">
         <YearSelector currentYear={currentYear} selectedYear={selectedYear} onYearChange={handleYearChange} />
         {userId ? (
           <DiaryReminder userId={userId} selectedYear={selectedYear} />
         ) : (
           <p>유저 정보를 불러오지 못했습니다.</p>
         )}
+        <p className="pt-1 pb-2 text-sm font-medium text-[#595959] lg:mx-[250px]">필터링 연도: {selectedYear}년</p>
         <MonthSelector year={selectedYear} />
       </div>
-      <Navigation />
+
+      {device === "mobile" && <Navigation />}
     </div>
   );
 };

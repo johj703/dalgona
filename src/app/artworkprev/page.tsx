@@ -96,30 +96,34 @@ const GalleryPage = () => {
         <span>로딩 중...</span>
       ) : mainEntry ? (
         <>
-          <div className="relative artworkprev-content-height flex flex-grow items-center justify-center bg-white border border-[#D9D9D9]">
+          <div className="relative artworkprev-content-height flex flex-grow items-center justify-center bg-white border border-[#D9D9D9] lg:max-w-4lg lg:mx-auto lg:bg-background02">
             {mainEntry.draw ? (
-              <img src={mainEntry.draw} alt={`Artwork ${mainEntry.id}`} className="object-contain max-h-full" />
+              <img
+                src={mainEntry.draw}
+                alt={`Artwork ${mainEntry.id}`}
+                className="object-contain max-h-full lg:bg-white"
+              />
             ) : (
               <span>이미지 없음</span>
             )}
 
             <button
               onClick={handleGoToDetail}
-              className="absolute right-3 bottom-4 bg-background02 border border-gray02 text-black px-4 py-2 rounded-full"
+              className="absolute right-3 bottom-4 bg-background02 border border-gray02 text-black px-4 py-2 rounded-full lg:rounded-2xl lg:right-4 lg:bottom-6"
             >
               일기 상세 보기
             </button>
           </div>
 
-          <div className="py-4 h-[135px]">
-            <div ref={imageListRef} className="flex overflow-x-auto space-x-2 px-4" style={{ padding: "0px 50%" }}>
+          <div className="py-4 h-[115px] lg:h-auto lg:border lg:border-gray03 lg:bg-background01">
+            <div ref={imageListRef} className="flex overflow-x-auto space-x-2 px-4 " style={{ padding: "0px 50%" }}>
               {diaryEntries.map((entry) => (
-                <div key={entry.id} className="flex-shrink-0 w-12 h-12">
+                <div key={entry.id} className="flex-shrink-0 w-12 h-12 lg:w-[68px] lg:h-[68px]">
                   <img
                     id={`image-${entry.id}`}
                     src={entry.draw}
                     alt={`Artwork ${entry.id}`}
-                    className={`w-full h-full object-cover cursor-pointer bg-white border border-[#D9D9D9] ${
+                    className={`w-full h-full object-cover cursor-pointer bg-white border border-gray02 lg:rounded lg:border-gray04  ${
                       entry.id === mainEntry?.id ? "border-2 border-[#D84E35]" : ""
                     }`}
                     onClick={() => handleSwipeSelect(entry)}

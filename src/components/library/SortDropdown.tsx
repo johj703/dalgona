@@ -33,21 +33,19 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortChange }
   };
 
   return (
-    <div className="relative mt-[10px] flex justify-end" ref={dropdownRef}>
-      <button onClick={toggleDropdown} className="pt-[10px] flex items-center gap-2 justify-end">
-        <span>{currentSort === "newest" ? "최신순" : "오래된순"}</span>
+    <div className="relative mt-[10px] flex justify-end lg:mb-1" ref={dropdownRef}>
+      <button onClick={toggleDropdown} className="pt-[10px] flex items-center justify-end">
+        <span className="text-sm">{currentSort === "newest" ? "최신순" : "오래된순"}</span>
         <img src={isOpen ? "/icons/arrow-up(B).svg" : "/icons/arrow-down.svg"} alt="arrow-icon" className="ml-2" />
       </button>
 
       {isOpen && (
-        <ul className="absolute z-10 right-0 top-full mt-[10px] overflow-y-auto bg-white border border-[#BFBFBF] rounded-lg">
+        <ul className="absolute z-10 right-0 top-full mt-[10px] overflow-y-auto bg-white border border-gray03 rounded-lg">
           {["newest", "oldest"].map((sortType, index) => (
             <li
               key={sortType}
               onClick={() => handleSortChange(sortType as "newest" | "oldest")}
-              className={`cursor-pointer px-4 py-2 text-sm text-black ${
-                index === 0 ? "border-b border-[#BFBFBF]" : ""
-              } hover:bg-gray-100`}
+              className={`cursor-pointer px-4 py-2 text-sm text-black ${index === 0 ? "border-b border-gray03" : ""} `}
             >
               {sortType === "newest" ? "최신순" : "오래된순"}
             </li>

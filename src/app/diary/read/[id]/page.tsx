@@ -5,6 +5,7 @@ import DetailComponent from "@/components/diary/DetailComponent";
 import Modal from "@/components/Modal";
 import Navigation from "@/components/Navigation";
 import TopButton from "@/components/TopButton";
+import useGetDevice from "@/hooks/useGetDevice";
 import { FormData } from "@/types/Canvas";
 import { fetchData } from "@/utils/diary/fetchData";
 import browserClient from "@/utils/supabase/client";
@@ -15,6 +16,7 @@ const Read = ({ params }: { params: { id: string } }) => {
   const [postData, setPostData] = useState<FormData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [openClose, setOpenClose] = useState<boolean>(false);
+  const device = useGetDevice();
   const router = useRouter();
   const getData = async () => {
     const DiaryData = await fetchData(params.id);
@@ -28,8 +30,6 @@ const Read = ({ params }: { params: { id: string } }) => {
 
   const onClickDelete = async () => {
     await browserClient.from("diary").delete().eq("id", params.id);
-    const { error } = await browserClient.storage.from("posts").remove(["drawing/" + params.id]);
-    if (error) console.error(error);
 
     router.replace("/main");
   };
@@ -41,7 +41,7 @@ const Read = ({ params }: { params: { id: string } }) => {
           <CommonTitle title={"일기장"} post_id={params.id} setOpenClose={setOpenClose} />
           {postData ? (
             <>
-              <DetailComponent postData={postData} />
+              <DetailComponent postData={postData} setOpenClose={setOpenClose} />
 
               {/* 삭제 확인 모달 */}
               {openClose && (
@@ -59,8 +59,13 @@ const Read = ({ params }: { params: { id: string } }) => {
               게시글을 불러오지 못 했습니다.
             </div>
           )}
-          <TopButton />
-          <Navigation />
+
+          {device === "mobile" && (
+            <>
+              <TopButton />
+              <Navigation />
+            </>
+          )}
         </div>
       )}
     </>
