@@ -19,7 +19,6 @@ const SLIDES = [
 const SelectFeedCalendar = () => {
   // 현재 선택된 탭 상태관리
   const [isSelectTap, setIsSelectTap] = useState(0);
-  console.log("🚀 ~ SelectFeedCalendar ~ isSelectTap:", isSelectTap);
   return (
     <div className="lg:w-[992px]">
       <TabGroup onChange={(idx) => setIsSelectTap(idx)}>
