@@ -1,3 +1,4 @@
+"use client";
 import { useGetUserData } from "@/queries/useGetUserData";
 import { useLogoutMutation } from "@/queries/useLogoutMutation";
 import Image from "next/image";
