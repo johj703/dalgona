@@ -2,15 +2,24 @@ import { booleanState, FormData } from "@/types/Canvas";
 import { GraphPaper } from "./GraphPaper";
 import { getEmoji } from "@/utils/diary/getEmoji";
 import { ChangeDateForm } from "./ChangeDateForm";
-import useGetDevice from "@/hooks/useGetDevice";
 import EditButton from "./EditButton";
 
-const DetailComponent = ({ postData, setOpenClose }: { postData: FormData; setOpenClose: booleanState }) => {
-  const device = useGetDevice();
-
+const DetailComponent = ({
+  postData,
+  setOpenClose,
+  device
+}: {
+  postData: FormData;
+  setOpenClose: booleanState;
+  device: string;
+}) => {
   return (
-    <div className="mt-[35px] px-[13px] pb-[52px] lg:flex lg:px-4 lg:pb-[34px] lg:mt-8 gap-[18px]">
-      <div className="lg:w-1/2">
+    <div
+      className={`px-[13px] pb-[52px] lg:flex lg:px-4 lg:pb-[34px] gap-[18px] ${
+        !postData.draw && "lg:flex-col lg:w-[488px] lg:mx-auto lg:px-0"
+      }`}
+    >
+      <div className={`${!postData.draw ? "lg:w-full" : "lg:w-1/2"}`}>
         <div className="flex items-center justify-center gap-6">
           {postData.date && (
             <div className="flex flex-col items-center justify-center gap-2 w-[136px] h-[130px]">
@@ -39,7 +48,7 @@ const DetailComponent = ({ postData, setOpenClose }: { postData: FormData; setOp
       </div>
 
       {postData.contents && (
-        <div className="lg:w-1/2">
+        <div className={`${!postData.draw ? "lg:w-full" : "lg:w-1/2"}`}>
           {postData.type === "모눈종이" ? (
             <div className="flex flex-wrap font-Dovemayo text-[30px] lg:text-2xl mt-4 mb-[26px] lg:my-0">
               {GraphPaper(postData.contents)}

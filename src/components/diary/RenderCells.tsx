@@ -10,6 +10,7 @@ export const RenderCells = ({ currentDate, selectedDate, onDateClick }: CellsPro
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
   const startDate = startOfWeek(firstDayOfMonth);
   const endDate = endOfWeek(lastDayOfMonth);
+  const today = currentDate.getDate();
 
   const [userId, setUserId] = useState<string>("");
 
@@ -47,7 +48,9 @@ export const RenderCells = ({ currentDate, selectedDate, onDateClick }: CellsPro
           onClick={() => onDateClick(cloneDay, userId)}
         >
           <span
-            className={`relative text-sm leading-normal content-none before:content-none group-[.selected]:before:content-[''] before:w-[30px] before:h-[2px] before:bg-primary before:absolute before:left-1/2 before:bottom-0 before:-translate-x-1/2 ${
+            className={`relative flex items-center justify-center w-full h-full rounded-full text-sm leading-normal ${
+              String(today) === formattedDate && "bg-white "
+            } group-[.selected]:bg-utility03 group-[.selected]:text-white  ${
               format(currentDate, "M") !== format(day, "M") ? "text not-valid text-[#A6A6A6]" : ""
             }`}
           >
