@@ -1,31 +1,18 @@
 "use client";
-
-import getLoginUser from "@/lib/getLoginUser";
-import { getUserData } from "@/lib/mypage/getUserData";
-import { UserData } from "@/types/mypage/UserData";
-import browserClient from "@/utils/supabase/client";
+import { useGetUserData } from "@/queries/useGetUserData";
+import { useLogoutMutation } from "@/queries/useLogoutMutation";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
-const HeaderUserBtn = () => {
-  const [userData, setUserData] = useState<UserData>();
+const HeaderProfile = ({ userId }: { userId: string }) => {
+  const { data: userData, isLoading } = useGetUserData(userId);
+  const { mutate: logout } = useLogoutMutation();
   const router = useRouter();
 
-  const getData = async () => {
-    const loginUser = await getLoginUser();
-    const UserData = await getUserData(loginUser!.id);
-
-    setUserData(UserData);
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
+  if (isLoading) return <></>;
   return (
-    <div className="absolute top-1/2 -translate-y-1/2 right-4 flex gap-[25px] items-center">
+    <>
       <Link href="/mypage" className="flex items-center gap-[10px]">
         <span className="flex items-center justify-center w-[33px] h-[33px] rounded-full overflow-hidden">
           <Image
@@ -42,16 +29,15 @@ const HeaderUserBtn = () => {
       <button
         className="w-[98px] h-[42px] text-lg leading-tight text-primary bg-white border-primary border rounded-lg outline-none"
         onClick={async () => {
-          await browserClient.auth.signOut();
+          logout();
 
           //  로그아웃 완료 알림 후 sign-in 페이지로 이동
-          alert("로그아웃이 완료 되었습니다.");
           router.push("/sign-in");
         }}
       >
         로그아웃
       </button>
-    </div>
+    </>
   );
 };
-export default HeaderUserBtn;
+export default HeaderProfile;

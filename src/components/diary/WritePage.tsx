@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import getLoginUser from "@/lib/getLoginUser";
 import browserClient from "@/utils/supabase/client";
 import TopButton from "@/components/TopButton";
+import useGetDevice from "@/hooks/useGetDevice";
 
 const WritePage = () => {
   const POST_ID = crypto.randomUUID();
@@ -22,6 +23,7 @@ const WritePage = () => {
   };
 
   const today = format(new Date(), "yyyy년 MM월 dd일");
+  const device = useGetDevice();
   // const router = useRouter();
 
   const getUserId = async () => {
@@ -47,7 +49,7 @@ const WritePage = () => {
 
   return (
     <>
-      <TopButton />
+      {device === "mobile" && <TopButton />}
       <Form POST_ID={POST_ID} initialData={initialData} />
     </>
   );

@@ -12,12 +12,12 @@ const Pallete = ({ lineCustom, setLineCustom, handleChangeCustom }: PalleteProps
   const isCustom = initialColorList.find((item) => item === lineCustom.lineColor) === undefined && true;
 
   return (
-    <div className="absolute bottom-full flex items-center gap-4 w-full pt-4 pb-3 rounded-tl-lg rounded-tr-lg overflow-x-auto scrollbar-hide bg-[#404040]">
+    <div className="absolute bottom-full flex items-center gap-4 w-full pt-4 pb-3 rounded-tl-lg rounded-tr-lg overflow-x-auto scrollbar-hide bg-[#404040] lg:-top-[88px] lg:bottom-auto lg:left-full lg:w-[calc(100dvh-74px)] lg:h-[88px] lg:px-8 lg:py-0 lg:rotate-90 lg:rounded-none lg:origin-bottom-left">
       {initialColorList.map((color) => {
         return (
           <div
             key={color}
-            className={`relative flex-shrink-0 w-10 h-10 rounded-full first:ml-auto ${
+            className={`relative flex-shrink-0 w-10 h-10 rounded-full lg:-rotate-90 first:ml-auto first:lg:ml-0 ${
               lineCustom.lineColor === color && "flex items-center justify-center w-11 h-11 border-white border-[3px]"
             }`}
             style={{ background: color }}
@@ -29,7 +29,7 @@ const Pallete = ({ lineCustom, setLineCustom, handleChangeCustom }: PalleteProps
       })}
 
       <div
-        className={`relative flex-shrink-0 rounded-full overflow-hidden mr-auto ${
+        className={`relative flex-shrink-0 rounded-full overflow-hidden mr-auto lg:-rotate-90 lg:mr-0 ${
           isCustom ? "w-11 h-11 border-white border-[3px]" : "w-10 h-10"
         }`}
       >

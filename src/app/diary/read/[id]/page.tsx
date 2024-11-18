@@ -1,74 +1,32 @@
 "use client";
 
 import CommonTitle from "@/components/CommonTitle";
-import DetailComponent from "@/components/diary/DetailComponent";
-import Modal from "@/components/Modal";
+import ReadContainer from "@/components/diary/ReadContainer";
 import Navigation from "@/components/Navigation";
 import TopButton from "@/components/TopButton";
 import useGetDevice from "@/hooks/useGetDevice";
-import { FormData } from "@/types/Canvas";
-import { fetchData } from "@/utils/diary/fetchData";
-import browserClient from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 
 const Read = ({ params }: { params: { id: string } }) => {
-  const [postData, setPostData] = useState<FormData | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [openClose, setOpenClose] = useState<boolean>(false);
   const device = useGetDevice();
-  const router = useRouter();
-  const getData = async () => {
-    const DiaryData = await fetchData(params.id);
-    setPostData(DiaryData);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const onClickDelete = async () => {
-    await browserClient.from("diary").delete().eq("id", params.id);
-
-    router.replace("/main");
-  };
 
   return (
-    <>
-      {!isLoading && (
-        <div className="flex flex-col min-h-dvh">
-          <CommonTitle title={"일기장"} post_id={params.id} setOpenClose={setOpenClose} />
-          {postData ? (
-            <>
-              <DetailComponent postData={postData} setOpenClose={setOpenClose} />
+    <div className="flex flex-col min-h-dvh">
+      <CommonTitle title={"일기장"} post_id={params.id} setOpenClose={setOpenClose} />
 
-              {/* 삭제 확인 모달 */}
-              {openClose && (
-                <Modal
-                  mainText="이 날의 일기를 삭제 하시겠습니까??"
-                  subText="초기화 후에는 복구할 수 없습니다."
-                  setModalState={setOpenClose}
-                  isConfirm={true}
-                  confirmAction={onClickDelete}
-                />
-              )}
-            </>
-          ) : (
-            <div className="flex-1 flex items-center justify-center text-center pt-2 pb-[60px] px-4 text-lg leading-[1.35] text-gray04">
-              게시글을 불러오지 못 했습니다.
-            </div>
-          )}
+      <div className="mt-[34px] lg:mt-8">
+        <ReadContainer diaryId={params.id} openClose={openClose} setOpenClose={setOpenClose} />
+      </div>
 
-          {device === "mobile" && (
-            <>
-              <TopButton />
-              <Navigation />
-            </>
-          )}
-        </div>
+      {device === "mobile" && (
+        <>
+          <TopButton />
+          <Navigation />
+        </>
       )}
-    </>
+    </div>
   );
 };
 export default Read;
