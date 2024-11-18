@@ -9,7 +9,7 @@ const HeaderProfile = ({ userId }: { userId: string }) => {
   const { mutate: logout } = useLogoutMutation();
   const router = useRouter();
 
-  if (isLoading) return;
+  if (isLoading) return <></>;
   return (
     <>
       <Link href="/mypage" className="flex items-center gap-[10px]">

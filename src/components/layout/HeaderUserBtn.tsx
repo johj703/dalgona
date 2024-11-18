@@ -1,5 +1,3 @@
-"use client";
-
 import { useCheckLogin } from "@/queries/useCheckLogin";
 import Link from "next/link";
 import HeaderProfile from "./HeaderProfile";
@@ -8,7 +6,10 @@ const HeaderUserBtn = () => {
   const { data: loginData, isLoading, isError } = useCheckLogin();
 
   if (isLoading) return;
-  if (isError) return console.error("로그인 정보를 불러오는데 실패했습니다.");
+  if (isError) {
+    console.error("로그인 정보를 불러오는데 실패했습니다.");
+    return;
+  }
 
   return (
     <div className="absolute top-1/2 -translate-y-1/2 right-4 flex gap-6 items-center">

@@ -1,7 +1,7 @@
 import Link from "next/link";
-import HeaderUserBtn from "./HeaderUserBtn";
 import Image from "next/image";
 import HeaderNav from "./HeaderNav";
+import HeaderUserBtn from "./HeaderUserBtn";
 
 const Header = () => {
   return (
