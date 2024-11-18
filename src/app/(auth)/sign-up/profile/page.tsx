@@ -8,6 +8,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import supabase from "@/utils/supabase/client";
 import CommonTitle from "@/components/CommonTitle";
+import Header from "@/components/layout/Header";
+import useGetDevice from "@/hooks/useGetDevice";
 
 // 입력 유효성 검사를 위해서 Zod 스키마 정의
 const profileSchema = z.object({
@@ -50,6 +52,7 @@ export default function SaveUserProfilePage() {
   const [selectedBloodType, setSelectedBloodType] = useState<"A" | "B" | "O" | "AB" | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
+  const device = useGetDevice();
   console.log(errorMessage);
 
   // 로그인한 사용자 이메일 가져오기
@@ -177,9 +180,9 @@ export default function SaveUserProfilePage() {
 
   return (
     <div className="flex flex-col min-h-dvh max-w-sm mx-auto bg-background02 lg:max-w-screen-lg">
-      <CommonTitle title="회원가입" />
-
-      <h2 className="hidden lg:block text-xl font-normal mb-6 text-gray-800 text-center">회원가입</h2>
+      {device === "mobile" && <CommonTitle title="회원가입" />}
+      {device === "pc" && <Header />}
+      <h2 className="hidden lg:block text-xl font-normal mb-6 text-gray-800 text-center lg:mt-[52px]">회원가입</h2>
 
       <div className="flex-1 flex flex-col px-4 pt-[18px] pb-[10px]">
         {/* 페이지 안내 텍스트 */}

@@ -1,6 +1,8 @@
 "use client";
 
 import CommonTitle from "@/components/CommonTitle";
+import Header from "@/components/layout/Header";
+import useGetDevice from "@/hooks/useGetDevice";
 import browserClient from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -13,6 +15,7 @@ export default function SignUpPage() {
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
+  const device = useGetDevice();
 
   // 회원가입 버튼을 클릭했을 때 호출되는 함수
   const handleSignUp = async (e: React.FormEvent) => {
@@ -84,7 +87,8 @@ export default function SignUpPage() {
 
   return (
     <div className="flex flex-col min-h-screen max-w-sm mx-auto bg-background02 lg:max-w-screen-lg">
-      <CommonTitle title="회원가입" />
+      {device === "mobile" && <CommonTitle title="내 그림 모아보기" />}
+      {device === "pc" && <Header />}
 
       {/* 에러 메세지 출력 */}
       {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
