@@ -6,6 +6,8 @@ import { Diary } from "@/types/library/Diary";
 import Link from "next/link";
 import getLoginUser from "@/lib/getLoginUser";
 import CommonTitle from "@/components/CommonTitle";
+import Header from "@/components/layout/Header";
+import useGetDevice from "@/hooks/useGetDevice";
 
 // Params 타입
 interface Params {
@@ -14,6 +16,7 @@ interface Params {
 
 const MonthlyGallery = ({ params }: { params: Params }) => {
   const { month } = params;
+  const device = useGetDevice();
   const [artworks, setArtworks] = useState<Diary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -60,7 +63,7 @@ const MonthlyGallery = ({ params }: { params: Params }) => {
 
   return (
     <div className="flex flex-col bg-[#FDF7F4]">
-      <CommonTitle title="내 그림 모아보기" />
+      {device === "pc" ? <Header /> : <CommonTitle title={"내 그림 모아보기"} />}
       <h2 className="text-2xl p-4 lg:text-center">{month}월</h2>
       {loading ? (
         <div className="text-center">로딩 중...</div>

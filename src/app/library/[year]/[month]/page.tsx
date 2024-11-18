@@ -7,6 +7,7 @@ import getLoginUser from "@/lib/getLoginUser";
 import CommonTitle from "@/components/CommonTitle";
 import Navigation from "@/components/Navigation";
 import useGetDevice from "@/hooks/useGetDevice";
+import Header from "@/components/layout/Header";
 
 const MonthDiaryPage: React.FC = () => {
   const { year, month } = useParams();
@@ -52,7 +53,7 @@ const MonthDiaryPage: React.FC = () => {
 
   return (
     <div className="bg-background02 ">
-      <CommonTitle title={`${month}월`} />
+      {device === "pc" ? <Header /> : <CommonTitle title={`${month}월`} />}
       <div className="flex flex-col bg-[#FDF7F4] max-w-sm m-auto lg:max-w-screen-lg">
         <DiaryContent userId={userId} year={Number(year)} month={Number(month)} />
         {device === "mobile" && <Navigation />}

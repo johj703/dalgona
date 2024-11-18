@@ -9,6 +9,7 @@ import MonthSelector from "@/components/library/MonthSelector";
 import getLoginUser from "@/lib/getLoginUser";
 import Navigation from "@/components/Navigation";
 import useGetDevice from "@/hooks/useGetDevice";
+import Header from "@/components/layout/Header";
 
 const LibraryPage: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -73,7 +74,7 @@ const LibraryPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background02 ">
-      <CommonTitle title="기록의 방" />
+      {device === "pc" ? <Header /> : <CommonTitle title={"기록의 방"} />}
 
       <div className="p-4 flex flex-col max-w-sm m-auto lg:max-w-screen-lg">
         <YearSelector currentYear={currentYear} selectedYear={selectedYear} onYearChange={handleYearChange} />
