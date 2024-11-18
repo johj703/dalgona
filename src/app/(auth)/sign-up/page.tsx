@@ -11,7 +11,6 @@ export default function SignUpPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [name, setName] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [fieldError, setFieldError] = useState<Record<string, string>>({});
   const router = useRouter();
 
@@ -76,7 +75,10 @@ export default function SignUpPage() {
 
         // 데이터 베이스 삽입 중 오류가 발생한 경우 오류 메시지 설정 후 종료
         if (dbError) {
-          setErrorMessage("회원 데이터 추가 중 오류가 발생했습니다.");
+          setFieldError((prevState) => ({
+            ...prevState, // 이전 상태 복사
+            general: "회원 데이터 추가 중 오류가 발생했습니다." // 일반 오류 메시지 추가
+          }));
           return;
         }
 
@@ -86,22 +88,23 @@ export default function SignUpPage() {
       }
 
       if (error) {
-        setErrorMessage(error.message);
-      } else {
-        console.log("회원가입 성공: ", data);
+        setFieldError((prevState) => ({
+          ...prevState,
+          general: error.message // Supabase 오류 메시지 설정
+        }));
       }
     } catch (error) {
       console.log("회원가입 중 오류 발생", error);
-      setErrorMessage("회원가입 중 오류가 발생했습니다.");
+      setFieldError((prevState) => ({
+        ...prevState,
+        general: "회원가입 중 오류가 발생했습니다." // 회원가입 오류 메시지 설정
+      }));
     }
   };
 
   return (
     <div className="flex flex-col min-h-screen max-w-sm mx-auto bg-background02 lg:max-w-screen-lg">
       <CommonTitle title="회원가입" />
-
-      {/* 에러 메세지 출력 */}
-      {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
 
       {/* 회원가입 폼 */}
       <form
@@ -125,6 +128,7 @@ export default function SignUpPage() {
             placeholder="이메일을 입력하세요"
           />
           <p className="mt-1 text-sm leading-normal text-gray04">사용하실 이메일 주소를 입력하세요.</p>
+          {fieldError.email && <p className="text-red-500">{fieldError.email}</p>}
         </div>
 
         {/* 비밀번호 입력 */}
@@ -144,6 +148,7 @@ export default function SignUpPage() {
           <p className="mt-1 text-sm leading-normal text-gray04">
             안전한 비밀번호를 입력해주세요(8자 이상, 영문, 숫자 포함)
           </p>
+          {fieldError.password && <p className="text-red-500">{fieldError.password}</p>}
         </div>
 
         {/* 비밀번호 확인 입력 */}
@@ -160,6 +165,12 @@ export default function SignUpPage() {
             className="input-style"
           />
           <p className="mt-1 text-sm leading-normal text-gray04">위와 동일한 비밀번호를 입력해주세요</p>
+          {confirmPassword && (
+            <p className={`mt-2 text-sm ${password === confirmPassword ? "text-green-500" : "text-red-500"}`}>
+              {password === confirmPassword ? "비밀번호가 일치합니다." : "비밀번호가 일치하지 않습니다."}
+            </p>
+          )}
+          {fieldError.confirmPassword && <p className="text-red-500">{fieldError.confirmPassword}</p>}
         </div>
 
         {/* 이름 입력 */}
@@ -194,6 +205,7 @@ export default function SignUpPage() {
             placeholder="별명을 입력하세요"
           />
           <p className="mt-1 text-sm leading-normal text-gray04">2글자 이상의 별명을 입력해 주세요.</p>
+          {fieldError.nickname && <p className="text-red-500">{fieldError.nickname}</p>}
         </div>
 
         {/* "다음으로" 버튼 */}
