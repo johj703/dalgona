@@ -13,7 +13,8 @@ const MemoriesBox = ({ params }: { params: { id: string } }) => {
 
   return (
     <>
-      {device === "pc" ? <Header /> : <CommonTitle title={"추억 보관함"} />}
+      {device === "mobile" && <CommonTitle title="추억 보관함" post_id={params.id} setOpenClose={setOpenClose} />}
+      {device === "pc" && <Header />}
 
       <div>
         <div className="border border-black rounded-lg p-4 mx-4 my-4 bg-white lg:mb-6">
