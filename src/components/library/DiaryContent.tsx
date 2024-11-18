@@ -3,6 +3,7 @@ import { Diary, DiaryContentProps } from "@/types/library/Diary";
 import { getEmoji } from "@/utils/diary/getEmoji";
 import browserClient from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import { getDayOfTheWeek } from "@/utils/calendar/dateFormat";
 
 const parseDate = (dateStr: string): Date | null => {
   const regex = /(\d{4})년 (\d{1,2})월 (\d{1,2})일/;
@@ -70,47 +71,63 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
         </div>
       )}
       {diaries.length > 0 ? (
-        <div className="space-y-4 border rounded-lg p-4 mb-12 bg-[#EFE6DE] lg:border-black lg:px-[85px] lg:border-2">
+        <div className="space-y-4 border-2 rounded-2xl p-4 mb-12 bg-[#EFE6DE] border-black lg:px-[85px]">
           {diaries.map((diary: Diary) => {
             const diaryDate = parseDate(diary.date);
             const formattedDate = diaryDate
-              ? diaryDate.toLocaleDateString("ko-KR", { day: "numeric" })
+              ? `${diaryDate.getDate()} ${getDayOfTheWeek(diary.date)}`
               : "날짜 정보 없음";
 
             return (
               <div
                 key={diary.id}
-                className="border relative rounded-lg bg-[#FDF7F4] border-black p-4 cursor-pointer lg:border-2"
+                className="border relative rounded-2xl bg-[#FDF7F4] border-black px-4 cursor-pointer lg:border-2"
                 onClick={() => handleDiaryClick(diary.id)}
               >
                 {diary.draw ? (
-                  <div className="relative h-48 border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden bg-white lg:mt-12 lg:h-96 lg:border-2">
-                    <img src={diary.draw} alt="그림" className="object-cover h-full w-full" />
-                    <div className="absolute top-2 right-2 flex flex-col items-center">
-                      {diary.emotion && (
-                        <img src={getEmoji(diary.emotion, "on")} alt={diary.emotion} className="w-10 h-10" />
-                      )}
-                      <span className="mt-1 w-12 h-6 text-xs py-1 justify-center items-center inline-flex bg-white border border-black rounded-2xl text-black">
+                  <div>
+                    <h3 className="text-base font-Dovemayo_gothic font-semibold lg:text-2xl mt-[19px]">
+                      {diary.title}
+                    </h3>
+                    <div className="relative mt-4 mb-2">
+                      <div className="relative h-[238px] border border-black flex items-center justify-center rounded-lg overflow-hidden bg-white lg:h-96 lg:border-2">
+                        <img src={diary.draw} alt="그림" className="object-cover h-full w-full" />
+                      </div>
+
+                      <span className="absolute top-2 left-2 text-xs py-2 px-2 bg-white border border-black rounded-md text-black lg:border-2">
                         {formattedDate}
                       </span>
+
+                      {diary.emotion && (
+                        <div className="absolute top-2 right-2 flex items-center">
+                          <img src={getEmoji(diary.emotion, "on")} alt={diary.emotion} className="w-10 h-10" />
+                        </div>
+                      )}
                     </div>
+
+                    <p className="text-black line-clamp-2 mt-2 mb-5 font-Dovemayo lg:line-clamp-4">{diary.contents}</p>
                   </div>
                 ) : (
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-bold text-lg">{diary.title}</h3>
-                    <span className="w-12 h-6 text-xs py-1 justify-center items-center inline-flex bg-white border border-black rounded-2xl text-black">
+                  <div className="relative">
+                    <h3 className="text-base font-Dovemayo_gothic mt-2 py-1 font-semibold lg:text-2xl mb-2">
+                      {diary.title}
+                    </h3>
+
+                    <span className="text-xs pl-2 px-[6px] py-2 bg-white border border-black rounded-md text-black lg:mt-4 lg:border-2">
                       {formattedDate}
                     </span>
+
+                    <p className="text-black line-clamp-2 mt-4 mb-[13px] font-Dovemayo lg:line-clamp-4">
+                      {diary.contents}
+                    </p>
+
+                    {diary.emotion && (
+                      <div className="absolute top-1 right-0">
+                        <img src={getEmoji(diary.emotion, "on")} alt={diary.emotion} className="w-10 h-10" />
+                      </div>
+                    )}
                   </div>
                 )}
-
-                {diary.draw && (
-                  <h3 className="lg:absolute lg:top-6 lg:left-2 lg:px-2 lg:py-1 lg:rounded-lg font-medium lg:text-2xl">
-                    {diary.title}
-                  </h3>
-                )}
-
-                <p className="text-black line-clamp-2 mt-[10px] font-Dovemayo lg:line-clamp-4">{diary.contents}</p>
               </div>
             );
           })}

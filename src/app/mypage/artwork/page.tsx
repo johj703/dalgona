@@ -8,6 +8,7 @@ import getLoginUser from "@/lib/getLoginUser";
 import Navigation from "@/components/Navigation";
 import CommonTitle from "@/components/CommonTitle";
 import useGetDevice from "@/hooks/useGetDevice";
+import Header from "@/components/layout/Header";
 
 const ArtworkPage: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -30,8 +31,8 @@ const ArtworkPage: React.FC = () => {
 
   return (
     <div className="lg:max-w-screen-lg m-auto">
-      <CommonTitle title="내 그림 모아보기" />
-      <div className="lg:flex justify-center items-center lg:ml-[23px] lg:mt-[50px]">
+      {device === "pc" ? <Header /> : <CommonTitle title={"내 그림 모아보기"} />}
+      <div className="lg:flex items-center lg:ml-[16px]">
         <MyArtwork userId={userId} />
         <div className="lg:w-1/2 overflow-hidden">
           <MonthlyArtwork userId={userId} />

@@ -5,6 +5,7 @@ import ReadContainer from "@/components/diary/ReadContainer";
 import Navigation from "@/components/Navigation";
 import useGetDevice from "@/hooks/useGetDevice";
 import { useState } from "react";
+import Header from "@/components/layout/Header";
 
 const MemoriesBox = ({ params }: { params: { id: string } }) => {
   const [openClose, setOpenClose] = useState<boolean>(false);
@@ -12,7 +13,8 @@ const MemoriesBox = ({ params }: { params: { id: string } }) => {
 
   return (
     <>
-      <CommonTitle title="추억 보관함" post_id={params.id} setOpenClose={setOpenClose} />
+      {device === "mobile" && <CommonTitle title="추억 보관함" post_id={params.id} setOpenClose={setOpenClose} />}
+      {device === "pc" && <Header />}
 
       <div>
         <div className="border border-black rounded-lg p-4 mx-4 my-4 bg-white lg:mb-6">
