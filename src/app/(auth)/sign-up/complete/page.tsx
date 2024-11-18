@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Complete = () => {
   return (
-    <div className="flex flex-col min-h-dvh">
+    <div className="flex flex-col min-h-dvh lg:max-w-screen-lg">
       <CommonTitle title="회원가입" />
 
       <div className="flex-1 flex flex-col gap-[10px] items-center justify-center text-center">
