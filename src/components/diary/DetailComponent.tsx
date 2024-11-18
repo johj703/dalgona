@@ -2,15 +2,20 @@ import { booleanState, FormData } from "@/types/Canvas";
 import { GraphPaper } from "./GraphPaper";
 import { getEmoji } from "@/utils/diary/getEmoji";
 import { ChangeDateForm } from "./ChangeDateForm";
-import useGetDevice from "@/hooks/useGetDevice";
 import EditButton from "./EditButton";
 
-const DetailComponent = ({ postData, setOpenClose }: { postData: FormData; setOpenClose: booleanState }) => {
-  const device = useGetDevice();
-
+const DetailComponent = ({
+  postData,
+  setOpenClose,
+  device
+}: {
+  postData: FormData;
+  setOpenClose: booleanState;
+  device: string;
+}) => {
   return (
     <div
-      className={`mt-[35px] px-[13px] pb-[52px] lg:flex lg:px-4 lg:pb-[34px] lg:mt-8 gap-[18px] ${
+      className={`px-[13px] pb-[52px] lg:flex lg:px-4 lg:pb-[34px] gap-[18px] ${
         !postData.draw && "lg:flex-col lg:w-[488px] lg:mx-auto lg:px-0"
       }`}
     >

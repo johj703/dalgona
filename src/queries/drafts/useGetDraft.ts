@@ -1,12 +1,12 @@
-import { getDiaryById } from "@/lib/diary/diaryData";
+import { getDraftById } from "@/lib/drafts/draftsUtils";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetDiaryDetail = (diaryId: string) => {
+export const useGetDraft = (diaryId: string) => {
   return useQuery({
-    queryKey: ["diaryDetail"],
+    queryKey: ["draft"],
     queryFn: async () => {
       if (diaryId) {
-        return await getDiaryById(diaryId);
+        return await getDraftById(diaryId);
       } else {
         return null;
       }

@@ -1,4 +1,4 @@
-import browserClient from "../supabase/client";
+import browserClient from "../../utils/supabase/client";
 
 export const getDiaryById = async (diaryId: string) => {
   const { data, error } = await browserClient.from("diary").select("*").eq("id", diaryId);

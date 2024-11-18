@@ -1,12 +1,12 @@
-import { deleteDiaryById } from "@/lib/diary/diaryData";
+import { deleteDraftsById } from "@/lib/drafts/draftsUtils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useDeleteDiaryMutation = () => {
+export const useDeleteDraftMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: deleteDiaryById,
+    mutationFn: deleteDraftsById,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["diaries"] });
+      queryClient.invalidateQueries({ queryKey: ["drafts"] });
     },
     onError: (error) => {
       console.error("삭제 중 오류 발생:", error);

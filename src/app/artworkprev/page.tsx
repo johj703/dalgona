@@ -65,12 +65,10 @@ const GalleryPage = () => {
       const selectedImageElement = document.getElementById(`image-${mainEntry.id}`);
 
       if (selectedImageElement) {
-        const containerWidth = container.offsetWidth;
         const imageWidth = selectedImageElement.offsetWidth;
-        const imageOffsetLeft = selectedImageElement.offsetLeft;
-        const iamgeIndex = Number(selectedImageElement.dataset.idx);
+        const imageIndex = Number(selectedImageElement.dataset.idx);
 
-        const scrollPosition = (imageWidth + 8) * iamgeIndex + imageWidth / 2;
+        const scrollPosition = (imageWidth + 8) * imageIndex + imageWidth / 2;
         container.scrollTo({
           left: scrollPosition,
           behavior: "smooth"

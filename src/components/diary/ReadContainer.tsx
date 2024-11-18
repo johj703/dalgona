@@ -4,6 +4,7 @@ import Modal from "../Modal";
 import DetailComponent from "./DetailComponent";
 import { booleanState } from "@/types/Canvas";
 import { useDeleteDiaryMutation } from "@/queries/diary/useDiaryMutation";
+import useGetDevice from "@/hooks/useGetDevice";
 
 type ReadContainerProps = {
   diaryId: string;
@@ -14,10 +15,11 @@ type ReadContainerProps = {
 const ReadContainer = ({ diaryId, openClose, setOpenClose }: ReadContainerProps) => {
   const { data: diary, isLoading, isError } = useGetDiaryDetail(diaryId);
   const { mutate: deleteDiary } = useDeleteDiaryMutation();
+  const device = useGetDevice();
   const router = useRouter();
 
   const onClickDelete = async () => {
-    await deleteDiary(diaryId);
+    deleteDiary(diaryId);
 
     router.replace("/main");
   };
@@ -39,8 +41,8 @@ const ReadContainer = ({ diaryId, openClose, setOpenClose }: ReadContainerProps)
   return (
     <>
       {diary!.length !== 0 ? (
-        <div className="mt-[35px] lg:mt-8 ">
-          <DetailComponent postData={diary![0]} setOpenClose={setOpenClose} />
+        <>
+          <DetailComponent postData={diary![0]} setOpenClose={setOpenClose} device={device} />
 
           {/* 삭제 확인 모달 */}
           {openClose && (
@@ -52,7 +54,7 @@ const ReadContainer = ({ diaryId, openClose, setOpenClose }: ReadContainerProps)
               confirmAction={onClickDelete}
             />
           )}
-        </div>
+        </>
       ) : (
         <div className="flex-1 flex items-center justify-center text-center pt-2 pb-[60px] px-4 text-lg leading-[1.35] text-gray04">
           일기를 불러오지 못 했습니다.

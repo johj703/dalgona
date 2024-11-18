@@ -1,4 +1,4 @@
-import { deleteDiaryById } from "@/utils/diary/diaryData";
+import { deleteDiaryById } from "@/lib/diary/diaryData";
 import { useQuery } from "@tanstack/react-query";
 
 export const useDeleteDiary = (diaryId: string) => {

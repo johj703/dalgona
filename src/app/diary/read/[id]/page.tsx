@@ -16,7 +16,9 @@ const Read = ({ params }: { params: { id: string } }) => {
     <div className="flex flex-col min-h-dvh">
       <CommonTitle title={"일기장"} post_id={params.id} setOpenClose={setOpenClose} />
 
-      <ReadContainer diaryId={params.id} openClose={openClose} setOpenClose={setOpenClose} />
+      <div className="mt-[34px] lg:mt-8">
+        <ReadContainer diaryId={params.id} openClose={openClose} setOpenClose={setOpenClose} />
+      </div>
 
       {device === "mobile" && (
         <>
