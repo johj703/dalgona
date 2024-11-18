@@ -4,7 +4,6 @@ import React, { useEffect, useState, useRef } from "react";
 import browserClient from "@/utils/supabase/client";
 import { Diary, MyArtworkProps } from "@/types/library/Diary";
 import { useRouter } from "next/navigation";
-// import CommonTitle from "../CommonTitle";
 
 const MyArtwork: React.FC<MyArtworkProps> = ({ userId }) => {
   const [diaryEntries, setDiaryEntries] = useState<Diary[]>([]);
@@ -93,8 +92,6 @@ const MyArtwork: React.FC<MyArtworkProps> = ({ userId }) => {
 
   return (
     <div className="flex flex-col lg:w-1/2 ">
-      {/* <CommonTitle title="내 그림 모아보기" /> */}
-
       <div
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -103,7 +100,7 @@ const MyArtwork: React.FC<MyArtworkProps> = ({ userId }) => {
         className={`pb-4 relative flex items-center justify-center ${loading ? "hidden" : ""}`}
       >
         {diaryEntries.length > 0 ? (
-          <div className="relative w-full h-[490px] overflow-hidden border border-gray04 bg-white">
+          <div className="relative w-full h-[490px] overflow-hidden border border-gray04 bg-white lg:w-[488px] lg:h-[770px]">
             {diaryEntries.map((diary: Diary, index: number) => (
               <div
                 key={diary.id}
