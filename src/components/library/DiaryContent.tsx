@@ -70,7 +70,7 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
         </div>
       )}
       {diaries.length > 0 ? (
-        <div className="space-y-4 border rounded-lg p-4 mb-12 bg-[#EFE6DE] lg:border-black lg:px-[85px]">
+        <div className="space-y-4 border rounded-lg p-4 mb-12 bg-[#EFE6DE] lg:border-black lg:px-[85px] lg:border-2">
           {diaries.map((diary: Diary) => {
             const diaryDate = parseDate(diary.date);
             const formattedDate = diaryDate
@@ -80,11 +80,11 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
             return (
               <div
                 key={diary.id}
-                className="border relative rounded-lg bg-[#FDF7F4] border-black p-4 cursor-pointer"
+                className="border relative rounded-lg bg-[#FDF7F4] border-black p-4 cursor-pointer lg:border-2"
                 onClick={() => handleDiaryClick(diary.id)}
               >
                 {diary.draw ? (
-                  <div className="relative h-48 border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden bg-white lg:mt-12 lg:h-96">
+                  <div className="relative h-48 border border-black flex items-center justify-center mb-2 rounded-lg overflow-hidden bg-white lg:mt-12 lg:h-96 lg:border-2">
                     <img src={diary.draw} alt="그림" className="object-cover h-full w-full" />
                     <div className="absolute top-2 right-2 flex flex-col items-center">
                       {diary.emotion && (
@@ -110,13 +110,13 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
                   </h3>
                 )}
 
-                <p className="text-gray-700 line-clamp-2 lg:line-clamp-4">{diary.contents}</p>
+                <p className="text-black line-clamp-2 mt-[10px] font-Dovemayo lg:line-clamp-4">{diary.contents}</p>
               </div>
             );
           })}
         </div>
       ) : (
-        <div className="flex h-[656px] flex-col items-center justify-center bg-background01 border rounded-lg border-black p-4 lg:max-h-lg">
+        <div className="flex h-[656px] flex-col items-center justify-center bg-background01 border-2 rounded-lg border-black p-4 lg:max-h-lg">
           <div className="flex items-center mb-2">
             <p className="text-lg font-bold text-center mr-2">이번 달에 작성된 일기가 없어요</p>
             <img src="/icons/mini-diary.svg" alt="mini-diary" className="w-6 h-6" />

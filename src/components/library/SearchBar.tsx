@@ -14,7 +14,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, setSearchTerm }) => (
       placeholder="일기를 검색해주세요"
       value={searchTerm}
       onChange={(e) => setSearchTerm(e.target.value)}
-      className="border border-[#A6A6A6] rounded-lg p-2 pl-10 w-full bg-white text-[#A6A6A6] placeholder-gray-400"
+      className="border border-gray04 rounded-lg p-2 pl-10 w-full bg-white text-gray04 placeholder-gray04"
     />
   </div>
 );

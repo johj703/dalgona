@@ -96,9 +96,13 @@ const GalleryPage = () => {
         <span>로딩 중...</span>
       ) : mainEntry ? (
         <>
-          <div className="relative artworkprev-content-height flex flex-grow items-center justify-center bg-white border border-[#D9D9D9] lg:max-w-4lg lg:mx-auto">
+          <div className="relative artworkprev-content-height flex flex-grow items-center justify-center bg-white border border-[#D9D9D9] lg:max-w-4lg lg:mx-auto lg:bg-background02">
             {mainEntry.draw ? (
-              <img src={mainEntry.draw} alt={`Artwork ${mainEntry.id}`} className="object-contain max-h-full" />
+              <img
+                src={mainEntry.draw}
+                alt={`Artwork ${mainEntry.id}`}
+                className="object-contain max-h-full lg:bg-white"
+              />
             ) : (
               <span>이미지 없음</span>
             )}
