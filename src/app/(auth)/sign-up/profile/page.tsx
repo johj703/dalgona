@@ -341,7 +341,7 @@ export default function SaveUserProfilePage() {
           {/* {errorMessage && <p className="">{errorMessage}</p>} */}
 
           {/* 건너뛰기 및 시작하기 버튼 */}
-          <div className="flex gap-4 mt-auto lg: mt-[211px]">
+          <div className="flex gap-4 mt-auto lg:mt-[211px]">
             <button
               type="button"
               onClick={() => router.push("/sign-up/complete")}
