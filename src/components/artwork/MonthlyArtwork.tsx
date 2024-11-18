@@ -38,14 +38,15 @@ const MonthlyArtwork: React.FC<MonthlyArtworkProps> = ({ userId }) => {
     fetchMonthlyArtworks();
   }, [userId]);
 
-  // > 클릭 핸들러
+  // > 전체 보러가기 버튼 클릭 핸들러
   const handleViewAllClick = () => {
     const currentMonth = new Date().getMonth() + 1; // 현재 월 (1월은 0이므로 +1)
     router.push(`/gallery/${currentMonth}`);
   };
 
-  const handleImageClick = (id: string) => {
-    router.push(`/library/memory/${id}`);
+  // > 이미지 클릭 핸들러: 특정 아트워크 프리뷰로 이동
+  const handleImageClick = (diaryId: string) => {
+    router.push(`/artworkprev?id=${diaryId}&userId=${userId}`);
   };
 
   return (
@@ -68,16 +69,16 @@ const MonthlyArtwork: React.FC<MonthlyArtworkProps> = ({ userId }) => {
               key={diary.id}
               className="flex-shrink-0 w-64 transition-transform duration-700 linear cursor-pointer"
               style={{ marginRight: index !== diaryEntries.length - 1 ? "16px" : "0" }} // 마지막 항목에는 오른쪽 마진 없음
-              onClick={() => handleImageClick(diary.id)}
+              onClick={() => handleImageClick(diary.id)} // 이미지 클릭 시 이동
             >
               {diary.draw ? (
                 <img
                   src={diary.draw}
-                  className="object-cover w-full h-40 border bg-white border-[#D9D9D9] rounded-lg"
+                  className="object-cover w-full h-40 border bg-white border-gray04 rounded-lg"
                   alt={`Artwork ${diary.id}`}
                 />
               ) : (
-                <div className="flex items-center justify-center w-full h-full bg-gray-200 rounded-lg">이미지 없음</div>
+                <div className="flex items-center justify-center w-full h-full bg-gray04 rounded-lg">이미지 없음</div>
               )}
             </div>
           ))

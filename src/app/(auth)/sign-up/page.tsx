@@ -83,17 +83,22 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background02">
+    <div className="flex flex-col min-h-screen max-w-sm mx-auto bg-background02 lg:max-w-screen-lg">
       <CommonTitle title="회원가입" />
 
       {/* 에러 메세지 출력 */}
       {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
 
       {/* 회원가입 폼 */}
-      <form onSubmit={handleSignUp} className="flex-1 flex flex-col mt-[58px] px-4 pb-[22px]">
+      <form
+        onSubmit={handleSignUp}
+        className="flex-1 flex flex-col mt-[58px] px-4 pb-[22px] lg:px-[268px] lg:pb-[105px]"
+      >
+        <h2 className="hidden lg:block text-xl font-normal mb-6 text-gray-800 text-center">회원가입</h2>
+
         {/* 이메일 입력 */}
         <div className="mb-4">
-          <label htmlFor="email" className="label-style">
+          <label htmlFor="email" className="label-style lg:text-lg">
             이메일
           </label>
           <input
@@ -110,7 +115,7 @@ export default function SignUpPage() {
 
         {/* 비밀번호 입력 */}
         <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2 lg:text-lg">
             비밀번호
           </label>
           <input
@@ -129,7 +134,7 @@ export default function SignUpPage() {
 
         {/* 비밀번호 확인 입력 */}
         <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2 lg:text-lg">
             비밀번호 확인
           </label>
           <input
@@ -140,12 +145,12 @@ export default function SignUpPage() {
             required
             className="input-style"
           />
-          <p className="mt-1 text-sm leading-normal text-gray04">비밀번호를 다시 입력해주세요.</p>
+          <p className="mt-1 text-sm leading-normal text-gray04">위와 동일한 비밀번호를 입력해주세요</p>
         </div>
 
         {/* 이름 입력 */}
         <div className="mb-4">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2 lg:text-lg">
             이름
           </label>
           <input
@@ -162,7 +167,7 @@ export default function SignUpPage() {
 
         {/* 별명 입력 */}
         <div className="mb-4">
-          <label htmlFor="nickname" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="nickname" className="block text-sm font-medium text-gray-700 mb-2 lg:text-lg">
             별명
           </label>
           <input
@@ -178,10 +183,10 @@ export default function SignUpPage() {
         </div>
 
         {/* "다음으로" 버튼 */}
-        <div className="flex justify-center mt-auto">
+        <div className="flex justify-center mt-auto lg:mt-[74px]">
           <button
             type="submit"
-            className="w-full py-4 bg-primary text-white rounded-lg text-sm leading-[1.35] hover:bg-primary"
+            className="w-full py-4 bg-primary text-white rounded-lg text-sm leading-[1.35] hover:bg-primary lg:text-lg lg:font-medium"
           >
             다음으로
           </button>
