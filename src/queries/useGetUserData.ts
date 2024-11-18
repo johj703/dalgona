@@ -11,6 +11,6 @@ export const useGetUserData = (userId: string) => {
         return null;
       }
     },
-    enabled: !!userId
+    refetchOnMount: "always"
   });
 };

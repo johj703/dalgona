@@ -1,5 +1,4 @@
 "use client";
-import { supabase } from "@/utils/supabase/supabase";
 import { useRouter } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import CommonTitle from "@/components/CommonTitle";
@@ -9,11 +8,13 @@ import { useCheckLogin } from "@/queries/useCheckLogin";
 import ProfileInfo from "@/components/mypage/ProfileInfo";
 import MonthlyEmotion from "@/components/mypage/MonthlyEmotion";
 import MyDrawing from "@/components/mypage/MyDrawing";
+import { useLogoutMutation } from "@/queries/useLogoutMutation";
 
 const Mypage = () => {
   const device = useGetDevice();
   const router = useRouter();
   const { data: loginData, isLoading, isError } = useCheckLogin();
+  const { mutate: logout } = useLogoutMutation();
 
   if (isError) return <div>유저 정보를 불러오는데 실패했습니다.</div>;
   if (isLoading) return;
@@ -29,10 +30,7 @@ const Mypage = () => {
         <button
           className="flex items-center justify-center mt-[21px] mx-auto w-[130px] h-10 border border-primary text-primary rounded-lg bg-white text-sm leading-none lg:hidden"
           onClick={async () => {
-            await supabase.auth.signOut();
-
-            //  로그아웃 완료 알림 후 sign-in 페이지로 이동
-            alert("로그아웃이 완료 되었습니다.");
+            logout();
             router.push("/sign-in");
           }}
         >
