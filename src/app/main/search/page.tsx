@@ -78,21 +78,23 @@ const SearchPage = () => {
                 </div>
               </div>
               {/* lg 이상일 때 보이는 부분 */}
-              <div className="hidden lg:block p-[10px] border-[1px] border-black rounded-lg bg-white mb-[16px] lg:w-[992px]">
-                <div className="lg:flex items-start">
-                  <img
-                    src={diary.draw}
-                    alt="그림"
-                    className="border-[2px] border-black rounded-lg object-cover h-[108px] w-[156px] lg:mr-[16px] flex-shrink-0"
-                  />
+              <div className="hidden lg:block p-[10px] border-[1px] border-black rounded-lg bg-white mb-[16px] w-[992px] relative">
+                <div className="flex items-start">
+                  {diary.draw ? (
+                    <img
+                      src={diary.draw}
+                      alt="그림"
+                      className="border-[2px] border-black rounded-lg object-cover h-[108px] w-[156px] mr-[16px] flex-shrink-0"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center border-[2px] border-black rounded-lg h-[108px] w-[156px] mr-[16px] flex-shrink-0">
+                      그림이 없습니다.
+                    </div>
+                  )}
                   <div>
-                    <p className="text-[16px] font-[400] overflow-hidden text-ellipsis mb-[2px] lg:text-[18px]">
-                      {diary.title}
-                    </p>
-                    <p className="text-[14px] font-[500] line-clamp-2 font-['Dovemayo'] mb-[8px] lg:text-[16px]">
-                      {diary.contents}
-                    </p>
-                    <div className="flex justify-end text-[14px] font-[500] text-right text-[#A6A6A6] ">
+                    <p className="font-[400] overflow-hidden text-ellipsis mb-[2px] text-[18px]">{diary.title}</p>
+                    <p className="font-[500] line-clamp-2 font-['Dovemayo'] mb-[8px] text-[16px]">{diary.contents}</p>
+                    <div className="flex justify-end text-[14px] font-[500] text-right text-[#A6A6A6] absolute bottom-[10px] right-[10px]">
                       <p className="mr-[2px]">{getSimpleFullDate(diary.date).substring(2)}</p>
                       <p>({getDayOfTheWeek(diary.date).substring(0, 1)})</p>
                     </div>
