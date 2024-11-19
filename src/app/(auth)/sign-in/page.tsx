@@ -79,31 +79,28 @@ export default function SignInPage() {
       {/* 로그인 폼 */}
       <form onSubmit={handleSignIn} className="mt-5 lg:mt-12">
         {/* 이메일 입력 */}
-        <div>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={`input-style ${emailError ? "input-error" : ""}`}
-            placeholder="이메일"
-          />
-          {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
-          {/* 이메일 오류 메세지 */}
-        </div>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className={`input-style ${emailError ? "input-error" : ""}`}
+          placeholder="이메일"
+        />
+        {/* 이메일 오류 메세지 */}
+        {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
 
         {/* 비밀번호 입력 */}
-        <div>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={`input-style mt-4 ${passwordError ? "input-error" : ""}`}
-            placeholder="비밀번호"
-          />
-          {passwordError && <p className="mt-1 text-sm text-red-500">{passwordError}</p>}
-        </div>
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className={`input-style mt-4 ${passwordError ? "input-error" : ""}`}
+          placeholder="비밀번호"
+        />
+        {/* 비밀번호 오류 메세지 */}
+        {passwordError && <p className="mt-1 text-sm text-red-500">{passwordError}</p>}
 
         {/* 자동 로그인 체크박스 */}
         {/* UT 미구현 */}
