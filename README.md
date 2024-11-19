@@ -1,6 +1,6 @@
-## 🟡 달고나 🟡 이하 아직 미완!!!!
+## 🟡 달고나 🟡
 
-#### 👉 [그림으로 일상을 기록하고 감정까지 담아보는 나만의 일기장, <span style="color:yellow">달고나</span>](https://dalgona.vercel.app/)<br>
+#### 👉 [${\textsf{\color{#FFD700}달}}$별로 모아보는 ${\textsf{\color{#FFD700}고}}$즈넉한 ${\textsf{\color{#FFD700}나}}$의 일기, ${\textsf{\color{#FFD700}달고나}}$](https://dalgona.vercel.app/)<br>
 
 #### 👉 [원 페이지 노션 바로가기](https://teamsparta.notion.site/10-2e3a9fe37f104dfdbb6a1173cee9516a)
 
@@ -21,23 +21,26 @@
 ## 🍭 프로젝트 소개
 
 달고나는 **나만의 일상 아카이브**, 감정과 추억을 함께 기록할 수 있는 라이프스타일 플랫폼입니다. <br>
-직접 그림을 그리며 감정과 기억을 생생하게 표현할 수 있는 특별한 공간을 만들고자 기획하게 되었습니다.
-어릴 적 그림일기를 쓰던 추억을 되살려서 재미있게 소중한 추억을 정리해보세요!<br>
 
-개발기간 : 2024.10.18(금) ~ 2024.11.21(목)
+- **기획이유** <br>
+  현대인들은 자신의 삶을 기록하고 공유하는데 높은 관심을 보이고 있으며, 이러한 흐름은 SNS와 일기 앱의 지속적인 성장세로 확인할 수 있습니다. <br>하지만 대부분 기존 플렛폼은 텍스트 중심으로 설계되어 있어서 감정과 기록을 생생하게 표현하는데 한계가 있다고 생각했습니다.
+  <br>이에 저희는 이런 시장 수요와 트렌드를 반영하여 글 뿐만 아니라 **직접 그림을 그리며** 감정과 기억을 생생하게 표현할 수 있는 특별한 공간을 만들고자 기획하게 되었습니다.<br><br>
+  어릴 적 그림일기를 쓰던 추억을 되살려서 재미있게 소중한 추억을 정리해보세요!<br><br>
+
+- **개발기간** : 2024.10.18(금) ~ 2024.11.21(목)
 
 <br>
 
 ## 👨‍👩‍👧‍👦 팀 소개
 
-| 이름       | 역할 | 담당                                  |                                                          |
-| ---------- | ---- | ------------------------------------- | -------------------------------------------------------- |
-| **박준호** | FE   | 그림일기(CRUD) 페이지, 마이페이지     | [@PJH-FE](https://github.com/PJH-FE)                     |
-| **강지우** | FE   | 기록의 방, 갤러리                     | [@wldndnwl](https://github.com/wldndnwl)                 |
-| **정희록** | FE   | 메인페이지, 검색페이지                | [@heerokj](https://github.com/heerokj)                   |
-| **조현준** | FE   | 로그인/회원가입, 회원정보 수정        | [@johj703](https://github.com/johj703)                   |
-| **김현정** | DE   | 웹디자인 모바일디자인 메인로고 아이콘 | [@lucstrike](https://blog.naver.com/lucstrike)           |
-| **정혜지** | DE   | 웹디자인 모바일디자인 메인로고 아이콘 | [@gesundewurzeln](https://blog.naver.com/gesundewurzeln) |
+| 이름       | 역할 | 담당                                             |                                                          |
+| ---------- | ---- | ------------------------------------------------ | -------------------------------------------------------- |
+| **박준호** | FE   | 그림일기(CRUD) 페이지, 마이페이지, 공통 컴포넌트 | [@PJH-FE](https://github.com/PJH-FE)                     |
+| **강지우** | FE   | 기록의 방, 갤러리                                | [@wldndnwl](https://github.com/wldndnwl)                 |
+| **정희록** | FE   | 메인페이지, 검색페이지                           | [@heerokj](https://github.com/heerokj)                   |
+| **조현준** | FE   | 로그인/회원가입, 회원정보 수정                   | [@johj703](https://github.com/johj703)                   |
+| **김현정** | DE   | 웹디자인 모바일디자인 메인로고 아이콘            | [@lucstrike](https://blog.naver.com/lucstrike)           |
+| **정혜지** | DE   | 웹디자인 모바일디자인 메인로고 아이콘            | [@gesundewurzeln](https://blog.naver.com/gesundewurzeln) |
 
 <br>
 
@@ -55,7 +58,7 @@
 
 <br>
 
-## 💡 프로젝트 기능
+## 💡 프로젝트 기능 ==미완성@!!!!==
 
 #### 로그인 및 회원가입
 
@@ -77,6 +80,31 @@
 
 ## 🗂️ 프로젝트 파일 구조
 
+📦src<br />
+┣ 📂app<br />
+┃ ┣ 📂(auth)<br />
+┃ ┃ ┣ 📂sign-in<br />
+┃ ┃ ┗ 📂sign-up<br />
+┃ ┣ 📂artworkprev<br />
+┃ ┣ 📂diary<br />
+┃ ┣ 📂fonts<br />
+┃ ┣ 📂gallery<br />
+┃ ┣ 📂library<br />
+┃ ┣ 📂main<br />
+┃ ┣ 📂mypage<br />
+┃ ┣ 📜favicon.ico<br />
+┃ ┣ 📜globals.css<br />
+┃ ┣ 📜layout.tsx<br />
+┃ ┣ 📜not-found.tsx<br />
+┃ ┗ 📜page.tsx<br />
+┣ 📂components<br />
+┣ 📂hooks<br />
+┣ 📂lib<br />
+┣ 📂queries<br />
+┣ 📂style<br />
+┣ 📂types<br />
+┣ 📂utils<br />
+┗ 📜middleware.ts<br />
 <br>
 
 ## ❓ 트러블 슈팅
@@ -92,3 +120,5 @@ bun dev
 ```
 
 `app/page.tsx`<- 회색바탕 태그???
+
+## 💌 회고
