@@ -11,6 +11,8 @@ export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [openClose, setOpenClose] = useState<boolean>(false);
   const router = useRouter();
@@ -23,9 +25,13 @@ export default function SignInPage() {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // 초기화
+    setEmailError("");
+    setPasswordError("");
+
     if (email === "" || password === "") {
-      setOpenClose(true);
       setErrorMessage("이메일과 비밀번호를 모두 입력해 주세요.");
+      setOpenClose(true);
       return;
     }
 
@@ -37,8 +43,15 @@ export default function SignInPage() {
       });
 
       if (error) {
-        setOpenClose(true);
-        setErrorMessage("아이디 또는 비밀번호가 올바르지 않습니다.");
+        // Supabase의 오류 메세지 분석
+        if (error.message.toLowerCase().includes("email")) {
+          setEmailError("아이디를 다시 확인해 주세요.");
+        } else if (error.message.toLowerCase().includes("password")) {
+          setPassword("비밀번호가 잘못 입력되었습니다. 다시 확인해주세요.");
+        } else {
+          setErrorMessage("알 수 없는 오류가 발생했습니다.");
+          setOpenClose(true);
+        }
         return;
       }
       console.log("로그인 성공: ", data);
@@ -50,6 +63,7 @@ export default function SignInPage() {
     } catch (error) {
       console.log("로그인 오류: ", error);
       setErrorMessage("로그인 중 문제가 발생했습니다. 다시 시도해 주세요.");
+      setOpenClose(true);
     }
   };
 
@@ -65,27 +79,31 @@ export default function SignInPage() {
       {/* 로그인 폼 */}
       <form onSubmit={handleSignIn} className="mt-5 lg:mt-12">
         {/* 이메일 입력 */}
-
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="input-style"
-          placeholder="이메일"
-        />
+        <div>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className={`input-style ${emailError ? "input-error" : ""}`}
+            placeholder="이메일"
+          />
+          {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
+          {/* 이메일 오류 메세지 */}
+        </div>
 
         {/* 비밀번호 입력 */}
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="input-style mt-4"
-          placeholder="비밀번호"
-        />
+        <div>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className={`input-style mt-4 ${passwordError ? "input-error" : ""}`}
+            placeholder="비밀번호"
+          />
+          {passwordError && <p className="mt-1 text-sm text-red-500">{passwordError}</p>}
+        </div>
 
         {/* 자동 로그인 체크박스 */}
         {/* UT 미구현 */}
