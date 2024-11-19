@@ -1,8 +1,6 @@
 "use client";
 
 import CommonTitle from "@/components/CommonTitle";
-import Header from "@/components/layout/Header";
-import useGetDevice from "@/hooks/useGetDevice";
 import browserClient from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -15,7 +13,6 @@ export default function SignUpPage() {
   const [name, setName] = useState("");
   const [fieldError, setFieldError] = useState<Record<string, string>>({});
   const router = useRouter();
-  const device = useGetDevice();
 
   const validateFields = () => {
     const errors: Record<string, string> = {};
@@ -107,16 +104,13 @@ export default function SignUpPage() {
 
   return (
     <div className="flex flex-col min-h-screen max-w-sm mx-auto bg-background02 lg:max-w-screen-lg">
-      {device === "mobile" && <CommonTitle title="회원가입" />}
-      {device === "pc" && <Header />}
+      <CommonTitle title="회원가입" />
 
       {/* 회원가입 폼 */}
       <form
         onSubmit={handleSignUp}
         className="flex-1 flex flex-col mt-[58px] px-4 pb-[22px] lg:px-[268px] lg:pb-[105px]"
       >
-        <h2 className="hidden lg:block text-xl font-normal mb-6 text-gray-800 text-center">회원가입</h2>
-
         {/* 이메일 입력 */}
         <div className="mb-4">
           <label htmlFor="email" className="label-style lg:text-lg">
