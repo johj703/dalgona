@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { getEmoji } from "@/utils/diary/getEmoji";
 import getLoginUser from "@/lib/getLoginUser";
 
-const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: CellsProps) => {
+const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries, isTodayClick }: CellsProps) => {
   const firstDayOfMonth = startOfMonth(currentDate);
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
   const startDate = startOfWeek(firstDayOfMonth);
@@ -43,7 +43,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
 
       days.push(
         <div
-          className={`col cell w-[33px] mb-[5px] flex flex-col items-start shrink-0 gap-[4px] ${
+          className={`col cell w-[33px] mb-[5px] flex flex-col items-start shrink-0 gap-[4px] lg:mb-[12px] ${
             !isSameMonth(day, firstDayOfMonth) // 현재 달과 다른 달에 해당하는 날짜
               ? "disabled"
               : isSameDay(day, selectedDate)
@@ -67,7 +67,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
           <div
             className={
               format(currentDate, "M") !== format(day, "M")
-                ? "text not-valid flex flex-col justify-center items-center gap-[10px] self-stretch border-[1px] bg-[#EFE6DE]"
+                ? "text not-valid flex flex-col justify-center items-center gap-[10px] self-stretch border-[1px] bg-[#EFE6DE] text-[#A6A6A6]"
                 : format(day, "d") === format(selectedDate, "d")
                 ? "selected flex flex-col justify-center items-center gap-[10px] self-stretch border-[1px] bg-[#2E5342] rounded-2xl text-white"
                 : format(day, "M") === todayMonth && format(day, "d") === todayDate
@@ -92,7 +92,25 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: 
     days = [];
   }
 
-  return <div className="body w-[100%]">{rows}</div>;
+  return (
+    <>
+      <div className="body w-[100%]">{rows}</div>
+      <button
+        onClick={() => {
+          if (isTodayClick) {
+            isTodayClick(new Date(), userId).catch((error) => {
+              console.error("isTodayClick 호출 중 오류 발생:", error);
+            });
+          } else {
+            console.warn("isTodayClick이 정의되지 않았습니다.");
+          }
+        }}
+        className="text-[14px] font-[500] font-['Dovemayo'] text-[#2E5342]"
+      >
+        오늘
+      </button>
+    </>
+  );
 };
 
 export default RenderCells;

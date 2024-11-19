@@ -11,36 +11,49 @@ export default function SignUpPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [name, setName] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [fieldError, setFieldError] = useState<Record<string, string>>({});
   const router = useRouter();
   console.log(setEmail);
+
+  const validateFields = () => {
+    const errors: Record<string, string> = {};
+
+    // 이메일 유효성 검사
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!emailValid) {
+      errors.email = "이메일 형식이 잘못되었습니다.";
+    }
+
+    // 비밀번호 유효성 검사
+    const passwordValid = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/.test(password);
+    if (!passwordValid) {
+      errors.password = "비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다.";
+    }
+
+    // 비밀번호 확인 일치 여부 검사
+    if (password !== confirmPassword) {
+      errors.confirmPassword = "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
+    }
+
+    // 별명 유효성 검사
+    if (nickname.length < 2) {
+      errors.nickname = "별명은 2글자 이상이어야 합니다.";
+    }
+
+    // 각 필드별 오류 메세지 반환
+    return errors;
+  };
 
   // 회원가입 버튼을 클릭했을 때 호출되는 함수
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 모든 입력칸이 채워졌는지 확인
-    if (email === "" || password === "" || nickname === "") {
-      setErrorMessage("모든 항목을 입력해 주세요.");
-      return;
-    }
+    // 유효성 검사
+    const validationErrors = validateFields(); // 입력값 검사 실행
+    setFieldError(validateFields); // 각 필드별 오류 메세지 설정
 
-    // 비밀번호 유효성 검사(8자 이상, 영문과 숫자 포함)
-    const passwordValid = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/.test(password);
-    if (!passwordValid) {
-      setErrorMessage("비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다.");
-      return;
-    }
-
-    // 비밀번호 확인 일치 여부 검사
-    if (password !== confirmPassword) {
-      setErrorMessage("비밀번호가 일치하지 않습니다.");
-      return;
-    }
-
-    // 별명 유효성 검사(별명은 2자 이상이어야 함)
-    if (nickname.length < 2) {
-      setErrorMessage("별명은 2글자 이상이어야 합니다.");
+    // 에러가 있으면 실행 중단
+    if (Object.keys(validationErrors).length > 0) {
       return;
     }
 
@@ -63,7 +76,10 @@ export default function SignUpPage() {
 
         // 데이터 베이스 삽입 중 오류가 발생한 경우 오류 메시지 설정 후 종료
         if (dbError) {
-          setErrorMessage("회원 데이터 추가 중 오류가 발생했습니다.");
+          setFieldError((prevState) => ({
+            ...prevState, // 이전 상태 복사
+            general: "회원 데이터 추가 중 오류가 발생했습니다." // 일반 오류 메시지 추가
+          }));
           return;
         }
 
@@ -73,28 +89,34 @@ export default function SignUpPage() {
       }
 
       if (error) {
-        setErrorMessage(error.message);
-      } else {
-        console.log("회원가입 성공: ", data);
+        setFieldError((prevState) => ({
+          ...prevState,
+          general: error.message // Supabase 오류 메시지 설정
+        }));
       }
     } catch (error) {
       console.log("회원가입 중 오류 발생", error);
-      setErrorMessage("회원가입 중 오류가 발생했습니다.");
+      setFieldError((prevState) => ({
+        ...prevState,
+        general: "회원가입 중 오류가 발생했습니다." // 회원가입 오류 메시지 설정
+      }));
     }
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background02">
+    <div className="flex flex-col min-h-screen max-w-sm mx-auto bg-background02 lg:max-w-screen-lg">
       <CommonTitle title="회원가입" />
 
-      {/* 에러 메세지 출력 */}
-      {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
-
       {/* 회원가입 폼 */}
-      <form onSubmit={handleSignUp} className="flex-1 flex flex-col mt-[58px] px-4 pb-[22px]">
+      <form
+        onSubmit={handleSignUp}
+        className="flex-1 flex flex-col mt-[58px] px-4 pb-[22px] lg:px-[268px] lg:pb-[105px]"
+      >
+        <h2 className="hidden lg:block text-xl font-normal mb-6 text-gray-800 text-center">회원가입</h2>
+
         {/* 이메일 입력 */}
         <div className="mb-4">
-          <label htmlFor="email" className="label-style">
+          <label htmlFor="email" className="label-style lg:text-lg">
             이메일
           </label>
           <input
@@ -107,11 +129,12 @@ export default function SignUpPage() {
             placeholder="이메일을 입력하세요"
           />
           <p className="mt-1 text-sm leading-normal text-gray04">사용하실 이메일 주소를 입력하세요.</p>
+          {fieldError.email && <p className="text-red-500">{fieldError.email}</p>}
         </div>
 
         {/* 비밀번호 입력 */}
         <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2 lg:text-lg">
             비밀번호
           </label>
           <input
@@ -126,11 +149,12 @@ export default function SignUpPage() {
           <p className="mt-1 text-sm leading-normal text-gray04">
             안전한 비밀번호를 입력해주세요(8자 이상, 영문, 숫자 포함)
           </p>
+          {fieldError.password && <p className="text-red-500">{fieldError.password}</p>}
         </div>
 
         {/* 비밀번호 확인 입력 */}
         <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2 lg:text-lg">
             비밀번호 확인
           </label>
           <input
@@ -141,12 +165,18 @@ export default function SignUpPage() {
             required
             className="input-style"
           />
-          <p className="mt-1 text-sm leading-normal text-gray04">비밀번호를 다시 입력해주세요.</p>
+          <p className="mt-1 text-sm leading-normal text-gray04">위와 동일한 비밀번호를 입력해주세요</p>
+          {confirmPassword && (
+            <p className={`mt-2 text-sm ${password === confirmPassword ? "text-green-500" : "text-red-500"}`}>
+              {password === confirmPassword ? "비밀번호가 일치합니다." : "비밀번호가 일치하지 않습니다."}
+            </p>
+          )}
+          {fieldError.confirmPassword && <p className="text-red-500">{fieldError.confirmPassword}</p>}
         </div>
 
         {/* 이름 입력 */}
         <div className="mb-4">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2 lg:text-lg">
             이름
           </label>
           <input
@@ -163,7 +193,7 @@ export default function SignUpPage() {
 
         {/* 별명 입력 */}
         <div className="mb-4">
-          <label htmlFor="nickname" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="nickname" className="block text-sm font-medium text-gray-700 mb-2 lg:text-lg">
             별명
           </label>
           <input
@@ -176,13 +206,14 @@ export default function SignUpPage() {
             placeholder="별명을 입력하세요"
           />
           <p className="mt-1 text-sm leading-normal text-gray04">2글자 이상의 별명을 입력해 주세요.</p>
+          {fieldError.nickname && <p className="text-red-500">{fieldError.nickname}</p>}
         </div>
 
         {/* "다음으로" 버튼 */}
-        <div className="flex justify-center mt-auto">
+        <div className="flex justify-center mt-auto lg:mt-[74px]">
           <button
             type="submit"
-            className="w-full py-4 bg-primary text-white rounded-lg text-sm leading-[1.35] hover:bg-primary"
+            className="w-full py-4 bg-primary text-white rounded-lg text-sm leading-[1.35] hover:bg-primary lg:text-lg lg:font-medium"
           >
             다음으로
           </button>

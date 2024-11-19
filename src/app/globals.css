@@ -42,7 +42,7 @@
 }
 
 body {
-  color: var(--foreground);
+  color: #000000;
   background: var(--background02);
   font-family: "Dovemayo_gothic", Arial, Helvetica, sans-serif;
 }
@@ -52,8 +52,8 @@ body {
 }
 
 @layer components {
-  .button-144-48 {
-    @apply flex items-center justify-center w-36 h-12 rounded-lg bg-primary text-base leading-normal text-white;
+  .modal-button {
+    @apply flex items-center justify-center w-[120px] h-11 rounded-lg border border-primary bg-primary text-lg leading-normal text-white lg:w-[146px];
   }
   .label-style {
     @apply text-sm leading-[1.35] text-gray05 mb-1;
@@ -61,11 +61,22 @@ body {
   .input-style {
     @apply w-full h-14 p-4 text-base text-gray05 placeholder:text-gray04 rounded-lg border-2 border-solid border-gray04 bg-white outline-none;
   }
+
+  .write-form-button {
+    @apply flex-1 text-center text-xl !leading-[1.35] py-4 lg:max-w-[400px] lg:bg-[#B1A4A1] lg:text-white lg:py-[15px] lg:text-lg lg:rounded-lg;
+  }
+
+  .draft-button {
+    @apply flex-1 text-center text-[18px] py-4 lg:bg-[#B1A4A1] lg:text-white lg:leading-[1.35] lg:py-[15px] lg:rounded-lg;
+  }
 }
 
 @layer utilities {
   .artworkprev-content-height {
     height: calc(100vh - 240px);
 
+  }
+  .artworkprev-content-width {
+    width: calc(100vh - 242px);
   }
 }

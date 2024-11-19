@@ -9,6 +9,7 @@ import MonthSelector from "@/components/library/MonthSelector";
 import getLoginUser from "@/lib/getLoginUser";
 import Navigation from "@/components/Navigation";
 import useGetDevice from "@/hooks/useGetDevice";
+import Header from "@/components/layout/Header";
 
 const LibraryPage: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -72,8 +73,8 @@ const LibraryPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background02">
-      <CommonTitle title="기록의 방" />
+    <div className="min-h-screen bg-background02 ">
+      {device === "pc" ? <Header /> : <CommonTitle title={"기록의 방"} />}
 
       <div className="p-4 flex flex-col max-w-sm m-auto lg:max-w-screen-lg">
         <YearSelector currentYear={currentYear} selectedYear={selectedYear} onYearChange={handleYearChange} />
@@ -82,6 +83,7 @@ const LibraryPage: React.FC = () => {
         ) : (
           <p>유저 정보를 불러오지 못했습니다.</p>
         )}
+        <p className="pt-1 pb-2 text-sm font-medium text-[#595959] lg:mx-[250px]">필터링 연도: {selectedYear}년</p>
         <MonthSelector year={selectedYear} />
       </div>
 

@@ -1,13 +1,16 @@
+"use client";
 import SelectFeedCalendar from "@/components/main/SelectFeedCalendar";
 import Navigation from "@/components/Navigation";
+import Header from "@/components/layout/Header";
+import useGetDevice from "@/hooks/useGetDevice";
 
-const MainPage = async () => {
+const MainPage = () => {
+  const device = useGetDevice();
   return (
     <>
-      <div>
-        <SelectFeedCalendar />
-        <Navigation />
-      </div>
+      {device === "pc" && <Header />}
+      <SelectFeedCalendar />
+      <Navigation />
     </>
   );
 };

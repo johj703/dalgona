@@ -6,8 +6,11 @@ import { Diary } from "@/types/library/Diary";
 import Link from "next/link";
 import getLoginUser from "@/lib/getLoginUser";
 import CommonTitle from "@/components/CommonTitle";
+import useGetDevice from "@/hooks/useGetDevice";
+import Header from "@/components/layout/Header";
 
 const ArtworkGallery: React.FC = () => {
+  const device = useGetDevice();
   const [artworks, setArtworks] = useState<Diary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -50,8 +53,8 @@ const ArtworkGallery: React.FC = () => {
 
   return (
     <div className="flex flex-col bg-[#FDF7F4]">
-      <CommonTitle title="내 그림 모아보기" />
-      <h2 className="text-2xl p-4 lg:text-center">전체</h2>
+      {device === "pc" ? <Header /> : <CommonTitle title={"내 그림 모아보기"} />}
+      <h2 className="text-2xl p-4 lg:text-center">추억모음</h2>
       {loading ? (
         <div className="flex items-center justify-center w-full h-48">
           <span>로딩 중...</span>
@@ -61,7 +64,10 @@ const ArtworkGallery: React.FC = () => {
       ) : artworks.length > 0 ? (
         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 px-4 pb-24">
           {artworks.map((artwork) => (
-            <div key={artwork.id} className="border border-[#D9D9D9] aspect-square overflow-hidden lg:rounded-2xl">
+            <div
+              key={artwork.id}
+              className="border border-[#D9D9D9] aspect-square overflow-hidden rounded-[4px] lg:rounded-2xl"
+            >
               <Link href={`/artworkprev?id=${artwork.id}`}>
                 <img src={artwork.draw} alt={`Artwork ${artwork.id}`} className="w-full h-full object-cover bg-white" />
               </Link>
