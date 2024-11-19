@@ -1,17 +1,12 @@
 "use client";
 import CommonTitle from "@/components/CommonTitle";
-import Header from "@/components/layout/Header";
-import useGetDevice from "@/hooks/useGetDevice";
 import Image from "next/image";
 import Link from "next/link";
 
 const Complete = () => {
-  const device = useGetDevice();
-
   return (
-    <div className="flex flex-col min-h-dvh max-w-sm mx-auto bg-background02 lg:max-w-screen-lg">
-      {device === "mobile" && <CommonTitle title="회원가입" />}
-      {device === "pc" && <Header />}
+    <div className="flex flex-col min-h-dvh mx-auto bg-background02">
+      <CommonTitle title="회원가입" />
 
       <div className="flex-1 flex flex-col gap-[10px] items-center justify-center text-center">
         <Image src={"/icons/complete.svg"} alt="회원가입 완료" width={250} height={170} />
@@ -22,7 +17,7 @@ const Complete = () => {
       <div className="flex items-center justify-center">
         <Link
           href={"/main"}
-          className="flex items-center justify-center mx-4 mb-[10px] py-[14.5px] rounded-lg min-w-max bg-primary text-white text-lg leading-[1.35] lg:mb-[243px] lg:w-[488px]"
+          className="flex items-center justify-center w-full mx-4 mb-[10px] py-[14.5px] rounded-lg min-w-max bg-primary text-white text-lg leading-[1.35] lg:mb-[243px] max-w-[488px]"
         >
           일기 쓰러 가기
         </Link>
