@@ -52,8 +52,8 @@ body {
 }
 
 @layer components {
-  .button-144-48 {
-    @apply flex items-center justify-center w-36 h-12 rounded-lg bg-primary text-base leading-normal text-white;
+  .modal-button {
+    @apply flex items-center justify-center w-[120px] h-11 rounded-lg border border-primary bg-primary text-lg leading-normal text-white lg:w-[146px];
   }
   .label-style {
     @apply text-sm leading-[1.35] text-gray05 mb-1;

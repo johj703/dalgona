@@ -15,8 +15,9 @@ const DetailComponent = ({
 }) => {
   return (
     <div
-      className={`px-[13px] pb-[52px] lg:flex lg:px-4 lg:pb-[34px] gap-[18px] ${
-        !postData.draw && "lg:flex-col lg:w-[488px] lg:mx-auto lg:px-0"
+      className={`relative px-[13px] pb-[52px] lg:flex lg:px-4 lg:pb-[34px] gap-[18px] ${
+        !postData.draw ? "lg:flex-col lg:w-[488px] lg:mx-auto lg:px-0" : device === "pc" && "pt-[75px]"
+      }
       }`}
     >
       <div className={`${!postData.draw ? "lg:w-full" : "lg:w-1/2"}`}>
@@ -34,13 +35,18 @@ const DetailComponent = ({
           </div>
         </div>
 
+        {device === "pc" && (
+          <div className={`flex gap-[10px] p-4 ${!postData.draw ? "justify-end my-1" : "absolute top-0 right-0"}`}>
+            <EditButton post_id={postData.id} setOpenClose={setOpenClose} />
+          </div>
+        )}
+
         <div className="border border-black rounded-tr-lg rounded-tl-lg overflow-hidden">
-          <div className="py-[14.5px] text-2xl leading-tight text-center text-black bg-[#FCA697] border-b border-black">
+          <div className="py-[14.5px] text-xl leading-tight text-center text-black bg-[#FCA697] border-b border-black">
             {postData.title}
           </div>
           {postData.draw && (
             <div className="relative">
-              {device === "pc" && <EditButton post_id={postData.id} setOpenClose={setOpenClose} />}
               <img src={postData.draw} alt={postData.title} className="bg-white w-full" />
             </div>
           )}

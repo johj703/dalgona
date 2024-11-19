@@ -48,7 +48,7 @@ const DraftList = ({ userId }: { userId: string }) => {
         position: "fixed left-1/2 -translate-x-1/2 top-[62px]"
       });
     } else if (checkList.length > 1) {
-      setModalSetting({ text: "임시저장된 글은 한 번에 한 개만 불러올 수 있습니다.", confirm: false });
+      setModalSetting({ text: "임시저장된 글은 한 번에<br/>한 개만 불러올 수 있습니다.", confirm: false });
       return setOpenClose(true);
     }
 

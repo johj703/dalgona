@@ -33,7 +33,11 @@ const CommonTitle = ({ title, post_id, draft, draftLength, setOpenClose, setGoDr
         <HeaderUserBtn />
       ) : (
         <>
-          {post_id && <EditButton post_id={post_id} setOpenClose={setOpenClose} />}
+          {post_id && (
+            <div className="absolute top-1/2 -translate-y-1/2 right-[22px] flex gap-[22px] lg:top-0 lg:-translate-y-0 lg:right-0 lg:p-4 lg:gap-3">
+              <EditButton post_id={post_id} setOpenClose={setOpenClose} />
+            </div>
+          )}
           {draft && (
             <Link
               href={`/diary/drafts`}
