@@ -83,7 +83,7 @@ export default function Calendar(props: propsType): JSX.Element {
   };
 
   //'오늘'버튼 클릭
-  const isTodayClick = async (day: Date, user_id: string) => {
+  const isTodayClick = async (day: Date, user_id: string): Promise<void> => {
     const formatStartDate = format(day, "yyyy년 MM월 dd일");
     const formatEndDate = format(day, "yyyy년 MM월 dd일");
     const searchList = await getSelectedDiaries(formatStartDate, formatEndDate, user_id);

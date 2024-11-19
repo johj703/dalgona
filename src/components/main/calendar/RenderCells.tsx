@@ -96,7 +96,15 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries, is
     <>
       <div className="body w-[100%]">{rows}</div>
       <button
-        onClick={() => isTodayClick(new Date(), userId)}
+        onClick={() => {
+          if (isTodayClick) {
+            isTodayClick(new Date(), userId).catch((error) => {
+              console.error("isTodayClick 호출 중 오류 발생:", error);
+            });
+          } else {
+            console.warn("isTodayClick이 정의되지 않았습니다.");
+          }
+        }}
         className="text-[14px] font-[500] font-['Dovemayo'] text-[#2E5342]"
       >
         오늘
