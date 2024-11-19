@@ -164,12 +164,21 @@ export default function SignUpPage() {
             required
             className="input-style"
           />
-          <p className="mt-1 text-sm leading-normal text-gray04">위와 동일한 비밀번호를 입력해주세요</p>
-          {confirmPassword && (
-            <p className={`mt-2 text-sm ${password === confirmPassword ? "text-green-500" : "text-red-500"}`}>
-              {password === confirmPassword ? "비밀번호가 일치합니다." : "비밀번호가 일치하지 않습니다."}
-            </p>
-          )}
+          <p
+            className={`mt-2 text-sm ${
+              confirmPassword === ""
+                ? "text-gray-400"
+                : password === confirmPassword
+                ? "text-[#2E5342]"
+                : "text-[#F2573B]"
+            }`}
+          >
+            {confirmPassword === ""
+              ? "위와 동일한 비밀번호를 입력해 주세요."
+              : password === confirmPassword
+              ? "비밀번호가 일치합니다."
+              : "비밀번호가 일치하지 않습니다."}
+          </p>
           {fieldError.confirmPassword && <p className="text-red-500">{fieldError.confirmPassword}</p>}
         </div>
 
