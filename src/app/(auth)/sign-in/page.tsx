@@ -102,7 +102,7 @@ export default function SignInPage() {
       <form onSubmit={handleSignIn} className="mt-5 lg:mt-12">
         {/* 이메일 입력 */}
         <input
-          type="email"
+          type="text"
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
