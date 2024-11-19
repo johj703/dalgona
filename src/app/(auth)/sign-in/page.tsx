@@ -21,6 +21,12 @@ export default function SignInPage() {
     setIsMounted(true);
   }, []);
 
+  // 이메일 유효성 검사 함수
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   // 로그인 처리 함수
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
