@@ -38,7 +38,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     >
       {/* embla__viewport 여기에 마진 등 넣어야됨 ..?*/}
       <div
-        className={`embla__viewport ${isSelectCalendar === 1 ? "lg:w-[450px] lg:h-[330px]" : "lg:w-[960px]"}`}
+        className={`embla__viewport ${isSelectCalendar === 1 ? "lg:w-[450px] lg:h-[330px]" : "lg:w-[955px]"}`}
         ref={emblaRef}
       >
         <div className="embla__container">
