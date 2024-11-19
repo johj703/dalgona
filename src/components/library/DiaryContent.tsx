@@ -94,18 +94,20 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
                         <img src={diary.draw} alt="그림" className="object-cover h-full w-full" />
                       </div>
 
-                      <span className="absolute top-2 left-2 text-xs py-2 px-2 bg-white border border-black rounded-md text-black lg:border-2">
+                      <span className="absolute top-2 left-2 text-xs py-2 px-2 bg-white border border-black rounded-md text-black lg:border-2 lg:top-6 lg:left-4">
                         {formattedDate}
                       </span>
 
                       {diary.emotion && (
-                        <div className="absolute top-2 right-2 flex items-center">
+                        <div className="absolute top-2 right-2 flex items-center lg:top-6 lg:right-4">
                           <img src={getEmoji(diary.emotion, "on")} alt={diary.emotion} className="w-10 h-10" />
                         </div>
                       )}
                     </div>
 
-                    <p className="text-black line-clamp-2 mt-2 mb-5 font-Dovemayo lg:line-clamp-4">{diary.contents}</p>
+                    <p className="text-black line-clamp-2 mt-2 mb-5 font-Dovemayo lg:line-clamp-4 lg:mt-4">
+                      {diary.contents}
+                    </p>
                   </div>
                 ) : (
                   <div className="relative">
@@ -122,7 +124,7 @@ const DiaryContent: React.FC<DiaryContentProps> = ({ userId, year, month }) => {
                     </p>
 
                     {diary.emotion && (
-                      <div className="absolute top-1 right-0">
+                      <div className="absolute top-1 right-0 lg:top-5">
                         <img src={getEmoji(diary.emotion, "on")} alt={diary.emotion} className="w-10 h-10" />
                       </div>
                     )}
