@@ -107,7 +107,7 @@ export default function SignUpPage() {
 
   return (
     <div className="flex flex-col min-h-screen max-w-sm mx-auto bg-background02 lg:max-w-screen-lg">
-      {device === "mobile" && <CommonTitle title="내 그림 모아보기" />}
+      {device === "mobile" && <CommonTitle title="회원가입" />}
       {device === "pc" && <Header />}
 
       {/* 회원가입 폼 */}
