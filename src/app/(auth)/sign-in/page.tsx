@@ -27,6 +27,13 @@ export default function SignInPage() {
     return emailRegex.test(email);
   };
 
+  // 비밀번호 유효성 검사 함수
+  const validatePassword = (password: string) => {
+    // 최소 8자, 하나 이상의 숫자 및 특수문자 포함
+    const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   // 로그인 처리 함수
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +51,13 @@ export default function SignInPage() {
 
     // 이메일 유효성 검사
     if (!validateEmail(email)) {
-      setEmailError("유효한 이메일 주소를 입력해 주세요.");
+      setEmailError("아이디를 다시 확인해주세요. 아이디는 이메일 형식입니다.");
+      return;
+    }
+
+    // 비밀번호 유효성 검사
+    if (!validatePassword(password)) {
+      setPasswordError("비밀번호가 잘못 입력되었습니다. 다시 확인해주세요.");
       return;
     }
 
@@ -106,11 +119,17 @@ export default function SignInPage() {
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className={`input-style ${emailError ? "border-red-500" : ""}`}
+          className={`input-style w-full ${emailError ? "border-red-500" : ""}`}
           placeholder="이메일"
         />
         {/* 이메일 오류 메세지 */}
-        {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
+        <p
+          className={`text-sm mt-1 transition-opacity duration-300 w-full ${
+            emailError ? "text-red-500 opacity-100" : "opacity-0"
+          }`}
+        >
+          {emailError || " "}
+        </p>
 
         {/* 비밀번호 입력 */}
         <input
@@ -118,11 +137,17 @@ export default function SignInPage() {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className={`input-style mt-4 ${passwordError ? "border-red-500" : ""}`}
+          className={`input-style mt-4 w-full ${passwordError ? "border-red-500" : ""}`}
           placeholder="비밀번호"
         />
         {/* 비밀번호 오류 메세지 */}
-        {passwordError && <p className="mt-1 text-sm text-red-500">{passwordError}</p>}
+        <p
+          className={`text-sm mt-1 transition-opacity duration-300 w-full ${
+            passwordError ? "text-red-500 opacity-100" : "opacity-0"
+          }`}
+        >
+          {passwordError || " "}
+        </p>
 
         {/* 자동 로그인 체크박스 */}
         {/* UT 미구현 */}
