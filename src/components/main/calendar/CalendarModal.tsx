@@ -1,9 +1,9 @@
 "use client";
 import getLoginUser from "@/lib/getLoginUser";
 import { CalendarModalProps } from "@/types/main/Calendar";
-import { Select } from "@headlessui/react";
 import { getDaysInMonth } from "date-fns";
 import React, { useEffect, useState } from "react";
+import CustomDropdown from "../CustomDropdown";
 
 const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, currentDate }: CalendarModalProps) => {
   const [userId, setUserId] = useState<string>("");
@@ -77,7 +77,7 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
       onClick={clickModal}
     >
       <div
-        className=" bg-white rounded-lg shadow-md  max-w-md h-[320px] w-[343px] mb-[400px]"
+        className=" bg-white rounded-lg shadow-md  max-w-md h-[320px] w-[350px] "
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mt-[18px] mx-[113px] justify-center items-center gap-[10px] inline-flex">
@@ -85,117 +85,43 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
             조회기간 설정
           </p>
         </div>
-        <div className="pt-4 pb-6 px-6">
+        <div className="all dates pt-4 pb-10 px-6">
           <p className="text-center w-[70px] font-['LeferiBaseType-RegularA'] text-[14px] font-[400] not-italic leading-[21px] pb-[8px]">
             시작 일자
           </p>
-          <div className="selectStartDate flex gap-4 mb-[20px]">
-            <div>
-              <Select
-                name="year"
-                aria-label="Project status"
-                value={startYear}
-                onChange={(e) => setStartYear(e.target.value)}
-                className="border-[1px] rounded-lg border-[#BFBFBF] p-[5px] w-[70px] h-[36px] mr-[5px]"
-              >
-                {years.map((y, idx) => (
-                  <option value={y} key={idx} className="text-[12px]">
-                    {y}
-                  </option>
-                ))}
-              </Select>
-              <span>년</span>
+          <div className="select startDate flex gap-4 mb-[20px]">
+            <div className="z-50">
+              <CustomDropdown options={years} selectedValue={startYear} onSelect={setStartYear} />
+              <span className="mt-[5px] ml-[5px]">년</span>
             </div>
-            <div>
-              <Select
-                name="month"
-                aria-label="Project status"
-                value={startMonth}
-                onChange={(e) => setStartMonth(e.target.value)}
-                className="border-[1px] rounded-lg border-[#BFBFBF] p-[5px] w-[70px] h-[36px] mr-[5px]"
-              >
-                {months.map((m, idx) => (
-                  <option value={m} key={idx}>
-                    {m}
-                  </option>
-                ))}
-              </Select>
-              <span>월</span>
+            <div className="z-50">
+              <CustomDropdown options={months} selectedValue={startMonth} onSelect={setStartMonth} />
+              <span className="mt-[5px] ml-[5px]">월</span>
             </div>
-            <div>
-              <Select
-                name="day"
-                aria-label="Project status"
-                value={startDay}
-                onChange={(e) => setStartDay(e.target.value)}
-                className="border-[1px] rounded-lg border-[#BFBFBF] p-[5px] w-[70px] h-[36px] mr-[5px]"
-              >
-                {startDays.map((d, idx) => (
-                  <option value={d} key={idx}>
-                    {d}
-                  </option>
-                ))}
-              </Select>
-              <span>일</span>
+            <div className="z-50">
+              <CustomDropdown options={startDays} selectedValue={startDay} onSelect={setStartDay} />
+              <span className="mt-[5px] ml-[5px]">일</span>
             </div>
           </div>
-
           <p className="text-center w-[70px] font-['LeferiBaseType-RegularA'] text-[14px] font-[400] not-italic leading-[21px] pb-[8px]">
             종료 일자
           </p>
-          <div className="selectEndDate flex gap-4">
-            <div>
-              <Select
-                name="year"
-                aria-label="Project status"
-                value={endYear}
-                onChange={(e) => setEndYear(e.target.value)}
-                className="border-[1px] rounded-lg border-[#BFBFBF] p-[5px] w-[70px] h-[36px] mr-[5px]"
-              >
-                {years.map((year) => (
-                  <option value={year} key={year}>
-                    {year}
-                  </option>
-                ))}
-              </Select>
-              <span>년</span>
+          <div className="select endDate flex gap-4">
+            <div className="z-40">
+              <CustomDropdown options={years} selectedValue={endYear} onSelect={setEndYear} />
+              <span className="mt-[5px] ml-[5px]">년</span>
             </div>
-            <div>
-              <Select
-                name="month"
-                aria-label="Project status"
-                value={endMonth}
-                onChange={(e) => setEndMonth(e.target.value)}
-                className="border-[1px] rounded-lg border-[#BFBFBF] p-[5px] w-[70px] h-[36px] mr-[5px]"
-              >
-                {months.map((month) => (
-                  <option value={month} key={month}>
-                    {month}
-                  </option>
-                ))}
-              </Select>
-              <span>월</span>
+            <div className="z-40">
+              <CustomDropdown options={months} selectedValue={endMonth} onSelect={setEndMonth} />
+              <span className="mt-[5px] ml-[5px]">월</span>
             </div>
-            <div>
-              <Select
-                name="day"
-                aria-label="Project status"
-                value={endDay}
-                onChange={(e) => setEndDay(e.target.value)}
-                className="border-[1px] rounded-lg border-[#BFBFBF] p-[5px] w-[70px] h-[36px] mr-[5px]"
-              >
-                <option value="none">선택</option>
-                {endDays.map((day) => (
-                  <option value={day} key={day}>
-                    {day}
-                  </option>
-                ))}
-              </Select>
-              <span>일</span>
+            <div className="z-40">
+              <CustomDropdown options={endDays} selectedValue={endDay} onSelect={setEndDay} />
+              <span className="mt-[5px] ml-[5px]">일</span>
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center gap-[30px]">
+        <div className="flex items-center justify-around ">
           <button
             className="w-[120px] h-[45px] rounded-lg bg-white text-center text-[#D84E35] border-[1px] border-[#D84E35]"
             onClick={clickModal}
