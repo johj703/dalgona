@@ -4,6 +4,7 @@ import { CalendarModalProps } from "@/types/main/Calendar";
 import { Select } from "@headlessui/react";
 import { getDaysInMonth } from "date-fns";
 import React, { useEffect, useState } from "react";
+import CustomDropdown from "../CustomDropdown";
 
 const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, currentDate }: CalendarModalProps) => {
   const [userId, setUserId] = useState<string>("");
@@ -77,7 +78,7 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
       onClick={clickModal}
     >
       <div
-        className=" bg-white rounded-lg shadow-md  max-w-md h-[320px] w-[343px] mb-[400px]"
+        className=" bg-white rounded-lg shadow-md  max-w-md h-[320px] w-[350px] "
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mt-[18px] mx-[113px] justify-center items-center gap-[10px] inline-flex">
@@ -122,21 +123,9 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
               </Select>
               <span>월</span>
             </div>
-            <div>
-              <Select
-                name="day"
-                aria-label="Project status"
-                value={startDay}
-                onChange={(e) => setStartDay(e.target.value)}
-                className="border-[1px] rounded-lg border-[#BFBFBF] p-[5px] w-[70px] h-[36px] mr-[5px]"
-              >
-                {startDays.map((d, idx) => (
-                  <option value={d} key={idx}>
-                    {d}
-                  </option>
-                ))}
-              </Select>
-              <span>일</span>
+            <div className="flex">
+              <CustomDropdown options={startDays} selectedValue={startDay} onSelect={setStartDay} />
+              <span className="mt-[5px] ml-[5px]">일</span>
             </div>
           </div>
 
@@ -191,7 +180,8 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
                   </option>
                 ))}
               </Select>
-              <span>일</span>
+              {/* <CustomDropdown options={endDays} selectedValue={endDay} onSelect={setEndDay} /> */}
+              <span className="mt-[5px] ml-[5px]">일</span>
             </div>
           </div>
         </div>
