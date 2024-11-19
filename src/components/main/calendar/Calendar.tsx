@@ -82,6 +82,16 @@ export default function Calendar(props: propsType): JSX.Element {
     setSelectedDate(new Date(day));
   };
 
+  //'오늘'버튼 클릭
+  const isTodayClick = async (day: Date, user_id: string): Promise<void> => {
+    const formatStartDate = format(day, "yyyy년 MM월 dd일");
+    const formatEndDate = format(day, "yyyy년 MM월 dd일");
+    const searchList = await getSelectedDiaries(formatStartDate, formatEndDate, user_id);
+    setRangeList(searchList);
+    setSelectedDate(new Date(day));
+    setCurrentDate(new Date());
+  };
+
   //캘린더 조회기간 설정해서 데이터 가져오기
   const handleSearchDiaries = async (startDate: string, endDate: string, user_id: string) => {
     if (startDate && endDate) {
@@ -112,7 +122,7 @@ export default function Calendar(props: propsType): JSX.Element {
         <div className="button-dummy flex justify-between items-center self-stretch px-[16px] lg:px-0 lg:w-[100%] lg:justify-start lg:gap-[16px]">
           <button
             onClick={clickModal}
-            className="border-[2px] border-black rounded-lg bg-[#EFE6DE] py-[8px] px-[10px] font-['LeferiBaseType-RegularA'] text-[12px] not-italic font-[400] leading-[18px] lg:p-[10px] lg:text-[18px] lg:font-['Dovemayo_gothic']"
+            className="border-[2px] border-black rounded-lg bg-[#EFE6DE] py-[8px] px-[10px] font-['LeferiBaseType-RegularA'] text-[12px] not-italic font-[400] leading-[18px] lg:p-[10px] lg:text-[16px] lg:font-[Dovemayo_gothic]"
           >
             조회기간
           </button>
@@ -159,6 +169,7 @@ export default function Calendar(props: propsType): JSX.Element {
             selectedDate={selectedDate}
             onDateClick={onDateClick}
             filterDiaries={filterDiaries || []}
+            isTodayClick={isTodayClick}
           />
         </div>
         <div className="hidden lg:block">
