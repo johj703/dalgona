@@ -22,6 +22,7 @@ export type CanvasProps = {
   setGoDraw: booleanState;
   goDraw: boolean;
   POST_ID: string;
+  setShowStroke: booleanState;
 };
 export type FormData = {
   id: string;
