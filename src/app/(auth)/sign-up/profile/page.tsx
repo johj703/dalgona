@@ -179,8 +179,6 @@ export default function SaveUserProfilePage() {
     <div className="flex flex-col min-h-dvh max-w-sm mx-auto bg-background02 lg:max-w-screen-lg">
       <CommonTitle title="회원가입" />
 
-      <h2 className="hidden lg:block text-xl font-normal mb-6 text-gray-800 text-center">회원가입</h2>
-
       <div className="flex-1 flex flex-col px-4 pt-[18px] pb-[10px]">
         {/* 페이지 안내 텍스트 */}
         <div className="text-lg leading-[1.35] lg:hidden">
