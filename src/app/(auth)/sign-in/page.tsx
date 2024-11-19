@@ -43,13 +43,22 @@ export default function SignInPage() {
       });
 
       if (error) {
+        console.log("Supabase 오류 디버깅: ", error);
+
         // Supabase의 오류 메세지 분석
-        if (error.message.toLowerCase().includes("email")) {
+        const errorMessage = error.message;
+        if (errorMessage.includes("잘못된 로그인 자격 증명")) {
+          // 잘못된 이메일과 비밀번호
           setEmailError("아이디를 다시 확인해 주세요.");
-        } else if (error.message.toLowerCase().includes("password")) {
-          setPassword("비밀번호가 잘못 입력되었습니다. 다시 확인해주세요.");
+          setPasswordError("비밀번호가 잘못 입력되었습니다. 다시 확인해주세요.");
+        } else if (errorMessage.includes("유효하지 않은 이메일")) {
+          // 이메일 형식이 올바르지 않은 경우
+          setEmailError("유효하지 않은 이메일 형식입니다.");
+        } else if (errorMessage.includes("비밀번호가 잘못되었습니다.")) {
+          // 비밀번호가 잘못된 경우
+          setPasswordError("비밀번호가 잘못 입력되었습니다. 다시 확인해주세요.");
         } else {
-          setErrorMessage("알 수 없는 오류가 발생했습니다.");
+          setErrorMessage("로그인에 실패했습니다. 관리자에게 문의하세요.");
           setOpenClose(true);
         }
         return;
