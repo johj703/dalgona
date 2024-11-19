@@ -84,7 +84,7 @@ export default function SignInPage() {
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className={`input-style ${emailError ? "input-error" : ""}`}
+          className={`input-style ${emailError ? "border-red-500" : ""}`}
           placeholder="이메일"
         />
         {/* 이메일 오류 메세지 */}
@@ -96,7 +96,7 @@ export default function SignInPage() {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className={`input-style mt-4 ${passwordError ? "input-error" : ""}`}
+          className={`input-style mt-4 ${passwordError ? "border-red-500" : ""}`}
           placeholder="비밀번호"
         />
         {/* 비밀번호 오류 메세지 */}
