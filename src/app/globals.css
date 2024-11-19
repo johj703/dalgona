@@ -74,7 +74,6 @@ body {
 @layer utilities {
   .artworkprev-content-height {
     height: calc(100vh - 240px);
-
   }
   .artworkprev-content-width {
     width: calc(100vh - 242px);
