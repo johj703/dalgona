@@ -35,9 +35,16 @@ export default function SignInPage() {
     setEmailError("");
     setPasswordError("");
 
+    // 이메일과 비밀번호 입력 값이 비어 있는지 확인
     if (email === "" || password === "") {
-      setErrorMessage("이메일과 비밀번호를 모두 입력해 주세요.");
-      setOpenClose(true);
+      if (email === "") setEmailError("이메일을 입력해 주세요.");
+      if (password === "") setPasswordError("비밀번호를 입력해 주세요.");
+      return;
+    }
+
+    // 이메일 유효성 검사
+    if (!validateEmail(email)) {
+      setEmailError("유효한 이메일 주소를 입력해 주세요.");
       return;
     }
 
