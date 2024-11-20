@@ -77,11 +77,11 @@ const DraftList = ({ userId }: { userId: string }) => {
               return (
                 <li key={draft.id} className="relative flex items-center gap-[22px] py-2">
                   <input
-                    className="absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 opacity-0 cursor-pointer peer lg:w-[30px] lg:h-[30px]"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 opacity-0 peer lg:w-8 lg:h-8"
                     type="checkbox"
                     onChange={(e) => addCheckList(e, draft.id)}
                   />
-                  <span className="bg-checkbox-off peer-checked:bg-checkbox-on bg-cover w-6 h-6 lg:w-[30px] lg:h-[30px]"></span>
+                  <span className="bg-checkbox-off peer-checked:bg-checkbox-on bg-cover w-6 h-6 lg:w-8 lg:h-8"></span>
                   <div className="flex-1 py-[11px] px-4 bg-white border border-black border-solid rounded-lg lg:py-4 lg:rounded-2xl">
                     <div className="text-base leading-normal lg:text-lg">{draft.title}</div>
                     <div className="mt-1 font-Dovemayo text-xs leading-normal lg:mt-2 lg:text-base lg:text-[#737373]">

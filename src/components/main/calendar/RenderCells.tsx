@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { getEmoji } from "@/utils/diary/getEmoji";
 import getLoginUser from "@/lib/getLoginUser";
 
-const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries, isTodayClick }: CellsProps) => {
+const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries }: CellsProps) => {
   const firstDayOfMonth = startOfMonth(currentDate);
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
   const startDate = startOfWeek(firstDayOfMonth);
@@ -92,25 +92,7 @@ const RenderCells = ({ currentDate, selectedDate, onDateClick, filterDiaries, is
     days = [];
   }
 
-  return (
-    <>
-      <div className="body w-[100%]">{rows}</div>
-      <button
-        onClick={() => {
-          if (isTodayClick) {
-            isTodayClick(new Date(), userId).catch((error) => {
-              console.error("isTodayClick 호출 중 오류 발생:", error);
-            });
-          } else {
-            console.warn("isTodayClick이 정의되지 않았습니다.");
-          }
-        }}
-        className="text-[14px] font-[500] font-['Dovemayo'] text-[#2E5342]"
-      >
-        오늘
-      </button>
-    </>
-  );
+  return <div className="body w-[100%]">{rows}</div>;
 };
 
 export default RenderCells;

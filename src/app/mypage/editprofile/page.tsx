@@ -1,8 +1,6 @@
 "use client";
 
 import CommonTitle from "@/components/CommonTitle";
-import Header from "@/components/layout/Header";
-import useGetDevice from "@/hooks/useGetDevice";
 import Navigation from "@/components/Navigation";
 import browserClient from "@/utils/supabase/client";
 import Image from "next/image";
@@ -21,7 +19,6 @@ const EditProfilePage = () => {
   const [file, setFile] = useState<File | null>(null);
   const [daysInMonth, setDaysInMonth] = useState<number[]>([]); // 동적으로 일 수 목록
   const router = useRouter();
-  const device = useGetDevice();
   const DEFAULT_IMAGE = "https://spimvuqwvknjuepojplk.supabase.co/storage/v1/object/public/profile/default_profile.svg";
 
   // 사용자 데이터를 가져오는 useEffect
@@ -142,8 +139,7 @@ const EditProfilePage = () => {
 
   return (
     <div className="flex flex-col min-h-screen max-w-sm mx-auto bg-background02 lg:max-w-screen-lg">
-      {device === "mobile" && <CommonTitle title="내 정보 수정" />}
-      {device === "pc" && <Header />}
+      <CommonTitle title="내 정보 수정" />
       <div className="mt-[17px] px-4 lg:px-[355px] lg:pb-[106px]">
         <h2 className="hidden lg:block text-xl font-normal mb-6 text-gray-800 text-center">내 정보 수정</h2>
         {/* 프로필 이미지와 변경 버튼 */}

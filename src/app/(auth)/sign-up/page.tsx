@@ -102,13 +102,14 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen mx-auto bg-background02">
+    <div className="flex flex-col min-h-screen max-w-sm mx-auto bg-background02 lg:max-w-screen-lg">
       <CommonTitle title="회원가입" />
       {/* 회원가입 폼 */}
       <form
         onSubmit={handleSignUp}
-        className="flex-1 flex flex-col mt-[58px] px-4 pb-[22px] w-full max-w-[520px] mx-auto lg:pb-[105px]"
+        className="flex-1 flex flex-col mt-[58px] px-4 pb-[22px] lg:px-[268px] lg:pb-[105px]"
       >
+        <h2 className="hidden lg:block text-xl font-normal mb-6 text-gray-800 text-center">회원가입</h2>
         {/* 이메일 입력 */}
         <div className="mb-4">
           <label htmlFor="email" className="label-style lg:text-lg">

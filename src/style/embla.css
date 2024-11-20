@@ -1,6 +1,6 @@
 .embla {
   position: relative;
-  padding: 0px 16px;
+  padding: 0px 16px 8px 16px;
   /* max-width: 48rem; */
   /* margin: auto; */
   --slide-height: 5rem;
@@ -34,8 +34,8 @@
 }
 .embla__controls {
   position: absolute;
-  bottom: 7px;
-  left: 45%;
+  bottom: 10px;
+  left: 44%;
   display: grid;
   justify-items: center;
   gap: 1.2rem;

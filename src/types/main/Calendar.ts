@@ -23,9 +23,8 @@ export type Dates = {
 export type CellsProps = {
   currentDate: Date;
   selectedDate: Date;
-  onDateClick: (day: Date, user_id: string) => void;
+  onDateClick: (arg0: Date, user_id: string) => void;
   filterDiaries: SortedDiaries[];
-  isTodayClick?: (day: Date, user_id: string) => Promise<void>;
 };
 
 export type CalendarModalProps = {
