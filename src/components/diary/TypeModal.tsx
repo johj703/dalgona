@@ -25,10 +25,10 @@ export const TypeModal = ({ formData, setFormData, setOpenTypeModal, openTypeMod
         )}
 
         <div className="flex justify-center gap-4 p-5">
-          <button className="button-144-48" onClick={() => setOpenTypeModal("")}>
+          <button className="modal-button" onClick={() => setOpenTypeModal("")}>
             뒤로가기
           </button>
-          <button className="button-144-48" onClick={() => clickSelectButton()}>
+          <button className="modal-button" onClick={() => clickSelectButton()}>
             선택
           </button>
         </div>

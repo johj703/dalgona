@@ -70,7 +70,7 @@ const DraftList = ({ userId }: { userId: string }) => {
 
   return (
     <>
-      <div className="lg:flex flex-col ">
+      <div className="flex flex-col flex-1">
         {drafts?.length !== 0 ? (
           <ul className="flex flex-col gap-1 px-4 lg:order-2 lg:p-4">
             {drafts?.map((draft) => {
@@ -93,7 +93,7 @@ const DraftList = ({ userId }: { userId: string }) => {
             })}
           </ul>
         ) : (
-          <div className="flex-1 flex items-center justify-center text-lg font-Dovemayo text-[#A6A6A6] ">
+          <div className="flex-1 flex items-center justify-center text-lg font-Dovemayo text-[#A6A6A6] lg:order-2">
             임시저장된 내용이 없습니다
           </div>
         )}

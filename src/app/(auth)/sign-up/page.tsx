@@ -26,13 +26,14 @@ export default function SignUpPage() {
 
     // 비밀번호 유효성 검사
     const validatePassword = (password: string): boolean => {
-      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+      // 숫자 + 문자 + 특수문자를 포함하는 8자 이상 패턴
+      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       return passwordRegex.test(password);
     };
 
     // 비밀번호 유효성 검사
     if (!validatePassword(password)) {
-      errors.password = "비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다.";
+      errors.password = "비밀번호는 8자 이상, 영문과 숫자, 특수문자를 포함해야 합니다.";
     }
 
     // 비밀번호 확인 일치 여부 검사
@@ -166,11 +167,11 @@ export default function SignUpPage() {
             <p className="text-sm leading-normal text-[#F2573B] mt-1">{fieldError.password}</p>
           ) : password ? (
             <p className="mt-1 text-sm leading-normal text-gray04">
-              안전한 비밀번호를 입력해주세요.(8자 이상, 영문, 숫자 포함)
+              안전한 비밀번호를 입력해주세요.(8자 이상의 영문, 숫자, 특수 문자 포함)
             </p>
           ) : (
             <p className="mt-1 text-sm leading-normal text-gray04">
-              안전한 비밀번호를 입력해주세요(8자 이상, 영문, 숫자 포함)
+              안전한 비밀번호를 입력해주세요(8자 이상의 영문, 숫자, 특수 문자 포함)
             </p>
           )}
         </div>

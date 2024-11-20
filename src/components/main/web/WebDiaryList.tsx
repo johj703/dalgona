@@ -140,7 +140,7 @@ const WebDiaryList = () => {
                         <Link href={`/diary/read/${diary.id}`} key={diary.id}>
                           <div
                             key={diary.id}
-                            className=" border rounded-lg bg-[#FDF7F4] border-black p-[24px] h-[367px] w-[450px] "
+                            className=" border rounded-lg bg-[#FDF7F4] border-black p-[24px] h-[367px]"
                           >
                             {diary.draw && (
                               <>
@@ -174,7 +174,7 @@ const WebDiaryList = () => {
                         <Link href={`/diary/read/${diary.id}`} key={diary.id}>
                           <div
                             key={diary.id}
-                            className="h-[367px] w-[450px] p-[24px] border-[1px] rounded-lg border-black bg-[#FDF7F4]"
+                            className="h-[367px] p-[24px] border-[1px] rounded-lg border-black bg-[#FDF7F4]"
                           >
                             <div className="flex justify-between items-start">
                               <p className="self-stretch text-[18px] not-italic font-normal leading-[21.6px]">

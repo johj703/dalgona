@@ -414,7 +414,7 @@ const Form = ({ POST_ID, initialData, isModify }: { POST_ID: string; initialData
         </div>
 
         <span className="h-14 lg:hidden"></span>
-        <div className="fixed bottom-0 left-0 flex items-center w-full h-14 bg-background01 border-t border-[#A6A6A6] rounded-tr-2xl rounded-tl-2xl overflow-hidden lg:order-1 lg:gap-6 lg:static lg:rounded-none lg:border-t lg:border-b lg:h-auto lg:py-6 lg:px-4 lg:bg-transparent">
+        <div className="fixed bottom-0 left-0 flex items-center w-full h-14 bg-background01 border-t border-[#A6A6A6] rounded-tr-2xl rounded-tl-2xl overflow-hidden lg:order-1 lg:gap-6 lg:static lg:rounded-none lg:border-t-0 lg:border-b lg:h-auto lg:py-6 lg:px-4 lg:bg-transparent">
           <button className="write-form-button" type="button" onClick={() => onClickDraft()}>
             임시저장
           </button>
