@@ -56,7 +56,7 @@ body {
     @apply flex items-center justify-center w-[120px] h-11 rounded-lg border border-primary bg-primary text-lg leading-normal text-white lg:w-[146px];
   }
   .label-style {
-    @apply text-sm leading-[1.35] text-gray05 mb-1;
+    @apply text-sm leading-[1.35] text-gray05 mb-1 lg:text-lg;
   }
   .input-style {
     @apply w-full h-14 p-4 text-base text-gray05 placeholder:text-gray04 rounded-lg border-2 border-solid border-gray04 bg-white outline-none;

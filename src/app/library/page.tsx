@@ -61,7 +61,6 @@ const LibraryPage: React.FC = () => {
   const handleYearChange = (year: number) => {
     setSelectedYear(year);
     router.push(`?year=${year}`);
-    console.log("선택 연도 =>", year);
   };
 
   if (loading) {

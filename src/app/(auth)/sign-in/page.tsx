@@ -36,7 +36,6 @@ export default function SignInPage() {
   // 로그인 처리 함수
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("handleSignIn 함수 실행됨");
 
     setEmailError("");
     setPasswordError("");
@@ -45,43 +44,32 @@ export default function SignInPage() {
     if (email === "" || password === "") {
       if (email === "") {
         setEmailError("이메일을 입력해 주세요.");
-        console.log("이메일이 비어 있음");
       }
       if (password === "") {
         setPasswordError("비밀번호를 입력해 주세요.");
-        console.log("비밀번호가 비어 있음");
       }
       return; // 여기에서 중단되는지 확인
     }
 
     if (!validateEmail(email)) {
       setEmailError("아이디를 다시 확인해주세요. 아이디는 이메일 형식입니다.");
-      console.log("유효하지 않은 이메일 형식");
       return; // 여기에서 중단되는지 확인
     }
 
     if (!validatePassword(password)) {
       setPasswordError("비밀번호가 잘못 입력되었습니다. 다시 확인해주세요.");
-      console.log("유효하지 않은 비밀번호 형식");
       return; // 여기에서 중단되는지 확인
     }
 
     try {
-      console.log("로그인 시도", { email, password });
       // Supabase의 signInWithPassword 메서드로 로그인
       const { data, error } = await browserClient.auth.signInWithPassword({
         email,
         password
       });
-
-      // 디버깅 로그
-      console.log("입력된 이메일", email);
-      console.log("입력된 비밀번호", password);
       console.log("로그인 응답: ", { data, error });
 
       if (error) {
-        console.log("Supabase 오류 디버깅: ", error);
-
         // Supabase 오류 메세지 한글화 처리
         if (error.message.includes("잘못된 로그인 자격 증명")) {
           setEmailError("");
@@ -95,22 +83,20 @@ export default function SignInPage() {
         }
         return;
       }
-      console.log("로그인 결과 :", { data, error });
-      console.log("로그인 성공: ", data);
 
       // 로그인 성공 후 페이지 이동
       if (isMounted) {
         router.push("/main");
       }
     } catch (error) {
-      console.log("catch 블록에서 오류 발생: ", error);
+      console.error("catch 블록에서 오류 발생: ", error);
       setErrorMessage("로그인 중 문제가 발생했습니다. 다시 시도해 주세요.");
       setOpenClose(true);
     }
   };
 
   return (
-    <div className="flex flex-col items-center pt-[68px] px-4 lg:justify-center lg:h-screen">
+    <div className="flex flex-col items-center pt-[68px] px-4 lg:justify-center lg:h-screen lg:pb-[68px]">
       <div className="p-[10px]">
         <img src="/icons/logo.svg" alt="로고" className="w-auto h-9 lg:h-10" />
       </div>
@@ -119,7 +105,7 @@ export default function SignInPage() {
       {openClose && <Modal mainText="안내" subText={errorMessage} setModalState={setOpenClose} />}
 
       {/* 로그인 폼 */}
-      <form onSubmit={handleSignIn} className="mt-5 lg:mt-12">
+      <form onSubmit={handleSignIn} className="mt-5 w-full max-w-[488px] mx-auto lg:mt-12">
         {/* 이메일 입력 */}
         <input
           type="text"
@@ -127,19 +113,14 @@ export default function SignInPage() {
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);
-            console.log("이메일 입력", e.target.value);
           }}
-          className={`input-style ${emailError ? "border-red-500" : ""}`}
+          className={`input-style ${emailError ? "border-[#F2573B]" : ""}`}
           placeholder="이메일"
         />
-        {/* 
-          이메일 에러 메세지 영역
-          1. 'absolute'로 배치해서 입력 필드 아래 고정
-          2. `style={{ height: "1.25rem"}}`로 높이를 고정해서 입력 필드 길이가 변하지 않도록 설정
-        */}
+
         {/* 이메일 오류 메세지 */}
         <p
-          className={`absolute text-sm mt-1 text-red-500 ${emailError ? "opacity-100" : "opacity-0"}`}
+          className={`absolute text-sm mt-1 text-[#F2573B] ${emailError ? "opacity-100" : "opacity-0"}`}
           style={{ height: "1.25rem" }} // 에러 메세지가 없을 때도 일정한 공간을 유지
         >
           {emailError || " "}
@@ -152,19 +133,14 @@ export default function SignInPage() {
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
-            console.log("비밀번호 입력", e.target.value);
           }}
-          className={`input-style mt-10 ${passwordError ? "border-red-500" : ""}`}
+          className={`input-style mt-4 ${passwordError ? "border-[#F2573B]" : ""}`}
           placeholder="비밀번호"
         />
-        {/* 
-          이메일 에러 메세지 영역
-          1. 'absolute'로 배치해서 입력 필드 아래 고정
-          2. `style={{ height: "1.25rem"}}`로 높이를 고정해서 입력 필드 길이가 변하지 않도록 설정
-        */}
+
         {/* 비밀번호 오류 메세지 */}
         <p
-          className={`absolute text-sm mt-1 text-red-500 ${passwordError ? "opacity-100" : "opacity-0"}`}
+          className={`absolute text-sm mt-1 text-[#F2573B] ${passwordError ? "opacity-100" : "opacity-0"}`}
           style={{ height: "1.25rem" }} // 에러 메시지가 없을 때도 일정한 공간 유지
         >
           {passwordError || " "}
@@ -202,7 +178,7 @@ export default function SignInPage() {
         <a href="#" className="hover:underline">
           비밀번호 찾기
         </a> */}
-        <Link href={"/sign-up"} className="text-base leading-tight">
+        <Link href={"/sign-up"} className="text-base leading-tight font-Dovemayo">
           회원가입
         </Link>
       </div>
