@@ -1,5 +1,6 @@
 "use client";
 import CommonTitle from "@/components/CommonTitle";
+import Modal from "@/components/Modal";
 import browserClient from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -11,6 +12,7 @@ export default function SignUpPage() {
   const [nickname, setNickname] = useState("");
   const [name, setName] = useState("");
   const [fieldError, setFieldError] = useState<Record<string, string>>({});
+  const [openClose, setOpenClose] = useState<boolean>(false);
   const router = useRouter();
 
   const validateFields = () => {
@@ -68,6 +70,21 @@ export default function SignUpPage() {
         password
       });
 
+      if (error) {
+        setFieldError((prevState) => ({
+          ...prevState,
+          general: error.message // Supabase 오류 메시지 설정
+        }));
+
+        if (error.message === "User already registered") {
+          setFieldError((prevState) => ({
+            ...prevState,
+            general: "이미 가입 된 이메일 입니다." // Supabase 오류 메시지 설정
+          }));
+          return setOpenClose(true);
+        }
+      }
+
       // 회원가입 요청에 성공한 경우 실행
       if (data) {
         // 별명(nickname)을 포함한 데이터를 users 테이블에 추가
@@ -79,6 +96,7 @@ export default function SignUpPage() {
 
         // 데이터 베이스 삽입 중 오류가 발생한 경우 오류 메시지 설정 후 종료
         if (dbError) {
+          console.error("회원가입 에러", dbError);
           setFieldError((prevState) => ({
             ...prevState, // 이전 상태 복사
             general: "회원 데이터 추가 중 오류가 발생했습니다." // 일반 오류 메시지 추가
@@ -88,13 +106,6 @@ export default function SignUpPage() {
 
         // 회원가입이 완료되면 리디렉션으로 sign-up/profile로 이동
         router.push("/sign-up/profile");
-      }
-
-      if (error) {
-        setFieldError((prevState) => ({
-          ...prevState,
-          general: error.message // Supabase 오류 메시지 설정
-        }));
       }
     } catch (error) {
       console.error("회원가입 중 오류 발생", error);
@@ -252,6 +263,9 @@ export default function SignUpPage() {
           </button>
         </div>
       </form>
+
+      {/* 에러 메세지 출력 */}
+      {openClose && <Modal mainText="안내" subText={fieldError.general} setModalState={setOpenClose} />}
     </div>
   );
 }
