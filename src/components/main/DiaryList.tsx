@@ -9,9 +9,6 @@ import { getEmoji } from "@/utils/diary/getEmoji";
 import TopButton from "../TopButton";
 import getLoginUser from "@/lib/getLoginUser";
 
-//TODO - next.js 이미지 최적화
-//TODO - 쓰로틀링 적용
-
 const DiaryList = () => {
   const [originDiaries, setOriginDiaries] = useState<SortedDiaries[]>([]);
   const [sortedDiaries, setSortedDiaries] = useState<SortedDiaries[]>([]);
