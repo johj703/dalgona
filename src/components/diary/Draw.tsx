@@ -36,7 +36,7 @@ const Draw = ({ POST_ID, setFormData, formData, setGoDraw, goDraw }: DrawProps) 
   };
 
   return (
-    <div className="fixed top-0 left-1/2 -translate-x-1/2 flex flex-col h-dvh w-full max-w-5xl z-10 bg-white lg:flex-row lg:flex-wrap lg:bg-background02">
+    <div className="fixed top-0 left-1/2 -translate-x-1/2 flex flex-col h-dvh w-full max-w-5xl z-50 bg-white lg:flex-row lg:flex-wrap lg:bg-background02">
       <div className="shrink-0 w-full h-[100px] bg-background01 rounded-br-2xl rounded-bl-2xl overflow-hidden lg:h-auto lg:bg-transparent lg:rounded-none">
         <CommonTitle title="그림 그리기" setGoDraw={setGoDraw} />
 

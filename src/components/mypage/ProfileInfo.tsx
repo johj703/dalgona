@@ -27,7 +27,7 @@ const ProfileInfo = ({ userId }: { userId: string }) => {
         </div>
         <div className="text-sm leading-tight text-[#AEAEAE] lg:text-base">{userData?.email}</div>
         <div className="flex items-center gap-[10px] p-[2px] font-Dovemayo text-sm leading-normal empty:hidden lg:gap-4 lg:text-base">
-          {userData?.birthday && <span>{userData.birthday}</span>}
+          {userData?.birthday && <span>{userData.birthday.replaceAll("-", ".")}</span>}
           {userData?.gender && <img src={getGenderIcon(userData.gender)} alt={userData.gender} />}
           {userData?.bloodtype && <span>{userData.bloodtype}형</span>}
         </div>

@@ -78,7 +78,7 @@ export default function SignInPage() {
           setErrorMessage("해당 이메일 계정이 존재하지 않습니다.");
           setPasswordError("");
         } else {
-          setErrorMessage("로그인에 실패했습니다. 이메일과 비밀번호를 한번 더 확인해 주세요.");
+          setErrorMessage("로그인에 실패했습니다.<br/>이메일과 비밀번호를 한번 더 확인해 주세요.");
           setOpenClose(true);
         }
         return;
