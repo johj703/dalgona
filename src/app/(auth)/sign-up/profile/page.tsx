@@ -50,7 +50,7 @@ export default function SaveUserProfilePage() {
   const [selectedBloodType, setSelectedBloodType] = useState<"A" | "B" | "O" | "AB" | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-  console.log(errorMessage);
+  console.error(errorMessage);
 
   // 로그인한 사용자 이메일 가져오기
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function SaveUserProfilePage() {
   // Supabase 스토리지에 프로필 이미지 업로드 및 URL 가져오기
   async function uploadProfileImage(file: File): Promise<string | null> {
     if (!userEmail) {
-      console.log("사용자 이메일을 찾을 수 없습니다.");
+      console.error("사용자 이메일을 찾을 수 없습니다.");
       return null;
     }
     const sanitizedFileName = sanitizeFileName(file.name); // 고유한 파일 이름 생성
@@ -84,7 +84,7 @@ export default function SaveUserProfilePage() {
       .upload(filePath, file);
 
     if (error) {
-      console.log("프로필 이미지 업로드 오류 : ", error);
+      console.error("프로필 이미지 업로드 오류 : ", error);
       return null;
     }
 
@@ -176,16 +176,16 @@ export default function SaveUserProfilePage() {
   };
 
   return (
-    <div className="flex flex-col min-h-dvh max-w-sm mx-auto bg-background02 lg:max-w-screen-lg">
+    <div className="flex flex-col min-h-dvh mx-auto bg-background02">
       <CommonTitle title="회원가입" />
 
-      <div className="flex-1 flex flex-col px-4 pt-[18px] pb-[10px]">
+      <div className="flex-1 flex flex-col px-4 pt-[18px] pb-[10px] w-full max-w-[520px] mx-auto">
         {/* 페이지 안내 텍스트 */}
         <div className="text-lg leading-[1.35] lg:hidden">
           환영해요. <br /> 사용하실 프로필을 작성해 주세요.
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex flex-col mt-4 lg:px-[268px] lg:pb-[105px]">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex flex-col mt-4 lg:pb-[105px]">
           {/* 프로필 사진 선택 */}
           <div className="mb-10 lg:mb-6">
             <label className="block text-sm leading-normal mb-4 lg:text-lg">프로필 사진</label>
@@ -343,14 +343,11 @@ export default function SaveUserProfilePage() {
             <button
               type="button"
               onClick={() => router.push("/sign-up/complete")}
-              className="w-1/2 py-3 bg-primary text-lg leading-normal text-white rounded-lg hover:bg-primary"
+              className="w-1/2 py-3 bg-white text-lg leading-normal text-primary border border-primary rounded-lg"
             >
               건너뛰기
             </button>
-            <button
-              type="submit"
-              className="w-1/2 py-3 bg-primary text-lg leading-normal text-white rounded-lg hover:bg-primary"
-            >
+            <button type="submit" className="w-1/2 py-3 bg-primary text-lg leading-normal text-white rounded-lg">
               완료
             </button>
           </div>

@@ -6,6 +6,7 @@ export const useCheckLogin = () => {
     queryKey: ["loginUser"],
     queryFn: async () => {
       return await getLoginUser();
-    }
+    },
+    refetchOnMount: "always"
   });
 };
