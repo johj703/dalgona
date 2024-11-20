@@ -117,7 +117,7 @@ export default function Calendar(props: propsType): JSX.Element {
   //버튼 클릭시 모달 버튼 클릭 유무를 설정하는 state 함수
   const clickModal = () => setIsModalOpen(!isModalOpen);
   return (
-    <div className="flex flex-col gap-[6px] lg:flex-row lg:gap-[16px] lg:my-[24px]">
+    <div className="flex flex-col gap-[6px] lg:flex-row lg:gap-[16px] lg:my-[24px] lg:px-4">
       <div className="flex flex-col justify-center items-center lg:justify-start">
         <div className="button-dummy flex justify-between items-center self-stretch px-[16px] lg:px-0 lg:w-[100%] lg:justify-start lg:gap-[16px]">
           <button

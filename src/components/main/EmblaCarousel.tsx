@@ -34,11 +34,13 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 
   return (
     <section
-      className={`embla ${isSelectCalendar === 1 ? "lg:absolute lg:w-[450px] lg:h-[360px] lg:right-[13px]" : ""}`}
+      className={`embla w-full ${
+        isSelectCalendar === 1 ? "lg:absolute lg:w-[450px] lg:h-[360px] lg:right-[13px]" : ""
+      }`}
     >
       {/* embla__viewport 여기에 마진 등 넣어야됨 ..?*/}
       <div
-        className={`embla__viewport ${isSelectCalendar === 1 ? "lg:w-[450px] lg:h-[330px]" : "lg:w-[930px]"}`}
+        className={`embla__viewport ${isSelectCalendar === 1 ? "lg:w-[450px] lg:h-[330px]" : "lg:w-full"}`}
         ref={emblaRef}
       >
         <div className="embla__container">
@@ -50,7 +52,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                   alt={`Slide ${index + 1}`}
                   width={isLgScreen ? 930 : 358}
                   height={isSelectCalendar === 1 ? 296 : 110}
-                  className={`${isSelectCalendar === 1 ? "lg:mt-[220px]" : ""}`}
+                  className={`${isSelectCalendar === 1 ? "lg:mt-[220px]" : ""} w-full`}
                 />
               </div>
             </div>
