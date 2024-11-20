@@ -63,37 +63,75 @@
 ### Canvas API 를 활용한 캔버스 기능 제공
 
 - ㅇ
+<details>
+<summary>미리보기</summary>
+gif파일 넣을거임
+</details>
 
 ### 그림 일기 (CRUD)
 
 - ㅇ
+<details>
+<summary>미리보기</summary>
+gif파일 넣을거임
+</details>
 
 ### 캘린더 기능 (달력 셀 클릭 및 조회범위 설정 시 해당 일기 조회)
 
 - ㅇ
+<details>
+<summary>미리보기</summary>
+gif파일 넣을거임
+</details>
 
 ### 검색 기능 (특정 키워드 검색기능)
 
-- ㅇ
-
-### 그림을 모아볼 수 있는 갤러리 (이번 달, 전체 그림 모아보기)
-
-- ㅇ
-
-### 기록의 방 페이지 (대표일기 설정, 월별 모아보기)
-
-- ㅇ
+- 특정 키워드를 입력하여 일기 검색이 가능합니다. (제목, 내용 검색 가능)
+- 입력할 때마다 즉각적인 검색 결과를 제공합니다. 검색어를 변경하더라도 새로고침 없이 결과가 자동으로 갱신됩니다.
+- setTimeout 함수로 디바운싱을 적용하여 입력 시마다 불필요한 검색호출을 최소화하여 사용자가 원활하게 결과를 확인할 수 있습니다.
+<details>
+<summary>미리보기</summary>
+gif파일 넣을거임
+</details>
 
 ### 마이페이지 기능
 
-- ㅇ
+- 사용자 프로필, 닉네임, 생년월일, 성별, 혈액형을 수정할 수 있는 기능을 제공합니다.
+- 이번 달 감정의 통계를 모아볼 수 있으며 사용자가 그린 그림도 랜덤으로 모아볼 수 있습니다.
+- 더보기 버튼 클릭 시 갤러리 페이지로 이동합니다.
+<details>
+<summary>미리보기</summary>
+gif파일 넣을거임
+</details>
+
+### 그림을 모아볼 수 있는 갤러리 (이번 달, 전체 그림 모아보기)
+
+- 사용자가 작성한 일기를 앨범형식으로 확인하고 관리할 수 있습니다. 앨범은 이번달 모음, 랜덤 형식의 추억모음으로 관리됩니다.
+- Swipe로 사용자가 작성한 모든 그림을 확인할 수 있습니다. 스와이프에 있는 그림을 클릭하면 해당 그림을 크게 볼 수 있으며 상세 페이지로 이동합니다.
+<details>
+<summary>미리보기</summary>
+gif파일 넣을거임
+</details>
+
+### 기록의 방 페이지 (대표일기 설정, 월별 모아보기)
+
+- ㅇ 상세까지
 
 ### 로그인/회원가입 기능
 
-### 회원정보 수정 기능
+- supabase를 활용한 로그인 및 회원가입 기능을 구현했습니다.
+- 사용자가 값을 입력하고 form이 제출되었을때 경고 문구를 띄어 사용자에게 피드백을 제공합니다.
+<details>
+<summary>미리보기</summary>
+gif파일 넣을거임
+</details>
 
 ### 무한스크롤
 
+<details>
+<summary>미리보기</summary>
+gif파일 넣을거임
+</details>
 <br>
 
 ## 🗂️ 프로젝트 파일 구조 <괜찮나여 충분,,,??? >
@@ -132,6 +170,9 @@
 **이슈**<br />
 
 - 이전에 그렸던 그림을 이미지로 불러와 수정하려 할 때, Canvas에 새로 그림이 그려지지 않는 문제 발생<br />
+
+**원인**<br />
+
 - 보안 문제로 인해 CORS를 거치지 않고 로컬이 아닌 외부 소스에서 가져온 이미지를 Canvas에 적용하면 Canvas가 오염됨
 
 **해결**<br />
@@ -151,6 +192,9 @@ pathPic.crossOrigin = "anonymous";
 **이슈**<br />
 
 - useInfiniteQuery를 사용하여 무한 스크롤을 구현하는 과정에서 첫 페이지의 데이터를 로드하지 못하는 문제가 발생<br />
+
+**원인**<br />
+
 - TanStack Query v5 버전에서 첫 페이지의 매개변수를 설정하는 옵션이 추가되었으나, 해당 옵션 설정이 누락
 
 **해결**<br />
@@ -225,8 +269,54 @@ export const useInfiniteQuerySearchDiaries = (searchKeyword: string) => {
 
 <br />
 
-### 4. ㅇㅇㅇ
+### 4. 오류 메세지가 계속 나타나는 현상
 
 **이슈**<br />
 
+- 비밀번호 유효성 검사 시 비밀번호 형식 오류 메세지가 계속 나타남
+
+**원인**<br />
+
+- 비밀번호 형식이 올바르지 않은 경우에만 오류 메세지가 표시되도록 처리했으나,<br />
+  정규식 검사에서 요구하는 조건이 너무 엄격해서 사용자가 입력한 비밀번호가 유효하지 않다고 판단함
+
 **해결**<br />
+
+- 비밀번호 입력 필드에 대한 정규식(Regex)을 재검토하고, 유효한 형식의 비밀 번호를 입력해야 한다는 조건을 명확하게 정의함
+- 사용자에게 더 구체적인 오류 메세지를 제공하고, 입력 형식이 유효하지 않을 때만 오류 메세지를 표시하도록 수정함
+
+```typeScript
+  // 비밀번호 유효성 검사 함수
+  const validatePassword = (password: string) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  // 로그인 처리 함수
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    setEmailError("");
+    setPasswordError("");
+    setErrorMessage("");
+
+    if (email === "" || password === "") {
+      if (email === "") {
+        setEmailError("이메일을 입력해 주세요.");
+      }
+      if (password === "") {
+        setPasswordError("비밀번호를 입력해 주세요.");
+      }
+      return; // 여기에서 중단되는지 확인
+    }
+
+    if (!validateEmail(email)) {
+      setEmailError("아이디를 다시 확인해주세요. 아이디는 이메일 형식입니다.");
+      return; // 여기에서 중단되는지 확인
+    }
+
+    if (!validatePassword(password)) {
+      setPasswordError("비밀번호가 잘못 입력되었습니다. 다시 확인해주세요.");
+      return; // 여기에서 중단되는지 확인
+    }
+```
