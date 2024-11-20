@@ -76,11 +76,8 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
       className="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-75 z-[999]"
       onClick={clickModal}
     >
-      <div
-        className=" bg-white rounded-lg shadow-md  max-w-md h-[320px] w-[350px] "
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="mt-[18px] mx-[113px] justify-center items-center gap-[10px] inline-flex">
+      <div className=" bg-white rounded-lg shadow-md  max-w-md h-[320px] w-fit " onClick={(e) => e.stopPropagation()}>
+        <div className="mt-[18px] mx-auto justify-center items-center gap-[10px] inline-flex w-full">
           <p className="text-center w-[100px] font-['LeferiBaseType-RegularA'] text-[16px] font-[400] not-italic leading-[21.6px] my-[10px]">
             조회기간 설정
           </p>
@@ -121,15 +118,15 @@ const CalendarModal = ({ clickModal, handleSearchDiaries, calenderInput, current
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-around ">
+        <div className="flex items-center justify-around px-4 gap-4">
           <button
-            className="w-[120px] h-[45px] rounded-lg bg-white text-center text-[#D84E35] border-[1px] border-[#D84E35]"
+            className="flex-1 h-[45px] rounded-lg bg-white text-center text-[#D84E35] border-[1px] border-[#D84E35]"
             onClick={clickModal}
           >
             뒤로가기
           </button>
           <button
-            className="w-[120px] h-[45px] rounded-lg bg-[#D84E35] text-center text-white border-[1px] border-[#D84E35]"
+            className="flex-1 h-[45px] rounded-lg bg-[#D84E35] text-center text-white border-[1px] border-[#D84E35]"
             onClick={handleSelect}
           >
             완료
