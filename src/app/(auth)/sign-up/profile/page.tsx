@@ -9,6 +9,15 @@ import { useRouter } from "next/navigation";
 import supabase from "@/utils/supabase/client";
 import CommonTitle from "@/components/CommonTitle";
 
+interface UserProfileFormData {
+  profileImage?: string;
+  birthYear: string;
+  birthMonth: string;
+  birthDay: string;
+  gender: "남성" | "여성";
+  bloodType?: "A" | "B" | "O" | "AB";
+}
+
 // 입력 유효성 검사를 위해서 Zod 스키마 정의
 const profileSchema = z.object({
   profileImage: z.string().optional(),
@@ -28,17 +37,15 @@ const profileSchema = z.object({
   bloodType: z.enum(["A", "B", "O", "AB"]).optional()
 });
 
-// zod 스키마의 타입을 추론해서 ProfileData 타입을 정의
-type ProfileData = z.infer<typeof profileSchema>;
-
 export default function SaveUserProfilePage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
     clearErrors,
-    setValue
-  } = useForm<ProfileData>({
+    setValue,
+    getValues
+  } = useForm<UserProfileFormData>({
     resolver: zodResolver(profileSchema)
   });
 
@@ -114,7 +121,7 @@ export default function SaveUserProfilePage() {
   };
 
   // 폼 제출 핸들러
-  const onSubmit = async (data: ProfileData) => {
+  const onSubmit = async (data: UserProfileFormData) => {
     // selectedGender가 정의되어 있는 경우 data.gender에 할당
     data.gender = selectedGender || data.gender;
 
@@ -229,7 +236,7 @@ export default function SaveUserProfilePage() {
                   className="w-[75px] text-xs text-black leading-normal py-[9px] px-[13.5px] border border-gray03 rounded-lg outline-none appearance-none bg-[url('/icons/arrow-down.svg')] bg-no-repeat bg-[center_right_13.5px] lg:text-base lg:px-[10px] lg:py-[6px]"
                 >
                   <option value="">선택</option>
-                  {Array.from({ length: 124 }, (_, i) => 1900 + i).map((year) => (
+                  {Array.from({ length: 124 }, (_, i) => 2024 - i).map((year) => (
                     <option key={year} value={year}>
                       {year}
                     </option>
@@ -241,9 +248,20 @@ export default function SaveUserProfilePage() {
               <span className="flex items-center gap-[2px] text-sm leading-normal lg:text-base lg:gap-[9px]">
                 <select
                   {...register("birthMonth")}
+                  onChange={(e) => {
+                    register("birthMonth").onChange(e);
+                    const month = parseInt(e.target.value || "0");
+                    // month가 선택되었을 때와 선택되지 않았을 때의 birthDay 값 설정
+                    if (month) {
+                      setValue("birthDay", "1", { shouldValidate: true }); // 월이 선택되면 일(day)을 1로 초기화
+                    } else {
+                      setValue("birthDay", "", { shouldValidate: true }); // 월이 선택되지 않으면 일(day)을 빈값으로 초기화
+                    }
+                  }}
                   className="w-[75px] text-xs text-black leading-normal py-[9px] px-[13.5px] border border-gray03 rounded-lg outline-none appearance-none bg-[url('/icons/arrow-down.svg')] bg-no-repeat bg-[center_right_13.5px] lg:text-base lg:px-[10px] lg:py-[6px]"
                 >
                   <option value="">선택</option>
+                  {/* 1부터 12까지의 월 옵션 생성 */}
                   {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
                     <option key={month} value={month}>
                       {month}
@@ -259,11 +277,29 @@ export default function SaveUserProfilePage() {
                   className="w-[75px] text-xs text-black leading-normal py-[9px] px-[13.5px] border border-gray03 rounded-lg outline-none appearance-none bg-[url('/icons/arrow-down.svg')] bg-no-repeat bg-[center_right_13.5px] lg:text-base lg:px-[10px] lg:py-[6px]"
                 >
                   <option value="">선택</option>
-                  {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
-                    <option key={day} value={day}>
-                      {day}
-                    </option>
-                  ))}
+                  {(() => {
+                    const month = parseInt(getValues("birthMonth") || "0");
+                    let days = 31;
+
+                    if (month) {
+                      if ([4, 6, 9, 11].includes(month)) {
+                        days = 30;
+                      } else if (month === 2) {
+                        const year = parseInt(getValues("birthYear") || "0");
+                        if (year && ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0)) {
+                          days = 29;
+                        } else {
+                          days = 28;
+                        }
+                      }
+                    }
+
+                    return Array.from({ length: days }, (_, i) => i + 1).map((day) => (
+                      <option key={day} value={day}>
+                        {day}
+                      </option>
+                    ));
+                  })()}
                 </select>
                 일
               </span>
