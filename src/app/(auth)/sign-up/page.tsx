@@ -1,5 +1,4 @@
 "use client";
-
 import CommonTitle from "@/components/CommonTitle";
 import browserClient from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
@@ -24,13 +23,18 @@ export default function SignUpPage() {
     }
 
     // 비밀번호 유효성 검사
-    const passwordValid = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/.test(password);
-    if (!passwordValid) {
+    const validatePassword = (password: string): boolean => {
+      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+      return passwordRegex.test(password);
+    };
+
+    // 비밀번호 유효성 검사
+    if (!validatePassword(password)) {
       errors.password = "비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다.";
     }
 
     // 비밀번호 확인 일치 여부 검사
-    if (password !== confirmPassword) {
+    if (confirmPassword && password !== confirmPassword) {
       errors.confirmPassword = "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
     }
 
@@ -49,7 +53,7 @@ export default function SignUpPage() {
 
     // 유효성 검사
     const validationErrors = validateFields(); // 입력값 검사 실행
-    setFieldError(validateFields); // 각 필드별 오류 메세지 설정
+    setFieldError(validationErrors); // 각 필드별 오류 메세지 설정
 
     // 에러가 있으면 실행 중단
     if (Object.keys(validationErrors).length > 0) {
@@ -103,30 +107,35 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen mx-auto bg-background02">
+    <div className="flex flex-col min-h-screen max-w-sm mx-auto bg-background02 lg:max-w-screen-lg">
       <CommonTitle title="회원가입" />
-
       {/* 회원가입 폼 */}
       <form
         onSubmit={handleSignUp}
-        className="flex-1 flex flex-col mt-[58px] px-4 pb-[22px] w-full max-w-[520px] mx-auto lg:pb-[105px]"
+        className="flex-1 flex flex-col mt-[58px] px-4 pb-[22px] lg:px-[268px] lg:pb-[105px]"
       >
+        <h2 className="hidden lg:block text-xl font-normal mb-6 text-gray-800 text-center">회원가입</h2>
         {/* 이메일 입력 */}
         <div className="mb-4">
           <label htmlFor="email" className="label-style lg:text-lg">
             이메일
           </label>
           <input
-            type="email"
+            type="text"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)} // 입력시 상태 업데이트
-            required
             className="input-style"
             placeholder="이메일을 입력하세요"
           />
-          <p className="mt-1 text-sm leading-normal text-gray04">사용하실 이메일 주소를 입력하세요.</p>
-          {fieldError.email && <p className="text-red-500">{fieldError.email}</p>}
+          {/* 다음으로 버튼 클릭 시, 이메일 유효성 경고 문구 */}
+          {/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email ? (
+            <p className="mt-1 text-sm leading-normal text-gray04">사용하실 이메일 주소를 입력하세요.</p>
+          ) : fieldError.email ? (
+            <p className="text-red-500 mt-1">{fieldError.email}</p>
+          ) : (
+            <p className="mt-1 text-sm leading-normal text-gray04">사용하실 이메일 주소를 입력하세요.</p>
+          )}
         </div>
 
         {/* 비밀번호 입력 */}
@@ -139,14 +148,22 @@ export default function SignUpPage() {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)} // 입력시 상태 업데이트
-            required
             className="input-style"
             placeholder="비밀번호를 입력하세요"
           />
-          <p className="mt-1 text-sm leading-normal text-gray04">
-            안전한 비밀번호를 입력해주세요(8자 이상, 영문, 숫자 포함)
-          </p>
-          {fieldError.password && <p className="text-red-500">{fieldError.password}</p>}
+
+          {/* 다음으로 버튼 클릭 시, 비밀번호 유효성 경고 문구 */}
+          {fieldError.password ? (
+            <p className="text-red-500 mt-1">{fieldError.password}</p>
+          ) : password ? (
+            <p className="mt-1 text-sm leading-normal text-gray04">
+              안전한 비밀번호를 입력해주세요.(8자 이상, 영문, 숫자 포함)
+            </p>
+          ) : (
+            <p className="mt-1 text-sm leading-normal text-gray04">
+              안전한 비밀번호를 입력해주세요(8자 이상, 영문, 숫자 포함)
+            </p>
+          )}
         </div>
 
         {/* 비밀번호 확인 입력 */}
@@ -159,16 +176,32 @@ export default function SignUpPage() {
             id="confirmPassword"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)} // 입력시 상태 업데이트
-            required
             className="input-style"
+            placeholder="비밀번호를 입력하세요"
           />
-          <p className="mt-1 text-sm leading-normal text-gray04">위와 동일한 비밀번호를 입력해주세요</p>
-          {confirmPassword && (
-            <p className={`mt-2 text-sm ${password === confirmPassword ? "text-green-500" : "text-red-500"}`}>
-              {password === confirmPassword ? "비밀번호가 일치합니다." : "비밀번호가 일치하지 않습니다."}
+
+          {/* 다음으로 버튼 클릭 시, 비밀번호 확인 유효성 경고 문구 */}
+          {password === confirmPassword && confirmPassword ? (
+            <p className="text-[#2E5342] mt-1 text-sm">비밀번호가 일치합니다.</p>
+          ) : fieldError.confirmPassword ? (
+            <p className="text-red-500">{fieldError.confirmPassword}</p>
+          ) : (
+            <p
+              className={`mt-1 text-sm ${
+                confirmPassword === ""
+                  ? "text-gray-400"
+                  : password === confirmPassword
+                  ? "text-[#2E5342]"
+                  : "text-[#F2573B]"
+              }`}
+            >
+              {confirmPassword === ""
+                ? "위와 동일한 비밀번호를 입력해 주세요."
+                : password === confirmPassword
+                ? "비밀번호가 일치합니다."
+                : "비밀번호가 일치하지 않습니다."}
             </p>
           )}
-          {fieldError.confirmPassword && <p className="text-red-500">{fieldError.confirmPassword}</p>}
         </div>
 
         {/* 이름 입력 */}
@@ -181,7 +214,6 @@ export default function SignUpPage() {
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)} // 입력시 상태 업데이트
-            required
             className="input-style"
             placeholder="이름을 입력하세요"
           />
@@ -198,12 +230,18 @@ export default function SignUpPage() {
             id="nickname"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)} // 입력시 상태 업데이트
-            required
             className="input-style"
             placeholder="별명을 입력하세요"
           />
-          <p className="mt-1 text-sm leading-normal text-gray04">2글자 이상의 별명을 입력해 주세요.</p>
-          {fieldError.nickname && <p className="text-red-500">{fieldError.nickname}</p>}
+
+          {/* 다음으로 버튼 클릭 시, 별명 유효성 경고 문구 */}
+          {fieldError.nickname && nickname.length < 2 ? (
+            <p className="text-red-500 mt-1">{fieldError.nickname}</p>
+          ) : nickname.length >= 2 ? (
+            <p className="mt-1 text-sm leading-normal text-gray04">2글자 이상의 별명을 입력해 주세요.</p>
+          ) : (
+            <p className="mt-1 text-sm leading-normal text-gray04">2글자 이상의 별명을 입력해 주세요.</p>
+          )}
         </div>
 
         {/* "다음으로" 버튼 */}
