@@ -27,7 +27,13 @@ const Modal = ({ mainText, subText, isConfirm, setModalState, confirmAction }: M
               <span key={`maintext-${idx}`}>{text}</span>
             ))}
           </div>
-          {subText && <div className="font-Dovemayo text-base leading-normal break-keep">{subText}</div>}
+          {subText && (
+            <div className="flex flex-col font-Dovemayo text-base leading-normal break-keep">
+              {subText.split("<br/>").map((text, idx) => (
+                <span key={`subText-${idx}`}>{text}</span>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex justify-center gap-4 py-[14.5px] px-6 lg:gap-5 lg:py-4">
