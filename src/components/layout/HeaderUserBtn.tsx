@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 
 const HeaderUserBtn = () => {
   const pathname = usePathname();
-  console.log(pathname.includes("/sign-up"));
   const { data: loginData, isLoading, isError } = useCheckLogin();
 
   if (isLoading) return;
