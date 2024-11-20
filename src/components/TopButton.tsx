@@ -14,7 +14,7 @@ const TopButton = () => {
     <>
       <div
         onClick={handleTop}
-        className={`flex w-[56px] h-[56px] p-[16px] items-center gap-[10px] fixed z-50 right-[4px] bottom-[61px] rounded-full bg-[#E89080] cursor-pointer ${
+        className={`flex w-[56px] h-[56px] p-[16px] items-center gap-[10px] fixed z-50 right-[4px] bottom-[61px] rounded-full bg-[#E89080] cursor-pointer lg:hidden ${
           pathname.includes("/write") && "right-5 bottom-[77px]"
         }`}
       >
