@@ -250,30 +250,18 @@ export default function SaveUserProfilePage() {
                   {...register("birthMonth")}
                   onChange={(e) => {
                     register("birthMonth").onChange(e);
-                    setValue("birthDay", "", { shouldValidate: true });
-
-                    // 월이 변경될 때마다 일 선택 옵션을 업데이트
                     const month = parseInt(e.target.value || "0");
-                    let days = 31;
-
+                    // month가 선택되었을 때와 선택되지 않았을 때의 birthDay 값 설정
                     if (month) {
-                      if ([4, 6, 9, 11].includes(month)) {
-                        days = 30;
-                      } else if (month === 2) {
-                        const year = parseInt(getValues("birthYear") || "0");
-                        if (year && ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0)) {
-                          days = 29;
-                        } else {
-                          days = 28;
-                        }
-                      }
+                      setValue("birthDay", "1", { shouldValidate: true }); // 월이 선택되면 일(day)을 1로 초기화
+                    } else {
+                      setValue("birthDay", "", { shouldValidate: true }); // 월이 선택되지 않으면 일(day)을 빈값으로 초기화
                     }
-
-                    setValue("birthDay", "1", { shouldValidate: true });
                   }}
                   className="w-[75px] text-xs text-black leading-normal py-[9px] px-[13.5px] border border-gray03 rounded-lg outline-none appearance-none bg-[url('/icons/arrow-down.svg')] bg-no-repeat bg-[center_right_13.5px] lg:text-base lg:px-[10px] lg:py-[6px]"
                 >
                   <option value="">선택</option>
+                  {/* 1부터 12까지의 월 옵션 생성 */}
                   {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
                     <option key={month} value={month}>
                       {month}
