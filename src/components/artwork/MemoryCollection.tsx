@@ -64,14 +64,14 @@ const MemoryCollection: React.FC<MemoryCollectionProps> = ({ userId }) => {
           selectedEntries.map((diary: Diary, index: number) => (
             <div
               key={diary.id}
-              className="flex-shrink-0 w-64 transition-transform duration-700 linear cursor-pointer"
+              className="flex-shrink-0 w-64 transition-transform duration-700 linear cursor-pointer lg:w-[320px] lg:h-[310px]"
               style={{ marginRight: index !== selectedEntries.length - 1 ? "16px" : "0" }}
               onClick={() => handleImageClick(diary.id)}
             >
               {diary.draw ? (
                 <img
                   src={diary.draw}
-                  className="object-cover w-full h-40 border bg-white border-gray04 rounded-lg lg:w-[320px] lg:h-[310px]"
+                  className="object-cover w-full h-40 border bg-white border-gray04 rounded-lg lg:h-full"
                   alt={`Artwork ${diary.id}`}
                 />
               ) : (

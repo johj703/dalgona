@@ -2,9 +2,11 @@
 
 import Form from "@/components/diary/Form";
 import TopButton from "@/components/TopButton";
+import useGetDevice from "@/hooks/useGetDevice";
 import { useGetDiaryDetail } from "@/queries/diary/useGetDiaryDetail";
 
 const Modify = ({ params }: { params: { id: string } }) => {
+  const device = useGetDevice();
   const POST_ID = params.id;
   const { data: diary, isLoading, isError } = useGetDiaryDetail(params.id);
 
@@ -24,7 +26,7 @@ const Modify = ({ params }: { params: { id: string } }) => {
 
   return (
     <>
-      <TopButton />
+      {device === "mobile" && <TopButton />}
       <Form POST_ID={POST_ID} initialData={diary![0]} isModify={true} />
     </>
   );
