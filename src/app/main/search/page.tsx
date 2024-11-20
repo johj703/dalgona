@@ -73,7 +73,7 @@ const SearchPage = () => {
         </div>
         {diariesList && diariesList.length > 0 ? (
           <div className="text-left py-[8px] px-[16px]">
-            <p className="text-[16px] font-[400] mb-[8px]">검색결과 ({diariesList.length})</p>
+            <p className="text-[16px] font-[400] mb-[8px] lg:text-[20px] ">검색결과 ({diariesList.length})</p>
             {diariesList.map((diary) => (
               <Link href={`/diary/read/${diary.id}`} key={diary.id}>
                 {/* lg 미만일 때 보이는 부분 */}
@@ -89,16 +89,16 @@ const SearchPage = () => {
                   </div>
                 </div>
                 {/* lg 이상일 때 보이는 부분 */}
-                <div className="hidden lg:block p-[10px] border-[1px] border-black rounded-lg bg-white mb-[16px] w-[992px] relative">
+                <div className="hidden lg:block p-[10px] border-[1px] border-black rounded-lg bg-[#EFE6DE] mb-[16px] w-[992px] relative">
                   <div className="flex items-start">
                     {diary.draw ? (
                       <img
                         src={diary.draw}
                         alt="그림"
-                        className="border-[2px] border-black rounded-lg object-cover h-[108px] w-[156px] mr-[16px] flex-shrink-0"
+                        className="border-[2px] border-black rounded-lg object-cover h-[108px] w-[156px] mr-[16px] flex-shrink-0 bg-white"
                       />
                     ) : (
-                      <div className="flex items-center justify-center border-[2px] border-black rounded-lg h-[108px] w-[156px] mr-[16px] flex-shrink-0">
+                      <div className="flex items-center justify-center border-[2px] border-black rounded-lg h-[108px] w-[156px] mr-[16px] flex-shrink-0 bg-white">
                         그림이 없습니다.
                       </div>
                     )}
@@ -106,8 +106,12 @@ const SearchPage = () => {
                       <p className="font-[400] overflow-hidden text-ellipsis mb-[2px] text-[18px]">{diary.title}</p>
                       <p className="font-[500] line-clamp-2 font-['Dovemayo'] mb-[8px] text-[16px]">{diary.contents}</p>
                       <div className="flex justify-end text-[14px] font-[500] text-right text-[#A6A6A6] absolute bottom-[10px] right-[10px]">
-                        <p className="mr-[2px]">{getSimpleFullDate(diary.date).substring(2)}</p>
-                        <p>({getDayOfTheWeek(diary.date).substring(0, 1)})</p>
+                        <p className="mr-[2px] font-['Dovemayo'] text-[#0D0D0D] text-[16px] font-[500]">
+                          {getSimpleFullDate(diary.date).substring(2)}
+                        </p>
+                        <p className="font-['Dovemayo'] text-[#0D0D0D] text-[16px] font-[500]">
+                          ({getDayOfTheWeek(diary.date).substring(0, 1)})
+                        </p>
                       </div>
                     </div>
                   </div>
