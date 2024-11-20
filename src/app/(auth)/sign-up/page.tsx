@@ -127,7 +127,7 @@ export default function SignUpPage() {
           {/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email ? (
             <p className="mt-1 text-sm leading-normal text-gray04">사용하실 이메일 주소를 입력하세요.</p>
           ) : fieldError.email ? (
-            <p className="text-red-500">{fieldError.email}</p>
+            <p className="text-red-500 mt-1">{fieldError.email}</p>
           ) : (
             <p className="mt-1 text-sm leading-normal text-gray04">사용하실 이메일 주소를 입력하세요.</p>
           )}
