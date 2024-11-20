@@ -39,7 +39,7 @@ const EditProfilePage = () => {
           .single(); // 한 명의 사용자만 가져옴.
 
         if (error) {
-          console.log("프로필 데이터를 가져오는데 실패했습니다.", error);
+          console.error("프로필 데이터를 가져오는데 실패했습니다.", error);
         }
 
         if (profileData) {
@@ -103,7 +103,7 @@ const EditProfilePage = () => {
 
         if (error) {
           alert("프로필 이미지 업로드에 실패했습니다.");
-          console.log(error);
+          console.error("프로필 이미지 업로드 실패 => ", error);
           return;
         }
 

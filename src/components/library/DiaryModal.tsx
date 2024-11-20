@@ -120,9 +120,8 @@ const DiaryModal: React.FC<DiaryModalProps> = ({ onClose, userId, selectedYear, 
         .eq("id", userId);
 
       if (error) throw error;
-      console.log("일기 저장 성공");
     } catch (error) {
-      console.log("일기 저장 실패:", error);
+      console.error("일기 저장 실패:", error);
     }
   };
 

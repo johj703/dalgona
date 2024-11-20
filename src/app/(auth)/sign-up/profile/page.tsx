@@ -50,7 +50,7 @@ export default function SaveUserProfilePage() {
   const [selectedBloodType, setSelectedBloodType] = useState<"A" | "B" | "O" | "AB" | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-  console.log(errorMessage);
+  console.error(errorMessage);
 
   // 로그인한 사용자 이메일 가져오기
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function SaveUserProfilePage() {
   // Supabase 스토리지에 프로필 이미지 업로드 및 URL 가져오기
   async function uploadProfileImage(file: File): Promise<string | null> {
     if (!userEmail) {
-      console.log("사용자 이메일을 찾을 수 없습니다.");
+      console.error("사용자 이메일을 찾을 수 없습니다.");
       return null;
     }
     const sanitizedFileName = sanitizeFileName(file.name); // 고유한 파일 이름 생성
@@ -84,7 +84,7 @@ export default function SaveUserProfilePage() {
       .upload(filePath, file);
 
     if (error) {
-      console.log("프로필 이미지 업로드 오류 : ", error);
+      console.error("프로필 이미지 업로드 오류 : ", error);
       return null;
     }
 
