@@ -52,8 +52,8 @@ const SearchPage = () => {
   return (
     <div>
       {device === "pc" && <Header />}
-      <div className="mt-[44px] text-center py-[16px] lg:mt-[16px] lg:flex lg:flex-col lg:justify-center lg:items-center">
-        <div className="flex lg:gap-[8px] justify-center items-center  w-[calc(100%-32px)]">
+      <div className="mt-[44px] text-center py-[16px] lg:mt-[16px] lg:flex lg:flex-col lg:justify-between lg:items-center">
+        <div className="flex lg:gap-[8px] justify-center items-center  w-[calc(100%-32px)] lg:w-full">
           <Link href={"/main"}>
             <img
               src="/icons/arrow-left-gray.svg"

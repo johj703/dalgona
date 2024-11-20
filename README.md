@@ -1,6 +1,6 @@
 ## 🟡 달고나 🟡
 
-#### 👉 [${\textsf{\color{#FFD700}달}}$별로 모아보는 ${\textsf{\color{#FFD700}고}}$즈넉한 ${\textsf{\color{#FFD700}나}}$의 일기, ${\textsf{\color{#FFD700}달고나}}$](https://dalgona.vercel.app/)<br>
+#### 👉 [${\textsf{\color{#FFD700}달}}$별로 모아보는 ${\textsf{\color{#FFD700}고}}$즈넉한 ${\textsf{\color{#FFD700}나}}$의 일기, ${\textsf{\color{#FFD700}달고나}}$](https://dalgona.vercel.app/)
 
 #### 👉 [원 페이지 노션 바로가기](https://teamsparta.notion.site/10-2e3a9fe37f104dfdbb6a1173cee9516a)
 
@@ -11,10 +11,10 @@
 🔗 - [1. 프로젝트 소개](#-프로젝트-소개) <br>
 🔗 - [2. 팀소개](#-팀-소개) <br>
 🔗 - [3. 아키텍쳐](#-아키텍쳐) <br>
-🔗 - [4. 프로젝트 기능](#-프로젝트-기능) <br>
-🔗 - [5. 프로젝트 파일 구조](#-프로젝트-파일-구조) <br>
-🔗 - [6. 트러블슈팅](#-트러블-슈팅) <br>
-🔗 - [7. 회고](#-회고) <br>
+🔗 - [4. 기술 및 도구](#-기술-및-도구) <br>
+🔗 - [5. 주요 기능](#-주요-기능) <br>
+🔗 - [6. 프로젝트 파일 구조](#-프로젝트-파일-구조) <br>
+🔗 - [7. 트러블슈팅](#-트러블-슈팅) <br>
 
 <br>
 
@@ -33,18 +33,18 @@
 
 ## 👨‍👩‍👧‍👦 팀 소개
 
-| 이름       | 역할 | 담당                                             |                                                          |
-| ---------- | ---- | ------------------------------------------------ | -------------------------------------------------------- |
-| **박준호** | FE   | 그림일기(CRUD) 페이지, 마이페이지, 공통 컴포넌트 | [@PJH-FE](https://github.com/PJH-FE)                     |
-| **강지우** | FE   | 기록의 방, 갤러리                                | [@wldndnwl](https://github.com/wldndnwl)                 |
-| **정희록** | FE   | 메인페이지, 검색페이지                           | [@heerokj](https://github.com/heerokj)                   |
-| **조현준** | FE   | 로그인/회원가입, 회원정보 수정                   | [@johj703](https://github.com/johj703)                   |
-| **김현정** | DE   | 웹디자인 모바일디자인 메인로고 아이콘            | [@lucstrike](https://blog.naver.com/lucstrike)           |
-| **정혜지** | DE   | 웹디자인 모바일디자인 메인로고 아이콘            | [@gesundewurzeln](https://blog.naver.com/gesundewurzeln) |
+| 이름       | 역할          | 담당                                                                             |                                                          |
+| ---------- | ------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| **박준호** | FE/Leader     | 그림일기(CRUD) 페이지, 마이페이지<br> 공통 컴포넌트(헤더, 버튼, 날짜 파싱 등)    | [@PJH-FE](https://github.com/PJH-FE)                     |
+| **강지우** | FE/Sub-Leader | 기록의 방(대표 일기 설정, 월별 모아보기)<br> 갤러리(이번 달, 전체 그림 모아보기) | [@wldndnwl](https://github.com/wldndnwl)                 |
+| **정희록** | FE/Member     | 메인페이지(피드형 타임라인, 캘린더), 검색페이지<br> 공통 컴포넌트(푸터)          | [@heerokj](https://github.com/heerokj)                   |
+| **조현준** | FE/Member     | 로그인/회원가입, 회원정보 수정                                                   | [@johj703](https://github.com/johj703)                   |
+| **김현정** | 디자이너      | 웹디자인 모바일디자인 메인로고 아이콘                                            | [@lucstrike](https://blog.naver.com/lucstrike)           |
+| **정혜지** | 디자이너      | 웹디자인 모바일디자인 메인로고 아이콘                                            | [@gesundewurzeln](https://blog.naver.com/gesundewurzeln) |
 
 <br>
 
-## 🏗️ 아키텍쳐
+## 🏗️ 아키텍쳐 <더 좋은 거 있음 변경할 예정... >
 
 ![Web App Reference Architecture](https://github.com/user-attachments/assets/75a4d256-1154-4e28-a4b8-a45cfbda38e7)
 
@@ -58,27 +58,43 @@
 
 <br>
 
-## 💡 프로젝트 기능 ==미완성@!!!!==
+## 💡 주요 기능 <괜찮나요,,,? 더 추가하고 싶은 기능 말해주세욥 !!!>
 
-#### 로그인 및 회원가입
+### Canvas API 를 활용한 캔버스 기능 제공
 
-#### 메인 페이지 기능 (피드형 타임라인, 무한 스크롤)
+-
 
-#### 탐색 페이지 (월별 캘린더)
+### 그림 일기 (CRUD)
 
-#### 검색 기능 (내용+제목 검색기능, 무한스크롤)
+-
 
-#### 그림일기 (CRUD)
+### 캘린더 기능 (달력 셀 클릭 및 조회범위 설정 시 해당 일기 조회)
 
-#### 글 임시저장 / 글쓰기 템플릿 제공
+-
 
-#### 마이페이지 기능 (무한 스크롤)
+### 검색 기능 (특정 키워드 검색기능)
 
-#### 메인 페이지 (무한 스크롤)
+-
+
+### ㅇ
+
+-
+
+### ㅇ
+
+-
+
+### 마이페이지 기능
+
+### 로그인/회원가입 기능
+
+### 회원정보 수정 기능
+
+### 무한스크롤
 
 <br>
 
-## 🗂️ 프로젝트 파일 구조
+## 🗂️ 프로젝트 파일 구조 <괜찮나여 충분,,,??? >
 
 📦src<br />
 ┣ 📂app<br />
@@ -109,16 +125,106 @@
 
 ## ❓ 트러블 슈팅
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 1. 이미지 CORS 문제로 인해 Canvas 오염 발생
+
+**이슈**<br />
+
+- 이전에 그렸던 그림을 이미지로 불러와 수정하려 할 때, Canvas에 새로 그림이 그려지지 않는 문제 발생<br />
+- 보안 문제로 인해 CORS를 거치지 않고 로컬이 아닌 외부 소스에서 가져온 이미지를 Canvas에 적용하면 Canvas가 오염됨
+
+**해결**<br />
+
+- 이미지 객체의 crossOrigin 속성을 "anonymous"로 설정하여 해결<br />
+- 이를 통해 외부 이미지의 CORS 정책을 우회하여 Canvas에 정상적으로 그림을 불러올 수 있게 됨
+
+```typeScript
+const pathPic = new Image();
+pathPic.crossOrigin = "anonymous";
 ```
 
-`app/page.tsx`<- 회색바탕 태그???
+<br />
 
-## 💌 회고
+### 2. 초기 데이터 로딩 실패
+
+**이슈**<br />
+
+- useInfiniteQuery를 사용하여 무한 스크롤을 구현하는 과정에서 첫 페이지의 데이터를 로드하지 못하는 문제가 발생<br />
+- TanStack Query v5 버전에서 첫 페이지의 매개변수를 설정하는 옵션이 추가되었으나, 해당 옵션 설정이 누락
+
+**해결**<br />
+
+- `initialPageParam` 옵션을 추가하여 첫 번째 페이지가 1로 시작하도록 설정하여 문제 해결
+
+```typeScript
+export const useInfiniteQuerySearchDiaries = (searchKeyword: string) => {
+  const { data, isError, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ["searchDiaries", searchKeyword],
+    enabled: !!searchKeyword,
+    initialPageParam: 1, //👈 첫 번째 페이지를 1로 설정
+    queryFn: ({ pageParam }) => getSearchPaginatedDiaries(pageParam, 10, searchKeyword),
+    getNextPageParam: (lastPage) => {
+      return lastPage?.hasNext ? lastPage.nextPage : undefined;
+    }
+  });
+
+  return { data, isError, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage };
+};
+```
+
+<br />
+
+### 3. 일기 데이터 필터링 오류
+
+**이슈**<br />
+
+- 갤러리에서 메인 그림이 변경될 때마다 컨테이너 안 미리 보기 그림의 위치도 자동으로 중앙에 오게끔 해놨었는데 1024 이상 px일 때 중앙을 벗어남
+
+**해결**<br />
+
+- 이미지의 위치 (offsetLeft)와 컨테이너 크기 (containerWidth)를 기반으로 스크롤 위치 계산하던 로직을 이미지 인덱스 (imageIndex)와 너비 (imageWidth)로 계산하도록 변경 <br />
+- (imageWidth + 8) \* imageIndex + imageWidth / 2 <br />선택된 이미지의 스크롤 위치를 이미지의 너비와 간격 (8px)을 더해 선택된 이미지의 인덱스를 곱한 값에 이미지 너비의 절반을 더하기<br />
+
+```typeScript
+  // 메인그림(mainEntry)이 변경될 때마다 스크롤 위치 조정
+  useEffect(() => {
+    if (mainEntry && imageListRef.current) {
+      const container = imageListRef.current;
+      const selectedImageElement = document.getElementById(`image-${mainEntry.id}`);
+
+      if (selectedImageElement) {
+        const imageWidth = selectedImageElement.offsetWidth;
+        const imageIndex = Number(selectedImageElement.dataset.idx);
+
+        const scrollPosition = (imageWidth + 8) * imageIndex + imageWidth / 2; //👈
+
+        container.scrollTo({
+          left: scrollPosition,
+          behavior: "smooth"
+        });
+      }
+    }
+  }, [mainEntry]);
+
+```
+
+```typeScript
+<img
+    id={`image-${entry.id}`}
+    src={entry.draw}
+    alt={`Artwork ${entry.id}`}
+    data-idx={idx} //👈
+    className={`w-full h-full object-cover cursor-pointer bg-white border border-gray02 lg:rounded lg:border-gray04  ${
+      entry.id === mainEntry?.id ? "border-2 border-[#D84E35]" : ""
+    }`}
+    onClick={() => handleSwipeSelect(entry)}
+  />
+
+```
+
+<br />
+
+### 4. ㅇㅇㅇ
+
+**이슈**<br />
+
+**해결**<br />
